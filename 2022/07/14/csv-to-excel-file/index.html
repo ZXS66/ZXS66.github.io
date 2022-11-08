@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>CSV转Excel | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="本篇是接 上一篇文章，具体到 CSV 转 Excel 这一个场景下的实际应用。 背景一般从数据库(比如 MySQL 或者 SQL Server)或者一些数据平台（比如 Symantec 日志）导出的 CSV 文件，基本都是采用 UTF-8 编码保存的文件。使用 UTF-8 保存的 CSV 文件作为通用的传输数据媒介，一般来说，是没有问题的。然而，有一些朋友，使用 CSV 文件并不一定是用来传输数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSV转Excel">
+<meta property="og:url" content="https://zxs66.github.io/2022/07/14/csv-to-excel-file/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="本篇是接 上一篇文章，具体到 CSV 转 Excel 这一个场景下的实际应用。 背景一般从数据库(比如 MySQL 或者 SQL Server)或者一些数据平台（比如 Symantec 日志）导出的 CSV 文件，基本都是采用 UTF-8 编码保存的文件。使用 UTF-8 保存的 CSV 文件作为通用的传输数据媒介，一般来说，是没有问题的。然而，有一些朋友，使用 CSV 文件并不一定是用来传输数据">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-14T05:15:25.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.193Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="asp.net core">
+<meta property="article:tag" content="unicode">
+<meta property="article:tag" content="csv">
+<meta property="article:tag" content="encoding">
+<meta property="article:tag" content="utf-8">
+<meta property="article:tag" content="gb2312">
+<meta property="article:tag" content="excel">
+<meta name="twitter:card" content="summary">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-csv-to-excel-file" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2022/07/14/csv-to-excel-file/" class="article-date">
+  <time datetime="2022-07-14T05:15:25.000Z" itemprop="datePublished">2022-07-14</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      CSV转Excel
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>本篇是接 <a href="/2022/05/13/dotnet-core-build-standalone-executable-program/">上一篇文章</a>，具体到 CSV 转 Excel 这一个场景下的实际应用。</p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>一般从数据库(比如 MySQL 或者 SQL Server)或者一些数据平台（比如 Symantec 日志）导出的 CSV 文件，基本都是采用 <code>UTF-8</code> 编码保存的文件。使用 <code>UTF-8</code> 保存的 CSV 文件作为通用的传输数据媒介，一般来说，是没有问题的。然而，有一些朋友，使用 CSV 文件并不一定是用来传输数据的，而是用来查看的。这些情况下，他们会尝试使用 Microsoft Excel 打开。哦额，问题来了，Excel 一般不会优先使用 <code>UTF-8</code> 编码打开 CSV 文件，结果就是乱码。</p>
+<p>一般的通用解决办法是：</p>
+<p><strong>使用 Excel 的“数据”菜单，选择“自文本”，然后通过一些列的鼠标点点点操作，把 CSV 文件加载到 Excel 中（具体细节请参考各大搜索引擎或博客）。</strong></p>
+<p><del>本篇完！</del>😄</p>
+<p>既然身为程序员，最不能容忍的事情就是重复自己！最喜欢做的事情就是重复造轮子。😏</p>
+<h1 id="技术简介"><a href="#技术简介" class="headerlink" title="技术简介"></a>技术简介</h1><p>直入主题，如何使用代码，才能把 CSV 转换成 Excel 格式？</p>
+<ol>
+<li>选择编程语言</li>
+<li>读取 CSV 文件文本内容</li>
+<li>按 CSV（Comma Separated Values）文件规范，转换成二维表格数据</li>
+<li>按 Excel 文件规范，把二维表格数据转换成 Excel 文件</li>
+<li>保存 Excel 文件</li>
+</ol>
+<h3 id="选择编程语言"><a href="#选择编程语言" class="headerlink" title="选择编程语言"></a>选择编程语言</h3><p>这个就无所谓了，既然是造轮子，哪个语言顺手就用哪个。</p>
+<h3 id="读取-CSV-文件内容"><a href="#读取-CSV-文件内容" class="headerlink" title="读取 CSV 文件内容"></a>读取 CSV 文件内容</h3><h3 id="按-CSV（Comma-Separated-Values）文件规范，转换成二维表格数据"><a href="#按-CSV（Comma-Separated-Values）文件规范，转换成二维表格数据" class="headerlink" title="按 CSV（Comma Separated Values）文件规范，转换成二维表格数据"></a>按 CSV（Comma Separated Values）文件规范，转换成二维表格数据</h3><p>上面两个内容我放一起，主要是<del>我懒</del>考虑到读取 CSV 文件实在是太常见了，网上已经有很多成熟的解决方案。我这里引用的是 <a href="">ClosedXML</a>。</p>
+<h3 id="按-Excel-文件规范，把二维表格数据转换成-Excel-文件"><a href="#按-Excel-文件规范，把二维表格数据转换成-Excel-文件" class="headerlink" title="按 Excel 文件规范，把二维表格数据转换成 Excel 文件"></a>按 Excel 文件规范，把二维表格数据转换成 Excel 文件</h3><h3 id="保存-Excel-文件"><a href="#保存-Excel-文件" class="headerlink" title="保存 Excel 文件"></a>保存 Excel 文件</h3><p>同上，保存数据到 Excel 也太稀疏平常了。我这里引用的是 <a href="">ClosedXML</a>。</p>
+<p>综上，我们需要做的，就非常少了，仅剩一些业务代码。</p>
+<p><a href="https://github.com/ZXS66/csv2excel" target="_blank" rel="noopener">点击此处</a> 查看源代码。</p>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2022/07/14/csv-to-excel-file/" data-id="cla8bpvmi001m9j8c9ajzahqq" data-title="CSV转Excel" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/asp-net-core/" rel="tag">asp.net core</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/encoding/" rel="tag">encoding</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/excel/" rel="tag">excel</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gb2312/" rel="tag">gb2312</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/unicode/" rel="tag">unicode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/utf-8/" rel="tag">utf-8</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+  
+    <a href="/2022/06/25/MySQL-regex-for-multi-bytes-character/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">MySQL 正则表达式支持多字节字符</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

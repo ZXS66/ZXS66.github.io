@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>Elasticsearch 入门 | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="最近公司有使用 elasticsearch 的需求，正好借此机会，复习一下之前的知识。 下载 elasticsearch 和 Kibanaelasticsearch 这几年的变化，还是挺大的，特别是从 更改 license 之后，变得更加强大了。 我之前使用的是 elasticsearch 和 elasticsearch-head 插件，现在官方推出的 Kibana 足够强大了，就不用第三方插件了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch 入门">
+<meta property="og:url" content="https://zxs66.github.io/2022/02/03/get-started-with-elasticsearch/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="最近公司有使用 elasticsearch 的需求，正好借此机会，复习一下之前的知识。 下载 elasticsearch 和 Kibanaelasticsearch 这几年的变化，还是挺大的，特别是从 更改 license 之后，变得更加强大了。 我之前使用的是 elasticsearch 和 elasticsearch-head 插件，现在官方推出的 Kibana 足够强大了，就不用第三方插件了">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zxs66.github.io/images/get-started-with-elasticsearch/install-successfully.jpg">
+<meta property="article:published_time" content="2022-02-03T15:28:57.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.203Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="elasticsearch">
+<meta property="article:tag" content="kibana">
+<meta property="article:tag" content="logstash">
+<meta property="article:tag" content="elk">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zxs66.github.io/images/get-started-with-elasticsearch/install-successfully.jpg">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-get-started-with-elasticsearch" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2022/02/03/get-started-with-elasticsearch/" class="article-date">
+  <time datetime="2022-02-03T15:28:57.000Z" itemprop="datePublished">2022-02-03</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      Elasticsearch 入门
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>最近公司有使用 <code>elasticsearch</code> 的需求，正好借此机会，复习一下之前的知识。</p>
+<h3 id="下载-elasticsearch-和-Kibana"><a href="#下载-elasticsearch-和-Kibana" class="headerlink" title="下载 elasticsearch 和 Kibana"></a>下载 elasticsearch 和 Kibana</h3><p><a href="https://www.elastic.co" target="_blank" rel="noopener">elasticsearch</a> 这几年的变化，还是挺大的，特别是从 <a href="https://www.elastic.co/blog/license-change-clarification" target="_blank" rel="noopener">更改 license</a> 之后，变得更加强大了。</p>
+<p><del>我之前使用的是 <code>elasticsearch</code> 和 <code>elasticsearch-head</code> 插件，现在官方推出的 <code>Kibana</code> 足够强大了，就不用第三方插件了</del></p>
+<p>目前官方支持的系统，从 <code>Linux</code> 到 <code>MacOS</code>，再到 <code>Windows</code>，再到 <code>Docker</code>，应有尽有。</p>
+<p>因为我这边的日常工作基本上都是在 <code>Windows</code> 中进行，所以 <a href="https://www.elastic.co/elastic-stack" target="_blank" rel="noopener">直接下载 zip 包</a> 即可。当前我下载的版本是 <code>7.16.3</code> （<code>elasticsearch</code> 和 <code>Kibana</code> 版本一般需要统一，具体可以参考 <a href="https://www.elastic.co/support/matrix#matrix_compatibility" target="_blank" rel="noopener">这个文档</a>）。</p>
+<h3 id="安装和配置"><a href="#安装和配置" class="headerlink" title="安装和配置"></a>安装和配置</h3><ol>
+<li>解压下载好的两个 zip 包</li>
+<li>更改 <code>elasticsearch-7.16.3/config/elasticsearch.yml</code> 配置如下(可根据实际情况做调整)：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cluster.name: my-es</span><br><span class="line">node.name: $&#123;HOSTNAME&#125;</span><br><span class="line">network.host: 192.168.0.8</span><br><span class="line">http.port: 9200</span><br><span class="line">path.data: C:\my-es\elasticsearch-data</span><br><span class="line">path.logs: C:\my-es\elasticsearch-logs</span><br><span class="line">xpack.security.enabled : true</span><br><span class="line">discovery.type: single-node</span><br></pre></td></tr></table></figure></li>
+<li>配置 <code>elasticsearch</code> 环境变量：因为 <code>elasticsearch</code> 是基于 <code>Apache Lucene</code> 构建的，所以 <code>Java</code> 虚拟机是必须的。为了减少小白用户的困扰，目前，<code>elasticsearch</code> 在下载好的 zip 包中已包含了 <code>jdk</code> (Open Java 版本) 的子文件夹。配置很简单，只需要设置 <code>ES_HOME</code>(<code>elasticsearch</code> zip 包解压文件夹) 和 <code>ES_JAVA_HOME</code>(<code>%ES_HOME%\jdk</code>) 两个环境变量即可。当然，如果你电脑已经安装了 <code>JDK</code>，那 <code>JAVA_HOME</code> 肯定已经配置好了，这个时候如果没有配置 <code>ES_JAVA_HOME</code>，<code>elasticsearch</code> 就会回滚读取 <code>JAVA_HOME</code> 里的 <code>jdk</code> 了</li>
+<li>设置 <code>elasticsearch</code> 密码 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.16/security-minimal-setup.html" target="_blank" rel="noopener"><i class="fa fa-chain" aria-hidden="true"></i></a>：<ol>
+<li>进入 <code>ES_HOME</code> 目录，运行 <code>./bin/elasticsearch.bat</code> 命令;</li>
+<li>进入 <code>ES_HOME</code> 目录，运行 <code>./bin/elasticsearch-setup-passwords.bat interactive</code> 命令，会提示给默认的几个账户(<code>apm_system</code>、<code>kibana_system</code>、<code>kibana</code>、<code>logstash_system</code>、<code>beats_system</code>、<code>remote_monitoring_user</code>、<code>elastic</code>)设置密码;</li>
+<li>打开浏览器，输入网址 <a href="http://192.168.0.8:9200" target="_blank" rel="noopener">http://192.168.0.8:9200</a> 检查一下 ES 是否正常运行（需要提供上一步设置的用户名密码）。</li>
+</ol>
+</li>
+<li>注册 <code>elasticsearch</code> 成为 <code>Windows</code> 服务（可选）<a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.16/zip-windows.html" target="_blank" rel="noopener"><i class="fa fa-chain" aria-hidden="true"></i></a>：进入 <code>ES_HOME</code> 目录，运行 <code>./bin/elasticsearch-service.bat install</code> 命令</li>
+<li>更改 <code>kibana-7.16.3-windows-x86_64/config/kibana.yml</code> 配置如下(可根据实际情况做调整)：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server.host: &quot;192.168.0.8&quot;</span><br><span class="line">elasticsearch.hosts: [&quot;http:&#x2F;&#x2F;192.168.0.8:9200&quot;]</span><br><span class="line">elasticsearch.username: &quot;kibana_system&quot;</span><br><span class="line">elasticsearch.password: &quot;your_password_here&quot;</span><br></pre></td></tr></table></figure></li>
+<li>打开浏览器，输入网址 <a href="http://192.168.0.8:5601" target="_blank" rel="noopener">http://192.168.0.8:5601</a> 检查一下 Kibana 是否正常运行。（需要提供上上一步设置的用户名密码）<br><img src="/images/get-started-with-elasticsearch/install-successfully.jpg" alt="install successfully"></li>
+</ol>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p><code>elastic</code> 官方已经给出了很多使用案例，包括日志分析、机器学习（需要付费解锁😄）、网络安全监测等等。这里就不深入了，仅介绍入门使用：使用 <code>elasticsearch</code> 的来增强关系型数据库的全文搜索能力。</p>
+<p>首先需要插入部分数据（官方支持一键导入测试数据，此处略过）。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://www.elastic.co/start" target="_blank" rel="noopener">Get started with Elasticsearch, Kibana and the Elastic Stack</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.16/security-minimal-setup.html" target="_blank" rel="noopener">Set up minimal security for Elasticsearch</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html" target="_blank" rel="noopener">Elasticsearch Guide</a></li>
+<li><a href="https://elasticsearch-py.readthedocs.io/en/stable/" target="_blank" rel="noopener">Python Elasticsearch Client</a></li>
+<li><a href="https://www.npmjs.com/package/@elastic/elasticsearch" target="_blank" rel="noopener">@elastic/elasticsearch - npm</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2022/02/03/get-started-with-elasticsearch/" data-id="cla8bpvml00209j8cbbeq8kt9" data-title="Elasticsearch 入门" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elk/" rel="tag">elk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kibana/" rel="tag">kibana</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/logstash/" rel="tag">logstash</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2022/02/10/MySQL-case-sensitivity-issue/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          MySQL 大小写问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/01/30/lowcode-apps/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">低代码应用</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

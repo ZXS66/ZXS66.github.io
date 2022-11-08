@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>微信小程序入门篇(2) | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="距离 上次接触小程序 已经过去大半年了，期间一直没有更新。实在是太懒了。正好这个周末有空，就自己瞎鼓捣一下好了。 说干就干！ 安装及环境初始化，这里就略过了。官方已经提供了很详细的 101 教程。 注意事项 自 2021&#x2F;4&#x2F;13 起，微信旧 API wx.getUserInfo 不再弹出弹窗，并直接返回匿名的用户个人信息，取而代之的是 wx.getUserProfile，详细参考 小程序官方公告">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信小程序入门篇(2)">
+<meta property="og:url" content="https://zxs66.github.io/2021/06/20/WeChat-mini-program-102/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="距离 上次接触小程序 已经过去大半年了，期间一直没有更新。实在是太懒了。正好这个周末有空，就自己瞎鼓捣一下好了。 说干就干！ 安装及环境初始化，这里就略过了。官方已经提供了很详细的 101 教程。 注意事项 自 2021&#x2F;4&#x2F;13 起，微信旧 API wx.getUserInfo 不再弹出弹窗，并直接返回匿名的用户个人信息，取而代之的是 wx.getUserProfile，详细参考 小程序官方公告">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zxs66.github.io/images/WeChat-mini-program-1st-step/gh_d8e358fd13d3_258.jpg">
+<meta property="article:published_time" content="2021-06-20T15:26:00.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.193Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="wechat">
+<meta property="article:tag" content="mini program">
+<meta property="article:tag" content="微信">
+<meta property="article:tag" content="小程序">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zxs66.github.io/images/WeChat-mini-program-1st-step/gh_d8e358fd13d3_258.jpg">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-WeChat-mini-program-102" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/06/20/WeChat-mini-program-102/" class="article-date">
+  <time datetime="2021-06-20T15:26:00.000Z" itemprop="datePublished">2021-06-20</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      微信小程序入门篇(2)
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>距离 <a href="/2021/09/11/get-started-with-WeChat-mini-program/">上次接触小程序</a> 已经过去大半年了，期间一直没有更新。实在是太懒了。正好这个周末有空，就自己瞎鼓捣一下好了。</p>
+<p>说干就干！</p>
+<p>安装及环境初始化，这里就略过了。官方已经提供了很详细的 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/MINA.html" target="_blank" rel="noopener">101 教程</a>。</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
+<li>自 2021/4/13 起，微信旧 API <a href="https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserInfo.html" target="_blank" rel="noopener">wx.getUserInfo</a> 不再弹出弹窗，并直接返回匿名的用户个人信息，取而代之的是 <a href="https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserProfile.html" target="_blank" rel="noopener">wx.getUserProfile</a>，详细参考 <a href="https://developers.weixin.qq.com/community/develop/doc/000cacfa20ce88df04cb468bc52801" target="_blank" rel="noopener">小程序官方公告</a>；</li>
+<li>小程序端的 <a href="https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorage.html" target="_blank" rel="noopener">数据缓存 API</a>：<ul>
+<li>不能使用类似 <code>wx.setStorage(key, value)</code> 和 <code>wx.getStorage(key)</code> 的形式存取数据，取而代之的是 <code>wx.setStorage({ key:&quot;key&quot;, data:&quot;value&quot;})</code> 和 <code>wx.getStorage({ key:&quot;key&quot;})</code>（注意，是 <code>data</code> 而不是 <code>value</code> 哦）；</li>
+<li>虽然官方文档说 <code>success</code>、<code>fail</code>、<code>complete</code> 三个回调函数都不是必填项，但是代码中很容易因为没有指定 <code>fail</code> 回调导致报错，所以推荐后两者中任意指定的一个。</li>
+</ul>
+</li>
+<li>云开发免费版提供了不超过 2GB 的数据库容量以及每天不超过 500 次读操作，这对个人开发者或者企业 POC （Proof of Concept）非常友好。如果为了保险起见，那 6.9 元/月特惠基础版套餐应该够你做原型验证了。（我没有在打广告 😂）收费项目如下，详细内容请参考 <a href="https://developers.weixin.qq.com/miniprogram/dev/wxcloud/billing/quota.html" target="_blank" rel="noopener">官方文档</a>:<table>
+<thead>
+<tr>
+<th>分类·参数</th>
+<th>免费版套餐</th>
+<th>6.9元/月特惠基础版套餐</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>存储·容量</td>
+<td>5GB</td>
+<td>8GB</td>
+</tr>
+<tr>
+<td>存储·下载操作次数</td>
+<td>2000/月</td>
+<td>10万/月</td>
+</tr>
+<tr>
+<td>存储·上传操作次数</td>
+<td>1000/月</td>
+<td>5万/月</td>
+</tr>
+<tr>
+<td>存储·CDN回源流量 <a href="https://developers.weixin.qq.com/miniprogram/dev/wxcloud/billing/quota.html#quota_footnote_cdn_origin" target="_blank" rel="noopener">注</a></td>
+<td>1GB/月</td>
+<td>2GB/月</td>
+</tr>
+<tr>
+<td>CDN·CDN流量 <a href="https://developers.weixin.qq.com/miniprogram/dev/wxcloud/billing/quota.html#quota_footnote_cdn" target="_blank" rel="noopener">注</a></td>
+<td>1GB/月</td>
+<td>2GB/月</td>
+</tr>
+<tr>
+<td>云函数·资源使用量GBs <a href="https://developers.weixin.qq.com/miniprogram/dev/wxcloud/billing/quota.html#quota_footnote_gbs" target="_blank" rel="noopener">注</a></td>
+<td>1000/月</td>
+<td>1万/月</td>
+</tr>
+<tr>
+<td>云函数·外网出流量</td>
+<td>1GB/月</td>
+<td>1GB/月</td>
+</tr>
+<tr>
+<td>云函数·云函数数量</td>
+<td>10个</td>
+<td>50个</td>
+</tr>
+<tr>
+<td>数据库·容量</td>
+<td>2GB</td>
+<td>5GB</td>
+</tr>
+<tr>
+<td>数据库·同时连接数 <a href="https://developers.weixin.qq.com/miniprogram/dev/wxcloud/billing/quota.html#quota_footnote_db" target="_blank" rel="noopener">注</a></td>
+<td>5</td>
+<td>20</td>
+</tr>
+<tr>
+<td>数据库·读操作数</td>
+<td>500/天</td>
+<td>5万/天</td>
+</tr>
+<tr>
+<td>数据库·写操作数</td>
+<td>300/天</td>
+<td>3万/天</td>
+</tr>
+<tr>
+<td>数据库·集合限制</td>
+<td>15个</td>
+<td>50个</td>
+</tr>
+</tbody></table>
+</li>
+<li>官方 WeUI 组件库扩展了小程序原生组件。虽然还是明显不够用，但总比没有强。比如 <a href="https://developers.weixin.qq.com/miniprogram/dev/extended/weui/icon.html" target="_blank" rel="noopener">mp-icon</a> 就省的我们去搜寻或者设计基础图标了。</li>
+</ol>
+<h3 id="云开发"><a href="#云开发" class="headerlink" title="云开发"></a>云开发</h3><p>现在创建微信小程序项目，默认开启云开发选项，方便大家快速部署原型。</p>
+<h3 id="一点个人感受"><a href="#一点个人感受" class="headerlink" title="一点个人感受"></a>一点个人感受</h3><p>微信小程序开发更接近于目前国内最火的 <code>Vue</code> 开发，不推荐操作 <code>DOM</code>，而是使用各种集成指令。但是小程序开发并不等于 <code>H5</code> 开发，很多操作都是基于微信这个沙盒。虽说确实保障了用户数据安全以及个人隐私，但开发者开发体验很受影响，有点像是带着脚镣跳舞吧，其实就是阉割版的 <code>H5</code> 开发。这应该是各种权衡下来的结果。</p>
+<h3 id="预览"><a href="#预览" class="headerlink" title="预览"></a>预览</h3><p><img src="/images/WeChat-mini-program-1st-step/gh_d8e358fd13d3_258.jpg" alt="时代残党小程序"></p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/" target="_blank" rel="noopener">微信官方文档·小程序</a></li>
+<li><a href="https://github.com/ZXS66/nextwave-miniprogram" target="_blank" rel="noopener">源码</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/06/20/WeChat-mini-program-102/" data-id="cla8bpvme001c9j8c9goicpc9" data-title="微信小程序入门篇(2)" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mini-program/" rel="tag">mini program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wechat/" rel="tag">wechat</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BE%AE%E4%BF%A1/" rel="tag">微信</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2021/06/29/JavaScript-Storage-lite/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          JavaScript 轻量级缓存
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/06/19/JavaScript-Promise-error-handling/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">JavaScript Promise 异常捕获</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

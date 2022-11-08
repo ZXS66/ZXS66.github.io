@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>Web 应用程序安全提升 | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="最近，应工作需要，将某小型应用整改，目的是将此前仅对内可用的小工具公布到互联网上供外部用户使用。这其中就要经历多重审核、整改、测试、上线。 鉴于细节过多，内容过于繁杂，就不一一列举每个整改步骤了。很多内容在系统设计之初就应当考虑在内，此处仅记录我在完成产品开发后，公司内部安全审核团队要求整改的点。 Session timeout前期便于快速原型开发及上线，此应用采用的是 Windows 认证。而一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web 应用程序安全提升">
+<meta property="og:url" content="https://zxs66.github.io/2020/11/28/webapp-security-improvements/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="最近，应工作需要，将某小型应用整改，目的是将此前仅对内可用的小工具公布到互联网上供外部用户使用。这其中就要经历多重审核、整改、测试、上线。 鉴于细节过多，内容过于繁杂，就不一一列举每个整改步骤了。很多内容在系统设计之初就应当考虑在内，此处仅记录我在完成产品开发后，公司内部安全审核团队要求整改的点。 Session timeout前期便于快速原型开发及上线，此应用采用的是 Windows 认证。而一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zxs66.github.io/images/webapp-security/CSP_styles.png">
+<meta property="article:published_time" content="2020-11-28T01:54:13.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.203Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="asp.net">
+<meta property="article:tag" content="mvc">
+<meta property="article:tag" content="web">
+<meta property="article:tag" content="security">
+<meta property="article:tag" content="csp">
+<meta property="article:tag" content="content-security-policy">
+<meta property="article:tag" content="cache-control">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zxs66.github.io/images/webapp-security/CSP_styles.png">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-webapp-security-improvements" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/11/28/webapp-security-improvements/" class="article-date">
+  <time datetime="2020-11-28T01:54:13.000Z" itemprop="datePublished">2020-11-28</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      Web 应用程序安全提升
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>最近，应工作需要，将某小型应用整改，目的是将此前仅对内可用的小工具公布到互联网上供外部用户使用。这其中就要经历多重审核、整改、测试、上线。</p>
+<p>鉴于细节过多，内容过于繁杂，就不一一列举每个整改步骤了。很多内容在系统设计之初就应当考虑在内，此处仅记录我在完成产品开发后，公司内部安全审核团队要求整改的点。</p>
+<h3 id="Session-timeout"><a href="#Session-timeout" class="headerlink" title="Session timeout"></a>Session timeout</h3><p>前期便于快速原型开发及上线，此应用采用的是 Windows 认证。而一般此类应用不会考虑到 Session timeout 时长。但既然审查出了这个 finding （发现），那就要整改了。</p>
+<p>其实也很简单，就是找到 <code>web.config</code> 文件，在 <code>&lt;configuration&gt;.&lt;system.web&gt;</code> 节点添加/更改子节点 <code>&lt;sessionState&gt;</code>，将 <code>timeout</code> 时长（单位分钟）设置成你想要的值。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">system.web</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">sessionState</span> <span class="attr">timeout</span>=<span class="string">"8"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">system.web</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="删除服务器版本"><a href="#删除服务器版本" class="headerlink" title="删除服务器版本"></a>删除服务器版本</h3><p>默认 ASP.NET Web 应用程序的 HTTP 请求的响应头，会夹带 <code>IIS</code>、<code>ASP.NET MVC</code> 及其版本信息。要想成为健壮的网页应用程序，就必须移除这些信息。以下是要做的改动:</p>
+<h6 id="web-config-文件"><a href="#web-config-文件" class="headerlink" title="web.config 文件"></a>web.config 文件</h6><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">system.web</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">httpRuntime</span> <span class="attr">enableVersionHeader</span>=<span class="string">"8"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">system.web</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">system.webServer</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">httpProtocol</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">customHeaders</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">remove</span> <span class="attr">name</span>=<span class="string">"X-Powered-By"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">customHeaders</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">httpProtocol</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">security</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">requestFiltering</span> <span class="attr">removeServerHeader</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">security</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">system.webServer</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="Global-asax-cs-文件"><a href="#Global-asax-cs-文件" class="headerlink" title="Global.asax.cs 文件"></a>Global.asax.cs 文件</h6><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">NGL.API</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WebApiApplication</span> : <span class="title">HttpApplication</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Application_Start</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">// remove asp.net mvc version from response header</span></span><br><span class="line">            MvcHandler.DisableMvcResponseHeader = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// AreaRegistration.RegisterAllAreas();</span></span><br><span class="line">            <span class="comment">// GlobalConfiguration.Configure(WebApiConfig.Register);</span></span><br><span class="line">            <span class="comment">// FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);</span></span><br><span class="line">            <span class="comment">// RouteConfig.RegisterRoutes(RouteTable.Routes);</span></span><br><span class="line">            <span class="comment">// //BundleConfig.RegisterBundles(BundleTable.Bundles);</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// var serializerSettings = GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings;</span></span><br><span class="line">            <span class="comment">// serializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;</span></span><br><span class="line">            <span class="comment">// serializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Content-Security-Policy-CSP-响应头"><a href="#Content-Security-Policy-CSP-响应头" class="headerlink" title="Content-Security-Policy (CSP) 响应头"></a>Content-Security-Policy (CSP) 响应头</h3><p>通过声明 <code>CSP</code> 响应头，可以有效减少现代浏览器在动态加载资源的时候被 <code>XSS</code> （跨站攻击）风险。标准做法是在<strong>服务器端</strong>添加，不过也可以在 <code>html</code> 文件中添加 <code>meta</code> 头声明。具体请移步至 <a href="https://content-security-policy.com/" target="_blank" rel="noopener">官网</a>。</p>
+<p><em>有点类似于 <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity" target="_blank" rel="noopener">SRI</a> (Subresource Integrity)，使用 CDN 加载第三方脚本/样式时，通过使用 <code>integrity</code> 属性声明，降低脚本/样式被篡改的风险。不同的是，<code>CSP</code>适用范围更广。</em></p>
+<p>在 ASP.NET 服务器端，修改 <code>web.config</code>：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">system.webServer</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">httpProtocol</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">customHeaders</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- CSP --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"Content-Security-Policy"</span> <span class="attr">value</span>=<span class="string">"default-src 'self'; img-src 'self' https://api.tiles.mapbox.com; style-src 'self' 'unsafe-inline'"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">customHeaders</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">httpProtocol</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">system.webServer</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="2020-12-8-更新"><a href="#2020-12-8-更新" class="headerlink" title="2020/12/8 更新"></a>2020/12/8 更新</h6><p>上文所展示代码中，有一段代码 <code>&#39;unsafe-inline&#39;</code>，其实这依然是不安全的做法。严格的 CSP 策略会要求连这个都禁用 <a href="https://content-security-policy.com/unsafe-inline/" target="_blank" rel="noopener"><fa-link/></a>。</p>
+<p>可是，<a href="https://angular.io" target="_blank" rel="noopener">Angular</a> 或者 <a href="https://cli.angular.io" target="_blank" rel="noopener">Angular-CLI</a> 目前不支持自动计算 <a href="https://content-security-policy.com/hash/" target="_blank" rel="noopener">hash</a> 或者 <a href="https://content-security-policy.com/nonce/" target="_blank" rel="noopener">nonce</a> 。这就尴尬了。</p>
+<p>要说明的是，Angular 其实是会将全局样式（包括 <code>styles.css</code> 和第三方类库的样式表文件）都编译到 <code>style.xxxxhashxxxx.css</code> 文件中，这种情况下 <code>style src &#39;self&#39;</code> 是满足需求的，因为该样式文件是通过 <code>&lt;style&gt;</code> 标签引入的；问题是1️⃣开发者有时候（图省事）直接给标签的 <code>style</code> <strong>属性</strong> 设值或者动态改变其值；2️⃣Angular Component 组件样式是运行时动态插入的（具体可查看下图：1️⃣即是内联样式，2️⃣即是动态插入的样式，一般情况下都不是合法的，只有3️⃣样式表文件中的样式才是合法的）。</p>
+<p><img src="/images/webapp-security/CSP_styles.png" alt="CSP中合法与非法的样式"></p>
+<p>这就出问题了，因为 CSP 响应头 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src" target="_blank" rel="noopener">style-src</a> 即使加上了对应的 SHA 或 nounce 值，<code>style</code> 属性（非 style 标签）依旧是被禁止的 <a href="https://stackoverflow.com/questions/52724956/why-doesnt-chrome-respect-my-content-security-policy-hashes" target="_blank" rel="noopener"><fa-link/></a>。解决方案也很简单：添加对应的 SHA 或 nounce 值到 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src-attr" target="_blank" rel="noopener">style-src-attr</a> 响应头可解决1️⃣内联样式的问题；避免引用 <code>style</code> 属性，改用 <code>class</code> 将1️⃣内联样式或者2️⃣动态样式改成3️⃣样式表文件。所以，临时解决办法是，把样式都挪到 <code>sytles.css</code> 全局样式表中去。emmm，有一点小膈应，毕竟，所有组件的样式都塞到一个样式表文件中，不好管理，挺糟心的。等之后找到了再更新吧。</p>
+<p>从上面 <code>web.config</code> 的 CSP 配置中，可以看出，默认浏览器是默认(推荐)禁止 <code>unsafe-inline</code> 的 script 和 style。即内联的脚本和样式都是被禁止的。</p>
+<h5 id="2021-2-14-更新"><a href="#2021-2-14-更新" class="headerlink" title="2021/2/14 更新"></a>2021/2/14 更新</h5><p>网络安全有一系列响应头，除了 <code>Content-Security-Policy</code> 之外，还有 <code>X-Frame-Options</code>、<code>Strict-Transport-Security</code>、<code>X-XSS-Protection</code>、<code>X-Content-Type-Options</code>、<code>Referrer-Policy</code>、<code>Permissions-Policy</code> 等。想要查看您的网站还存在哪些问题，可以查看 <a href="https://securityheaders.com/" target="_blank" rel="noopener">此网站</a>。有关各响应头的详情，请查看 <a href="https://developer.mozilla.org/en-US/" target="_blank" rel="noopener">MDN</a>。</p>
+<p>以下是 <code>web.config</code> 样例：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">system.webServer</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">httpProtocol</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">customHeaders</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Protects against Clickjacking attacks. ref.: http://stackoverflow.com/a/22105445/1233379 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"X-Frame-Options"</span> <span class="attr">value</span>=<span class="string">"SAMEORIGIN"</span> /&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Protects against Clickjacking attacks. ref.: https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"Strict-Transport-Security"</span> <span class="attr">value</span>=<span class="string">"max-age=31536000; includeSubDomains"</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Protects against XSS injections. ref.: https://www.veracode.com/blog/2014/03/guidelines-for-setting-security-headers/ --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"X-XSS-Protection"</span> <span class="attr">value</span>=<span class="string">"1; mode=block"</span> /&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Protects against MIME-type confusion attack. ref.: https://www.veracode.com/blog/2014/03/guidelines-for-setting-security-headers/ --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"X-Content-Type-Options"</span> <span class="attr">value</span>=<span class="string">"nosniff"</span> /&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- CSP modern XSS directive-based defence, used since 2014. ref.: http://content-security-policy.com/ --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"Content-Security-Policy"</span> <span class="attr">value</span>=<span class="string">"default-src 'self'; font-src *;img-src * data:; script-src *; style-src *;"</span> /&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Prevents from leaking referrer data over insecure connections. ref.: https://scotthelme.co.uk/a-new-security-header-referrer-policy/ --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"Referrer-Policy"</span> <span class="attr">value</span>=<span class="string">"strict-origin"</span> /&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- formerly known as Feature-Policy ref.: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy --&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Permissions-Policy syntax ref.:https://github.com/w3c/webappsec-permissions-policy/blob/main/permissions-policy-explainer.md#appendix-big-changes-since-this-was-called-feature-policy --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"Permissions-Policy"</span> <span class="attr">value</span>=<span class="string">"notifications=(),magnetometer=(),gyroscope=(),fullscreen=(self)"</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">customHeaders</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">httpProtocol</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">system.webServer</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="clientCache-设置-Cache-Control"><a href="#clientCache-设置-Cache-Control" class="headerlink" title="clientCache 设置 Cache-Control"></a>clientCache 设置 Cache-Control</h3><p>公司要求禁用 <code>cache</code> ？？？</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">system.webServer</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">staticContent</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">clientCache</span> <span class="attr">cacheControlMode</span>=<span class="string">"DisableCache"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">staticContent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">system.webServer</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="产品环境隐藏错误细节"><a href="#产品环境隐藏错误细节" class="headerlink" title="产品环境隐藏错误细节"></a>产品环境隐藏错误细节</h3><p>这个简单，改改 <code>customErrors</code> 的模式即可。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">system.web</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">customErrors</span> <span class="attr">mode</span>=<span class="string">"On"</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- &lt;customErrors mode="RemoteOnly"/&gt; --&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">system.web</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="连接字符串加密"><a href="#连接字符串加密" class="headerlink" title="连接字符串加密"></a>连接字符串加密</h3><p><code>web.config</code> 中连接字符串 (<code>connection string</code>) 默认是不加密的。如果启用 Windows 集成认证，那倒问题不大，但是有些情形下，会直接提供 <code>user id</code> 和 <code>password</code>，一旦泄露，会造成困扰。</p>
+<p>对此，建议应用程序本身对连接字符串做简单加密。常见加密解密算法如下（引用 <a href="/images/webapp-security/algorithms.png">网上的一张图</a>）：</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>加密方式</th>
+<th>是否可解密</th>
+<th>存在密钥</th>
+<th>解密后的特征</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>BASE64加密</td>
+<td>YES</td>
+<td>不存在</td>
+<td>长度是3的倍数，只含有65种字符，大写的A至Z，小写的a至z，数字到9，以及3种符号+/=，=最多两个，且在末尾</td>
+<td>只要知道加密类型是BASE64，可通过BASE64解密程序解密</td>
+</tr>
+<tr>
+<td>2</td>
+<td>异或加密</td>
+<td>YES</td>
+<td>存在</td>
+<td></td>
+<td>需要知道异或的值，再次异或该值，可得到加密前的value</td>
+</tr>
+<tr>
+<td>3</td>
+<td>MD5加密</td>
+<td>NO</td>
+<td></td>
+<td>32位或者16位</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>SHA128加密</td>
+<td>NO</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>SHA1加密</td>
+<td>NO</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>AES加密</td>
+<td></td>
+<td>需要密钥解密</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>RSA加密</td>
+<td></td>
+<td>公钥加密私钥解密</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h6 id="BASE64"><a href="#BASE64" class="headerlink" title="BASE64"></a>BASE64</h6><p>这个算法其实就是简单地把人类能读懂的语言文字变成 ASCII 编码。这样处理之后，人类是很难读懂了，但是机器读懂它简直不能太 easy。所以，一般这个算法不会单独用来加密，但是可以用来混淆内容。</p>
+<h6 id="MD5"><a href="#MD5" class="headerlink" title="MD5"></a>MD5</h6><p>emmm，严格来说，这个不算是加密算法，它只是信息摘要算法，就是把一大堆的内容转换成一串 ASCII 编码，同时这个算法有以下两个特点：</p>
+<ol>
+<li>相同内容的正文，肯定能输出相同的 ASCII 编码；</li>
+<li>只要内容稍加不同，输出的 ASCII 编码完全不一样。</li>
+</ol>
+<p>这个算法（目前）是不可解密，所以不存在密钥一说。常用于校验我们从网上下载下来的文件是否被人恶意修改或植入病毒。在当前场景不适用。</p>
+<h6 id="SHA"><a href="#SHA" class="headerlink" title="SHA"></a>SHA</h6><p>MD5 的升级版。</p>
+<h6 id="AES-对称加密"><a href="#AES-对称加密" class="headerlink" title="AES 对称加密"></a>AES 对称加密</h6><p>加密和解密使用同一套密码，</p>
+<h6 id="RSA-非对称加密"><a href="#RSA-非对称加密" class="headerlink" title="RSA 非对称加密"></a>RSA 非对称加密</h6><p>emmm，当今互联网社会的基石啊，多少人都在使用 <code>RSA</code> 当作公司 <code>VPN</code> 连接的双重身份认证凭证。加密的密钥（公钥）和解密的密钥（私钥）不一样，使用公钥加密的信息可以在互联网上传播，因为没有私钥解密的话此信息就算是天书吧。</p>
+<p>结合当前场景（加密连接字符串），我们还用不上 <code>AES</code>、<code>RSA</code>，同时我们也不能单纯使用 <code>BASE64</code> 和 <code>MD5</code>/<code>SHA</code>，前者过于简单，后者不可逆（加密完我自己都读不懂，要你何用？）。</p>
+<p>那，可不可以结合着使用？</p>
+<p>以下是我个人在用的示例代码，仅供参考：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Security.Cryptography;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">string</span> connectionStringName = <span class="string">"Vanilla"</span>;</span><br><span class="line">        <span class="comment"><span class="doctag">///</span> remember to update the connection string value below</span></span><br><span class="line">        <span class="keyword">string</span> connectionStringValue = <span class="string">"Data Source=xxx.xxx.xxx.xxx;Initial Catalog=Project_Vanilla;user id=yyyy;password=zzzz"</span>;</span><br><span class="line">        <span class="keyword">string</span> secret = EncryptConnectionString(connectionStringName, connectionStringValue);</span><br><span class="line">        Console.WriteLine(secret);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span> <span class="title">EncryptConnectionString</span>(<span class="params"><span class="keyword">string</span> name, <span class="keyword">string</span> connectionString</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">string</span>.IsNullOrWhiteSpace(name))</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentNullException(<span class="keyword">nameof</span>(name));</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">string</span>.IsNullOrWhiteSpace(connectionString)) </span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentNullException(<span class="keyword">nameof</span>(connectionString));</span><br><span class="line">        <span class="keyword">if</span> (!connectionString.Contains(<span class="string">'='</span>)) </span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentException(<span class="keyword">nameof</span>(connectionString));</span><br><span class="line"></span><br><span class="line">        connectionString = <span class="keyword">string</span>.Join(<span class="keyword">string</span>.Empty, connectionString.Reverse());</span><br><span class="line">        <span class="keyword">int</span> location = connectionString.IndexOf(<span class="string">'='</span>) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">string</span> hash = GetCustomHash(name);</span><br><span class="line">        <span class="keyword">string</span> content = connectionString.Substring(<span class="number">0</span>, location) +hash +connectionString.Substring(location);</span><br><span class="line">        <span class="keyword">byte</span>[] bytes = System.Text.Encoding.UTF8.GetBytes(content);</span><br><span class="line">        <span class="keyword">return</span> System.Convert.ToBase64String(bytes);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span> <span class="title">GetCustomHash</span>(<span class="params"><span class="keyword">string</span> content</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">string</span>.IsNullOrWhiteSpace(content))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">string</span>.Empty;</span><br><span class="line">        <span class="keyword">using</span>(MD5 provider = MD5.Create())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">string</span> SALT = <span class="string">"NewGreenLife"</span>;</span><br><span class="line">            <span class="keyword">byte</span>[] bytes = Encoding.UTF8.GetBytes(content+SALT);</span><br><span class="line">            <span class="keyword">byte</span>[] hashBytes = provider.ComputeHash(bytes);</span><br><span class="line">            <span class="keyword">return</span> BitConverter.ToString(hashBytes).Replace(<span class="string">"-"</span>, <span class="keyword">string</span>.Empty);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span> <span class="title">DecryptConnectionString</span>(<span class="params"><span class="keyword">string</span> name, <span class="keyword">string</span> secret</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">string</span>.IsNullOrWhiteSpace(name))</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentNullException(<span class="keyword">nameof</span>(name));</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">string</span>.IsNullOrEmpty(secret)) </span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentNullException(<span class="keyword">nameof</span>(secret));</span><br><span class="line">        <span class="keyword">byte</span>[] bytes = System.Convert.FromBase64String(secret);</span><br><span class="line">        <span class="keyword">string</span> base64Content = System.Text.Encoding.UTF8.GetString(bytes);</span><br><span class="line">        <span class="keyword">string</span> hash = GetCustomHash(name);</span><br><span class="line">        <span class="keyword">if</span> (!base64Content.Contains(hash))</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(<span class="keyword">nameof</span>(secret));</span><br><span class="line">        <span class="keyword">int</span> location = base64Content.IndexOf(hash);</span><br><span class="line">        <span class="keyword">string</span> rawContent = base64Content.Substring(<span class="number">0</span>, location) + base64Content.Substring(location + hash.Length);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">string</span>.Join(<span class="keyword">string</span>.Empty, rawContent.Reverse());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="使用-aspnet-regiis-加密"><a href="#使用-aspnet-regiis-加密" class="headerlink" title="使用 aspnet_regiis 加密"></a>使用 aspnet_regiis 加密</h6><p><em>2020/12/16 更新</em></p>
+<p>更推荐的做法（加密 connection string）是，使用 aspnet_regiis 命令行，将本机的 web.config 中对应节点加密。更多技术细节请参考 <a href="https://docs.microsoft.com/en-ca/previous-versions/aspnet/zhhddkxy(v=vs.100)" target="_blank" rel="noopener">官网介绍</a>，这里就说其特点和使用方法：</p>
+<p>特点：加密后的文件对人不可读，对其他机器也不可解密，.Net Framework 会自动运行时解密。</p>
+<p>使用方法(先找到 <code>aspnet_regiis.exe</code> 所在文件夹位置，一般在 <code>C:\Windows\Microsoft.NET\Framework\v4.0.30319</code> )：</p>
+<ol>
+<li><p>加密: <code>ASPNET_REGIIS -pef &quot;connectionStrings&quot; &quot;D:\inetpub\wwwroot\applicationFolder&quot;</code></p>
+</li>
+<li><p>解密：<code>ASPNET_REGIIS -pdf &quot;connectionStrings&quot; &quot;D:\inetpub\wwwroot\applicationFolder&quot;</code></p>
+</li>
+</ol>
+<h3 id="表单校验"><a href="#表单校验" class="headerlink" title="表单校验"></a>表单校验</h3><p>表单校验，不仅仅是前端的事。好的系统，会在 API 层面，甚至数据库层面都会加上用户输入验证。验证要点包括但不限于：</p>
+<ol>
+<li>是否输入非法字符</li>
+<li>输入字符长度是否合法（最短、最长）</li>
+<li>特别地，密码是否符合公司密码复杂度要求</li>
+<li>特殊字符是否转译（防止 SQL 注入、XSS、CSRF）</li>
+</ol>
+<p>前三项可能会根据业务，稍有不同，但基本大同小异，此处就不过多展开了。</p>
+<h5 id="防止-SQL-注入"><a href="#防止-SQL-注入" class="headerlink" title="防止 SQL 注入"></a>防止 SQL 注入</h5><p><a href="https://weblogs.asp.net/scottgu/Tip_2F00_Trick_3A00_-Guard-Against-SQL-Injection-Attacks" target="_blank" rel="noopener">ScottGu</a> 早在十多年前就教大家如何防止 SQL 注入了，我搬一下砖：</p>
+<ol>
+<li>不要拼接动态 SQL 语句，使用更加类型安全的参数编码机制，如 <code>ADO.NET</code> 中的 <a href="https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlparameter?view=dotnet-plat-ext-5.0" target="_blank" rel="noopener">SqlParameter</a>；</li>
+<li>在部署到产品环境之前，始终坚持安全审查，每次更新时都坚持走正式的安全流程审核所有代码；</li>
+<li>从不存储明文的敏感数据在数据库；</li>
+<li>确保你编写了自动单元测试，显式的验证了你的数据访问层和应用程序能够很好防御 SQL 注入攻击；</li>
+<li>锁定你的数据库，仅授权网页应用程序访问它是功能所需的最小权限集。</li>
+</ol>
+<h5 id="防止-XSS-攻击"><a href="#防止-XSS-攻击" class="headerlink" title="防止 XSS 攻击"></a>防止 XSS 攻击</h5><p><code>ASP.NET</code> 中防止 <code>XSS</code> 有一套内置的办法：<a href="https://docs.microsoft.com/en-us/dotnet/api/system.web.security.antixss.antixssencoder?view=netframework-4.8" target="_blank" rel="noopener">AntiXssEncoder</a>。</p>
+<ol>
+<li>修改 <code>web.config</code>，启用 AntiXssEncoder:<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">httpRuntime</span> <span class="attr">encoderType</span>=<span class="string">"System.Web.Security.AntiXss.AntiXssEncoder"</span> /&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>编码所有用户输入/潜在 <code>XSS</code> 攻击的参数：<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user_comment = System.Web.Security.AntiXss.AntiXssEncoder.HtmlEncode(user_comment, <span class="literal">true</span>);</span><br></pre></td></tr></table></figure></li>
+<li>解码上一步编码的数据（以下代码仅展示 <code>Angular</code> 中如何解码，实际也可采用纯 <code>js</code>/<code>React</code>/<code>Vue</code> 等其它方式）：<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Pipe, PipeTransform &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Used to map HTML entities to characters. */</span></span><br><span class="line"><span class="keyword">const</span> htmlUnescapes = &#123;</span><br><span class="line">    <span class="string">'&amp;amp;'</span>: <span class="string">'&amp;'</span>,</span><br><span class="line">    <span class="string">'&amp;lt;'</span>: <span class="string">'&lt;'</span>,</span><br><span class="line">    <span class="string">'&amp;gt;'</span>: <span class="string">'&gt;'</span>,</span><br><span class="line">    <span class="string">'&amp;quot;'</span>: <span class="string">'"'</span>,</span><br><span class="line">    <span class="string">'&amp;#39;'</span>: <span class="string">'\''</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Used to match HTML entities and HTML characters. */</span></span><br><span class="line"><span class="keyword">const</span> reEscapedHtml = <span class="regexp">/&amp;(?:amp|lt|gt|quot|#(0+)?39);/g</span>;</span><br><span class="line"><span class="keyword">const</span> reHasEscapedHtml = <span class="built_in">RegExp</span>(reEscapedHtml.source);</span><br><span class="line"></span><br><span class="line"><span class="comment">/** unescape HTML entities */</span></span><br><span class="line"><span class="meta">@Pipe</span>(&#123; name: <span class="string">'unescape'</span> &#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> UnescapePipe <span class="keyword">implements</span> PipeTransform &#123;</span><br><span class="line">    transform(value: <span class="built_in">any</span>, args?: <span class="built_in">any</span>): <span class="built_in">any</span> &#123;</span><br><span class="line">        <span class="comment">// solution 1 (may ignore "&lt;script&gt;")</span></span><br><span class="line">        <span class="comment">// const doc = new DOMParser().parseFromString(value, 'text/html');</span></span><br><span class="line">        <span class="comment">// return doc.documentElement.textContent;</span></span><br><span class="line">        <span class="comment">// solution 2 (not working for HTML entities like &amp;amp;)</span></span><br><span class="line">        <span class="comment">// return value.replace(/&amp;#(\d+);/g, (match, dec) =&gt; &#123;</span></span><br><span class="line">        <span class="comment">//     return String.fromCharCode(dec);</span></span><br><span class="line">        <span class="comment">// &#125;);</span></span><br><span class="line">        <span class="comment">// solution 3 (enhanced version for solution 2)</span></span><br><span class="line">        <span class="comment">// reference: https://github.com/lodash/lodash/blob/2f79053d7bc7c9c9561a30dda202b3dcd2b72b90/unescape.js</span></span><br><span class="line">        <span class="keyword">const</span> escapedHtml = (value &amp;&amp; reHasEscapedHtml.test(value))</span><br><span class="line">            ? value.replace(reEscapedHtml, <span class="function">(<span class="params">entity</span>) =&gt;</span> (htmlUnescapes[entity] || <span class="string">'\''</span>))</span><br><span class="line">            : (value || <span class="string">''</span>);</span><br><span class="line">        <span class="keyword">return</span> escapedHtml.replace(<span class="regexp">/&amp;#(\d+);/g</span>, <span class="function">(<span class="params">match, dec</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">String</span>.fromCharCode(dec);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="防止-CSRF-攻击"><a href="#防止-CSRF-攻击" class="headerlink" title="防止 CSRF 攻击"></a>防止 CSRF 攻击</h5></li>
+</ol>
+<p>ASP.NET 中防止 CSRF 攻击很简单，前端页面 (.cshtml) 中添加 <code>@Html.AntiForgeryToken()</code>，后台 Controller 代码中，在相应的 Action 加上 [ValidateAntiForgeryToken] 即可。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://www.cnblogs.com/qianjinyan/p/10418750.html" target="_blank" rel="noopener">常见的加密解密算法</a></li>
+<li><a href="https://mp.weixin.qq.com/s/YOpb8x-3Lp_WomRu-p1dIw" target="_blank" rel="noopener">谷歌CSP工程化实践导读</a></li>
+<li><a href="https://www.troyhunt.com/locking-down-your-website-scripts-with-csp-hashes-nonces-and-report-uri/" target="_blank" rel="noopener">Locking Down Your Website Scripts with CSP, Hashes, Nonces and Report URI</a></li>
+<li><a href="https://techcommunity.microsoft.com/t5/iis-support-blog/connection-string-encryption-and-decryption/ba-p/830094" target="_blank" rel="noopener">Connection string encryption and decryption</a></li>
+<li><a href="https://alex-klaus.com/protecting-angular-from-xss-attacks-with-csp/" target="_blank" rel="noopener">Preventing Cross-site scripting (XSS) attacks in Angular and React</a></li>
+<li><a href="https://privacy.ellak.gr/wp-content/uploads/sites/9/2015/12/XSS_-_5.pdf" target="_blank" rel="noopener">Cross Site Scripting, JavaScript Injection, Contextual Output Encoding</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/11/28/webapp-security-improvements/" data-id="cla8bpvmz003k9j8c9xfkbgke" data-title="Web 应用程序安全提升" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/asp-net/" rel="tag">asp.net</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cache-control/" rel="tag">cache-control</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/content-security-policy/" rel="tag">content-security-policy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/csp/" rel="tag">csp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mvc/" rel="tag">mvc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/security/" rel="tag">security</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2020/12/16/search-within-hexo-site/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          Hexo 站点支持搜索
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/11/17/CSharp-dynamic-type/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">C# 动态类型</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

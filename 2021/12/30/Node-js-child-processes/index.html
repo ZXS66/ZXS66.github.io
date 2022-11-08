@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>Node.js 子进程 | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="很久之前，我写过几个爬虫程序（个人学习用途！！！）。之前为了避免被反爬程序识别，特地一个一个串行执行，还降低爬取速度。但是多个目标站点就没必要自己给自己设限了。 我的设想（需求）是：拿到一个 search term，我会把它分发给多个搜索引擎的爬虫程序（比如百度、谷歌、必应）同时搜。 说干就干。 123456789101112131415161718192021222324252627282930">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node.js 子进程">
+<meta property="og:url" content="https://zxs66.github.io/2021/12/30/Node-js-child-processes/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="很久之前，我写过几个爬虫程序（个人学习用途！！！）。之前为了避免被反爬程序识别，特地一个一个串行执行，还降低爬取速度。但是多个目标站点就没必要自己给自己设限了。 我的设想（需求）是：拿到一个 search term，我会把它分发给多个搜索引擎的爬虫程序（比如百度、谷歌、必应）同时搜。 说干就干。 123456789101112131415161718192021222324252627282930">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-12-30T06:10:42.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.193Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="multitasking">
+<meta name="twitter:card" content="summary">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-Node-js-child-processes" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/12/30/Node-js-child-processes/" class="article-date">
+  <time datetime="2021-12-30T06:10:42.000Z" itemprop="datePublished">2021-12-30</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      Node.js 子进程
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>很久之前，我写过<a href="/2021/07/24/crawling-web-via-Nightmare-js/">几个爬虫程序</a>（个人学习用途！！！）。之前为了避免被反爬程序识别，特地一个一个串行执行，还降低爬取速度。但是多个目标站点就没必要自己给自己设限了。</p>
+<p>我的设想（需求）是：拿到一个 search term，我会把它分发给多个搜索引擎的爬虫程序（比如百度、谷歌、必应）同时搜。</p>
+<p>说干就干。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">"fs"</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"><span class="keyword">const</span> spawnProcess = <span class="built_in">require</span>(<span class="string">"child_process"</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; exit &#125; = <span class="built_in">require</span>(<span class="string">"process"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; REQUEST_DELAY &#125; = <span class="built_in">require</span>(<span class="string">"./constants"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> jobsFolder = <span class="string">"./jobs"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** send the search job to sogouCrawler */</span></span><br><span class="line"><span class="keyword">const</span> invokeSogouCrawler = <span class="function"><span class="params">searchTerm</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"start crawling sogou news for "</span> + searchTerm);</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> p = spawnProcess.spawn(<span class="string">"node"</span>, [</span><br><span class="line">        <span class="string">"./crawlers/sogouCrawler.js"</span>,</span><br><span class="line">        searchTerm</span><br><span class="line">      ]);</span><br><span class="line">      p.on(<span class="string">"close"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">spawnCode</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"complete crawling sogou news for "</span> + searchTerm);</span><br><span class="line">        resolve(spawnCode);</span><br><span class="line">      &#125;);</span><br><span class="line">      setTimeout(resolve, <span class="number">1048576</span>); <span class="comment">// bugfix: the program just stock there</span></span><br><span class="line">    &#125;, REQUEST_DELAY);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** send the search job to toutiaoCrawler */</span></span><br><span class="line"><span class="keyword">const</span> invokeToutiaoCrawler = <span class="function"><span class="params">searchTerm</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"start crawling toutiao news for "</span> + searchTerm);</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> p = spawnProcess.spawn(<span class="string">"node"</span>, [</span><br><span class="line">        <span class="string">"./crawlers/toutiaoCrawler.js"</span>,</span><br><span class="line">        searchTerm</span><br><span class="line">      ]);</span><br><span class="line">      p.on(<span class="string">"close"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">spawnCode</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"complete crawling toutiao news for "</span> + searchTerm);</span><br><span class="line">        resolve(spawnCode);</span><br><span class="line">      &#125;);</span><br><span class="line">      setTimeout(resolve, <span class="number">1048576</span>); <span class="comment">// bugfix: the program just stock there</span></span><br><span class="line">    &#125;, REQUEST_DELAY);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// get job list</span></span><br><span class="line">fs.readdir(jobsFolder, (err, files) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(err);</span><br><span class="line">    exit();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (files == <span class="literal">null</span> || files.length === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.warn(<span class="string">"no job file was found!"</span>);</span><br><span class="line">    exit();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// get the lastest job file</span></span><br><span class="line">  <span class="keyword">let</span> theLatestFile = path.join(jobsFolder, files[<span class="number">0</span>]);</span><br><span class="line">  <span class="keyword">let</span> theLatestMTime = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> file <span class="keyword">of</span> files) &#123;</span><br><span class="line">    <span class="keyword">const</span> filePath = path.join(jobsFolder, file);</span><br><span class="line">    <span class="keyword">const</span> fileMTime = fs.statSync(filePath).mtime;</span><br><span class="line">    <span class="keyword">if</span> (theLatestFile === filePath) &#123;</span><br><span class="line">      theLatestMTime = fileMTime;</span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (fileMTime &gt; theLatestMTime) &#123;</span><br><span class="line">      theLatestFile = filePath;</span><br><span class="line">      theLatestMTime = fileMTime;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// read content from the latest job file</span></span><br><span class="line">  fs.readFile(theLatestFile, <span class="string">"utf8"</span>, (err, content) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      <span class="built_in">console</span>.error(err);</span><br><span class="line">      exit();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (content &amp;&amp; content.length) &#123;</span><br><span class="line">      <span class="keyword">const</span> rows = content</span><br><span class="line">        .split(<span class="string">"\n"</span>)</span><br><span class="line">        .filter(<span class="function"><span class="params">_</span> =&gt;</span> _ &amp;&amp; _.length)</span><br><span class="line">        .map(<span class="function"><span class="params">_</span> =&gt;</span> _.trim());</span><br><span class="line">      <span class="keyword">const</span> tprs = <span class="built_in">Array</span>.from(</span><br><span class="line">        <span class="keyword">new</span> <span class="built_in">Set</span>(</span><br><span class="line">          rows</span><br><span class="line">            .map(<span class="function"><span class="params">_</span> =&gt;</span> _.split(<span class="string">"\t"</span>))</span><br><span class="line">            .reduce(<span class="function">(<span class="params">prev, curr</span>) =&gt;</span> &#123;</span><br><span class="line">              <span class="keyword">return</span> prev.concat(curr);</span><br><span class="line">            &#125;, [])</span><br><span class="line">            .filter(<span class="function"><span class="params">_</span> =&gt;</span> _.length &gt;= <span class="number">5</span>)</span><br><span class="line">        )</span><br><span class="line">      );</span><br><span class="line">      <span class="keyword">if</span> (tprs.length) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(tprs);</span><br><span class="line">        <span class="keyword">const</span> allDoneSignal = <span class="string">"Winner, Winner, Chicken Dinner~"</span>;</span><br><span class="line">        <span class="comment">/** invoke sogou crawler one by one */</span></span><br><span class="line">        <span class="keyword">const</span> nextSogouCrawlItem = <span class="function">(<span class="params">idx_sogou = <span class="number">0</span></span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (idx_sogou === tprs.length) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(allDoneSignal);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">const</span> p = invokeSogouCrawler(tprs[idx_sogou]);</span><br><span class="line">          <span class="keyword">return</span> p.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            idx_sogou++;</span><br><span class="line">            <span class="keyword">return</span> nextSogouCrawlItem(idx_sogou);</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">/** invoke toutiao crawler one by one */</span></span><br><span class="line">        <span class="keyword">const</span> nextToutiaoCrawlItem = <span class="function">(<span class="params">idx_toutiao = <span class="number">0</span></span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (idx_toutiao === tprs.length) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(allDoneSignal);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">const</span> p = invokeToutiaoCrawler(tprs[idx_toutiao]);</span><br><span class="line">          <span class="keyword">return</span> p.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            idx_toutiao++;</span><br><span class="line">            <span class="keyword">return</span> nextToutiaoCrawlItem(idx_toutiao);</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">let</span> p_sogou = nextSogouCrawlItem();</span><br><span class="line">        <span class="keyword">let</span> p_toutiao = nextToutiaoCrawlItem();</span><br><span class="line">        <span class="comment">// let p_toutiao = Promise.resolve(allDoneSignal);  // disable temporary</span></span><br><span class="line">        <span class="built_in">Promise</span>.all([p_sogou, p_toutiao]).then(<span class="function"><span class="params">exitCode</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="comment">// exit code should always be equals to allDoneSignal</span></span><br><span class="line">          <span class="built_in">console</span>.log(exitCode);</span><br><span class="line">          exit();</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.warn(<span class="string">"empty job file: "</span>, theLatestFile);</span><br><span class="line">      exit();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://nodejs.org/api/child_process.html" target="_blank" rel="noopener">Node.js documentation</a></li>
+<li><a href="https://www.educba.com/node-js-child-process/" target="_blank" rel="noopener">Node.js Child Process</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/12/30/Node-js-child-processes/" data-id="cla8bpvmc00169j8c0f6g6zje" data-title="Node.js 子进程" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/multitasking/" rel="tag">multitasking</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2022/01/21/python-common-issues-that-I-encountered/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          我所遇到的 Python 常见问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/11/20/missing-days/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">消失的日期</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

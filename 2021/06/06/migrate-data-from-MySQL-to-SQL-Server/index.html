@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>从 MySQL 迁移数据至 SQL Server | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="数据库之间数据同步，是很常见的场景。可能发生在相同服务器不同数据库名之间，也可能发生在不同服务器实例相同数据库之间，还可能发生在不同服务器不同数据库软件之间等等。本片文章只覆盖：如何从 MySQL 迁移数据至 SQL Server 中。 我目前使用了两种方法： 使用 Microsoft SQL Server Migration Assistant for MySQL 工具这是微软官方出品的迁移工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从 MySQL 迁移数据至 SQL Server">
+<meta property="og:url" content="https://zxs66.github.io/2021/06/06/migrate-data-from-MySQL-to-SQL-Server/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="数据库之间数据同步，是很常见的场景。可能发生在相同服务器不同数据库名之间，也可能发生在不同服务器实例相同数据库之间，还可能发生在不同服务器不同数据库软件之间等等。本片文章只覆盖：如何从 MySQL 迁移数据至 SQL Server 中。 我目前使用了两种方法： 使用 Microsoft SQL Server Migration Assistant for MySQL 工具这是微软官方出品的迁移工具">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zxs66.github.io/images/migrate-data-from-MySQL-to-SQL-Server/MySQL-connection-manager.jpg">
+<meta property="og:image" content="https://zxs66.github.io/images/migrate-data-from-MySQL-to-SQL-Server/SQL-Server-connection-manager.jpg">
+<meta property="og:image" content="https://zxs66.github.io/images/migrate-data-from-MySQL-to-SQL-Server/MySQL-ADO.NET-Source.jpg">
+<meta property="og:image" content="https://zxs66.github.io/images/migrate-data-from-MySQL-to-SQL-Server/SQL-Server-ADO.NET-Source.jpg">
+<meta property="og:image" content="https://zxs66.github.io/images/migrate-data-from-MySQL-to-SQL-Server/execute-SSIS.jpg">
+<meta property="article:published_time" content="2021-06-06T02:24:00.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.203Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="sql server">
+<meta property="article:tag" content="migration">
+<meta property="article:tag" content="microsoft sql server migration assistant for mysql">
+<meta property="article:tag" content="sql server integration service">
+<meta property="article:tag" content="etl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zxs66.github.io/images/migrate-data-from-MySQL-to-SQL-Server/MySQL-connection-manager.jpg">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-migrate-data-from-MySQL-to-SQL-Server" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/06/06/migrate-data-from-MySQL-to-SQL-Server/" class="article-date">
+  <time datetime="2021-06-06T02:24:00.000Z" itemprop="datePublished">2021-06-06</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      从 MySQL 迁移数据至 SQL Server
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>数据库之间数据同步，是很常见的场景。可能发生在相同服务器不同数据库名之间，也可能发生在不同服务器实例相同数据库之间，还可能发生在不同服务器不同数据库软件之间等等。本片文章只覆盖：如何从 MySQL 迁移数据至 SQL Server 中。</p>
+<p>我目前使用了两种方法：</p>
+<h3 id="使用-Microsoft-SQL-Server-Migration-Assistant-for-MySQL-工具"><a href="#使用-Microsoft-SQL-Server-Migration-Assistant-for-MySQL-工具" class="headerlink" title="使用 Microsoft SQL Server Migration Assistant for MySQL 工具"></a>使用 Microsoft SQL Server Migration Assistant for MySQL 工具</h3><p>这是微软官方出品的迁移工具。对于项目前期业务人员进行原型快速验证非常有帮助。</p>
+<h5 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h5><ol>
+<li>下载 <a href="https://www.microsoft.com/en-us/download/details.aspx?id=54257" target="_blank" rel="noopener">Microsoft SQL Server Migration Assistant for MySQL</a> ；</li>
+<li>双击 exe 文件安装；</li>
+<li>运行 SSMA：<ol>
+<li>连接 MySQL</li>
+<li>勾选需要迁移的表、视图、存储过程、函数等</li>
+<li>连接 SQL Server</li>
+<li>勾选需要迁移的目标 SQL Server 数据库</li>
+<li>回到左边 MySQL Metadata Explorer 窗口，点击按钮 “Convert Schema”</li>
+<li>待完成后，右键 SQL Server 数据库节点，“Synchronize with Database”</li>
+<li>待完成后，点击“Migrate Data”</li>
+<li>完成。</li>
+</ol>
+</li>
+</ol>
+<p>SSMA 网上有很多图文/视频教程，各位可以自行搜索。期间可能会遇到以下问题：</p>
+<ul>
+<li>MySQL ODBC Driver 缺失问题，可以自行去 <a href="https://www.mysql.com/products/connector/" target="_blank" rel="noopener">MySQL 官网下载</a>；如果还是有问题，可以去 SSMA 下载页找它的 System Requirements，里面会提到具体的 MySQL ODBC Driver 版本号，下载这一特定版本号就对了。</li>
+<li>Visual Studio 2019 x64 Redistributable 组件缺失问题，去 <a href="https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0" target="_blank" rel="noopener">微软官方下载</a> 安装即可。</li>
+</ul>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ol>
+<li>非 IT 人士也可以上手，不用编写任何代码；</li>
+</ol>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ol>
+<li>前期环境安装和配置步骤繁琐，容易出错；</li>
+<li>无法自动化。</li>
+</ol>
+<h3 id="创建-SSIS"><a href="#创建-SSIS" class="headerlink" title="创建 SSIS"></a>创建 SSIS</h3><h5 id="使用步骤-1"><a href="#使用步骤-1" class="headerlink" title="使用步骤"></a>使用步骤</h5><p><a href="https://docs.microsoft.com/en-us/sql/integration-services/lesson-1-create-a-project-and-basic-package-with-ssis?view=sql-server-ver15" target="_blank" rel="noopener">官方参考文档</a></p>
+<ol>
+<li>安装 MySQL ODBC Connector <a href="https://dev.mysql.com/downloads/connector/odbc/" target="_blank" rel="noopener">点此下载</a>；</li>
+<li>打开 Visual Studio，新建 Integration Services Project； </li>
+<li>分别为 MySQL 和 SQL Server 添加 Connection（在 Solution Explorer 中，右键 Connection Managers，New Connection Manager），范例如下：<br><img src="/images/migrate-data-from-MySQL-to-SQL-Server/MySQL-connection-manager.jpg" alt="MySQL Connection Manager"><br><img src="/images/migrate-data-from-MySQL-to-SQL-Server/SQL-Server-connection-manager.jpg" alt="SQL Server Connection Manager"></li>
+<li>从 SSIS Toolbox 中拖入 Execute SQL Task 或者 Data Flow Task，前者可用于执行 SQL 脚本或者存储过程，后者则可以更加灵活配置；</li>
+<li>双击 Data Flow Task 切换至 Data Flow 视图，添加一个 <code>ADO NET Source</code>，双击编辑，ADO.NET Connection Manager选择刚才第3步所创建 MySQL Connection Manager，Data access mode 选择 SQL command，SQL command text 填入 SELECT 查询语句：<br><img src="/images/migrate-data-from-MySQL-to-SQL-Server/MySQL-ADO.NET-Source.jpg" alt="MySQL Source"></li>
+<li>再添加一个 <code>ADO NET Destination</code>，双击编辑，ADO.NET Connection Manager选择刚才第3步所创建 SQL Server Connection Manager，Use a table or view 选择需要插入的目标表：<br><img src="/images/migrate-data-from-MySQL-to-SQL-Server/SQL-Server-ADO.NET-Source.jpg" alt="SQL Server Destination"></li>
+<li>点击 ADO NET Source 蓝色箭头，连接至 SQL Server Destination（当然这中间可以加一些变换，可选）；</li>
+<li>切换回 Control Flow，也用蓝色箭头连接各 Execute SQL Task 或者 Data Flow Task；</li>
+<li>编译、本地调试一遍；</li>
+<li>邮件点击 Project Name，Deploy，Server Name 输入目标 SQL Server 地址，Path 设置完毕，Next，Deploy，数秒后完成；</li>
+<li>打开 SSMS (SQL Server Management Studio)，找到对应的 Package，右键 Execute：<br><img src="/images/migrate-data-from-MySQL-to-SQL-Server/execute-SSIS.jpg" alt="Execute SSIS"></li>
+<li>稍等片刻，即可查看运行结果报告。</li>
+</ol>
+<p>说一个我开发时遇到的坑吧：从 MySQL 到 SQL Server 类型转换时请参考 <a href="https://docs.microsoft.com/en-us/sql/integration-services/data-flow/integration-services-data-types?view=sql-server-ver15" target="_blank" rel="noopener">文档</a>，一般 <code>VARCHAR</code> 或者 <code>TEXT</code> 这些类型没有问题，但是 <code>DateTime</code> 需要注意精度问题、空值问题。精度不一致可能会导致精度丢失甚至运行报错。MySQL 中空时间为 <code>0000-00-00</code>，而 SQL Server 中空时间为 <code>1970-01-01</code>。</p>
+<p>网上说的解决方案很多，但不一定适用，或者不适用于所有场景。我的解决方案很简单，就是在第5步时，填写 MySQL Source 的 SQL command text 时，稍加调整脚本，把 DATETIME 这些类型的数据做个变换：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- approach 1: IF(`fromTime` IS NULL OR `fromTime`='0000-00-00', NULL, DATE_FORMAT(`fromTime`, '%Y-%m-%d')) AS `fromTime`,  -- for nullable date type</span></span><br><span class="line"><span class="comment">-- approach 2: CAST(`list_date` AS CHAR) AS `EY_List_date`,  -- for datetime type</span></span><br><span class="line"><span class="comment">-- approach 3: CAST(`list_date` AS DATE) AS `EY_List_date`,  -- for date type</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="优势："><a href="#优势：" class="headerlink" title="优势："></a>优势：</h5><ol>
+<li>性能快；</li>
+<li>人工介入少，不易出错；</li>
+<li>可自动化，SQL Server 中可以直接查看每次运行的报告。</li>
+</ol>
+<h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5><ol>
+<li>SSIS 任务<strong>只能使用 Windows 认证</strong>。前期环境配置需要花费一定时间；</li>
+<li>开发 SSIS 时，部分提示信息不够准确清晰；</li>
+<li>第一次需要手动同步 Schema，以后每次 Schema 有变动，SSIS package 也需要跟着变动。</li>
+</ol>
+<h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><ul>
+<li><i class="fa fa-windows" aria-hidden="true"></i> <a href="https://www.microsoft.com/en-us/download/details.aspx?id=54257" target="_blank" rel="noopener">Download Microsoft SQL Server Migration Assistant for MySQL</a></li>
+<li><a href="https://dev.mysql.com/downloads/connector/odbc/" target="_blank" rel="noopener">MySQL :: Download Connector/ODBC</a></li>
+<li><i class="fa fa-windows" aria-hidden="true"></i> <a href="https://docs.microsoft.com/en-us/sql/integration-services/data-flow/integration-services-data-types?view=sql-server-ver15" target="_blank" rel="noopener">Integration Services Data Types</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/06/06/migrate-data-from-MySQL-to-SQL-Server/" data-id="cla8bpvmp002f9j8c4o6vb6bf" data-title="从 MySQL 迁移数据至 SQL Server" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/etl/" rel="tag">etl</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/microsoft-sql-server-migration-assistant-for-mysql/" rel="tag">microsoft sql server migration assistant for mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/migration/" rel="tag">migration</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql-server/" rel="tag">sql server</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql-server-integration-service/" rel="tag">sql server integration service</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2021/06/09/JavaScript-window-print-not-working/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          JavaScript window.print 不能正常调用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/05/23/message-digest-in-database/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">数据库信息摘要</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

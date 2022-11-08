@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>React Hooks 学习笔记 | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="背景刚看到一篇文章，2019年最值得学习的前端技能，里面给了 React Hooks 很大一部分介绍，不禁引起我的好奇，决定稍微深入了解一下，虽然我平时用 Angular 比较多。 🙂 TLDR，太长不看版其实这就是面向对象编程 和函数式编程 在前端编程的碰撞。  以前类组件的编写方式是面向对象编程，而用 Hooks 是函数式编程。给个例子就能很好理解了：  为什么会有 React Hooks，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React Hooks 学习笔记">
+<meta property="og:url" content="https://zxs66.github.io/2020/10/10/react-hooks/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="背景刚看到一篇文章，2019年最值得学习的前端技能，里面给了 React Hooks 很大一部分介绍，不禁引起我的好奇，决定稍微深入了解一下，虽然我平时用 Angular 比较多。 🙂 TLDR，太长不看版其实这就是面向对象编程 和函数式编程 在前端编程的碰撞。  以前类组件的编写方式是面向对象编程，而用 Hooks 是函数式编程。给个例子就能很好理解了：  为什么会有 React Hooks，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.wangbase.com/blogimg/asset/202009/bg2020091407.jpg">
+<meta property="og:image" content="https://www.wangbase.com/blogimg/asset/202009/bg2020091320.jpg">
+<meta property="article:published_time" content="2020-10-10T08:46:10.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.203Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="随笔">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="react">
+<meta property="article:tag" content="hooks">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.wangbase.com/blogimg/asset/202009/bg2020091407.jpg">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-react-hooks" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/10/10/react-hooks/" class="article-date">
+  <time datetime="2020-10-10T08:46:10.000Z" itemprop="datePublished">2020-10-10</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      React Hooks 学习笔记
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>刚看到一篇文章，2019年最值得学习的前端技能，里面给了 React Hooks 很大一部分介绍，不禁引起我的好奇，决定稍微深入了解一下，虽然我平时用 Angular 比较多。 🙂</p>
+<h2 id="TLDR，太长不看版"><a href="#TLDR，太长不看版" class="headerlink" title="TLDR，太长不看版"></a>TLDR，太长不看版</h2><p>其实这就是<em>面向对象编程</em> 和<em>函数式编程</em> 在前端编程的碰撞。</p>
+<p><img src="https://www.wangbase.com/blogimg/asset/202009/bg2020091407.jpg" alt="ReactJS Function Component VS Class Component"></p>
+<p>以前类组件的编写方式是面向对象编程，而用 Hooks 是函数式编程。给个例子就能很好理解了：</p>
+<p><img src="https://www.wangbase.com/blogimg/asset/202009/bg2020091320.jpg" alt="Function Component and Class Component"></p>
+<h2 id="为什么会有-React-Hooks，动机是什么？"><a href="#为什么会有-React-Hooks，动机是什么？" class="headerlink" title="为什么会有 React Hooks，动机是什么？"></a>为什么会有 React Hooks，动机是什么？</h2><p>官方的解释：</p>
+<h5 id="类组件不能很好重用状态逻辑代码"><a href="#类组件不能很好重用状态逻辑代码" class="headerlink" title="类组件不能很好重用状态逻辑代码"></a>类组件不能很好重用状态逻辑代码</h5><p>使用 Hooks 则可以在不改变组件层次地前提下很好地重用状态逻辑，因为状态逻辑已经从组件中抽离出来了。</p>
+<h5 id="复杂组件变得越来越难以理解（维护）"><a href="#复杂组件变得越来越难以理解（维护）" class="headerlink" title="复杂组件变得越来越难以理解（维护）"></a>复杂组件变得越来越难以理解（维护）</h5><p>其实 React JS 以前的代码我也不喜欢，即使它使用了 JSX。因为感觉把所有东西都揉在一起了，这和以前 JSP，ASP.NET 不是差不多嘛。是时代在倒退吗？我喜欢模板（HTML）、样式（CSS）、逻辑（JS）分的清清楚楚的，就像 Angular 那样。我的确是个老顽固，但是我在用 Angular 之前，也用了 <a href="https://github.com/mustache/mustache" target="_blank" rel="noopener">mustache</a> 和 scss，感觉都挺好的。</p>
+<p>使用 Hooks 就逼迫我们把组件拆分成更小的方法了，模板和逻辑可以不用像以前那样，严重依赖于组件的生命周期。</p>
+<h5 id="程序员和机器并不能更好理解类"><a href="#程序员和机器并不能更好理解类" class="headerlink" title="程序员和机器并不能更好理解类"></a>程序员和机器并不能更好理解类</h5><p>emmm，前端等了这么多年，终于有了 class （虽然只是个语法糖），前端开发千辛万苦学会了面向对象，你现在说，不要面向对象？好吧，你说的都对，我继续学还不行吗！</p>
+<p>不过也的确是这样，机器里才没有类的概念，函数倒是基本上每个编程语言都有。使用函数（Hooks）可以让我们更贴近机器，也就能更好的利用 React 的特性。</p>
+<h2 id="我的理解"><a href="#我的理解" class="headerlink" title="我的理解"></a>我的理解</h2><p>看起来挺好的，确实值得一学。毕竟，朝着我喜欢的方向在走（模板、样式、逻辑分清）。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://reactjs.org/docs/hooks-intro.html" target="_blank" rel="noopener">Introducing Hooks</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2020/09/react-hooks-useeffect-tutorial.html" target="_blank" rel="noopener">轻松学会 React 钩子：以 useEffect() 为例</a></li>
+<li><a href="https://www.geeksforgeeks.org/reactjs-usestate-hook/" target="_blank" rel="noopener">ReactJS | useState Hook</a></li>
+<li><del><a href="https://mp.weixin.qq.com/s?__biz=MzU0OTExNzYwNg==&mid=2247486638&idx=1&sn=6168cd4c6ebd46bb7626d5e1acac199a&chksm=fbb58767ccc20e71c147abd5816d85c85addfe9bb7f7ae531b3be6874e82bbf3aeff10b3151f&mpshare=1&scene=1&srcid=1030zRXiWBapn8lTHy7okyV4&sharer_sharetime=1604039376391&sharer_shareid=fc704ae6aea43f30cbec7d9e541d4beb&exportkey=A9iZHUit3MmzB9UtwIFqMKE%3D&pass_ticket=tzMbsF%2FeUkmqmIp8swkg9KboR45uJ3wADbDOUq8VTpvz9SXqBf7n2B5O3xo%2Fhbg6&wx_header=0#rd" target="_blank" rel="noopener">带你快速了解React Hooks</a></del></li>
+<li><a href="https://mp.weixin.qq.com/s/FQzSFwx3wWqwLCeQZ1eAEA" target="_blank" rel="noopener">带你快速了解React Hooks</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/10/10/react-hooks/" data-id="cla8bpvmu002w9j8c82q7dh2b" data-title="React Hooks 学习笔记" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hooks/" rel="tag">hooks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2020/10/20/SQL-Server-Pivot-Tables/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          SQL Server 数据透视表
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/10/01/translate-POSTING-TO-WORDPRESS-COM-IN-CODE/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">译：从代码中发帖至 WordPress.com</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

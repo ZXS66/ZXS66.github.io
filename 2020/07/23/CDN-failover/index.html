@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>CDN 故障转移 | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="首先说一句，这篇文章标题可能不太准确，因为涉及的技能点可能有点杂，比较跳跃，但是都是我在做 CDN 故障转移时碰到的，所以全都扔在一篇文章里，不介意的话，将就着吧，有什么不懂的，请点击文章中的各种链接 😄 这篇文章是继上篇文章 可靠 CDN 之后的另一篇关于 CDN 的思考及实践。 SRI 检查SRI 是一种安全机制，让浏览器通过验证它接收到的资源（比如从 CDN）是未经过更改的。简单理解就是浏">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CDN 故障转移">
+<meta property="og:url" content="https://zxs66.github.io/2020/07/23/CDN-failover/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="首先说一句，这篇文章标题可能不太准确，因为涉及的技能点可能有点杂，比较跳跃，但是都是我在做 CDN 故障转移时碰到的，所以全都扔在一篇文章里，不介意的话，将就着吧，有什么不懂的，请点击文章中的各种链接 😄 这篇文章是继上篇文章 可靠 CDN 之后的另一篇关于 CDN 的思考及实践。 SRI 检查SRI 是一种安全机制，让浏览器通过验证它接收到的资源（比如从 CDN）是未经过更改的。简单理解就是浏">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zxs66.github.io/images/cdn-failover/a%20comparison%20of%20various%20ways%20the%20script%20tags%20in%20HTML.png">
+<meta property="og:image" content="https://zxs66.github.io/images/cdn-failover/dependent%20script%20execution%20error.png">
+<meta property="og:image" content="https://zxs66.github.io/images/cdn-failover/async%20script%20execution%20order.png">
+<meta property="article:published_time" content="2020-07-23T06:49:22.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.193Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="cdn">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="failover">
+<meta property="article:tag" content="async">
+<meta property="article:tag" content="defer">
+<meta property="article:tag" content="execution order">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zxs66.github.io/images/cdn-failover/a%20comparison%20of%20various%20ways%20the%20script%20tags%20in%20HTML.png">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-CDN-failover" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/07/23/CDN-failover/" class="article-date">
+  <time datetime="2020-07-23T06:49:22.000Z" itemprop="datePublished">2020-07-23</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      CDN 故障转移
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>首先说一句，这篇文章标题可能不太准确，因为涉及的技能点可能有点杂，比较跳跃，但是都是我在做 CDN 故障转移时碰到的，所以全都扔在一篇文章里，不介意的话，将就着吧，有什么不懂的，请点击文章中的各种链接 😄</p>
+<p>这篇文章是继上篇文章 <a href="/2020/07/19/reliable-CDN/">可靠 CDN</a> 之后的另一篇关于 CDN 的思考及实践。</p>
+<h2 id="SRI-检查"><a href="#SRI-检查" class="headerlink" title="SRI 检查"></a>SRI 检查</h2><p><a href="https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity" target="_blank" rel="noopener">SRI</a> 是一种安全机制，让浏览器通过验证它接收到的资源（比如从 CDN）是未经过更改的。简单理解就是浏览器把（从 CDN）拿到的资源进行哈希计算，然后把这个哈希值与开发者事先计算好的哈希值（integrity) 匹配。目前<a href="https://caniuse.com/#feat=subresource-integrity" target="_blank" rel="noopener">大多数浏览器都支持 SRI 检查</a>(emmm，除了 IE)。 </p>
+<p>实际使用很简单，就是指定 <code>script</code> 或 <code>link</code> 标签的 <code>integrity</code> 属性，值为事先计算的该静态资源的哈希值（sha256，sha384，sha512中的一个或多个） <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity#Using_Subresource_Integrity" target="_blank" rel="noopener"><fa-link/></a>。MDN 推荐了一个 <a href="https://www.srihash.org/" target="_blank" rel="noopener">SRI Hash Generator</a> <em>（有一个缺点，只能生成 script 便签，不能根据 css 文件成 link 标签，需要手动调整）</em></p>
+<p>需要注意的是，一般需要 SRI 检查的静态资源都在 CDN 上，所以都是需要开启 CORS。好在 CDN 默认都开启了，我们需要做的是浏览器端手动添加上 <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes" target="_blank" rel="noopener">crossorigin 属性</a>，不然可能会出错 :(</p>
+<h2 id="标记-script-标签为-async-或-defer"><a href="#标记-script-标签为-async-或-defer" class="headerlink" title="标记 script 标签为 async 或 defer"></a>标记 script 标签为 async 或 defer</h2><p>下面是 <code>script</code> 标签的属性（<code>async</code>、<code>defer</code>、<code>module</code>、<code>nomodule</code>等）常用场景 <a href="https://gist.github.com/jakub-g/385ee6b41085303a53ad92c7c8afd7a6" target="_blank" rel="noopener"><fa-link/></a>：</p>
+<table>
+<thead>
+<tr>
+<th><code>script</code>标签类型</th>
+<th>常见使用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>script src</td>
+<td>a legacy library that is needed by subsequent inline scripts</td>
+</tr>
+<tr>
+<td>script src defer</td>
+<td>deferred execution, maintaining order; e.g. a lib that is needed by other defer scripts; progressive enhancement code</td>
+</tr>
+<tr>
+<td>script src async</td>
+<td>deferred execution, without order (independent scripts); e.g. self-instantiating analytics lib</td>
+</tr>
+<tr>
+<td>script src async defer</td>
+<td>like above, but with IE9 support</td>
+</tr>
+<tr>
+<td>script inline</td>
+<td>1) small piece of code that must be executed immediately, before some subsequent code (inlined polyfills, timers, server-generated configuration), or to register certain event listeners as soon as possible; 2) non-cacheable (generated, often changing etc.) code; 3) experience critical code that is small and the round-trip latency to download it separately would be too much</td>
+</tr>
+<tr>
+<td>script src module</td>
+<td>library/app, for modern browsers only</td>
+</tr>
+<tr>
+<td>script src module async</td>
+<td>progressive enhancement code, for modern browsers only</td>
+</tr>
+<tr>
+<td>script inline module</td>
+<td>small piece of and/or non-cacheable code, for modern browsers only; perhaps inline config that is necessary for another non-async module declared after it</td>
+</tr>
+<tr>
+<td>script inline module async</td>
+<td>small piece of and/or non-cacheable progressive enhancement code (independent script), for modern browsers only; it may <code>import</code>s a well-cacheable library</td>
+</tr>
+<tr>
+<td>script nomodule …</td>
+<td>a fallback script for legacy browsers, when shipping ES modules to modern browsers</td>
+</tr>
+</tbody></table>
+<p>简略版的请看图：</p>
+<p><img src="/images/cdn-failover/a%20comparison%20of%20various%20ways%20the%20script%20tags%20in%20HTML.png" alt="A comparison of various ways the script tags in HTML"></p>
+<p>总结：<strong>一般情况下，<code>async</code> 用于加载基础类库（加载完立即执行，无依赖项），<code>defer</code> 用于加载一些 addon（待基础类库加载完后，<code>DOMContentLoaded</code> 事件前，依次执行）</strong>。</p>
+<h2 id="调整-Hexo-模板生成脚本"><a href="#调整-Hexo-模板生成脚本" class="headerlink" title="调整 Hexo 模板生成脚本"></a>调整 Hexo 模板生成脚本</h2><h5 id="增加-CDN-配置项"><a href="#增加-CDN-配置项" class="headerlink" title="增加 CDN 配置项"></a>增加 CDN 配置项</h5><p>👇 _config.yaml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">cdn:</span> <span class="string">https://cdn.bootcdn.net/ajax/libs/</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="使用-Hexo-默认的-helper-方法-js-css-生成-script-link-标签。"><a href="#使用-Hexo-默认的-helper-方法-js-css-生成-script-link-标签。" class="headerlink" title="使用 Hexo 默认的 helper 方法 js/css 生成 script/link 标签。"></a>使用 <a href="https://hexo.io/docs/helpers.html" target="_blank" rel="noopener">Hexo 默认的 helper 方法</a> js/css 生成 script/link 标签。</h5><p>👇 after-footer.ejs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;%- js(&#123;src:config.cdn+&#39;jquery&#x2F;2.0.3&#x2F;jquery.min&#39;,integrity:&#39;sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;&#39;,crossorigin:&#39;anonymous&#39;&#125;) %&gt;</span><br><span class="line">&lt;% if (theme.fancybox)&#123; %&gt;</span><br><span class="line">&lt;%- css(&#123;href:config.cdn+&#39;fancybox&#x2F;2.1.5&#x2F;jquery.fancybox.min&#39;,integrity:&#39;sha384-RMsmRsuFJAxdvCCX2XHjTlWajoB7207PpLqA4HMVuie0TAWK0x+7ubbuDa58Tcij&#39;,crossorigin:&#39;anonymous&#39;&#125;) %&gt;</span><br><span class="line">&lt;%- js(&#123;src:config.cdn+&#39;fancybox&#x2F;2.1.5&#x2F;jquery.fancybox.pack&#39;,integrity:&#39;sha384-A&#x2F;Tc8RFHsjkPvgL0yZebgTxxmCGCSaTpGkyQLeFFFJQIAzSozLwNGX9AOCIpxoXC&#39;,crossorigin:&#39;anonymous&#39;,defer:true&#125;) %&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br><span class="line">&lt;%- js(&#123;src:&#39;js&#x2F;script&#39;,defer:true&#125;) %&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="编写自定义-Hexo-Helper-方法-Optional"><a href="#编写自定义-Hexo-Helper-方法-Optional" class="headerlink" title="编写自定义 Hexo Helper 方法 (Optional)"></a>编写自定义 Hexo Helper 方法 (<em>Optional</em>)</h5><p>Hexo 默认的 helper 方法 <code>js</code> 和 <code>css</code> 足够使用，但是还有精简的空间。比如每个方法的参数均包含 <code>config.cdn</code> 和 <code>crossorigin:&#39;anonymous&#39;</code>，一个程序员的基本素养就是 DRY (Don’t Repeat Yourself)。以下就是其中一种优化措施 （<a href="https://hexo.io/api/helper.html" target="_blank" rel="noopener">参考链接</a>）：</p>
+<p>在 <code>theme/your-theme/scripts</code> 下新建 <code>js_cdn.js</code> 和 <code>css_cdn.js</code> 文件。其中前者内容如下（后者内容极其相似）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">hexo.extend.helper.register(<span class="string">"js_cdn"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">item</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> js = hexo.extend.helper.get(<span class="string">"js"</span>).bind(hexo);</span><br><span class="line">  <span class="keyword">const</span> integrityProp = <span class="string">"integrity"</span>;</span><br><span class="line">  <span class="keyword">const</span> placeholder = <span class="string">" "</span> + integrityProp;</span><br><span class="line">  <span class="keyword">const</span> crossoriginAttr = <span class="string">' crossorigin="anonymous"'</span>;</span><br><span class="line">  <span class="keyword">let</span> markup = js(item);</span><br><span class="line">  <span class="keyword">if</span> (item.hasOwnProperty(integrityProp)) &#123;</span><br><span class="line">    <span class="comment">// default `js` helper function doesn't include crossorigin="anonymous" in the generated script markup</span></span><br><span class="line">    <span class="keyword">const</span> idx = markup.indexOf(placeholder);</span><br><span class="line">    markup = [markup.substring(<span class="number">0</span>, idx), crossoriginAttr, markup.substring(idx)].join(<span class="string">""</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> markup;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>更新模板生成脚本 <code>after-footer.ejs</code> (删除 <code>,crossorigin:&#39;anonymous&#39;</code>)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;%- js_cdn(&#123;src:config.cdn+&#39;jquery&#x2F;2.0.3&#x2F;jquery.min&#39;,integrity:&#39;sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;&#39;&#125;) %&gt;</span><br><span class="line">&lt;% if (theme.fancybox)&#123; %&gt;</span><br><span class="line">&lt;%- css_cdn(&#123;href:config.cdn+&#39;fancybox&#x2F;2.1.5&#x2F;jquery.fancybox.min&#39;,integrity:&#39;sha384-RMsmRsuFJAxdvCCX2XHjTlWajoB7207PpLqA4HMVuie0TAWK0x+7ubbuDa58Tcij&#39;&#125;) %&gt;</span><br><span class="line">&lt;%- js_cdn(&#123;src:config.cdn+&#39;fancybox&#x2F;2.1.5&#x2F;jquery.fancybox.pack&#39;,integrity:&#39;sha384-A&#x2F;Tc8RFHsjkPvgL0yZebgTxxmCGCSaTpGkyQLeFFFJQIAzSozLwNGX9AOCIpxoXC&#39;,defer:true&#125;) %&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br><span class="line">&lt;%- js_cdn(&#123;src:&#39;js&#x2F;script&#39;,defer:true&#125;) %&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="CDN-故障转移"><a href="#CDN-故障转移" class="headerlink" title="CDN 故障转移"></a>CDN 故障转移</h2><p>进入本文正文了！</p>
+<p>考虑到 CDN 也有会有打盹的时候，所以，一个比较好的实践就是时刻做好 Plan B。我的方法是，在页面的自定义脚本中检查脚本加载情况并在执行尝试加载候选资源。</p>
+<p>以下是示例代码（<code>js/script.js</code>）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> dependencies = [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">export</span>: <span class="built_in">window</span>.jQuery,</span><br><span class="line">      failover: <span class="string">"https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"</span>,</span><br><span class="line">      <span class="comment">// failover: "https://code.jquery.com/jquery-2.0.3.min.js",</span></span><br><span class="line">      integrity: <span class="string">"sha256-sTy1mJ4I/LAjFCCdEB4RAvPSmRCb3CU7YqodohyeOLo="</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">export</span>: (<span class="built_in">window</span>.jQuery || &#123;&#125;).fancybox,</span><br><span class="line">      failover:</span><br><span class="line">        <span class="string">"https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js"</span>,</span><br><span class="line">      integrity:</span><br><span class="line">        <span class="string">"sha384-A/Tc8RFHsjkPvgL0yZebgTxxmCGCSaTpGkyQLeFFFJQIAzSozLwNGX9AOCIpxoXC"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ];</span><br><span class="line">  <span class="comment">// failover to load alternative files when CDN libraries failed.</span></span><br><span class="line">  <span class="keyword">var</span> nonLoadedDependencies = dependencies.filter(<span class="function"><span class="keyword">function</span>(<span class="params">dep</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> !dep.export;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">/** lazy load js files */</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">loadDependency</span>(<span class="params">dep</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</span><br><span class="line">      script.src = dep.failover;</span><br><span class="line">      <span class="keyword">if</span> (dep.integrity &amp;&amp; dep.integrity.length) &#123;</span><br><span class="line">        script.integrity = dep.integrity;</span><br><span class="line">        script.crossOrigin = <span class="string">"anonymous"</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// // https://www.html5rocks.com/en/tutorials/speed/script-loading/#toc-dom-rescue</span></span><br><span class="line">      script.async = <span class="literal">false</span>;</span><br><span class="line">      script.addEventListener(<span class="string">"load"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        resolve(dep.failover + <span class="string">" is loaded"</span>);</span><br><span class="line">      &#125;);</span><br><span class="line">      script.addEventListener(<span class="string">"error"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        reject(dep.failover + <span class="string">" can't be loaded!"</span>);</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="built_in">document</span>.body.appendChild(script);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  (nonLoadedDependencies.length</span><br><span class="line">    ? <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">Promise</span>.all(nonLoadedDependencies.map(loadDependency)).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">          resolve(<span class="string">"All dependencies are loaded!"</span>);</span><br><span class="line">        &#125;, reject);</span><br><span class="line">      &#125;)</span><br><span class="line">    : <span class="built_in">Promise</span>.resolve(<span class="string">"All dependencies are loaded!"</span>)</span><br><span class="line">  ).then(myBiz);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** business logic, will be executed when all dependencies loaded */</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">myBiz</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">/// your business code comes here</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p>其中有一行语句需要单独拎出来讲一下的，就是上面脚本的第 31 行，<code>script.async = false;</code></p>
+<p>如果您的 <code>dependencies</code> 都没有依赖项，有没有这条语句关系不大，相反还能提高加载性能。但是，现实情况是很多脚本都是有依赖项的，上面贴的代码就是个很好的例子。<code>jquery.fancybox.pack.js</code> 文件依赖于 <code>jquery.min.js</code> 文件。</p>
+<p>所以，如果没有这行语句，默认这些 <code>script</code> 会按 <code>async</code> 的方式去执行（脚本下载成功立即执行），也就是说，可能会出现后面的脚本先被执行的情况。但是后面的脚本依赖于前面的脚本，立即执行会报错。</p>
+<p><img src="/images/cdn-failover/dependent%20script%20execution%20error.png" alt=""></p>
+<p>受 <a href="https://www.html5rocks.com/en/tutorials/speed/script-loading/" target="_blank" rel="noopener">这篇文章</a> 启发，加上上面说的这条语句，就可以确保 async 的脚本的执行顺序了。</p>
+<p>调整完之后的脚本下载时间不变，但是不报错了，因为执行顺序对上了。</p>
+<p><img src="/images/cdn-failover/async%20script%20execution%20order.png" alt=""></p>
+<p>当然，这个脚本还有很大的提升空间（比如，<code>Promise</code> 在低版本浏览器兼容问题），这里暂时就不浪费体力了。</p>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>既然动态添加的 <code>async</code> 脚本执行顺序不确定，那 <code>defer</code> 脚本如何呢？？</p>
+<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
+<li><a href="https://gist.github.com/jakub-g/385ee6b41085303a53ad92c7c8afd7a6" target="_blank" rel="noopener">&lt;script&gt; async, defer, async defer, module, nomodule, src, inline - the cheat sheet</a></li>
+<li><a href="https://javascript.info/script-async-defer" target="_blank" rel="noopener">Scripts: async, defer</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/07/23/CDN-failover/" data-id="cla8bpvm3000g9j8cda7l4n2l" data-title="CDN 故障转移" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/async/" rel="tag">async</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cdn/" rel="tag">cdn</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/defer/" rel="tag">defer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/execution-order/" rel="tag">execution order</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/failover/" rel="tag">failover</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2020/08/07/windows-shortcut-key-for-file-explorer/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          Windows 文件管理器快捷键
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/07/19/reliable-CDN/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">可靠 CDN</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

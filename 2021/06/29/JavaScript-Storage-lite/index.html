@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>JavaScript 轻量级缓存 | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="localStorage VS sessionStorage二者统称为 Web Storage。使用场景是少量数据缓存，用来替代 Cookie 还是很不错滴。     localStorage sessionStorage    常见场景 代替 cookie 和 window 全局变量，存储一些计算费时的，需要多页面&#x2F;组件共享的变量 类似 localStorage，但是有时效 *   时效性 长期">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 轻量级缓存">
+<meta property="og:url" content="https://zxs66.github.io/2021/06/29/JavaScript-Storage-lite/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="localStorage VS sessionStorage二者统称为 Web Storage。使用场景是少量数据缓存，用来替代 Cookie 还是很不错滴。     localStorage sessionStorage    常见场景 代替 cookie 和 window 全局变量，存储一些计算费时的，需要多页面&#x2F;组件共享的变量 类似 localStorage，但是有时效 *   时效性 长期">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-29T09:41:15.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.193Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="storage">
+<meta property="article:tag" content="localstorage">
+<meta property="article:tag" content="sessionstorage">
+<meta name="twitter:card" content="summary">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-JavaScript-Storage-lite" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/06/29/JavaScript-Storage-lite/" class="article-date">
+  <time datetime="2021-06-29T09:41:15.000Z" itemprop="datePublished">2021-06-29</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      JavaScript 轻量级缓存
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<h3 id="localStorage-VS-sessionStorage"><a href="#localStorage-VS-sessionStorage" class="headerlink" title="localStorage VS sessionStorage"></a>localStorage VS sessionStorage</h3><p>二者统称为 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API" target="_blank" rel="noopener">Web Storage</a>。使用场景是少量数据缓存，用来替代 <code>Cookie</code> 还是很不错滴。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>localStorage</th>
+<th>sessionStorage</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>常见场景</td>
+<td>代替 <code>cookie</code> 和 <code>window</code> 全局变量，存储一些计算费时的，需要多页面/组件共享的变量</td>
+<td>类似 <code>localStorage</code>，但是有时效 *</td>
+</tr>
+<tr>
+<td>时效性</td>
+<td>长期存在，仅当用户/程序手动删除时才失效</td>
+<td>有点复杂，本身 <code>session</code> 就很难讲请，<code>sessionStorage</code> 的时效性和 <code>session</code> 又有区别😂</td>
+</tr>
+<tr>
+<td>限额</td>
+<td>5MB</td>
+<td>5MB</td>
+</tr>
+</tbody></table>
+<h3 id="IndexedDB"><a href="#IndexedDB" class="headerlink" title="IndexedDB"></a>IndexedDB</h3><p>光看它的 API 文档 <a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API" target="_blank" rel="noopener"><fa-link/></a>，就已经晕了😵。简单理解就是，前端的事务性数据库。所以，它能够支持大量数据存储/查询。根据官方介绍 <a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Browser_storage_limits_and_eviction_criteria" target="_blank" rel="noopener"><fa-link/></a>，<code>IndexedDB</code> 最多能存硬盘的 50%，每个组（简单理解为一个站点）能存最少 10MB 最多 2GB！简直不要太开心~</p>
+<p>不过考虑到上手难度极高，一般都会使用第三方库 <a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API#see_also" target="_blank" rel="noopener"><fa-link/></a> 来操作 <code>IndexedDB</code>。</p>
+<h3 id="Web-SQL"><a href="#Web-SQL" class="headerlink" title="Web SQL"></a>Web SQL</h3><p>注意，Web SQL 并不是 <code>HTML 5</code> 标准，目前仅支持 Chromium 系的浏览器 <a href="https://caniuse.com/sql-storage" target="_blank" rel="noopener"><fa-link/></a>。虽然以前 <a href="https://www.w3.org/TR/webdatabase/" target="_blank" rel="noopener">W3C 提案</a> 过，但早就舍弃了。所以，不用看了！</p>
+<p><del>使用方法也炒鸡简单，仅三个基础 API：opendatabase、transaction、executeSql。</del></p>
+<h3 id="storageHelper"><a href="#storageHelper" class="headerlink" title="storageHelper"></a>storageHelper</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Utility &#125; <span class="keyword">from</span> <span class="string">'./utility'</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> objectHash <span class="keyword">from</span> <span class="string">'object-hash'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; ENGAGEMENT &#125; <span class="keyword">from</span> <span class="string">'./constants'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** reference of the storage */</span></span><br><span class="line"><span class="keyword">const</span> STORAGE: Storage = <span class="built_in">window</span>.sessionStorage;</span><br><span class="line"><span class="comment">// const STORAGE:Storage = window.localStorage;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/** key prefix for cache, distinguish from other apps */</span></span><br><span class="line"><span class="keyword">const</span> STORAGE_KEY_PREFIX = <span class="string">'myStorage:key:'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/** generate storage key */</span></span><br><span class="line"><span class="keyword">const</span> genStorageKey = <span class="function">(<span class="params">...params</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> STORAGE_KEY_PREFIX + objectHash.MD5(params.join(<span class="string">'\n'</span>));</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * try fetch response data from storage</span></span><br><span class="line"><span class="comment"> * @param keyFactors factors used for generating key (position matter)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getStorage = <span class="function">(<span class="params">...keyFactors: <span class="built_in">string</span>[]</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!Utility.isNotEmptyArray(keyFactors))</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">const</span> key = genStorageKey(keyFactors);</span><br><span class="line">    <span class="keyword">const</span> value = STORAGE.getItem(key);</span><br><span class="line">    <span class="keyword">return</span> Utility.isNotEmptyString(value) ? <span class="built_in">JSON</span>.parse(value) : <span class="literal">null</span>;</span><br><span class="line">    <span class="comment">// if (Utility.isNotEmptyString(value)) &#123;</span></span><br><span class="line">    <span class="comment">//     try &#123;</span></span><br><span class="line">    <span class="comment">//         return JSON.parse(value);</span></span><br><span class="line">    <span class="comment">//     &#125; catch (e) &#123;</span></span><br><span class="line">    <span class="comment">//         return value;</span></span><br><span class="line">    <span class="comment">//     &#125;</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * try save response data into storage</span></span><br><span class="line"><span class="comment"> * @param value value to be cached</span></span><br><span class="line"><span class="comment"> * @param keyFactors factors used for generating key (position matter)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> setStorage = <span class="function">(<span class="params">value: <span class="built_in">any</span>, ...keyFactors: <span class="built_in">string</span>[]</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (value &amp;&amp; Utility.isNotEmptyArray(keyFactors)) &#123;</span><br><span class="line">        <span class="keyword">const</span> key = genStorageKey(keyFactors);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            STORAGE.setItem(key, <span class="built_in">JSON</span>.stringify(value));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">            <span class="comment">// may exceed the quota</span></span><br><span class="line">            <span class="built_in">console</span>.warn(<span class="string">'exceeded the quota of Storage'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/** clear local cache */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> clearStorage = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> keys = <span class="built_in">Object</span>.keys(STORAGE);</span><br><span class="line">    <span class="keyword">if</span> (Utility.isNotEmptyArray(keys)) &#123;</span><br><span class="line">        keys.forEach(_ =&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (_.startsWith(STORAGE_KEY_PREFIX))</span><br><span class="line">                STORAGE.removeItem(_);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>备注：</p>
+<ol>
+<li>因为限额，在计算缓存主键的时候，我使用了 <code>MD5</code> 信息摘要算法以缩小键的长度。可能会有些哈希碰撞问题，可考虑替换成 <code>SHA1</code> 或者其他更高级的算法（如果性能不是关注点的话）。</li>
+<li>有时候我们的页面可能会和其他页面共存，甚至是我们的页面内嵌在其他页面中。如果这时候需要清空缓存，简单粗暴的直接调用 <code>Storage.clear</code> 方法，可能会导致其他页面报错/不正常工作。为避免此类事情发生，在计算缓存主键的时候，我额外添加了固定前缀。这样的话，如果真要清空缓存，挑出属于自己程序的缓存再手动删除。</li>
+<li>因为会有 5MB 的限额，程序很容易会超过这个限制，所以程序设计时一定要考虑这种情况，比如使用 <code>LRU</code> 这样的过期策略。我这里简单起见，直接忽略了 😄。</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage" target="_blank" rel="noopener">Window.localStorage</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage" target="_blank" rel="noopener">Window.sessionStorage</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API" target="_blank" rel="noopener">IndexedDB API</a></li>
+<li><a href="https://www.geeksforgeeks.org/what-is-web-sql/" target="_blank" rel="noopener">What is WEB SQL?</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/06/29/JavaScript-Storage-lite/" data-id="cla8bpvm8000v9j8cfvjf3hkh" data-title="JavaScript 轻量级缓存" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/localstorage/" rel="tag">localstorage</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sessionstorage/" rel="tag">sessionstorage</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/storage/" rel="tag">storage</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2021/07/24/crawling-web-via-Nightmare-js/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          使用 Nightmare.js 爬取页面
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/06/20/WeChat-mini-program-102/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">微信小程序入门篇(2)</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

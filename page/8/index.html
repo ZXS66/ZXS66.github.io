@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="时代残党">
+<meta property="og:url" content="https://zxs66.github.io/page/8/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="Angular">
+<meta property="article:tag" content="NodeJS">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="ASP.NET">
+<meta property="article:tag" content="Full Stack">
+<meta name="twitter:card" content="summary">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+
+
+<article id="post-JavaScript-Storage-lite" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/06/29/JavaScript-Storage-lite/" class="article-date">
+  <time datetime="2021-06-29T09:41:15.000Z" itemprop="datePublished">2021-06-29</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/06/29/JavaScript-Storage-lite/">JavaScript 轻量级缓存</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<h3 id="localStorage-VS-sessionStorage"><a href="#localStorage-VS-sessionStorage" class="headerlink" title="localStorage VS sessionStorage"></a>localStorage VS sessionStorage</h3><p>二者统称为 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API" target="_blank" rel="noopener">Web Storage</a>。使用场景是少量数据缓存，用来替代 <code>Cookie</code> 还是很不错滴。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>localStorage</th>
+<th>sessionStorage</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>常见场景</td>
+<td>代替 <code>cookie</code> 和 <code>window</code> 全局变量，存储一些计算费时的，需要多页面/组件共享的变量</td>
+<td>类似 <code>localStorage</code>，但是有时效 *</td>
+</tr>
+<tr>
+<td>时效性</td>
+<td>长期存在，仅当用户/程序手动删除时才失效</td>
+<td>有点复杂，本身 <code>session</code> 就很难讲请，<code>sessionStorage</code> 的时效性和 <code>session</code> 又有区别😂</td>
+</tr>
+<tr>
+<td>限额</td>
+<td>5MB</td>
+<td>5MB</td>
+</tr>
+</tbody></table>
+<h3 id="IndexedDB"><a href="#IndexedDB" class="headerlink" title="IndexedDB"></a>IndexedDB</h3><p>光看它的 API 文档 <a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API" target="_blank" rel="noopener"><fa-link/></a>，就已经晕了😵。简单理解就是，前端的事务性数据库。所以，它能够支持大量数据存储/查询。根据官方介绍 <a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Browser_storage_limits_and_eviction_criteria" target="_blank" rel="noopener"><fa-link/></a>，<code>IndexedDB</code> 最多能存硬盘的 50%，每个组（简单理解为一个站点）能存最少 10MB 最多 2GB！简直不要太开心~</p>
+<p>不过考虑到上手难度极高，一般都会使用第三方库 <a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API#see_also" target="_blank" rel="noopener"><fa-link/></a> 来操作 <code>IndexedDB</code>。</p>
+<h3 id="Web-SQL"><a href="#Web-SQL" class="headerlink" title="Web SQL"></a>Web SQL</h3><p>注意，Web SQL 并不是 <code>HTML 5</code> 标准，目前仅支持 Chromium 系的浏览器 <a href="https://caniuse.com/sql-storage" target="_blank" rel="noopener"><fa-link/></a>。虽然以前 <a href="https://www.w3.org/TR/webdatabase/" target="_blank" rel="noopener">W3C 提案</a> 过，但早就舍弃了。所以，不用看了！</p>
+<p><del>使用方法也炒鸡简单，仅三个基础 API：opendatabase、transaction、executeSql。</del></p>
+<h3 id="storageHelper"><a href="#storageHelper" class="headerlink" title="storageHelper"></a>storageHelper</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Utility &#125; <span class="keyword">from</span> <span class="string">'./utility'</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> objectHash <span class="keyword">from</span> <span class="string">'object-hash'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; ENGAGEMENT &#125; <span class="keyword">from</span> <span class="string">'./constants'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** reference of the storage */</span></span><br><span class="line"><span class="keyword">const</span> STORAGE: Storage = <span class="built_in">window</span>.sessionStorage;</span><br><span class="line"><span class="comment">// const STORAGE:Storage = window.localStorage;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/** key prefix for cache, distinguish from other apps */</span></span><br><span class="line"><span class="keyword">const</span> STORAGE_KEY_PREFIX = <span class="string">'myStorage:key:'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/** generate storage key */</span></span><br><span class="line"><span class="keyword">const</span> genStorageKey = <span class="function">(<span class="params">...params</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> STORAGE_KEY_PREFIX + objectHash.MD5(params.join(<span class="string">'\n'</span>));</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * try fetch response data from storage</span></span><br><span class="line"><span class="comment"> * @param keyFactors factors used for generating key (position matter)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getStorage = <span class="function">(<span class="params">...keyFactors: <span class="built_in">string</span>[]</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!Utility.isNotEmptyArray(keyFactors))</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">const</span> key = genStorageKey(keyFactors);</span><br><span class="line">    <span class="keyword">const</span> value = STORAGE.getItem(key);</span><br><span class="line">    <span class="keyword">return</span> Utility.isNotEmptyString(value) ? <span class="built_in">JSON</span>.parse(value) : <span class="literal">null</span>;</span><br><span class="line">    <span class="comment">// if (Utility.isNotEmptyString(value)) &#123;</span></span><br><span class="line">    <span class="comment">//     try &#123;</span></span><br><span class="line">    <span class="comment">//         return JSON.parse(value);</span></span><br><span class="line">    <span class="comment">//     &#125; catch (e) &#123;</span></span><br><span class="line">    <span class="comment">//         return value;</span></span><br><span class="line">    <span class="comment">//     &#125;</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * try save response data into storage</span></span><br><span class="line"><span class="comment"> * @param value value to be cached</span></span><br><span class="line"><span class="comment"> * @param keyFactors factors used for generating key (position matter)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> setStorage = <span class="function">(<span class="params">value: <span class="built_in">any</span>, ...keyFactors: <span class="built_in">string</span>[]</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (value &amp;&amp; Utility.isNotEmptyArray(keyFactors)) &#123;</span><br><span class="line">        <span class="keyword">const</span> key = genStorageKey(keyFactors);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            STORAGE.setItem(key, <span class="built_in">JSON</span>.stringify(value));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">            <span class="comment">// may exceed the quota</span></span><br><span class="line">            <span class="built_in">console</span>.warn(<span class="string">'exceeded the quota of Storage'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/** clear local cache */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> clearStorage = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> keys = <span class="built_in">Object</span>.keys(STORAGE);</span><br><span class="line">    <span class="keyword">if</span> (Utility.isNotEmptyArray(keys)) &#123;</span><br><span class="line">        keys.forEach(_ =&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (_.startsWith(STORAGE_KEY_PREFIX))</span><br><span class="line">                STORAGE.removeItem(_);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>备注：</p>
+<ol>
+<li>因为限额，在计算缓存主键的时候，我使用了 <code>MD5</code> 信息摘要算法以缩小键的长度。可能会有些哈希碰撞问题，可考虑替换成 <code>SHA1</code> 或者其他更高级的算法（如果性能不是关注点的话）。</li>
+<li>有时候我们的页面可能会和其他页面共存，甚至是我们的页面内嵌在其他页面中。如果这时候需要清空缓存，简单粗暴的直接调用 <code>Storage.clear</code> 方法，可能会导致其他页面报错/不正常工作。为避免此类事情发生，在计算缓存主键的时候，我额外添加了固定前缀。这样的话，如果真要清空缓存，挑出属于自己程序的缓存再手动删除。</li>
+<li>因为会有 5MB 的限额，程序很容易会超过这个限制，所以程序设计时一定要考虑这种情况，比如使用 <code>LRU</code> 这样的过期策略。我这里简单起见，直接忽略了 😄。</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage" target="_blank" rel="noopener">Window.localStorage</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage" target="_blank" rel="noopener">Window.sessionStorage</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API" target="_blank" rel="noopener">IndexedDB API</a></li>
+<li><a href="https://www.geeksforgeeks.org/what-is-web-sql/" target="_blank" rel="noopener">What is WEB SQL?</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/06/29/JavaScript-Storage-lite/" data-id="cla8bpvm8000v9j8cfvjf3hkh" data-title="JavaScript 轻量级缓存" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/localstorage/" rel="tag">localstorage</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sessionstorage/" rel="tag">sessionstorage</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/storage/" rel="tag">storage</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+<article id="post-WeChat-mini-program-102" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/06/20/WeChat-mini-program-102/" class="article-date">
+  <time datetime="2021-06-20T15:26:00.000Z" itemprop="datePublished">2021-06-20</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/06/20/WeChat-mini-program-102/">微信小程序入门篇(2)</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>距离 <a href="/2021/09/11/get-started-with-WeChat-mini-program/">上次接触小程序</a> 已经过去大半年了，期间一直没有更新。实在是太懒了。正好这个周末有空，就自己瞎鼓捣一下好了。</p>
+<p>说干就干！</p>
+<p>安装及环境初始化，这里就略过了。官方已经提供了很详细的 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/MINA.html" target="_blank" rel="noopener">101 教程</a>。</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
+<li>自 2021/4/13 起，微信旧 API <a href="https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserInfo.html" target="_blank" rel="noopener">wx.getUserInfo</a> 不再弹出弹窗，并直接返回匿名的用户个人信息，取而代之的是 <a href="https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserProfile.html" target="_blank" rel="noopener">wx.getUserProfile</a>，详细参考 <a href="https://developers.weixin.qq.com/community/develop/doc/000cacfa20ce88df04cb468bc52801" target="_blank" rel="noopener">小程序官方公告</a>；</li>
+<li>小程序端的 <a href="https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorage.html" target="_blank" rel="noopener">数据缓存 API</a>：<ul>
+<li>不能使用类似 <code>wx.setStorage(key, value)</code> 和 <code>wx.getStorage(key)</code> 的形式存取数据，取而代之的是 <code>wx.setStorage({ key:&quot;key&quot;, data:&quot;value&quot;})</code> 和 <code>wx.getStorage({ key:&quot;key&quot;})</code>（注意，是 <code>data</code> 而不是 <code>value</code> 哦）；</li>
+<li>虽然官方文档说 <code>success</code>、<code>fail</code>、<code>complete</code> 三个回调函数都不是必填项，但是代码中很容易因为没有指定 <code>fail</code> 回调导致报错，所以推荐后两者中任意指定的一个。</li>
+</ul>
+</li>
+<li>云开发免费版提供了不超过 2GB 的数据库容量以及每天不超过 500 次读操作，这对个人开发者或者企业 POC （Proof of Concept）非常友好。如果为了保险起见，那 6.9 元/月特惠基础版套餐应该够你做原型验证了。（我没有在打广告 😂）收费项目如下，详细内容请参考 <a href="https://developers.weixin.qq.com/miniprogram/dev/wxcloud/billing/quota.html" target="_blank" rel="noopener">官方文档</a>:<table>
+<thead>
+<tr>
+<th>分类·参数</th>
+<th>免费版套餐</th>
+<th>6.9元/月特惠基础版套餐</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>存储·容量</td>
+<td>5GB</td>
+<td>8GB</td>
+</tr>
+<tr>
+<td>存储·下载操作次数</td>
+<td>2000/月</td>
+<td>10万/月</td>
+</tr>
+<tr>
+<td>存储·上传操作次数</td>
+<td>1000/月</td>
+<td>5万/月</td>
+</tr>
+<tr>
+<td>存储·CDN回源流量 <a href="https://developers.weixin.qq.com/miniprogram/dev/wxcloud/billing/quota.html#quota_footnote_cdn_origin" target="_blank" rel="noopener">注</a></td>
+<td>1GB/月</td>
+<td>2GB/月</td>
+</tr>
+<tr>
+<td>CDN·CDN流量 <a href="https://developers.weixin.qq.com/miniprogram/dev/wxcloud/billing/quota.html#quota_footnote_cdn" target="_blank" rel="noopener">注</a></td>
+<td>1GB/月</td>
+<td>2GB/月</td>
+</tr>
+<tr>
+<td>云函数·资源使用量GBs <a href="https://developers.weixin.qq.com/miniprogram/dev/wxcloud/billing/quota.html#quota_footnote_gbs" target="_blank" rel="noopener">注</a></td>
+<td>1000/月</td>
+<td>1万/月</td>
+</tr>
+<tr>
+<td>云函数·外网出流量</td>
+<td>1GB/月</td>
+<td>1GB/月</td>
+</tr>
+<tr>
+<td>云函数·云函数数量</td>
+<td>10个</td>
+<td>50个</td>
+</tr>
+<tr>
+<td>数据库·容量</td>
+<td>2GB</td>
+<td>5GB</td>
+</tr>
+<tr>
+<td>数据库·同时连接数 <a href="https://developers.weixin.qq.com/miniprogram/dev/wxcloud/billing/quota.html#quota_footnote_db" target="_blank" rel="noopener">注</a></td>
+<td>5</td>
+<td>20</td>
+</tr>
+<tr>
+<td>数据库·读操作数</td>
+<td>500/天</td>
+<td>5万/天</td>
+</tr>
+<tr>
+<td>数据库·写操作数</td>
+<td>300/天</td>
+<td>3万/天</td>
+</tr>
+<tr>
+<td>数据库·集合限制</td>
+<td>15个</td>
+<td>50个</td>
+</tr>
+</tbody></table>
+</li>
+<li>官方 WeUI 组件库扩展了小程序原生组件。虽然还是明显不够用，但总比没有强。比如 <a href="https://developers.weixin.qq.com/miniprogram/dev/extended/weui/icon.html" target="_blank" rel="noopener">mp-icon</a> 就省的我们去搜寻或者设计基础图标了。</li>
+</ol>
+<h3 id="云开发"><a href="#云开发" class="headerlink" title="云开发"></a>云开发</h3><p>现在创建微信小程序项目，默认开启云开发选项，方便大家快速部署原型。</p>
+<h3 id="一点个人感受"><a href="#一点个人感受" class="headerlink" title="一点个人感受"></a>一点个人感受</h3><p>微信小程序开发更接近于目前国内最火的 <code>Vue</code> 开发，不推荐操作 <code>DOM</code>，而是使用各种集成指令。但是小程序开发并不等于 <code>H5</code> 开发，很多操作都是基于微信这个沙盒。虽说确实保障了用户数据安全以及个人隐私，但开发者开发体验很受影响，有点像是带着脚镣跳舞吧，其实就是阉割版的 <code>H5</code> 开发。这应该是各种权衡下来的结果。</p>
+<h3 id="预览"><a href="#预览" class="headerlink" title="预览"></a>预览</h3><p><img src="/images/WeChat-mini-program-1st-step/gh_d8e358fd13d3_258.jpg" alt="时代残党小程序"></p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/" target="_blank" rel="noopener">微信官方文档·小程序</a></li>
+<li><a href="https://github.com/ZXS66/nextwave-miniprogram" target="_blank" rel="noopener">源码</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/06/20/WeChat-mini-program-102/" data-id="cla8bpvme001c9j8c9goicpc9" data-title="微信小程序入门篇(2)" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mini-program/" rel="tag">mini program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wechat/" rel="tag">wechat</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BE%AE%E4%BF%A1/" rel="tag">微信</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+<article id="post-JavaScript-Promise-error-handling" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/06/19/JavaScript-Promise-error-handling/" class="article-date">
+  <time datetime="2021-06-19T09:34:03.000Z" itemprop="datePublished">2021-06-19</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/06/19/JavaScript-Promise-error-handling/">JavaScript Promise 异常捕获</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" rel="noopener">Promise</a> 在前端编程中，越来越频繁地被使用了。作为 <code>ES6</code> 的核心功能之一，<code>Promise</code> 现在 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise#browser_compatibility" target="_blank" rel="noopener">基本上没有兼容性问题</a>（除了 <a href="https://caniuse.com/mdn-javascript_builtins_promise_finally" target="_blank" rel="noopener">Promise.prototype.finally</a>、<a href="https://caniuse.com/mdn-javascript_builtins_promise_allsettled" target="_blank" rel="noopener">Promise.allSettled</a>、<a href="https://caniuse.com/mdn-javascript_builtins_promise_any" target="_blank" rel="noopener">Promise.any</a> 这些比较新的 API）。而且，现在 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function" target="_blank" rel="noopener">async functions</a> 写法越来越普遍，<code>Promise</code> 作为其背后的基础功能，自然需要各位前端更好地掌握了。</p>
+<p>这里推荐 <a href="http://www.ruanyifeng.com/home.html" target="_blank" rel="noopener">阮一峰老师</a> 的 <a href="https://es6.ruanyifeng.com/#docs/promise" target="_blank" rel="noopener">ES6 入门</a>，简洁明了，还举例说明，同时满足新手和专家不同的学习需求！👍👍👍</p>
+<p>好了，进入主题：<strong>如何捕获 JS 中 <code>Promise</code> 的异常？</strong></p>
+<p>一般 JS 中异常捕获都是使用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch" target="_blank" rel="noopener">try…catch</a> 语句，而 <code>Promise</code> 中如果出现异常，一般都是 <code>reject()</code>，然后在 <code>Promise</code> 链的末尾 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch" target="_blank" rel="noopener">Promise.prototype.catch</a> 里处理异常。</p>
+<p><img src="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/promises.png" alt="Promise Chain"></p>
+<p>但 <code>Promise</code> 也可以使用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/finally" target="_blank" rel="noopener">Promise.prototype.finally</a> 或者使用 JS 原生的 <code>try...catch</code> 语句达到抛出异常的目的。</p>
+<h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><p>根据 <a href="https://developer.mozilla.org" target="_blank" rel="noopener">MDN</a> 的文章 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises#common_mistakes" target="_blank" rel="noopener"><fa-link/></a> 推荐，一般 <code>Promise</code> 链的最佳实践满足以下三个条件：</p>
+<ol>
+<li>内链返回新的 <code>Promise</code>；</li>
+<li>避免不必要的嵌套；</li>
+<li>使用 <code>catch</code> 中止 <code>Promise</code> 链。</li>
+</ol>
+<p>反例 🙁：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Bad example! Spot 3 mistakes!</span></span><br><span class="line">doSomething().then(<span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123;</span><br><span class="line">  doSomethingElse(result) <span class="comment">// Forgot to return promise from inner chain + unnecessary nesting</span></span><br><span class="line">  .then(<span class="function"><span class="params">newResult</span> =&gt;</span> doThirdThing(newResult));</span><br><span class="line">&#125;).then(<span class="function"><span class="params">()</span> =&gt;</span> doFourthThing());</span><br><span class="line"><span class="comment">// Forgot to terminate chain with a catch!</span></span><br></pre></td></tr></table></figure>
+
+<p>正确姿势 🙂：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">doSomething()</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> doSomethingElse(result);</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="params">newResult</span> =&gt;</span> doThirdThing(newResult))</span><br><span class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> doFourthThing())</span><br><span class="line">.catch(<span class="function"><span class="params">error</span> =&gt;</span> <span class="built_in">console</span>.error(error));</span><br></pre></td></tr></table></figure>
+
+<p>总结：</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch" target="_blank" rel="noopener">Promise.prototype.catch</a> 可以捕获 <code>Promise</code> 中所有的异常，包括 <code>reject</code> 掉的、或者抛出的异常；以下两种写法其实是等效的：<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Whoops!"</span>);</span><br><span class="line">&#125;).catch(alert); <span class="comment">// Error: Whoops!</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Whoops!"</span>));</span><br><span class="line">&#125;).catch(alert); <span class="comment">// Error: Whoops!</span></span><br></pre></td></tr></table></figure></li>
+<li>当我们明确知道哪里会出现异常，知道如何处理异常，请时刻牢记使用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch" target="_blank" rel="noopener">Promise.prototype.catch</a> 来捕获/分析/记录异常；如果我们不知道捕获到的异常种类（比如编程错别字导致的），那就重新抛出异常；</li>
+<li>当然，如果发生了无法预料到的异常，那我们也可以不使用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch" target="_blank" rel="noopener">Promise.prototype.catch</a></li>
+<li>任何情况下，我们都应该监听 <code>unhandledrejection</code> 事件，跟踪未捕获的异常并通知给用户（也可能是我们的服务器），这样的话我们的应用才不会“死”。</li>
+</ul>
+<h3 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h3><ol>
+<li><code>reject</code> 只能用在 <code>Promise</code> 回调函数里，而抛出 (<code>throw</code>) 异常则可以使用在任何 <code>try...catch</code> 语句或者 <code>Promise</code> 中；</li>
+<li><code>reject</code> 异常之后，方法内的函数会继续执行，而抛出 (<code>throw</code>) 异常则会立刻终止执行；</li>
+<li><code>reject</code> 可以用在 <code>Promise</code> 的同步/异步回调函数里，而抛出 (<code>throw</code>) 异常只能用在同步回调函数里。</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://javascript.info/promise-error-handling" target="_blank" rel="noopener">Error handling with promises</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises" target="_blank" rel="noopener">Using Promises</a></li>
+<li><a href="https://www.geeksforgeeks.org/reject-vs-throw-promises-in-javascript" target="_blank" rel="noopener">Reject Vs Throw Promises in JavaScript</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/06/19/JavaScript-Promise-error-handling/" data-id="cla8bpvm7000t9j8ch3e2ecs4" data-title="JavaScript Promise 异常捕获" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/promise/" rel="tag">promise</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/throw/" rel="tag">throw</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/try-catch/" rel="tag">try...catch</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+
+<nav id="page-nav">
+
+<a class="extend prev" rel="prev" href="/page/7/">&lt; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/9/">下一页 &gt;</a>
+</nav>
+
+<style>
+.article {max-height: 123vh;overflow: hidden;position: relative;}
+.article.unfold {max-height: initial;}
+.article .more {position: absolute;bottom: 0;padding: 3em;cursor: pointer;text-align: center;width: 100%;background: linear-gradient(rgba(0, 0, 0, 0), silver);color: white;box-sizing: border-box;}
+.article.unfold .more {display: none;}
+</style>
+<script>
+(function () {
+// show more
+const moreText = '<i class="fa fa-arrow-circle-down" aria-hidden="true"></i> ' + "更多";
+const articles = document.getElementsByClassName('article');
+for (let i = 0; i < articles.length; i++) {
+const $more = document.createElement('div');
+$more.classList.add('more');$more.innerHTML = moreText;
+$more.onclick = function (evt) {
+const $src = evt.target || evt.srcElement;$src.parentElement.classList.add('unfold');
+};
+articles[i].appendChild($more);
+}})();
+</script>
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

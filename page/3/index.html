@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="时代残党">
+<meta property="og:url" content="https://zxs66.github.io/page/3/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="Angular">
+<meta property="article:tag" content="NodeJS">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="ASP.NET">
+<meta property="article:tag" content="Full Stack">
+<meta name="twitter:card" content="summary">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+
+
+<article id="post-MySQL-quirks" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2022/03/31/MySQL-quirks/" class="article-date">
+  <time datetime="2022-03-31T03:03:50.000Z" itemprop="datePublished">2022-03-31</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/31/MySQL-quirks/">MySQL怪癖</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<h3 id="MySQL-即时查询窗口不支持-IF-表达式"><a href="#MySQL-即时查询窗口不支持-IF-表达式" class="headerlink" title="MySQL 即时查询窗口不支持 IF 表达式"></a>MySQL 即时查询窗口不支持 IF 表达式</h3><p>对于我这个菜鸡来说，虽然听起来很不可思议，但这是真的，你没（mèi）听错。根据 MySQL <a href="https://dev.mysql.com/doc/refman/8.0/en/if.html" target="_blank" rel="noopener">官方文档</a>，IF 表达式仅可以在存储程序（存储过程或函数）中适用（除此之外，还有一个 <a href="https://dev.mysql.com/doc/refman/8.0/en/flow-control-functions.html#function_if" target="_blank" rel="noopener">IF 函数</a>），即时查询窗口中用不了！早在 2008 年就有大佬报怨 <a href="https://www.bennadel.com/blog/1340-mysql-does-not-support-if-else-statements-in-general-sql-work-flow.htm" target="_blank" rel="noopener"><fa-link/></a>，都 2022 年了，这个问题还没有解决，也不知道 MySQL 团队是咋想的。</p>
+<p>BTW，<a href="https://www.theregister.com/2021/12/06/mysql_a_pretty_poor_database/" target="_blank" rel="noopener">Oracle 开发工程师离职后怒喷 MySQL 很烂</a> 这条新闻，去年就上了热搜，说起来确实是个笑话。</p>
+<h3 id="MySQL-中-PRINT-方法"><a href="#MySQL-中-PRINT-方法" class="headerlink" title="MySQL 中 PRINT 方法"></a>MySQL 中 PRINT 方法</h3><p>MySQL 中暂无此方法！如果有大佬知道，请告诉我，不胜感激！</p>
+<h3 id="支持-Emoji-字符"><a href="#支持-Emoji-字符" class="headerlink" title="支持 Emoji 字符"></a>支持 Emoji 字符</h3><p>首先，MySQL 是支持 Emoji 字符的，但是，也不完全支持，即使编码设置的是 <code>utf8mb4</code>。</p>
+<p>这里就不展开了，更多可以查看我的 <a href="/2022/04/07/mysql-charset-issue/">另一篇文章</a>。</p>
+<h3 id="MySQL-中-SLEEP-方法"><a href="#MySQL-中-SLEEP-方法" class="headerlink" title="MySQL 中 SLEEP 方法"></a>MySQL 中 SLEEP 方法</h3><p>基于 <a href="https://dev.mysql.com/doc/refman/8.0/en/miscellaneous-functions.html#function_sleep" target="_blank" rel="noopener">MySQL SLEEP 命令官方文档</a>，推荐用法是 <code>SELECT SLEEP(1)</code>。但是，如果这样书写方式，会给存储过程的既定输出造成影响。 </p>
+<p>通过面向搜索引擎编程，发现以下脚本居然可行？</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- SELECT ...</span></span><br><span class="line"><span class="keyword">DO</span> <span class="keyword">SLEEP</span>(<span class="number">5</span>);</span><br><span class="line"><span class="comment">-- SELECT ...</span></span><br></pre></td></tr></table></figure>
+
+<p>为什么我需要到 <code>SLEEP</code> 方法，原因在于我需要根据参数 <code>ticket</code> 查询一个表的数据，但是目标表是不定时更新的。即使使用了 <a href="/2022/05/20/CSharp-bulk-insert-records-into-MySQL/">批量插入</a>，把插入时间尽量缩短，仍存在插入途中遇到查询请求的情况。一般这时候都会引入锁的概念，以确保数据完整性。但是：</p>
+<ol>
+<li>锁会降低并发量，得不偿失；</li>
+<li>插入数据的代码不便更改，因为 owner 不是我（沟通/变更很费劲）。</li>
+</ol>
+<p>考虑到大多数情况下，一个 <code>ticket</code> 及其对应的数据都能在 5 秒之内成功插入。那为何我发现该 <code>ticket</code> 对应的数据还在插入中，我多等一会儿行不行？？</p>
+<h3 id="真实案例"><a href="#真实案例" class="headerlink" title="真实案例"></a>真实案例</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line"><span class="keyword">USE</span> <span class="string">`mydb`</span>$$</span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">PROCEDURE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`sp_query_with_safe_check`</span>$$</span><br><span class="line"><span class="keyword">CREATE</span> DEFINER=<span class="string">`mysql_user`</span>@<span class="string">`%`</span> <span class="keyword">PROCEDURE</span> <span class="string">`sp_query_with_safe_check`</span>(<span class="keyword">IN</span> <span class="string">`ticket`</span> <span class="built_in">VARCHAR</span>(<span class="number">128</span>)) <span class="keyword">COMMENT</span> <span class="string">'query data by ticket, with safe check (return only if the data insertion completed)'</span></span><br><span class="line">proc_label:<span class="keyword">BEGIN</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">DECLARE</span> lastRowID <span class="built_in">INT</span>;</span><br><span class="line">		<span class="keyword">DECLARE</span> newRowID <span class="built_in">INT</span>;</span><br><span class="line">		<span class="keyword">DECLARE</span> lastTicket <span class="built_in">VARCHAR</span>(<span class="number">45</span>);</span><br><span class="line">		<span class="keyword">SELECT</span> <span class="keyword">MAX</span>(t.id) <span class="keyword">INTO</span> lastRowID <span class="keyword">FROM</span> <span class="string">`mytable`</span> t;</span><br><span class="line">		<span class="keyword">SELECT</span> t.ticket <span class="keyword">INTO</span> lastTicket <span class="keyword">FROM</span> <span class="string">`mytable`</span> t <span class="keyword">WHERE</span> <span class="keyword">id</span>=lastRowID;</span><br><span class="line"></span><br><span class="line">		<span class="comment">-- SELECT lastRowID, lastTicket;</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">-- safe check (if the data insertion completed)</span></span><br><span class="line">		IF lastTicket=`ticket` THEN</span><br><span class="line">			<span class="comment">-- the lastest row's ticket is equal to the querying request form</span></span><br><span class="line">			<span class="comment">-- wait for 5 seconds to see if any new rows inserted</span></span><br><span class="line">			<span class="comment">-- if yes, the insertion is happening and just exit the query</span></span><br><span class="line">			<span class="comment">-- if no, continue the query</span></span><br><span class="line">			<span class="keyword">DO</span> <span class="keyword">SLEEP</span>(<span class="number">5</span>);</span><br><span class="line">			<span class="keyword">SELECT</span> <span class="keyword">MAX</span>(t.id) <span class="keyword">INTO</span> newRowID <span class="keyword">FROM</span> <span class="string">`mytable`</span> t;</span><br><span class="line">			IF newRowID!=lastRowID THEN LEAVE proc_label; <span class="keyword">END</span> <span class="keyword">IF</span>;</span><br><span class="line">		<span class="keyword">END</span> <span class="keyword">IF</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">SELECT</span> </span><br><span class="line">			<span class="keyword">DISTINCT</span> t.*</span><br><span class="line">		<span class="keyword">FROM</span> <span class="string">`mytable`</span> t <span class="keyword">WHERE</span> t.ticket=<span class="string">`ticket`</span>;</span><br><span class="line">	<span class="keyword">END</span>$$</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+
+<p><em>👆 上面代码其实还可以继续优化，使用 <code>WHILE</code> 写法，在插入结束之前一直等着，这样可以避免等待了 5s 之后仍在插入返回空的情况。</em></p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/miscellaneous-functions.html#function_sleep" target="_blank" rel="noopener">MySQL::Miscellaneous Functions::Sleep</a></li>
+<li><a href="https://stackoverflow.com/questions/4284524/how-and-when-to-use-sleep-correctly-in-mysql" target="_blank" rel="noopener"><i class="fa fa-stack-overflow" aria-hidden="true"></i> How and when to use SLEEP() correctly in MySQL?</a></li>
+<li><a href="https://mp.weixin.qq.com/s/zajIrjPAJPYnBzrqyU0U4Q" target="_blank" rel="noopener"><i class="fa fa-weixin" aria-hidden="true"></i> Oracle大佬离职，怒喷MySQL是“糟糕的数据库”……</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2022/03/31/MySQL-quirks/" data-id="cla8bpvma00109j8c7eoydo6f" data-title="MySQL怪癖" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/if-statement/" rel="tag">if statement</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sleep/" rel="tag">sleep</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+<article id="post-display-non-ASCII-characters-in-Windows-command-and-PowerShell" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2022/03/04/display-non-ASCII-characters-in-Windows-command-and-PowerShell/" class="article-date">
+  <time datetime="2022-03-04T15:14:48.000Z" itemprop="datePublished">2022-03-04</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/04/display-non-ASCII-characters-in-Windows-command-and-PowerShell/">在 Windows 命令行和 PowerShell 中显示非 ASCII 字符</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>在 <code>Windows</code> 环境下，只要使用的足够多，相信大家一定会遇到在命令行 (<code>cmd.exe</code>) 和 <code>PowerShell</code> 中显示非 <code>ASCII</code> 字符（比如中日韩字符，俗称 <code>CJK</code> 编码）的情况。但是有时候，命令行并补能够正常所有字符，取而代之的是方块 <code>□</code> 或者问号 <code>�</code>。</p>
+<p><img src="/images/display-non-ASCII-characters-in-Windows-command-and-PowerShell/ps-default.png" alt="PowerShell 默认显示"></p>
+<p>为什么会出现这种情况？简单来讲：</p>
+<blockquote>
+<p>It does not make sense to have a string without knowing what encoding it uses. <a href="https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/" target="_blank" rel="noopener"><i class="fa fa-chain" aria-hidden="true"></i></a><br>一个字符串如果不知道它用的编码，将毫无意义。<br><cite>Joel Spolsky</cite></p>
+</blockquote>
+<p>换言之，命令行之所以出现乱码，都是因为编码不对。<code>Windows</code> 命令行的编码，默认都是 <code>UCS-2</code>（即 <code>UTF-16</code>，以前是 <code>Java</code> 和 <code>JavaScript</code> 中默认编码），这在二十年前，是相当常见的编码，基本上不会存在什么问题。但随着互联网的流行，<code>UTF-8</code> 编码变得越来越流行，使用 <code>UTF-8</code> 编码存储的文件也越来越普遍，这就有冲突了。<em>如果感兴趣，可以看看本篇的 <a href="#参考链接">参考链接</a>。</em></p>
+<p>那如何解决命令行中显示非 ASCII 字符的问题呢？</p>
+<p>按照网上说法，如果你使用的是默认命令行 (<code>cmd.exe</code>)，那么可以使用 <code>chcp</code> 命令来设置编码，比如：</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chcp</span> <span class="number">65001</span></span><br></pre></td></tr></table></figure>
+
+<p>或者你可以在 <code>.bat</code> 文件第一行使用该命令来设置编码。</p>
+<p><img src="/images/display-non-ASCII-characters-in-Windows-command-and-PowerShell/ps-with-chcp-65001.png" alt="PowerShell chcp 65001 也不行啊"></p>
+<p>貌似不行啊… 😕</p>
+<p>如果你使用的是 <code>PowerShell</code>，那需要使用 <code>-Encoding</code> 参数，指定编码格式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$PSDefaultParameterValues[&#39;*:Encoding&#39;] &#x3D; &#39;utf8&#39;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/display-non-ASCII-characters-in-Windows-command-and-PowerShell/ps-set-encoding.png" alt="PowerShell 设置编码"></p>
+<p>emmm… 还是不行… 😢</p>
+<p>其实，还有另一种方式，那就是换个 <code>Terminal</code>，比如 <a href="https://docs.microsoft.com/en-us/windows/terminal/" target="_blank" rel="noopener">Windows Terminal</a>，他的默认编码就是 <code>UTF-8</code> 🙂。</p>
+<p><img src="/images/display-non-ASCII-characters-in-Windows-command-and-PowerShell/windows-terminal-default.png" alt="Windows Terminal"></p>
+<p><img src="/images/display-non-ASCII-characters-in-Windows-command-and-PowerShell/windows-terminal-with-chcp-65001.png" alt="Windows Terminal chcp 65001 能行？"></p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://devblogs.microsoft.com/commandline/windows-command-line-backgrounder/" target="_blank" rel="noopener"><i class="fa fa-windows" aria-hidden="true"></i> Windows Command-Line: Backgrounder</a></li>
+<li><a href="https://stackoverflow.com/questions/18813495/using-non-ascii-characters-in-a-cmd-batch-file" target="_blank" rel="noopener"><i class="fa fa-stack-overflow" aria-hidden="true"></i> Using non-ASCII characters in a cmd batch file</a></li>
+<li><a href="https://www.tutorialexample.com/set-windows-powershell-to-utf-8-encoding-to-fix-gbk-codec-can-not-encode-character-error-powershell-tutorial" target="_blank" rel="noopener">Set Windows PowerShell to UTF-8 Encoding to Fix GBK Codec Can Not Encode Character Error – PowerShell Tutorial</a></li>
+<li><a href="https://github.com/Microsoft/Terminal/issues/190" target="_blank" rel="noopener"><i class="fa fa-github" aria-hidden="true"></i> Add emoji support to Windows Console</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2022/03/04/display-non-ASCII-characters-in-Windows-command-and-PowerShell/" data-id="cla8bpvmj001o9j8c3uiw0dem" data-title="在 Windows 命令行和 PowerShell 中显示非 ASCII 字符" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ASCII/" rel="tag">ASCII</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BOM/" rel="tag">BOM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UTF8/" rel="tag">UTF8</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/encoding/" rel="tag">encoding</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+<article id="post-MySQL-case-sensitivity-issue" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2022/02/10/MySQL-case-sensitivity-issue/" class="article-date">
+  <time datetime="2022-02-10T14:25:28.000Z" itemprop="datePublished">2022-02-10</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/02/10/MySQL-case-sensitivity-issue/">MySQL 大小写问题</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>先说结论，一个对于像我这样的 <code>MySQL</code> 小菜狗们来说可能不清楚的知识点：同样的 <code>SQL</code> 脚本，如果不注意大小规范，在某些系统上可以正常运行，而扔到另一个系统上可能就会报错。</p>
+<p>举个🌰：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> col_name <span class="keyword">FROM</span> tbl_name <span class="keyword">AS</span> a <span class="keyword">WHERE</span> a.col_name = <span class="number">1</span> <span class="keyword">OR</span> A.col_name = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，在 <code>Unix</code> 系统中表别名区分大小写，而 <code>Windows</code> 或者 <code>macOS</code> 中不。👆 上述语句在 <code>Unix</code> 系统中会报错，因为它同时引用到 <code>a</code> 和 <code>A</code>。</p>
+<p>在 <code>MySQL</code> 中，存储在磁盘上的表格和数据库的名字由系统变量 <a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_lower_case_table_names" target="_blank" rel="noopener">lower_case_table_names</a> 决定。该变量不影响触发器(trigger)标识符的大小写敏感性。在 <code>Unix</code> 系统，默认值是 <code>0</code>，在 <code>Windows</code> 系统，默认值是 <code>1</code>，而在 <code>macOS</code> 系统，默认值是 <code>2</code>。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>存储在磁盘中的表格和数据的名字使用的是 <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener">CREATE TABLE</a> 或者 <a href="https://dev.mysql.com/doc/refman/8.0/en/create-database.html" target="_blank" rel="noopener">CREATE DATABASE</a> 语句中的字母大小写。名称比较区分大小写。如果你要在一个文件名大小写不敏感的系统上运行 <code>MySQL</code><strong>不</strong>应该设置此变量为 <code>0</code>。如果你在一个文件名大小写不敏感的系统上使用 <a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_lower_case_table_names" target="_blank" rel="noopener">–lower-case-table-names=0</a> 强制设置该变量为 <code>0</code>，并且使用不同的大小写字母访问 <code>MyISAM</code> 表名，那么可能导致索引损坏。</td>
+</tr>
+<tr>
+<td>1</td>
+<td>存储在磁盘中的表格和数据的名字都是小写，并且名称比较不区分大小写。<code>MySQL</code> 在存储和查找时把所有表名转换成小写。该行为也适用于数据库名字和表别名。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>存储在磁盘中的表格和数据的名字使用的是 <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener">CREATE TABLE</a> 或者 <a href="https://dev.mysql.com/doc/refman/8.0/en/create-database.html" target="_blank" rel="noopener">CREATE DATABASE</a> 语句中的字母大小写，但是 <code>MySQL</code> 在查找时会把它们转换成小写。名称比较不区分大小写。这仅仅在大小写不敏感的系统上可行！<code>InnoDB</code> 表名和视图名存储的是小写，类似于 <code>lower_case_table_names=1</code>。</td>
+</tr>
+</tbody></table>
+<p>如果你使用的 <code>MySQL</code> 服务器和客户端都是一个系统，那么使用默认值完全没问题。然而，如果你在文件系统大小写敏感性不一样的系统间传输表格和数据，你可能会遇到问题。</p>
+<p>比如，我有一个 <code>MySQL</code> 源数据库，部署在 <code>Linux</code> 服务器上，其配置如下（执行脚本：<code>SHOW VARIABLES like &#39;lower%&#39;;</code>）：</p>
+<table>
+<thead>
+<tr>
+<th>Variable_name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>lower_case_file_system</td>
+<td>OFF</td>
+</tr>
+<tr>
+<td>lower_case_table_names</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p>这意味着，其对应的数据库名和表明存储和查找时是区分大小写的！碰巧，我在上面有一个<strong>名称大写</strong>的数据库。</p>
+<p>现在，我有另一台 <code>MySQL</code> 目标数据库，部署在 <code>Windows</code> 服务器上：</p>
+<table>
+<thead>
+<tr>
+<th>Variable_name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>lower_case_file_system</td>
+<td>ON</td>
+</tr>
+<tr>
+<td>lower_case_table_names</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>意味着存储时都是小写，查找时不区分大小写。</p>
+<p>当我像往常一样，创建一张 <code>FEDERATED</code> 表格时，居然报错了，提示 <code>The foreign data source you are trying to reference does not exist</code>。</p>
+<p>针对这个问题，<code>MySQL</code> 官方推荐了两个方法：</p>
+<ul>
+<li>在所有系统中设置 <code>lower_case_table_names=1</code>。这样做最大的不足是，当你使用 <a href="https://dev.mysql.com/doc/refman/8.0/en/show-tables.html" target="_blank" rel="noopener">SHOW TABLES</a> 或者 <a href="https://dev.mysql.com/doc/refman/8.0/en/show-databases.html" target="_blank" rel="noopener">SHOW DATABASES</a> ，你将不能看到这些名字原始的大小写。</li>
+<li>在 <code>Unix</code> 系统中设置 <code>lower_case_table_names=0</code>，在 <code>Windows</code> 中设置 <code>lower_case_table_names=2</code>。这样做将保留数据库和表名的字母大小写。缺点是你必须确保你的语句在 <code>Windows</code> 上始终以正确的字母大小写引用数据库和表名。如果你将你的 <code>sql</code> 语句迁移到 <code>Unix</code>(大小写很重要)，未正确拼写字母大小写将导致报错。</li>
+</ul>
+<p><strong>例外：</strong>如果你使用 <code>InnoDB</code> 表格并且想要避免数据传输问题，你应当在所有平台使用 <code>lower_case_table_names=1</code> 来强制转换名字成小写。</p>
+<p>emmm，第一个推荐方法，我不能更改 <code>Linux</code> 上的 <code>MySQL</code> 啊，人家那是产品环境；第二个推荐办法，更改部署在 <code>Windows</code> 上的 <code>MySQL</code> 目标数据库配置？听起来似乎可行？且慢：</p>
+<blockquote>
+<p><code>lower_case_table_names</code> 仅能在初始化服务器的时候设置。在服务器初始化之后更改 <code>lower_case_table_names</code> 设置是被禁止的。<a href="https://dev.mysql.com/doc/refman/8.0/en/identifier-case-sensitivity.html" target="_blank" rel="noopener"><fa-link/></a></p>
+</blockquote>
+<blockquote>
+<p>禁止在服务器初始化之后，使用不同的 <code>lower_case_table_names</code> 设置来启动服务器。该限制十分必要，因为各种数据字典表字段使用的排序规则是由初始化服务器时的设置决定，使用不同的设置重新启动服务器会在标识符的排序和比较方式方面引入不一致。 <a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_lower_case_table_names" target="_blank" rel="noopener"><fa-link/></a></p>
+</blockquote>
+<p>以下是初始化服务器时的设置：</p>
+<p><img src="/images/mysql-case/show-advanced-and-logging-options.png" alt="show advanced and logging options"></p>
+<p><img src="/images/mysql-case/preserve-given-case.png" alt="preserve given case"></p>
+<p>什么鬼，推荐了两个不能用的办法???</p>
+<p>那还有没有其他办法？我先去倒杯咖啡，冷静一下！<i class="fa fa-coffee" aria-hidden="true"></i></p>
+<p><i class="fa fa-lightbulb-o" aria-hidden="true"></i> 有了！既然服务器配置无法更改，那我试试改数据库配置？我记得，<code>MySQL</code> 数据库中有一个编码问题（<code>utf8</code>、<code>latin</code> 等等），还有一个 <code>collation</code> 问题。</p>
+<p>OK，先调研，再备份，再动手。</p>
+<p>根据这篇文档，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> <span class="string">`your_database`</span> <span class="keyword">DEFAULT</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_0900_as_cs;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">SERVER</span> s</span><br><span class="line"><span class="keyword">FOREIGN</span> <span class="keyword">DATA</span> WRAPPER mysql</span><br><span class="line">OPTIONS (<span class="keyword">USER</span> <span class="string">'Remote'</span>,<span class="keyword">PASSWORD</span> <span class="string">''</span>, HOST <span class="string">'XXX.XXX.XXX.XXX'</span>, <span class="keyword">DATABASE</span> <span class="string">'test'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>不行，没有预期结果。</p>
+<p>这个好像是和表里的<strong>数据</strong>编码有关系，而不是<strong>数据库/表</strong>名称的编码。</p>
+<p>所以，结论就是，到此为止了？？？</p>
+<p>有一个办法，虽然肯定不是最佳实践，但应该能解决问题（我没试过 😂）：用一个能够区分数据库/表名称大小写的 <code>MySQL</code> 实例中转，然后在这个实例中名称能小写的都小写。然后再对这个中转实例创建 <code>FEDERATED</code> 表格。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/identifier-case-sensitivity.html" target="_blank" rel="noopener">MySQL::Identifier Case Sensitivity</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_lower_case_table_names" target="_blank" rel="noopener">MySQL::Server System Variables</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/charset-mysql.html" target="_blank" rel="noopener">MySQL::Character Sets and Collations in MySQL</a></li>
+<li><a href="https://stackoverflow.com/questions/3242504/how-can-i-transfer-data-between-2-mysql-databases" target="_blank" rel="noopener"><i class="fa fa-stackoverflow" aria-hidden="true"></i> How can I transfer data between 2 MySQL databases?</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2022/02/10/MySQL-case-sensitivity-issue/" data-id="cla8bpvmb00149j8c2ux503fc" data-title="MySQL 大小写问题" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/case-sensitivity/" rel="tag">case sensitivity</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+
+<nav id="page-nav">
+
+<a class="extend prev" rel="prev" href="/page/2/">&lt; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/4/">下一页 &gt;</a>
+</nav>
+
+<style>
+.article {max-height: 123vh;overflow: hidden;position: relative;}
+.article.unfold {max-height: initial;}
+.article .more {position: absolute;bottom: 0;padding: 3em;cursor: pointer;text-align: center;width: 100%;background: linear-gradient(rgba(0, 0, 0, 0), silver);color: white;box-sizing: border-box;}
+.article.unfold .more {display: none;}
+</style>
+<script>
+(function () {
+// show more
+const moreText = '<i class="fa fa-arrow-circle-down" aria-hidden="true"></i> ' + "更多";
+const articles = document.getElementsByClassName('article');
+for (let i = 0; i < articles.length; i++) {
+const $more = document.createElement('div');
+$more.classList.add('more');$more.innerHTML = moreText;
+$more.onclick = function (evt) {
+const $src = evt.target || evt.srcElement;$src.parentElement.classList.add('unfold');
+};
+articles[i].appendChild($more);
+}})();
+</script>
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

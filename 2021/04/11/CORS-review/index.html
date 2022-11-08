@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>CORS 复习 | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="好久没有更新了，主要是工作忙懒。正好前两天给同事开发 API 的时候，遇见一个小问题，这里简单记录一下。 故事是这样的，我明明给他开启了 CORS （已设置响应头，正确处理 preflight options request），但是对方从本地开发环境访问仍说 CORS 错误。因为这个 API 启用了 Windows 认证，我让他设置 withCredentials:true，也没有用，一直报错 4">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CORS 复习">
+<meta property="og:url" content="https://zxs66.github.io/2021/04/11/CORS-review/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="好久没有更新了，主要是工作忙懒。正好前两天给同事开发 API 的时候，遇见一个小问题，这里简单记录一下。 故事是这样的，我明明给他开启了 CORS （已设置响应头，正确处理 preflight options request），但是对方从本地开发环境访问仍说 CORS 错误。因为这个 API 启用了 Windows 认证，我让他设置 withCredentials:true，也没有用，一直报错 4">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zxs66.github.io/images/CORS-review/401_unauthorized.jpg">
+<meta property="og:image" content="https://zxs66.github.io/images/CORS-review/405_method_not_allowed.jpg">
+<meta property="og:image" content="https://zxs66.github.io/images/CORS-review/test.png">
+<meta property="article:published_time" content="2021-04-11T06:32:54.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.193Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="cors">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zxs66.github.io/images/CORS-review/401_unauthorized.jpg">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-CORS-review" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/04/11/CORS-review/" class="article-date">
+  <time datetime="2021-04-11T06:32:54.000Z" itemprop="datePublished">2021-04-11</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      CORS 复习
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>好久没有更新了，主要是<del>工作忙</del>懒。正好前两天给同事开发 API 的时候，遇见一个小问题，这里简单记录一下。</p>
+<p>故事是这样的，我明明给他开启了 CORS （已设置响应头，正确处理 preflight options request），但是对方从本地开发环境访问仍说 CORS 错误。因为这个 API 启用了 Windows 认证，我让他设置 <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials" target="_blank" rel="noopener">withCredentials:true</a>，也没有用，一直报错 401 或 405：</p>
+<p><img src="/images/CORS-review/401_unauthorized.jpg" alt="401 Unauthorized"><br><img src="/images/CORS-review/405_method_not_allowed.jpg" alt="405 Method Not Allowed"></p>
+<p>明明是复制粘贴之前能正常工作的代码，怎么就不行了？</p>
+<p>好吧，按照 <a href="https://docs.microsoft.com/en-us/aspnet/web-api/overview/security/enabling-cross-origin-requests-in-web-api" target="_blank" rel="noopener">官方推荐做法</a> 再来一遍：</p>
+<ol>
+<li>安装 NuGet 包： <code>Install-Package Microsoft.AspNet.WebApi.Cors</code></li>
+<li>启用 CORS，在 <em>App_Start/WebApiConfig.cs</em> 文件新增如下代码：<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> cors = <span class="keyword">new</span> System.Web.Http.Cors.EnableCorsAttribute</span><br><span class="line">  (</span><br><span class="line">      Constants.LocalDevEnv,</span><br><span class="line">      <span class="string">"*"</span>,</span><br><span class="line">      <span class="string">"*"</span></span><br><span class="line">  );</span><br><span class="line">cors.SupportsCredentials = <span class="literal">true</span>;</span><br><span class="line">config.EnableCors(cors);</span><br></pre></td></tr></table></figure></li>
+<li>接收 preflight request，在<em>web.config</em>文件&lt;system.webServer&gt;&lt;handlers&gt;节点添加以下内容(一般安装 NuGet 包时自动添加)：<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">system.webServer</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">handlers</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">remove</span> <span class="attr">name</span>=<span class="string">"ExtensionlessUrlHandler-Integrated-4.0"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">remove</span> <span class="attr">name</span>=<span class="string">"OPTIONSVerbHandler"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"ExtensionlessUrlHandler-Integrated-4.0"</span> <span class="attr">path</span>=<span class="string">"*."</span> <span class="attr">verb</span>=<span class="string">"*"</span> <span class="attr">type</span>=<span class="string">"System.Web.Handlers.TransferRequestHandler"</span> <span class="attr">preCondition</span>=<span class="string">"integratedMode,runtimeVersionv4.0"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">handlers</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">system.webServer</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>设置响应头，在 <em>web.config</em>文件&lt;system.webServer&gt;&lt;httpProtocol&gt;&lt;customHeaders&gt;节点添加以下内容：<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"Access-Control-Allow-Origin"</span> <span class="attr">value</span>=<span class="string">"http://localhost:3000"</span> /&gt;</span>  <span class="comment">&lt;!-- set the origin specifically--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"Access-Control-Allow-Headers"</span> <span class="attr">value</span>=<span class="string">"*"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"Access-Control-Allow-Methods"</span> <span class="attr">value</span>=<span class="string">"*"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"Access-Control-Allow-Credentials"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>值得注意的是，因为我们启用了 Windows 认证，也就是说，跨域的时候需要设置正确的响应头，否则浏览器依然会报错：</p>
+<blockquote>
+<p>If the browser sends credentials, but the response does not include a valid Access-Control-Allow-Credentials header, the browser will not expose the response to the application, and the AJAX request fails. Be careful about setting SupportsCredentials to true, because it means a website at another domain can send a logged-in user’s credentials to your Web API on the user’s behalf, without the user being aware. The CORS spec also states that setting origins to “*” is invalid if SupportsCredentials is true.</p>
+</blockquote>
+<p>简单来说，当 API 需要发送 credentials 给 API 服务器时，<code>Access-Control-Allow-Origin</code> 不能为 <code>*</code>，必须得指明 Origin。</p>
+<p>再次测试：</p>
+<p><img src="/images/CORS-review/test.png" alt="测试结果"></p>
+<p>Bingo！</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://docs.microsoft.com/en-us/aspnet/web-api/overview/security/enabling-cross-origin-requests-in-web-api" target="_blank" rel="noopener">Enable cross-origin requests in ASP.NET Web API 2</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Glossary/CORS" target="_blank" rel="noopener">CORS</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials" target="_blank" rel="noopener">Access-Control-Allow-Credentials</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/04/11/CORS-review/" data-id="cla8bpvm4000l9j8c0dnw9vvg" data-title="CORS 复习" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cors/" rel="tag">cors</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2021/04/15/CSharp-Regular-Experssion-taste/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          CSharp 正则表达式初尝
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/25/MySQL-variables/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">MySQL 变量</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

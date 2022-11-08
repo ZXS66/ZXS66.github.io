@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="时代残党">
+<meta property="og:url" content="https://zxs66.github.io/page/16/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="Angular">
+<meta property="article:tag" content="NodeJS">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="ASP.NET">
+<meta property="article:tag" content="Full Stack">
+<meta name="twitter:card" content="summary">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+
+
+<article id="post-ASP-NET-i18n-get-started" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/10/28/ASP-NET-i18n-get-started/" class="article-date">
+  <time datetime="2020-10-28T10:11:56.000Z" itemprop="datePublished">2020-10-28</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/28/ASP-NET-i18n-get-started/">ASP.NET 应用国际化</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>一般规模稍大，或者受众同时有国内、国外用户的项目，都要考虑提供中英文两个版本，即国际化（Internationalization），简称 i18n。</p>
+<p>之前写过 <a href="/2020/07/01/Angular-internationalization/">Angular i18n</a> 相关的文章，今天记录一下 ASP.NET 中如何 i18n。</p>
+<p>正片开始！</p>
+<p><em>(此处省略创建项目过程)</em></p>
+<h2 id="一、添加资源文件"><a href="#一、添加资源文件" class="headerlink" title="一、添加资源文件"></a>一、添加资源文件</h2><p>在添加资源文件之前，新建一个文件夹（可选），命名 <code>Resources</code> 或者 <code>Locales</code> 等等。</p>
+<p>先添加一个英文的资源文件，取名 <code>Resources.resx</code>。请注意，记得将 <code>访问修饰符</code>（<code>Access Modifier</code>）修改成 <code>公开</code>（<code>Public</code>）！</p>
+<p>再添加一个中文的资源文件，取名 <code>Resources.zh.resx</code>。</p>
+<p>添加若干测试字符串:</p>
+<p><img src="/images/asp-net-i18n/Resources.zh.resx.png" alt="Resources.zh.resx"></p>
+<h2 id="二、在前端页面-cshtml-中引用资源字符串"><a href="#二、在前端页面-cshtml-中引用资源字符串" class="headerlink" title="二、在前端页面 (*.cshtml) 中引用资源字符串"></a>二、在前端页面 (*.cshtml) 中引用资源字符串</h2><p>在编辑 .cshtml 页面之前，可以找到 <code>~/Views/web.config</code>，添加资源的命名空间，这样之后每次引用资源字符串就不必写全路径了。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- ... --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">system.web.webPages.razor</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">host</span> <span class="attr">factoryType</span>=<span class="string">"System.Web.Mvc.MvcWebRazorHostFactory, System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">pages</span> <span class="attr">pageBaseType</span>=<span class="string">"System.Web.Mvc.WebViewPage"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">namespaces</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">namespace</span>=<span class="string">"System.Web.Mvc"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">namespace</span>=<span class="string">"System.Web.Mvc.Ajax"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">namespace</span>=<span class="string">"System.Web.Mvc.Html"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">namespace</span>=<span class="string">"System.Web.Optimization"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">namespace</span>=<span class="string">"System.Web.Routing"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">namespace</span>=<span class="string">"Your.Project"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">namespace</span>=<span class="string">"Your.Project.Resources"</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">namespaces</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">pages</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">system.web.webPages.razor</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- ... --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>打开需要引用资源字符串的文件，使用 <code>@Resources.xxxx</code> 获取要动态引用的字符串。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">✔️</span><br><span class="line">@Resources.i18n</span><br><span class="line">@Resources.test</span><br><span class="line"></span><br><span class="line">✔️</span><br><span class="line">@ViewBag.l10n</span><br><span class="line">@Resources.test</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、在后台代码-cs-中引用资源字符串"><a href="#三、在后台代码-cs-中引用资源字符串" class="headerlink" title="三、在后台代码 (*.cs) 中引用资源字符串"></a>三、在后台代码 (*.cs) 中引用资源字符串</h2><p>后台代码直接引用：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ViewBag.Title = Resources.Resources.home;</span><br><span class="line">    ViewBag.l10n = Resources.Resources.l10n;</span><br><span class="line">    <span class="keyword">return</span> View();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、设置当前线程的语言"><a href="#四、设置当前线程的语言" class="headerlink" title="四、设置当前线程的语言"></a>四、设置当前线程的语言</h2><p>首先，设置 ASP.NET MVC 的路由（可选）。打开 <code>RouteConfig.cs</code> 文件：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">RouteConfig</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">RegisterRoutes</span>(<span class="params">RouteCollection routes</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        routes.IgnoreRoute(<span class="string">"&#123;resource&#125;.axd/&#123;*pathInfo&#125;"</span>);</span><br><span class="line">        <span class="comment">//routes.MapMvcAttributeRoutes();</span></span><br><span class="line">        routes.MapRoute(</span><br><span class="line">            name: <span class="string">"Default"</span>,</span><br><span class="line">            url: <span class="string">"&#123;culture&#125;/&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;"</span>,</span><br><span class="line">            defaults: <span class="keyword">new</span> &#123; culture = <span class="string">"en"</span>, controller = <span class="string">"Home"</span>, action = <span class="string">"Index"</span>, id = UrlParameter.Optional &#125;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后，添加 MVC 的父 Controller：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CISBaseController</span> : <span class="title">Controller</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">bool</span> isChineseCulture</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> IEnumerable&lt;<span class="keyword">string</span>&gt; ChineseCultures = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt;() &#123; <span class="string">"zh"</span>, <span class="string">"zh-han"</span>, <span class="string">"zh-hans"</span> &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ActionResult <span class="title">RedirectToDefaultLocalized</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">return</span> RedirectPermanent(<span class="string">"/en"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnActionExecuting</span>(<span class="params">ActionExecutingContext filterContext</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="comment">// Grab the culture route parameter</span></span><br><span class="line">        <span class="keyword">string</span> culture = filterContext.RouteData.Values[<span class="string">"culture"</span>]?.ToString();</span><br><span class="line">        <span class="comment">// Set the action parameter just in case we didn't get one</span></span><br><span class="line">        <span class="comment">// from the route.</span></span><br><span class="line">        filterContext.ActionParameters[<span class="string">"culture"</span>] = culture;</span><br><span class="line">        <span class="comment">// update this.isChineseCulture</span></span><br><span class="line">        <span class="keyword">this</span>.isChineseCulture = ChineseCultures.Contains(culture.ToLower());</span><br><span class="line">        <span class="keyword">var</span> cultureInfo = CultureInfo.GetCultureInfo(culture);</span><br><span class="line">        Thread.CurrentThread.CurrentCulture = cultureInfo;</span><br><span class="line">        Thread.CurrentThread.CurrentUICulture = cultureInfo;</span><br><span class="line">        <span class="comment">// Because we've overwritten the ActionParameters, we</span></span><br><span class="line">        <span class="comment">// make sure we provide the override to the </span></span><br><span class="line">        <span class="comment">// base implementation.</span></span><br><span class="line">        <span class="keyword">base</span>.OnActionExecuting(filterContext);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="五、测试"><a href="#五、测试" class="headerlink" title="五、测试"></a>五、测试</h2><p>Visual Studio 直接开启调试：</p>
+<p>（默认英文路由）：</p>
+<p><img src="/images/asp-net-i18n/index.en.png" alt="index.en"></p>
+<p>切换到中文路由：</p>
+<p><img src="/images/asp-net-i18n/index.zh.png" alt="index.zh"></p>
+<p>✔️ 完美！</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://phrase.com/blog/posts/getting-started-with-asp-net-mvc-i18n/" target="_blank" rel="noopener">Getting Started With ASP.NET MVC i18n</a></li>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/api/system.globalization.cultureinfo?view=netframework-4.7" target="_blank" rel="noopener">CultureInfo Class</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/10/28/ASP-NET-i18n-get-started/" data-id="cla8bpvlz00089j8c6giz66n2" data-title="ASP.NET 应用国际化" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/asp-net/" rel="tag">asp.net</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/get-started/" rel="tag">get started</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/i18n/" rel="tag">i18n</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mvc/" rel="tag">mvc</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+<article id="post-SQL-Server-Pivot-Tables" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/10/20/SQL-Server-Pivot-Tables/" class="article-date">
+  <time datetime="2020-10-20T08:46:37.000Z" itemprop="datePublished">2020-10-20</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/20/SQL-Server-Pivot-Tables/">SQL Server 数据透视表</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在搜索 <a href="https://docs.microsoft.com/en-us/sql/t-sql/functions/string-agg-transact-sql?view=sql-server-ver15" target="_blank" rel="noopener">STRING_AGG</a> 方法（同 MySQL 中的 <a href="https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html#function_group-concat" target="_blank" rel="noopener">GROUP_CONCAT</a>）在低版本 SQL Server 中实现的时候，无意中想到，之前好像有用过 pivot table (数据透视表)，用来拼接字符串？？年代久远，记忆模糊了，没办法，又得学习一遍。为加深印象，还是记一下笔记吧。</p>
+<h2 id="TLDR，太长不看版"><a href="#TLDR，太长不看版" class="headerlink" title="TLDR，太长不看版"></a>TLDR，太长不看版</h2><p>数据透视表就是 <strong>把数据表转置，行变列，或者列变行</strong>。</p>
+<h2 id="pivot-范例"><a href="#pivot-范例" class="headerlink" title="pivot 范例"></a>pivot 范例</h2><p>脚本如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> AdventureWorks2014;  </span><br><span class="line">GO  </span><br><span class="line"><span class="keyword">SELECT</span> VendorID, [<span class="number">250</span>] <span class="keyword">AS</span> Emp1, [<span class="number">251</span>] <span class="keyword">AS</span> Emp2, [<span class="number">256</span>] <span class="keyword">AS</span> Emp3, [<span class="number">257</span>] <span class="keyword">AS</span> Emp4, [<span class="number">260</span>] <span class="keyword">AS</span> Emp5  </span><br><span class="line"><span class="keyword">FROM</span>   </span><br><span class="line">(<span class="keyword">SELECT</span> PurchaseOrderID, EmployeeID, VendorID <span class="keyword">FROM</span> Purchasing.PurchaseOrderHeader) p  </span><br><span class="line"><span class="keyword">PIVOT</span>  </span><br><span class="line">(<span class="keyword">COUNT</span> (PurchaseOrderID) <span class="keyword">FOR</span> EmployeeID <span class="keyword">IN</span>  ([<span class="number">250</span>], [<span class="number">251</span>], [<span class="number">256</span>], [<span class="number">257</span>], [<span class="number">260</span>])) <span class="keyword">AS</span> pvt  </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> pvt.VendorID;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果如下：</p>
+<table>
+<thead>
+<tr>
+<th>VendorID</th>
+<th>Emp1</th>
+<th>Emp2</th>
+<th>Emp3</th>
+<th>Emp4</th>
+<th>Emp5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1492</td>
+<td>2</td>
+<td>5</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1494</td>
+<td>2</td>
+<td>5</td>
+<td>4</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1496</td>
+<td>2</td>
+<td>4</td>
+<td>4</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>1498</td>
+<td>2</td>
+<td>5</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1500</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>5</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<h2 id="unpivot-范例"><a href="#unpivot-范例" class="headerlink" title="unpivot 范例"></a>unpivot 范例</h2><p>脚本如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Create the table and insert values as portrayed in the previous example.  </span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> pvt (</span><br><span class="line">    VendorID <span class="built_in">INT</span>, </span><br><span class="line">    Emp1 <span class="built_in">INT</span>, </span><br><span class="line">    Emp2 <span class="built_in">INT</span>,  </span><br><span class="line">    Emp3 <span class="built_in">INT</span>, </span><br><span class="line">    Emp4 <span class="built_in">INT</span>, </span><br><span class="line">    Emp5 <span class="built_in">INT</span></span><br><span class="line">);  </span><br><span class="line">GO  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pvt <span class="keyword">VALUES</span> (<span class="number">1</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">4</span>);  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pvt <span class="keyword">VALUES</span> (<span class="number">2</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">5</span>);  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pvt <span class="keyword">VALUES</span> (<span class="number">3</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">4</span>);  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pvt <span class="keyword">VALUES</span> (<span class="number">4</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">4</span>);  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pvt <span class="keyword">VALUES</span> (<span class="number">5</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">5</span>);  </span><br><span class="line">GO  </span><br><span class="line"><span class="comment">-- Unpivot the table.  </span></span><br><span class="line"><span class="keyword">SELECT</span> VendorID, Employee, Orders  </span><br><span class="line"><span class="keyword">FROM</span>   </span><br><span class="line">(<span class="keyword">SELECT</span> VendorID, Emp1, Emp2, Emp3, Emp4, Emp5  <span class="keyword">FROM</span> pvt) p  </span><br><span class="line"><span class="keyword">UNPIVOT</span>  </span><br><span class="line">(Orders <span class="keyword">FOR</span> Employee <span class="keyword">IN</span> (Emp1, Emp2, Emp3, Emp4, Emp5))<span class="keyword">AS</span> unpvt;  </span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
+
+<p>输出结果如下：</p>
+<table>
+<thead>
+<tr>
+<th>VendorID</th>
+<th>Employee</th>
+<th>Orders</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Emp1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Emp2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Emp3</td>
+<td>5</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Emp4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Emp5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Emp1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Emp2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Emp3</td>
+<td>5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Emp4</td>
+<td>5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Emp5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody></table>
+<h2 id="附录1：STRING-AGG-polyfill"><a href="#附录1：STRING-AGG-polyfill" class="headerlink" title="附录1：STRING_AGG polyfill"></a>附录1：STRING_AGG polyfill</h2><p>虽然 <a href="https://docs.microsoft.com/en-us/sql/t-sql/functions/string-agg-transact-sql?view=sql-server-ver15" target="_blank" rel="noopener">STRING_AGG</a> 方法只在 SQL Server 2017 及之后版本可用，但在此之前的版本，则可以通过运行以下代码创建自定义方法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- coming soon</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="附录2：STRING-SPLIT-polyfill"><a href="#附录2：STRING-SPLIT-polyfill" class="headerlink" title="附录2：STRING_SPLIT polyfill"></a>附录2：STRING_SPLIT polyfill</h2><p><a href="https://docs.microsoft.com/en-us/sql/t-sql/functions/string-split-transact-sql?view=sql-server-ver15" target="_blank" rel="noopener">STRING_SPLIT</a> 方法只在 SQL Server 2016 及之后版本可用，在此之前的版本，则可通过运行以下代码创建自定义方法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> [dbo].[fx_STRING_SPLIT](</span><br><span class="line">	@SourceString <span class="keyword">NVARCHAR</span>(<span class="keyword">MAX</span>)</span><br><span class="line">	,@Seperator <span class="built_in">VARCHAR</span>(<span class="number">25</span>)=<span class="string">','</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">RETURNS</span> @ResultTable <span class="keyword">TABLE</span>(</span><br><span class="line">	[<span class="keyword">Position</span>] <span class="built_in">INT</span> <span class="keyword">IDENTITY</span>(<span class="number">1</span>,<span class="number">1</span>),</span><br><span class="line">	[<span class="keyword">Value</span>] <span class="keyword">NVARCHAR</span>(<span class="keyword">MAX</span>)</span><br><span class="line">)</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="comment">/**************************************************************</span></span><br><span class="line"><span class="comment">* Author: Beaulin @ www.MyTecBits.com</span></span><br><span class="line"><span class="comment">* Description: Function to split the delimited text and</span></span><br><span class="line"><span class="comment">* returns teh result in table format</span></span><br><span class="line"><span class="comment">**************************************************************/</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">DECLARE</span> @w_xml <span class="keyword">xml</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> @w_xml = N<span class="string">'&lt;root&gt;&lt;i&gt;'</span> + <span class="keyword">replace</span>(@SourceString, @Seperator,<span class="string">'&lt;/i&gt;&lt;i&gt;'</span>) + <span class="string">'&lt;/i&gt;&lt;/root&gt;'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> @ResultTable</span><br><span class="line">([<span class="keyword">Value</span>])</span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">	[i].value(<span class="string">'.'</span>, <span class="string">'NVARCHAR(MAX)'</span>) <span class="keyword">AS</span> <span class="keyword">Value</span> </span><br><span class="line"><span class="keyword">FROM</span> </span><br><span class="line">@w_xml.nodes(<span class="string">'//root/i'</span>) <span class="keyword">AS</span> [Items]([i]);</span><br><span class="line">RETURN;</span><br><span class="line"><span class="keyword">END</span>;</span><br><span class="line"></span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://docs.microsoft.com/en-us/sql/t-sql/queries/from-using-pivot-and-unpivot?view=sql-server-ver15" target="_blank" rel="noopener">FROM - Using PIVOT and UNPIVOT</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/10/20/SQL-Server-Pivot-Tables/" data-id="cla8bpvmc00189j8cbcqt768f" data-title="SQL Server 数据透视表" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pivot-table/" rel="tag">pivot table</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql-server/" rel="tag">sql server</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+<article id="post-react-hooks" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/10/10/react-hooks/" class="article-date">
+  <time datetime="2020-10-10T08:46:10.000Z" itemprop="datePublished">2020-10-10</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/10/react-hooks/">React Hooks 学习笔记</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>刚看到一篇文章，2019年最值得学习的前端技能，里面给了 React Hooks 很大一部分介绍，不禁引起我的好奇，决定稍微深入了解一下，虽然我平时用 Angular 比较多。 🙂</p>
+<h2 id="TLDR，太长不看版"><a href="#TLDR，太长不看版" class="headerlink" title="TLDR，太长不看版"></a>TLDR，太长不看版</h2><p>其实这就是<em>面向对象编程</em> 和<em>函数式编程</em> 在前端编程的碰撞。</p>
+<p><img src="https://www.wangbase.com/blogimg/asset/202009/bg2020091407.jpg" alt="ReactJS Function Component VS Class Component"></p>
+<p>以前类组件的编写方式是面向对象编程，而用 Hooks 是函数式编程。给个例子就能很好理解了：</p>
+<p><img src="https://www.wangbase.com/blogimg/asset/202009/bg2020091320.jpg" alt="Function Component and Class Component"></p>
+<h2 id="为什么会有-React-Hooks，动机是什么？"><a href="#为什么会有-React-Hooks，动机是什么？" class="headerlink" title="为什么会有 React Hooks，动机是什么？"></a>为什么会有 React Hooks，动机是什么？</h2><p>官方的解释：</p>
+<h5 id="类组件不能很好重用状态逻辑代码"><a href="#类组件不能很好重用状态逻辑代码" class="headerlink" title="类组件不能很好重用状态逻辑代码"></a>类组件不能很好重用状态逻辑代码</h5><p>使用 Hooks 则可以在不改变组件层次地前提下很好地重用状态逻辑，因为状态逻辑已经从组件中抽离出来了。</p>
+<h5 id="复杂组件变得越来越难以理解（维护）"><a href="#复杂组件变得越来越难以理解（维护）" class="headerlink" title="复杂组件变得越来越难以理解（维护）"></a>复杂组件变得越来越难以理解（维护）</h5><p>其实 React JS 以前的代码我也不喜欢，即使它使用了 JSX。因为感觉把所有东西都揉在一起了，这和以前 JSP，ASP.NET 不是差不多嘛。是时代在倒退吗？我喜欢模板（HTML）、样式（CSS）、逻辑（JS）分的清清楚楚的，就像 Angular 那样。我的确是个老顽固，但是我在用 Angular 之前，也用了 <a href="https://github.com/mustache/mustache" target="_blank" rel="noopener">mustache</a> 和 scss，感觉都挺好的。</p>
+<p>使用 Hooks 就逼迫我们把组件拆分成更小的方法了，模板和逻辑可以不用像以前那样，严重依赖于组件的生命周期。</p>
+<h5 id="程序员和机器并不能更好理解类"><a href="#程序员和机器并不能更好理解类" class="headerlink" title="程序员和机器并不能更好理解类"></a>程序员和机器并不能更好理解类</h5><p>emmm，前端等了这么多年，终于有了 class （虽然只是个语法糖），前端开发千辛万苦学会了面向对象，你现在说，不要面向对象？好吧，你说的都对，我继续学还不行吗！</p>
+<p>不过也的确是这样，机器里才没有类的概念，函数倒是基本上每个编程语言都有。使用函数（Hooks）可以让我们更贴近机器，也就能更好的利用 React 的特性。</p>
+<h2 id="我的理解"><a href="#我的理解" class="headerlink" title="我的理解"></a>我的理解</h2><p>看起来挺好的，确实值得一学。毕竟，朝着我喜欢的方向在走（模板、样式、逻辑分清）。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://reactjs.org/docs/hooks-intro.html" target="_blank" rel="noopener">Introducing Hooks</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2020/09/react-hooks-useeffect-tutorial.html" target="_blank" rel="noopener">轻松学会 React 钩子：以 useEffect() 为例</a></li>
+<li><a href="https://www.geeksforgeeks.org/reactjs-usestate-hook/" target="_blank" rel="noopener">ReactJS | useState Hook</a></li>
+<li><del><a href="https://mp.weixin.qq.com/s?__biz=MzU0OTExNzYwNg==&mid=2247486638&idx=1&sn=6168cd4c6ebd46bb7626d5e1acac199a&chksm=fbb58767ccc20e71c147abd5816d85c85addfe9bb7f7ae531b3be6874e82bbf3aeff10b3151f&mpshare=1&scene=1&srcid=1030zRXiWBapn8lTHy7okyV4&sharer_sharetime=1604039376391&sharer_shareid=fc704ae6aea43f30cbec7d9e541d4beb&exportkey=A9iZHUit3MmzB9UtwIFqMKE%3D&pass_ticket=tzMbsF%2FeUkmqmIp8swkg9KboR45uJ3wADbDOUq8VTpvz9SXqBf7n2B5O3xo%2Fhbg6&wx_header=0#rd" target="_blank" rel="noopener">带你快速了解React Hooks</a></del></li>
+<li><a href="https://mp.weixin.qq.com/s/FQzSFwx3wWqwLCeQZ1eAEA" target="_blank" rel="noopener">带你快速了解React Hooks</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/10/10/react-hooks/" data-id="cla8bpvmu002w9j8c82q7dh2b" data-title="React Hooks 学习笔记" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hooks/" rel="tag">hooks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+
+<nav id="page-nav">
+
+<a class="extend prev" rel="prev" href="/page/15/">&lt; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/17/">下一页 &gt;</a>
+</nav>
+
+<style>
+.article {max-height: 123vh;overflow: hidden;position: relative;}
+.article.unfold {max-height: initial;}
+.article .more {position: absolute;bottom: 0;padding: 3em;cursor: pointer;text-align: center;width: 100%;background: linear-gradient(rgba(0, 0, 0, 0), silver);color: white;box-sizing: border-box;}
+.article.unfold .more {display: none;}
+</style>
+<script>
+(function () {
+// show more
+const moreText = '<i class="fa fa-arrow-circle-down" aria-hidden="true"></i> ' + "更多";
+const articles = document.getElementsByClassName('article');
+for (let i = 0; i < articles.length; i++) {
+const $more = document.createElement('div');
+$more.classList.add('more');$more.innerHTML = moreText;
+$more.onclick = function (evt) {
+const $src = evt.target || evt.srcElement;$src.parentElement.classList.add('unfold');
+};
+articles[i].appendChild($more);
+}})();
+</script>
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="时代残党">
+<meta property="og:url" content="https://zxs66.github.io/page/21/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="Angular">
+<meta property="article:tag" content="NodeJS">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="ASP.NET">
+<meta property="article:tag" content="Full Stack">
+<meta name="twitter:card" content="summary">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+
+
+<article id="post-JavaScript-Web-Speech-API" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/07/12/JavaScript-Web-Speech-API/" class="article-date">
+  <time datetime="2020-07-12T03:18:40.000Z" itemprop="datePublished">2020-07-12</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/12/JavaScript-Web-Speech-API/">JavaScript Web Speech API</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>Web Speech API 是 JavaScript 新的规范，主要分为 Speech Recognition 和 Speech Synthesis。目前（2020/7/12），除了 Chrome，其他浏览器基本上都不支持。即使是 Chrome，也是在联网情况下方可使用。</p>
+<h2 id="兼容性-限制"><a href="#兼容性-限制" class="headerlink" title="兼容性/限制"></a>兼容性/限制</h2><p>Web Speech API 还是比较新的功能，兼容性并没有那么好。最新的浏览器支持情况请参考 <a href="https://caniuse.com/#feat=speech" target="_blank" rel="noopener">Can I Use</a>。</p>
+<h2 id="Speech-Recognition-API"><a href="#Speech-Recognition-API" class="headerlink" title="Speech Recognition API"></a>Speech Recognition API</h2><p>其实，最想体验的就是 Speech Recognition API，毕竟，如果有免费的语音识别 API 可用，谁还会去购买收费的云语音识别，除非，人傻钱多，或者后者识别率要高很多。</p>
+<p>emmm，我还是太年轻了，看着这个功能的支持情况，我觉得，还是过几年再看吧。</p>
+<p><img src="/images/javascript-web-speech-api/Speech%20Recognition%20API.20200713.PNG" alt="Speech Recognition API"></p>
+<h2 id="Speech-Synthesis-API"><a href="#Speech-Synthesis-API" class="headerlink" title="Speech Synthesis API"></a>Speech Synthesis API</h2><p>Speech Synthesis API 虽然实用性没前者大，但是也是值得一玩的。</p>
+<p><img src="/images/javascript-web-speech-api/Speech%20Synthesis%20API.20200713.PNG" alt="Speech Synthesis API"></p>
+<p>(Coming soon…)</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API/Using_the_Web_Speech_API" target="_blank" rel="noopener">Using the Web Speech API</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/07/12/JavaScript-Web-Speech-API/" data-id="cla8bpvm6000q9j8cd6m7dfcf" data-title="JavaScript Web Speech API" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-speech-api/" rel="tag">web speech api</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+<article id="post-best-practices-for-Entity-Framework" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/07/08/best-practices-for-Entity-Framework/" class="article-date">
+  <time datetime="2020-07-08T10:39:49.000Z" itemprop="datePublished">2020-07-08</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/08/best-practices-for-Entity-Framework/">Entity Framework 最佳实践</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>平时如果需要搭建原型，选择 <a href="https://docs.microsoft.com/en-us/ef/" target="_blank" rel="noopener">Entity Framework</a>（后简称 EF）将会帮助您<strong>更快地交付和迭代</strong>。</p>
+<p>但是，EF 虽好，可不要贪杯哦。原型阶段使用 EF 完全莫得问题，但是到后期项目变的越来越大，需要真正交付产品时，建议还是切换到其他的 ORM 框架或者 ADO.NET，因为，这里面真的有很多莫名坑，新手，甚至是有一定经验的程序员都会不知不觉地踩进去。</p>
+<h2 id="EF-访问数据的架构"><a href="#EF-访问数据的架构" class="headerlink" title="EF 访问数据的架构"></a>EF 访问数据的架构</h2><p>EF 其实就是负责 C# Object 和数据库数据之间的映射，让 .Net 开发人员操作 Object 就像操作数据库一样丝滑，背后 EF 会自动转换 sql 代码。</p>
+<p>祭一张 EF 数据访问架构图</p>
+<p><img src="https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/ef/media/wd-efarchdiagram.gif" alt="Entity Framework architecture for accessing data"></p>
+<p><em>来自 <a href="https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/ef/overview" target="_blank" rel="noopener">Microsoft Docs</a></em></p>
+<p>下面就是我这个踩坑小能手用泪水和汗水总结的笔记，希望下次再用 EF 的时候，能够减少入坑次数。</p>
+<h2 id="及时调用-ToList-方法-！！！"><a href="#及时调用-ToList-方法-！！！" class="headerlink" title="及时调用 .ToList() 方法 ！！！"></a>及时调用 <code>.ToList()</code> 方法 ！！！</h2><p>这第一条，自然是有它的道理的。只怪自己当初没有好好理解透彻 EF 深层原理。</p>
+<p>EF 默认会做很多操作，优化我们的查询，比如延迟发送请求，再比如合并查询请求。这就引进了一个常见的错误，</p>
+<p><code>.ToList()</code> 方法就是告诉立即执行查询，</p>
+<h2 id="序列化配置"><a href="#序列化配置" class="headerlink" title="序列化配置"></a>序列化配置</h2><p>把 Controller 返回结果序列化成 JSON 字符串时，在 <code>Global.asax.cs</code> 文件 <code>Application_Start</code> 方法中添加以下代码：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> append below code to the end of Application_Start</span></span><br><span class="line"><span class="keyword">var</span> serializerSettings = GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings;</span><br><span class="line"><span class="comment"><span class="doctag">///</span> no returned loop reference objects</span></span><br><span class="line">serializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;</span><br><span class="line"><span class="comment"><span class="doctag">///</span> decrease json string length by removing null value</span></span><br><span class="line">serializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;</span><br></pre></td></tr></table></figure>
+
+<h2 id="API-仅返回页面需要的字段"><a href="#API-仅返回页面需要的字段" class="headerlink" title="API 仅返回页面需要的字段"></a>API 仅返回页面需要的字段</h2><p>好习惯！虽然累了点，但是优秀的程序员始终将高性能和可扩展性放在心里 🙂</p>
+<h2 id="查询表时，删除关联表结果"><a href="#查询表时，删除关联表结果" class="headerlink" title="查询表时，删除关联表结果"></a>查询表时，删除关联表结果</h2><p>同上一点相关，当数据库的表有外键时，如果直接查询该表，它相关联表的记录也会跟着返回，不仅拖慢查询，序列化返回页面时也会徒增流量。解决办法是返回结果集前，把相应的属性置空。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> the EF will return referencing tables along with current table value,</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> this method will prevent this default behavior</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;typeparam name="T"&gt;</span><span class="doctag">&lt;/typeparam&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="data"&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">public static IEnumerable&lt;T&gt; ReturnEFResult&lt;T&gt;(IEnumerable&lt;T&gt; data) where T : class, new()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (IsNullOrEmptyList(data)) <span class="keyword">return</span> data;</span><br><span class="line">    <span class="comment">// remove all ICollection type fields</span></span><br><span class="line">    List&lt;T&gt; ls = <span class="keyword">new</span> List&lt;T&gt;();</span><br><span class="line">    <span class="comment">//Type icollectionType = typeof(ICollection&lt;&gt;);</span></span><br><span class="line">    <span class="comment">//var props = typeof(T).GetProperties().Where(_ =&gt; !_.PropertyType.IsAssignableFrom(icollectionType));</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> props = <span class="keyword">typeof</span>(T).GetProperties().Where(_ =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//return !ImplementsInterface(_.PropertyType, icollectionType);</span></span><br><span class="line">        <span class="keyword">var</span> pt = _.PropertyType;</span><br><span class="line">        <span class="keyword">return</span> pt.Name != <span class="string">"ICollection`1"</span> &amp;&amp; !pt.Namespace.StartsWith(<span class="string">"your.namespace.here"</span>);</span><br><span class="line">    &#125;).ToList();</span><br><span class="line">    <span class="keyword">foreach</span> (T d <span class="keyword">in</span> data)</span><br><span class="line">    &#123;</span><br><span class="line">        T tmp = <span class="keyword">new</span> T();</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> p <span class="keyword">in</span> props)</span><br><span class="line">        &#123;</span><br><span class="line">            p.SetValue(tmp, p.GetValue(d));</span><br><span class="line">        &#125;</span><br><span class="line">        ls.Add(tmp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ls;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="新增、更新或删除记录，记得调用-SaveChanges-方法提交改动"><a href="#新增、更新或删除记录，记得调用-SaveChanges-方法提交改动" class="headerlink" title="新增、更新或删除记录，记得调用 SaveChanges() 方法提交改动"></a>新增、更新或删除记录，记得调用 <code>SaveChanges()</code> 方法提交改动</h2><p>多撸几次自然就记住了，不浪费各自精力了。</p>
+<h2 id="待续"><a href="#待续" class="headerlink" title="(待续)"></a>(待续)</h2><p>是的，因为懒，就到这里了，鸽了。。。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://docs.microsoft.com/en-us/ef/ef6/fundamentals/performance/perf-whitepaper" target="_blank" rel="noopener">Performance considerations for EF 4, 5, and 6</a></li>
+<li><a href="https://www.dotnettricks.com/learn/entityframework/tips-to-improve-entity-framework-performance" target="_blank" rel="noopener">Tips to improve Entity Framework Performance</a></li>
+<li><a href="https://www.thereformedprogrammer.net/six-ways-to-build-better-entity-framework-core-and-ef6-applications/" target="_blank" rel="noopener">Six ways to build better Entity Framework (Core and EF6) applications</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/07/08/best-practices-for-Entity-Framework/" data-id="cla8bpvmz003m9j8carf9cwwf" data-title="Entity Framework 最佳实践" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/best-practices/" rel="tag">best practices</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c#</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/entity-framework/" rel="tag">entity framework</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+<article id="post-Angular-and-web-worker" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/07/05/Angular-and-web-worker/" class="article-date">
+  <time datetime="2020-07-05T15:19:38.000Z" itemprop="datePublished">2020-07-05</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/05/Angular-and-web-worker/">Angular × web worker</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>继前段时间瞎折腾 Angular 应用性能之后，页面性能确实有所提升，但感觉还有提升空间。想到此前一直缠绕在心中的 Web Worker，于是耐不住萌（ji）动（mo）的心，准备再接再厉，来一顿骚操作，让页面更加丝滑。</p>
+<h2 id="升级-Angular"><a href="#升级-Angular" class="headerlink" title="升级 Angular"></a>升级 Angular</h2><p>此前项目的 Angular 版本是 v7，足够支撑所有的业务功能了。<strong>如果没有足够充分的理由，强烈不建议这种大版本升级（v7 -&gt; v10.0.0）！！！强烈不建议这种大版本升级（v7 -&gt; v10.0.0）！！！强烈不建议这种大版本升级（v7 -&gt; v10.0.0）！！！</strong> 不要问我为什么，问就是 <em>“谁升级谁知道”</em>。😔……</p>
+<p>但是，想要在 Angular 应用中体验 Web Worker，则必须版本至少是 8.0。写原生 js？没问题，但是既然官方支持了，所有的配置、最佳实践啊都是现成的，它不香吗。正好体验一下 Ivy  :)</p>
+<p>“诸位，青春可是永无止境的！” - 【<a href="https://naruto.fandom.com/wiki/Might_Guy" target="_blank" rel="noopener">凯皇</a>】</p>
+<p><img src="https://vignette.wikia.nocookie.net/naruto/images/c/cf/Guy_Opening_7th_Gate.png/revision/latest/scale-to-width-down/1000?cb=20150709214439" alt="Might Guy"></p>
+<p>所以，尽情绽放吧，少年！哈哈哈哈哈哈哈哈哈</p>
+<p>完整文档请参考此<a href="https://update.angular.io/#7.2:10.0" target="_blank" rel="noopener">官网链接</a></p>
+<h2 id="升级依赖项-（可选）"><a href="#升级依赖项-（可选）" class="headerlink" title="升级依赖项 （可选）"></a>升级依赖项 （可选）</h2><p>我是使用如下命令一次性升级所有的依赖项（不推荐，但是我这个项目小，所以无所谓啦）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng update --all --force</span><br></pre></td></tr></table></figure>
+
+<h2 id="尝试运行项目，解决编译时-运行时的警告-错误提示-（可选）"><a href="#尝试运行项目，解决编译时-运行时的警告-错误提示-（可选）" class="headerlink" title="尝试运行项目，解决编译时/运行时的警告/错误提示 （可选）"></a>尝试运行项目，解决编译时/运行时的警告/错误提示 （可选）</h2><p>毕竟，从 7 到 10，步子有点大，很多 breaking changes，不仅仅是 Angular 本身，包括我项目用到的 <a href="https://github.com/NG-ZORRO/ng-zorro-antd" target="_blank" rel="noopener">NG ZORRO</a> 等等。</p>
+<p>我的项目中遇到的问题有（大概记录一下，不记得每个改动了）：</p>
+<ul>
+<li>更改所有 <code>/deep/</code> 为 <code>::ng-deep</code></li>
+<li><code>nzTooltip</code> 移除 <code>nzTitle</code>，推荐使用 <code>nzTooltipTitle</code></li>
+<li><code>nzTable</code> 新的排序方式</li>
+<li><code>nzModal</code> API 下，<code>nzGetContainer</code> 设置非空时，弹出框正文可能被遮挡</li>
+</ul>
+<h2 id="跑起来，确保升级之后应用仍可以正常运行且编译（很重要！！！）"><a href="#跑起来，确保升级之后应用仍可以正常运行且编译（很重要！！！）" class="headerlink" title="跑起来，确保升级之后应用仍可以正常运行且编译（很重要！！！）"></a>跑起来，确保升级之后应用仍可以正常运行且编译（很重要！！！）</h2><p>一般情况下都是可以的正常运行的。真碰见问题，问 <a href="github.com/angular/angular/issues/">Github</a> 或者搜索引擎。</p>
+<p>好了，终于可以进入正题啦！</p>
+<h2 id="在项目目录中，创建一个基础的-Web-Worker"><a href="#在项目目录中，创建一个基础的-Web-Worker" class="headerlink" title="在项目目录中，创建一个基础的 Web Worker"></a>在项目目录中，创建一个基础的 Web Worker</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng generate webWorker [name]</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://angular.cn/cli/generate#webworker" target="_blank" rel="noopener">参考链接</a></p>
+<h2 id="查看项目变化"><a href="#查看项目变化" class="headerlink" title="查看项目变化"></a>查看项目变化</h2><p>此时 Angular CLI 会自动处理好所有变更。比如添加 <code>tsconfig.worker.json</code>、修改 <code>angular.json</code>、添加 web worker 文件等等。</p>
+<h2 id="编写-web-worker-文件"><a href="#编写-web-worker-文件" class="headerlink" title="编写 web worker 文件"></a>编写 web worker 文件</h2><p>一般情况下，web worker 是需要操作请求服务器数据的，所以这里简单贴一下请求代码</p>
+<h5 id="xxxx-worker-ts-文件："><a href="#xxxx-worker-ts-文件：" class="headerlink" title="xxxx.worker.ts 文件："></a><code>xxxx.worker.ts</code> 文件：</h5><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// &lt;reference lib="webworker" /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// importScripts('./worker-common.model');</span></span><br><span class="line"><span class="keyword">import</span> &#123; WorkerMessage, WorkerAction &#125; <span class="keyword">from</span> <span class="string">'./worker-common.model'</span>;</span><br><span class="line"></span><br><span class="line">addEventListener(<span class="string">'message'</span>, <span class="keyword">async</span> (&#123; data &#125;) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (data) &#123;</span><br><span class="line">    <span class="keyword">const</span> theMessage = data <span class="keyword">as</span> WorkerMessage;</span><br><span class="line">    <span class="keyword">const</span> theData = theMessage.data;</span><br><span class="line">    <span class="keyword">const</span> theAction = theMessage.action;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> responseMessage: WorkerMessage;</span><br><span class="line">    <span class="keyword">if</span> (theAction === WorkerAction.FetchCheckpoints) &#123;</span><br><span class="line">      <span class="keyword">const</span> tagID = +theData;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">typeof</span> tagID !== <span class="string">'number'</span>) &#123;</span><br><span class="line">        <span class="comment">// throw new Error('tagID should be number');</span></span><br><span class="line">        <span class="keyword">return</span> postMessage(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'tagID should be number'</span>));</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">const</span> responseData = <span class="keyword">await</span> fetchCheckpointsByTag(+theData);</span><br><span class="line">      responseMessage = <span class="keyword">new</span> WorkerMessage(responseData, theAction);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// if (action === WorkerAction.Ping)</span></span><br><span class="line">      <span class="keyword">const</span> content = (theData || <span class="string">''</span>).split(<span class="string">''</span>).sort().join(<span class="string">''</span>);</span><br><span class="line">      responseMessage = <span class="keyword">new</span> WorkerMessage(content, theAction);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> postMessage(responseMessage);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(<span class="string">'data of MessageEvent is empty'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">/// localStorage is not available in web worker</span></span><br><span class="line"><span class="comment">// https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Functions_and_classes_available_to_workers</span></span><br><span class="line"><span class="comment">/** caching */</span></span><br><span class="line"><span class="keyword">const</span> __STORAGE__ = <span class="keyword">new</span> Map&lt;<span class="built_in">string</span>, <span class="built_in">any</span>&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">/** generate key for localStorage */</span></span><br><span class="line"><span class="keyword">const</span> genStorageKey = <span class="function">(<span class="params">...parameters</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// arguments.callee is also not availabe in web worker</span></span><br><span class="line">  <span class="keyword">return</span> (parameters || []).join(<span class="string">':'</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> fetchCheckpointsByTag = <span class="keyword">async</span> (tagID?: <span class="built_in">number</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> checkpoints = <span class="keyword">await</span> fetchCheckpoints();</span><br><span class="line">  <span class="keyword">if</span> (tagID) &#123;</span><br><span class="line">    <span class="keyword">const</span> checkpointIDs = (<span class="keyword">await</span> fetchCheckpointTagMap()).filter(_ =&gt; _.TagID === tagID).map(_ =&gt; _.CheckPointID);</span><br><span class="line">    <span class="keyword">const</span> hashMap = <span class="keyword">new</span> Set(checkpointIDs);</span><br><span class="line">    <span class="keyword">return</span> checkpoints.filter(_ =&gt; hashMap.has(_.ID));</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> checkpoints;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> CheckPoint = &#123; ID: <span class="built_in">number</span>, Title: <span class="built_in">string</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** function to fetch checkpoints */</span></span><br><span class="line"><span class="keyword">const</span> fetchCheckpoints = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> storeKey = genStorageKey(fetchCheckpoints.name);</span><br><span class="line">  <span class="keyword">let</span> checkpoints: <span class="built_in">Array</span>&lt;CheckPoint&gt; = __STORAGE__.get(storeKey);</span><br><span class="line">  <span class="keyword">if</span> (!(<span class="built_in">Array</span>.isArray(checkpoints) &amp;&amp; checkpoints.length)) &#123;</span><br><span class="line">    <span class="comment">// no data stored in localStorage</span></span><br><span class="line">    <span class="keyword">const</span> resp = <span class="keyword">await</span> fetch(<span class="string">'http://localhost:44316/api/CheckPoints'</span>, &#123;</span><br><span class="line">      method: <span class="string">'POST'</span>,</span><br><span class="line">      credentials: <span class="string">'include'</span></span><br><span class="line">    &#125;);</span><br><span class="line">    checkpoints = <span class="keyword">await</span> resp.json();</span><br><span class="line">    __STORAGE__.set(storeKey, checkpoints);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> checkpoints || [];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> CheckPoint_Tag_Map = &#123; CheckPointID: <span class="built_in">number</span>, TagID: <span class="built_in">number</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> fetchCheckpointTagMap = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> storeKey = genStorageKey(fetchCheckpointTagMap.name);</span><br><span class="line">  <span class="keyword">let</span> checkpointTagMap: <span class="built_in">Array</span>&lt;CheckPoint_Tag_Map&gt; = __STORAGE__.get(storeKey);</span><br><span class="line">  <span class="keyword">if</span> (!(<span class="built_in">Array</span>.isArray(checkpointTagMap) &amp;&amp; checkpointTagMap.length)) &#123;</span><br><span class="line">    <span class="keyword">const</span> resp = <span class="keyword">await</span> fetch(<span class="string">'http://localhost:44316/api/CheckPointTagMap'</span>, &#123;</span><br><span class="line">      method: <span class="string">'POST'</span>,</span><br><span class="line">      credentials: <span class="string">'include'</span></span><br><span class="line">    &#125;);</span><br><span class="line">    checkpointTagMap = <span class="keyword">await</span> resp.json();</span><br><span class="line">    __STORAGE__.set(storeKey, checkpointTagMap);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> checkpointTagMap || [];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="worker-common-model-ts-文件"><a href="#worker-common-model-ts-文件" class="headerlink" title="worker-common.model.ts 文件"></a><code>worker-common.model.ts</code> 文件</h5><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/** enumerator for all worker actions */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">enum</span> WorkerAction &#123;</span><br><span class="line">    Ping,</span><br><span class="line">    FetchCheckpoints</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">enum</span> WorkerStatusCode &#123;</span><br><span class="line">    Initial,</span><br><span class="line">    OK,</span><br><span class="line">    <span class="built_in">Error</span>,</span><br><span class="line">    Empty,</span><br><span class="line">    ToBeContinued</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> WorkerMessage &#123;</span><br><span class="line">    <span class="keyword">constructor</span>(<span class="params"></span></span><br><span class="line"><span class="params">        <span class="keyword">public</span> data: <span class="built_in">any</span>,</span></span><br><span class="line"><span class="params">        <span class="keyword">public</span> action: WorkerAction</span></span><br><span class="line"><span class="params">    </span>) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> status?: WorkerStatusCode = WorkerStatusCode.Initial;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写-component-ts-文件"><a href="#编写-component-ts-文件" class="headerlink" title="编写 *.component.ts 文件"></a>编写 <code>*.component.ts</code> 文件</h2><p>同样，简单示例一下，<code>xxxx.component.ts</code> 文件：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ngOnInit(): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="comment">// register web worker</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> Worker !== <span class="string">'undefined'</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.webWorker = <span class="keyword">new</span> Worker(<span class="string">'../xxxx.worker'</span>, &#123; <span class="keyword">type</span>: <span class="string">'module'</span> &#125;);</span><br><span class="line">    <span class="keyword">this</span>.webWorker.addEventListener(<span class="string">'message'</span>, <span class="function">(<span class="params">&#123; data &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> theMessage = data <span class="keyword">as</span> WorkerMessage;</span><br><span class="line">      <span class="keyword">const</span> theAction = theMessage.action;</span><br><span class="line">      <span class="keyword">if</span> (theAction === WorkerAction.FetchCheckpoints) &#123;</span><br><span class="line">        <span class="keyword">this</span>.qwCheckPoints.response.Data = theMessage.data || [];</span><br><span class="line">        <span class="keyword">this</span>.qwCheckPoints.status = Utility.isNotEmptyArray(<span class="keyword">this</span>.qwCheckPoints.response.Data) ?</span><br><span class="line">          QueryStatus.SUCCESS : QueryStatus.EMPTY;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">this</span>.webWorker.postMessage(<span class="keyword">new</span> WorkerMessage(<span class="literal">null</span>, WorkerAction.FetchCheckpoints));</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// Web workers are not supported in this environment.</span></span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> You should add a fallback so that your program still executes correctly.</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'The browser doesn\'t support Web Worker.'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">someAction(tce) &#123;</span><br><span class="line">  <span class="keyword">const</span> tagID = tce.index === <span class="number">0</span> ? <span class="number">0</span> : (<span class="keyword">this</span>.qwCheckPointTags.response.Data[tce.index - <span class="number">1</span>] || &#123;&#125;).ID;</span><br><span class="line">  <span class="comment">// this.qwCheckPoints.query(tagID);</span></span><br><span class="line">  <span class="keyword">this</span>.webWorker.postMessage(<span class="keyword">new</span> WorkerMessage(tagID, WorkerAction.FetchCheckpoints));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="拉出来遛一遛"><a href="#拉出来遛一遛" class="headerlink" title="拉出来遛一遛"></a>拉出来遛一遛</h2><p><a href="/app/#/lab/emoji"><i class="fa fa-search" aria-hidden="true"></i> Emoji 搜索工具</a></p>
+<p>emmmm，一切都按照预期走了，没什么问题。除了：Google Chrome 调试 Web Worker 真的是鸡肋！！！以后真的在项目中大量使用了再说吧。。。。。。</p>
+<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers" target="_blank" rel="noopener">Using Web Workers</a></li>
+<li><a href="https://www.html5rocks.com/en/tutorials/workers/basics/#toc-gettingstarted" target="_blank" rel="noopener">The Basics of Web Workers</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Functions_and_classes_available_to_workers" target="_blank" rel="noopener">Functions and classes available to Web Workers</a></li>
+<li><a href="https://github.com/CntChen/cntchen.github.io/issues/19" target="_blank" rel="noopener">Web Worker 文献综述</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/07/05/Angular-and-web-worker/" data-id="cla8bpvm1000d9j8c4voj1zjz" data-title="Angular × web worker" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Angular/" rel="tag">Angular</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Performance/" rel="tag">Performance</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web-Worker/" rel="tag">Web Worker</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+
+<nav id="page-nav">
+
+<a class="extend prev" rel="prev" href="/page/20/">&lt; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/22/">下一页 &gt;</a>
+</nav>
+
+<style>
+.article {max-height: 123vh;overflow: hidden;position: relative;}
+.article.unfold {max-height: initial;}
+.article .more {position: absolute;bottom: 0;padding: 3em;cursor: pointer;text-align: center;width: 100%;background: linear-gradient(rgba(0, 0, 0, 0), silver);color: white;box-sizing: border-box;}
+.article.unfold .more {display: none;}
+</style>
+<script>
+(function () {
+// show more
+const moreText = '<i class="fa fa-arrow-circle-down" aria-hidden="true"></i> ' + "更多";
+const articles = document.getElementsByClassName('article');
+for (let i = 0; i < articles.length; i++) {
+const $more = document.createElement('div');
+$more.classList.add('more');$more.innerHTML = moreText;
+$more.onclick = function (evt) {
+const $src = evt.target || evt.srcElement;$src.parentElement.classList.add('unfold');
+};
+articles[i].appendChild($more);
+}})();
+</script>
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

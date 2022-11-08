@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>微信、微博、QQ一键分享 | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="Hexo 默认的主题 Landscape，默认支持分享到  Twitter、 Facebook、 Pinterest、 Linkedin 等国外社交媒体。但是，众所周知，这些社交媒体，在镇上都被🈲了！！ 所以，这篇文章介绍如何将 Hexo 主题本地化，以支持  微博、 微信、 QQ 及  邮件分享。 替换文章分享生成脚本大概位置从第 60 行开始，替换原来的 Twitter、Facebook、P">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信、微博、QQ一键分享">
+<meta property="og:url" content="https://zxs66.github.io/2020/07/15/share-to-WeChat-QQ-and-weibo/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="Hexo 默认的主题 Landscape，默认支持分享到  Twitter、 Facebook、 Pinterest、 Linkedin 等国外社交媒体。但是，众所周知，这些社交媒体，在镇上都被🈲了！！ 所以，这篇文章介绍如何将 Hexo 主题本地化，以支持  微博、 微信、 QQ 及  邮件分享。 替换文章分享生成脚本大概位置从第 60 行开始，替换原来的 Twitter、Facebook、P">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-15T15:31:43.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.203Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="javaScript">
+<meta name="twitter:card" content="summary">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-share-to-WeChat-QQ-and-weibo" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/07/15/share-to-WeChat-QQ-and-weibo/" class="article-date">
+  <time datetime="2020-07-15T15:31:43.000Z" itemprop="datePublished">2020-07-15</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      微信、微博、QQ一键分享
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>Hexo 默认的主题 Landscape，默认支持分享到 <i class="fa fa-twitter" aria-hidden="true"></i> Twitter、<i class="fa fa-facebook-square" aria-hidden="true"></i> Facebook、<i class="fa fa-pinterest" aria-hidden="true"></i> Pinterest、<i class="fa fa-linkedin-square" aria-hidden="true"></i> Linkedin 等国外社交媒体。但是，众所周知，这些社交媒体，在镇上都被🈲了！！</p>
+<p>所以，这篇文章介绍如何将 Hexo 主题本地化，以支持 <i class="fa fa-weibo" aria-hidden="true"></i> 微博、<i class="fa fa-wechat" aria-hidden="true"></i> 微信、<i class="fa fa-qq" aria-hidden="true"></i> QQ 及 <i class="fa fa-envelope-o" aria-hidden="true"></i> 邮件分享。</p>
+<h2 id="替换文章分享生成脚本"><a href="#替换文章分享生成脚本" class="headerlink" title="替换文章分享生成脚本"></a>替换文章分享生成脚本</h2><p>大概位置从第 60 行开始，替换原来的 Twitter、Facebook、Pinterest、Linkedin 模板，用以下代码：</p>
+<p>文件：<code>themes\landscape\source\js\script.jsthemes\landscape\source\js\script.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Share</span></span><br><span class="line">$(<span class="string">"body"</span>)</span><br><span class="line">  .on(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $(<span class="string">".article-share-box.on"</span>).removeClass(<span class="string">"on"</span>);</span><br><span class="line">  &#125;)</span><br><span class="line">  .on(<span class="string">"click"</span>, <span class="string">".article-share-link"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    e.stopPropagation();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),</span><br><span class="line">      url = $<span class="keyword">this</span>.attr(<span class="string">"data-url"</span>),</span><br><span class="line">      title = <span class="string">"👍 //"</span> + $<span class="keyword">this</span>.attr(<span class="string">"data-title"</span>),</span><br><span class="line">      encodedUrl = <span class="built_in">encodeURIComponent</span>(url),</span><br><span class="line">      encodedTitle = <span class="built_in">encodeURIComponent</span>(title),</span><br><span class="line">      id = <span class="string">"article-share-box-"</span> + $<span class="keyword">this</span>.attr(<span class="string">"data-id"</span>),</span><br><span class="line">      offset = $<span class="keyword">this</span>.offset();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ($(<span class="string">"#"</span> + id).length) &#123;</span><br><span class="line">      <span class="keyword">var</span> box = $(<span class="string">"#"</span> + id);</span><br><span class="line">      <span class="keyword">if</span> (box.hasClass(<span class="string">"on"</span>)) &#123;</span><br><span class="line">        box.removeClass(<span class="string">"on"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">var</span> html = [</span><br><span class="line">        <span class="string">'&lt;div id="'</span> + id + <span class="string">'" class="article-share-box"&gt;'</span>,</span><br><span class="line">        <span class="string">'&lt;input class="article-share-input" value="'</span> + url + <span class="string">'" readonly&gt;'</span>,</span><br><span class="line">        <span class="string">'&lt;div class="article-share-links"&gt;'</span>,</span><br><span class="line">        <span class="comment">// 微博分享</span></span><br><span class="line">        <span class="string">'&lt;a href="http://service.weibo.com/share/share.php?title='</span> +</span><br><span class="line">          encodedTitle +</span><br><span class="line">          <span class="string">"&amp;url="</span> +</span><br><span class="line">          encodedUrl +</span><br><span class="line">          <span class="string">'" class="article-share-weibo" target="_blank" title="微博分享"&gt;&lt;/a&gt;'</span>,</span><br><span class="line">        <span class="comment">// 微信二维码分享</span></span><br><span class="line">        <span class="string">'&lt;a href="https://zixuephp.net/inc/qrcode_img.php?url='</span> +</span><br><span class="line">          encodedUrl +</span><br><span class="line">          <span class="string">'" class="article-share-wechat" target="_blank" title="微信分享"&gt;&lt;/a&gt;'</span>,</span><br><span class="line">        <span class="comment">// QQ 好友分享</span></span><br><span class="line">        <span class="string">'&lt;a href="https://connect.qq.com/widget/shareqq/index.html?url='</span> +</span><br><span class="line">          encodedUrl +</span><br><span class="line">          <span class="string">"&amp;sharesource=qzone&amp;title="</span> +</span><br><span class="line">          encodedTitle +</span><br><span class="line">          <span class="string">'" class="article-share-qq" target="_blank" title="分享给QQ好友"&gt;&lt;/a&gt;'</span>,</span><br><span class="line">        <span class="comment">// 邮件分享</span></span><br><span class="line">        <span class="string">'&lt;a href="mailto:your@mail.com?subject='</span> +</span><br><span class="line">          encodedTitle +</span><br><span class="line">          <span class="string">"&amp;body="</span> +</span><br><span class="line">          encodedUrl +</span><br><span class="line">          <span class="string">'" class="article-share-mail" target="_blank" title="邮件分享"&gt;&lt;/a&gt;'</span>,</span><br><span class="line">        <span class="string">"&lt;/div&gt;"</span>,</span><br><span class="line">        <span class="string">"&lt;/div&gt;"</span></span><br><span class="line">      ].join(<span class="string">""</span>);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> box = $(html);</span><br><span class="line">      $(<span class="string">"body"</span>).append(box);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $(<span class="string">".article-share-box.on"</span>).hide();</span><br><span class="line"></span><br><span class="line">    box</span><br><span class="line">      .css(&#123;</span><br><span class="line">        top: offset.top + <span class="number">25</span>,</span><br><span class="line">        left: offset.left</span><br><span class="line">      &#125;)</span><br><span class="line">      .addClass(<span class="string">"on"</span>);</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">/// more click events here</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="更改配置"><a href="#更改配置" class="headerlink" title="更改配置"></a>更改配置</h2><p>（此步骤可省略，可用于 Contact 页面）</p>
+<p>大概从第 30 行开始，增加 <code>weibo</code>、<code>wechat</code>、<code>qq</code>、<code>mail</code> 配置项</p>
+<p>文件：<code>_config.yml</code></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Miscellaneous</span></span><br><span class="line"><span class="attr">weibo:</span> <span class="string">your</span> <span class="string">weibo</span> <span class="string">name</span></span><br><span class="line"><span class="attr">wechat:</span> <span class="string">your</span> <span class="string">wechat</span> <span class="string">name</span></span><br><span class="line"><span class="attr">qq:</span> <span class="string">your</span> <span class="string">QQ</span></span><br><span class="line"><span class="attr">mail:</span> <span class="string">your</span> <span class="string">email</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="更改文章模板文件"><a href="#更改文章模板文件" class="headerlink" title="更改文章模板文件"></a>更改文章模板文件</h2><p>大概从第 26 行开始，增加 <code>data-title</code> 属性绑定</p>
+<p>文件：<code>themes\landscape\layout\_partial\article.ejs</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;footer class&#x3D;&quot;article-footer&quot;&gt;</span><br><span class="line">  &lt;a data-url&#x3D;&quot;&lt;%- post.permalink %&gt;&quot; data-id&#x3D;&quot;&lt;%&#x3D; post._id %&gt;&quot; data-title&#x3D;&quot;&lt;%&#x3D; post.title %&gt;&quot; class&#x3D;&quot;article-share-link&quot;&gt;&lt;%&#x3D; __(&#39;share&#39;) %&gt;&lt;&#x2F;a&gt;</span><br><span class="line">  &lt;% if (post.comments &amp;&amp; config.disqus_shortname)&#123; %&gt;</span><br><span class="line">  &lt;a href&#x3D;&quot;&lt;%- post.permalink %&gt;#disqus_thread&quot; class&#x3D;&quot;article-comment-link&quot;&gt;&lt;%&#x3D; __(&#39;comment&#39;) %&gt;&lt;&#x2F;a&gt;</span><br><span class="line">  &lt;% &#125; %&gt;</span><br><span class="line">  &lt;%- partial(&#39;post&#x2F;tag&#39;) %&gt;</span><br><span class="line">&lt;&#x2F;footer&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置文章分享样式"><a href="#配置文章分享样式" class="headerlink" title="配置文章分享样式"></a>配置文章分享样式</h2><p>大概从第 273 行开始，添加一下样式</p>
+<p>文件：<code>themes\landscape\layout\_partial\article.styl</code></p>
+<figure class="highlight styl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">.article-share-weibo</span><br><span class="line">  @extend <span class="variable">$article</span>-share-link</span><br><span class="line">  &amp;:before</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">"\f18a"</span></span><br><span class="line">  &amp;:hover</span><br><span class="line">    <span class="attribute">background</span>: color-weibo</span><br><span class="line">    <span class="attribute">text-shadow</span>: <span class="number">0</span> <span class="number">1px</span> darken(color-weibo, <span class="number">20%</span>)</span><br><span class="line"></span><br><span class="line">.article-share-qq</span><br><span class="line">  @extend <span class="variable">$article</span>-share-link</span><br><span class="line">  &amp;:before</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">"\f1d6"</span></span><br><span class="line">  &amp;:hover</span><br><span class="line">    <span class="attribute">background</span>: color-qq</span><br><span class="line">    <span class="attribute">text-shadow</span>: <span class="number">0</span> <span class="number">1px</span> darken(color-qq, <span class="number">20%</span>)</span><br><span class="line"></span><br><span class="line">.article-share-wechat</span><br><span class="line">  @extend <span class="variable">$article</span>-share-link</span><br><span class="line">  &amp;:before</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">"\f1d7"</span></span><br><span class="line">  &amp;:hover</span><br><span class="line">    <span class="attribute">background</span>: color-wechat</span><br><span class="line">    <span class="attribute">text-shadow</span>: <span class="number">0</span> <span class="number">1px</span> darken(color-wechat, <span class="number">20%</span>)</span><br><span class="line">    </span><br><span class="line">.article-share-mail</span><br><span class="line">  @extend <span class="variable">$article</span>-share-link</span><br><span class="line">  &amp;:before</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">"\f003"</span></span><br><span class="line">  &amp;:hover</span><br><span class="line">    <span class="attribute">background</span>: color-mail</span><br><span class="line">    <span class="attribute">text-shadow</span>: <span class="number">0</span> <span class="number">1px</span> darken(color-mail, <span class="number">20%</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="更改变量"><a href="#更改变量" class="headerlink" title="更改变量"></a>更改变量</h2><p>大概从第 5 行开始</p>
+<p>文件：<code>themes\landscape\source\css\_variables.styl</code></p>
+<figure class="highlight styl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Colors</span></span><br><span class="line"><span class="attribute">color</span>-default = <span class="number">#555</span></span><br><span class="line"><span class="attribute">color</span>-grey = <span class="number">#999</span></span><br><span class="line"><span class="attribute">color</span>-border = <span class="number">#ddd</span></span><br><span class="line"><span class="attribute">color</span>-link = <span class="number">#258fb8</span></span><br><span class="line"><span class="attribute">color</span>-background = <span class="number">#eee</span></span><br><span class="line"><span class="attribute">color</span>-sidebar-text = <span class="number">#777</span></span><br><span class="line"><span class="attribute">color</span>-widget-background = <span class="number">#ddd</span></span><br><span class="line"><span class="attribute">color</span>-widget-border = <span class="number">#ccc</span></span><br><span class="line"><span class="attribute">color</span>-footer-background = <span class="number">#262a30</span></span><br><span class="line"><span class="attribute">color</span>-mobile-nav-background = <span class="number">#191919</span></span><br><span class="line"><span class="attribute">color</span>-weibo = <span class="number">#ff8140</span></span><br><span class="line"><span class="attribute">color</span>-wechat = <span class="number">#1aad19</span></span><br><span class="line"><span class="attribute">color</span>-qq = <span class="number">#00aced</span></span><br><span class="line"><span class="attribute">color</span>-mail = <span class="number">#a2e65b</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="升级-iconfont-版本"><a href="#升级-iconfont-版本" class="headerlink" title="升级 iconfont 版本"></a>升级 iconfont 版本</h2><p>Hexo 默认使用 <a href="http://www.fontawesome.com.cn/" target="_blank" rel="noopener">fontawesome</a> 作为 iconfont，如果您的 fontawesome 版本过低，请升级到至少 4.1，因为 <a href="http://www.fontawesome.com.cn/icons/qq/" target="_blank" rel="noopener">qq</a> 和 <a href="http://www.fontawesome.com.cn/icons/wechat/" target="_blank" rel="noopener">wechat</a> 图标是从 4.1 开始才收录的。我的升级方法，简单粗暴，就是下载最新的 iconfont，替换 <code>themes\landscape\source\css\fonts</code> 下的相关字体文件。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://zixuephp.net/article-309.html" target="_blank" rel="noopener">一键分享到QQ空间、QQ好友、新浪微博、微信代码</a></li>
+<li><i class="fa fa-github" aria-hidden="true"></i> <a href="https://github.com/hexojs/hexo-theme-landscape" target="_blank" rel="noopener">hexojs/hexo-theme-landscape</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/07/15/share-to-WeChat-QQ-and-weibo/" data-id="cla8bpvmw00379j8c8i080cw5" data-title="微信、微博、QQ一键分享" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript/" rel="tag">javaScript</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2020/07/18/get-started-with-Flutter/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          Flutter 入门
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/07/15/Windows-Saved-WiFi-password/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">Windows 显示已保存 WiFi 密码</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

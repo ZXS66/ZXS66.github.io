@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>页面添加水印 | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="水印，这个让人又爱又恨的发明，终于，老板让我染指了… 😟 需求很简单，就是给页面加上水印，这样不管用户是截图还是保存页面的时候，都会强制带上水印信息。 简单来讲，按用途来分，水印也分两种：  版权声明。一般在网络上散布的各种图片当中，肉眼可见的水印。 监控回溯。比如之前有新闻报道，某员工将内部邮件截图发布到网上，然后公司立马约该员工喝茶，其实就是利用了邮件 APP 中肉眼极其难以分辨的水印。😰">
+<meta property="og:type" content="article">
+<meta property="og:title" content="页面添加水印">
+<meta property="og:url" content="https://zxs66.github.io/2021/11/06/add-watermark-to-webpage/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="水印，这个让人又爱又恨的发明，终于，老板让我染指了… 😟 需求很简单，就是给页面加上水印，这样不管用户是截图还是保存页面的时候，都会强制带上水印信息。 简单来讲，按用途来分，水印也分两种：  版权声明。一般在网络上散布的各种图片当中，肉眼可见的水印。 监控回溯。比如之前有新闻报道，某员工将内部邮件截图发布到网上，然后公司立马约该员工喝茶，其实就是利用了邮件 APP 中肉眼极其难以分辨的水印。😰">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-06T04:47:16.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.193Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="watermark">
+<meta property="article:tag" content="svg">
+<meta name="twitter:card" content="summary">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-add-watermark-to-webpage" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/11/06/add-watermark-to-webpage/" class="article-date">
+  <time datetime="2021-11-06T04:47:16.000Z" itemprop="datePublished">2021-11-06</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      页面添加水印
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>水印，这个让人又爱又恨的发明，终于，老板让我染指了… 😟</p>
+<p>需求很简单，就是给页面加上水印，这样不管用户是截图还是保存页面的时候，都会强制带上水印信息。</p>
+<p>简单来讲，按用途来分，水印也分两种：</p>
+<ol>
+<li>版权声明。一般在网络上散布的各种图片当中，肉眼可见的水印。</li>
+<li>监控回溯。比如之前有新闻报道，某员工将内部邮件截图发布到网上，然后公司立马约该员工喝茶，其实就是利用了邮件 APP 中肉眼极其难以分辨的水印。😰</li>
+</ol>
+<p>我这次的用户需求，更贴合第一种情况。</p>
+<p>首先，在面向搜索引擎编程之前，一定要自己试试，有哪些可能的解决方案。我大概构思了一下，简单列觉如下：</p>
+<ol>
+<li>整体 <code>body</code> 或者主要内容的 <code>div</code> 设置 <code>background-image</code>，并设置 <code>opacity</code>；</li>
+<li>在页面上放置一个 <code>position:fixed</code> 或者和页面同宽高的 <code>img</code> 或者 <code>div</code>（设置 <code>background-image</code>），然后设置 <code>z-index</code> 和 <code>opacity</code>；</li>
+<li>给需要加水印的 <code>div</code> 或者 <code>img</code> 添加 <code>:before</code> 或者 <code>:after</code> 属性，自动添加水印；</li>
+</ol>
+<p>当然，为了防篡改，以上的这些 <code>CSS</code> 属性设置，也可以通过 <code>JS</code> 代码实现；并且通过定时任务，保持水印。更多防擦除水印，可以自行搜索，或者参考业界防复制的办法…</p>
+<p>我的解决办法，超级简单，就是采用第一种，整体设置 <code>background-image</code>。但是这个 <code>image</code> 比较特殊，是个 SVG。考虑用 SVG 的原因是：</p>
+<ol>
+<li>水印内容为纯文本信息，很简单，省的制作背景图片了；</li>
+<li>对提升网络请求有益；</li>
+<li>方便之后动态设置水印内容（比如附带时间信息）；</li>
+</ol>
+<p>SVG 文件的内容参考如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox&#x3D;&quot;0 0 128 64&quot;&gt;&lt;text x&#x3D;&quot;50%&quot; y&#x3D;&quot;50%&quot; dominant-baseline&#x3D;&quot;middle&quot; text-anchor&#x3D;&quot;middle&quot; opacity&#x3D;&quot;0.125&quot; fill&#x3D;&quot;#999&quot; font-style&#x3D;&quot;italic&quot; transform-origin&#x3D;&quot;center&quot; transform&#x3D;&quot;rotate(-30)&quot;&gt;Confidential&lt;&#x2F;text&gt;&lt;&#x2F;svg&gt;</span><br></pre></td></tr></table></figure>
+
+<p>设置整体 <code>background-image</code>：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#app-root</span> &#123;</span><br><span class="line">  <span class="attribute">background-image</span>: <span class="built_in">url</span>(<span class="string">"/assets/images/confidential.svg"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果需要通过代码设置动态 SVG 的话，可以使用以下代码：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.watermark</span> &#123;</span><br><span class="line">   <span class="attribute">background-image</span>: <span class="built_in">url</span>(<span class="string">"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 200'%3E%3Cpath d='M10 10h123v123H10z'/%3E%3C/svg%3E"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后通过操作 <a href="https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model" target="_blank" rel="noopener">CSSOM</a> 来替换对应的样式，比如 <a href="https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/replaceSync" target="_blank" rel="noopener">CSSStyleSheet.replaceSync()</a> 整体替换，或者 <code>[cssRules](https://developer.mozilla.org/en-US/docs/Web/API/CSSRuleList)\[index\].style</code> 部分替换。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// https://bl.ocks.org/jennyknuth/222825e315d45a738ed9d6e04c7a88d0</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">encodeSvg</span>(<span class="params">svg: string</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> svg.replace(<span class="string">'&lt;svg'</span>, (~svg.indexOf(<span class="string">'xmlns'</span>) ? <span class="string">'&lt;svg'</span> : <span class="string">'&lt;svg xmlns="http://www.w3.org/2000/svg"'</span>))</span><br><span class="line">    .replace(<span class="regexp">/"/g</span>, <span class="string">'\''</span>)</span><br><span class="line">    .replace(<span class="regexp">/%/g</span>, <span class="string">'%25'</span>)</span><br><span class="line">    .replace(<span class="regexp">/#/g</span>, <span class="string">'%23'</span>)</span><br><span class="line">    .replace(<span class="regexp">/&#123;/g</span>, <span class="string">'%7B'</span>)</span><br><span class="line">    .replace(<span class="regexp">/&#125;/g</span>, <span class="string">'%7D'</span>)</span><br><span class="line">    .replace(<span class="regexp">/&lt;/g</span>, <span class="string">'%3C'</span>)</span><br><span class="line">    .replace(<span class="regexp">/&gt;/g</span>, <span class="string">'%3E'</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> dataUri = <span class="string">`data:image/svg+xml;utf8,<span class="subst">$&#123;encodeSvg(svg)&#125;</span>`</span>;</span><br><span class="line"><span class="keyword">const</span> stylesheet = <span class="built_in">document</span>.styleSheets[<span class="number">0</span>]; <span class="comment">// need to update accordingly</span></span><br><span class="line">stylesheet.cssRules[<span class="number">0</span>].style.backgroundImage=dataUri; <span class="comment">// need to update accordingly</span></span><br></pre></td></tr></table></figure>
+
+<p>某些时候，修改了以上代码之后，你会发现，页面好像没有任何的变动，或者只有部分组件有水印。这可能是因为，页面 <code>DOM</code> 设置了背景颜色，比如我的项目代码中引用了 <code>Ant Design</code> 的组件，而这些组件默认背景色就是白色。解决办法就是调整主题样式：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-btn</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-card</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-alert</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-drawer</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-form</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-grid</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-moal</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-notification</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-popover</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-tabs</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-table</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-table</span> <span class="selector-tag">tr</span> <span class="selector-tag">th</span><span class="selector-pseudo">:not(.ant-table-cell-fix-left)</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-table</span> <span class="selector-tag">tr</span> <span class="selector-tag">td</span><span class="selector-pseudo">:not(.ant-table-cell-fix-left)</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: initial;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://www.svgbackgrounds.com/how-to-add-svgs-with-css-background-image/" target="_blank" rel="noopener">How to add SVGs with CSS (background-image)</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/replaceSync" target="_blank" rel="noopener">CSSStyleSheet.replaceSync()</a> </li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model/Using_dynamic_styling_information#modify_a_stylesheet_rule_with_cssom" target="_blank" rel="noopener">Modify a stylesheet rule with CSSOM</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/11/06/add-watermark-to-webpage/" data-id="cla8bpvmg001f9j8cg2ll4aem" data-title="页面添加水印" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svg/" rel="tag">svg</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/watermark/" rel="tag">watermark</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2021/11/10/mysql-split-string/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          mysql 字符串拆分行
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/10/16/emoji-knowledge-review/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">Emoji 知识复习</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

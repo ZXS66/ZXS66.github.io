@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>Hexo 站点支持搜索 | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="背景Hexo 默认的模板 landscape 对搜索的支持并不友好（也许是我没有领会到精髓😟），一般人选择先做好 SEO，然后把站内搜索直接转发给本地搜索引擎（如Google、百度等）。 本网站严格意义上来讲，并不算是个博客，只是本人随手瞎记录一下平时遇到的问题以及感想，所以，完全没心思去做 SEO 优化，仅作为个人备忘录在用。但是偶尔会遇到自己有印象写过xx知识点，但是又不记得具体在哪里的时候">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo 站点支持搜索">
+<meta property="og:url" content="https://zxs66.github.io/2020/12/16/search-within-hexo-site/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="背景Hexo 默认的模板 landscape 对搜索的支持并不友好（也许是我没有领会到精髓😟），一般人选择先做好 SEO，然后把站内搜索直接转发给本地搜索引擎（如Google、百度等）。 本网站严格意义上来讲，并不算是个博客，只是本人随手瞎记录一下平时遇到的问题以及感想，所以，完全没心思去做 SEO 优化，仅作为个人备忘录在用。但是偶尔会遇到自己有印象写过xx知识点，但是又不记得具体在哪里的时候">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-16T15:22:37.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.203Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="搜索">
+<meta name="twitter:card" content="summary">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-search-within-hexo-site" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/12/16/search-within-hexo-site/" class="article-date">
+  <time datetime="2020-12-16T15:22:37.000Z" itemprop="datePublished">2020-12-16</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      Hexo 站点支持搜索
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>Hexo 默认的模板 landscape 对搜索的支持并不友好（也许是我没有领会到精髓😟），一般人选择先做好 SEO，然后把站内搜索直接转发给本地搜索引擎（如Google、百度等）。</p>
+<p>本网站严格意义上来讲，并不算是个博客，只是本人随手瞎记录一下平时遇到的问题以及感想，所以，完全没心思去做 SEO 优化，仅作为个人备忘录在用。但是偶尔会遇到自己有印象写过xx知识点，但是又不记得具体在哪里的时候。这时，就需要搜索了。</p>
+<p>出发点交代完毕，正文开启：</p>
+<h3 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h3><p>实现思路很简单：</p>
+<h5 id="安装-hexo-generator-search"><a href="#安装-hexo-generator-search" class="headerlink" title="安装 hexo-generator-search"></a>安装 <code>hexo-generator-search</code></h5><p>详细请参考 <i class="fa fa-github" aria-hidden="true"></i> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener">hexo-generator-search</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-search --save</span><br></pre></td></tr></table></figure>
+
+<h5 id="配置-hexo-generator-search"><a href="#配置-hexo-generator-search" class="headerlink" title="配置 hexo-generator-search"></a>配置 <code>hexo-generator-search</code></h5><p>一般情况下，同样内容的数据，json 文件要比 xml 小，所以，此处我选择 <code>search.json</code> 文件。</p>
+<h5 id="修改-landscape-模板的页面生成脚本，"><a href="#修改-landscape-模板的页面生成脚本，" class="headerlink" title="修改 landscape 模板的页面生成脚本，"></a>修改 landscape 模板的页面生成脚本，</h5><p>打开 <code>header.ejs</code> 文件中，找到搜索相关代码，作相应修改。</p>
+<p>我的 <code>header.ejs</code> 相关代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;search-form-wrap&quot;&gt;</span><br><span class="line">  &lt;%- search_form_cn(&#123;button: &#39;&amp;#xF002;&#39;&#125;) %&gt;</span><br><span class="line">  &lt;% if (config.search)&#123; %&gt;</span><br><span class="line">  &lt;input type&#x3D;&quot;hidden&quot; id&#x3D;&quot;search-index-file&quot; value&#x3D;&quot;&lt;%&#x3D;config.root+config.search.path%&gt;&quot; &#x2F;&gt;</span><br><span class="line">  &lt;div id&#x3D;&quot;search-form-datalist&quot;&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">  &lt;% &#125; %&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;nav id&#x3D;&quot;sub-nav&quot;&gt;</span><br><span class="line">  &lt;% if (theme.rss)&#123; %&gt;</span><br><span class="line">  &lt;a id&#x3D;&quot;nav-rss-link&quot; class&#x3D;&quot;nav-icon&quot; href&#x3D;&quot;&lt;%- url_for(theme.rss) %&gt;&quot; title&#x3D;&quot;&lt;%&#x3D; __(&#39;rss_feed&#39;) %&gt;&quot;&gt;&lt;&#x2F;a&gt;</span><br><span class="line">  &lt;% &#125; %&gt;</span><br><span class="line">  &lt;a id&#x3D;&quot;nav-search-btn&quot; class&#x3D;&quot;nav-icon&quot; title&#x3D;&quot;&lt;%&#x3D; __(&#39;search&#39;) %&gt;&quot;&gt;&lt;&#x2F;a&gt;</span><br><span class="line">&lt;&#x2F;nav&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="修改-script-js-脚本"><a href="#修改-script-js-脚本" class="headerlink" title="修改 script.js 脚本"></a>修改 <code>script.js</code> 脚本</h5><p>更新逻辑有如下：</p>
+<ol>
+<li>初始化 web worker，用于搜索实现（TODO:搜索排序）；</li>
+<li>加载 <code>search.json</code> 索引文件；</li>
+<li>监听搜索关键词输入框按键事件（如 <code>keyup</code>、<code>blur</code>等），当用户输入变更时，搜索索引文件；并根据返回结果渲染页面；</li>
+<li>响应键盘 ↑ ↓ 箭头按钮事件，高亮用户想要查看的内容；响应键盘确定按钮事件，跳转到对应的内容；</li>
+<li>调整 UI，完善 UX。</li>
+</ol>
+<p><code>script.js</code> 部分源码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Search</span></span><br><span class="line"><span class="keyword">const</span> $searchWrap = <span class="built_in">document</span>.getElementById(<span class="string">"search-form-wrap"</span>);</span><br><span class="line"><span class="keyword">let</span> isSearchAnim = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">const</span> searchAnimDuration = <span class="number">200</span>;</span><br><span class="line"><span class="keyword">const</span> startSearchAnim = <span class="function"><span class="params">()</span> =&gt;</span> (isSearchAnim = <span class="literal">true</span>);</span><br><span class="line"><span class="keyword">const</span> stopSearchAnim = <span class="function"><span class="params">callback</span> =&gt;</span></span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    isSearchAnim = <span class="literal">false</span>;</span><br><span class="line">    callback &amp;&amp; callback();</span><br><span class="line">  &#125;, searchAnimDuration);</span><br><span class="line"><span class="keyword">const</span> showSearchForm = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (isSearchAnim) <span class="keyword">return</span>;</span><br><span class="line">  startSearchAnim();</span><br><span class="line">  $searchWrap.classList.add(<span class="string">"on"</span>);</span><br><span class="line">  stopSearchAnim(<span class="function"><span class="params">()</span> =&gt;</span></span><br><span class="line">    <span class="built_in">document</span>.querySelector(<span class="string">".search-form-input"</span>).focus()</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">document</span></span><br><span class="line">  .getElementById(<span class="string">"nav-search-btn"</span>)</span><br><span class="line">  .addEventListener(<span class="string">"click"</span>, showSearchForm);</span><br><span class="line"><span class="keyword">const</span> $searchInput = <span class="built_in">document</span>.querySelector(<span class="string">".search-form-input"</span>);</span><br><span class="line"><span class="keyword">const</span> $searchDataList = <span class="built_in">document</span>.getElementById(<span class="string">"search-form-datalist"</span>);</span><br><span class="line"><span class="keyword">let</span> search_ww;</span><br><span class="line">$searchInput.addEventListener(<span class="string">"keyup"</span>, evt =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> options = <span class="built_in">Array</span>.from($searchDataList.children);</span><br><span class="line">  <span class="keyword">let</span> activeOptIdx = <span class="number">-1</span>;</span><br><span class="line">  options.some(<span class="function">(<span class="params">_, i</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (_.classList.contains(<span class="string">"active"</span>)) &#123;</span><br><span class="line">      activeOptIdx = i;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">const</span> keyCode = evt.key;</span><br><span class="line">  <span class="keyword">if</span> (keyCode === <span class="string">"Enter"</span>) &#123;</span><br><span class="line">    <span class="comment">// enter button was pressed</span></span><br><span class="line">    <span class="comment">// redirect to the highlight matched post</span></span><br><span class="line">    <span class="keyword">const</span> theOpt = $searchDataList.querySelector(<span class="string">".active"</span>);</span><br><span class="line">    <span class="keyword">if</span> (theOpt) &#123;</span><br><span class="line">      <span class="built_in">window</span>.location.pathname = theOpt.dataset.url;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (keyCode === <span class="string">"ArrowUp"</span> || keyCode === <span class="string">"ArrowDown"</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!(options &amp;&amp; options.length &amp;&amp; activeOptIdx !== <span class="number">-1</span>)) &#123;</span><br><span class="line">      <span class="keyword">return</span>; <span class="comment">// no matched posts found</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (keyCode === <span class="string">"ArrowUp"</span>) &#123;</span><br><span class="line">      <span class="comment">// up arrow button was pressed</span></span><br><span class="line">      activeOptIdx--;</span><br><span class="line">      <span class="keyword">if</span> (activeOptIdx &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        activeOptIdx = options.length - <span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// down arrow button was pressed</span></span><br><span class="line">      activeOptIdx = (activeOptIdx + <span class="number">1</span>) % options.length;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// highlight selected post by set class 'active'</span></span><br><span class="line">    options.forEach(<span class="function">(<span class="params">_, i</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (activeOptIdx === i) &#123;</span><br><span class="line">        _.classList.add(<span class="string">"active"</span>);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        _.classList.remove(<span class="string">"active"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    $searchDataList.scrollTo(&#123;</span><br><span class="line">      top: options[activeOptIdx].offsetTop,</span><br><span class="line">      left: <span class="number">0</span>,</span><br><span class="line">      behavior: <span class="string">"smooth"</span></span><br><span class="line">    &#125;);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// user is typing search term</span></span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> debounce</span></span><br><span class="line">    search_ww.postMessage(&#123; <span class="attr">action</span>: <span class="string">"SEARCH"</span>, <span class="attr">data</span>: $searchInput.value &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line">$searchInput.addEventListener(<span class="string">"blur"</span>, () =&gt; &#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    startSearchAnim();</span><br><span class="line">    $searchWrap.classList.remove(<span class="string">"on"</span>);</span><br><span class="line">    stopSearchAnim();</span><br><span class="line">  &#125;, <span class="number">128</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">window</span>.Worker) &#123;</span><br><span class="line">  search_ww = <span class="keyword">new</span> Worker(<span class="string">"/js/search_ww.js"</span>);</span><br><span class="line">  search_ww.onmessage = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// search result returned</span></span><br><span class="line">    <span class="keyword">const</span> matchedPosts = e.data;</span><br><span class="line">    $searchDataList.innerHTML = <span class="string">""</span>;</span><br><span class="line">    <span class="comment">// render datalist with matched posts</span></span><br><span class="line">    <span class="keyword">if</span> (matchedPosts &amp;&amp; matchedPosts.length) &#123;</span><br><span class="line">      matchedPosts.forEach(<span class="function">(<span class="params">_, i</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> $opt = <span class="built_in">document</span>.createElement(<span class="string">"p"</span>);</span><br><span class="line">        $opt.dataset.url = _.url;</span><br><span class="line">        <span class="keyword">const</span> $h = <span class="built_in">document</span>.createElement(<span class="string">"h5"</span>);</span><br><span class="line">        $h.innerHTML = <span class="string">`&lt;a href="<span class="subst">$&#123;_.url&#125;</span>"&gt;<span class="subst">$&#123;_.title&#125;</span>&lt;/a&gt;`</span>;</span><br><span class="line">        $opt.appendChild($h);</span><br><span class="line">        <span class="keyword">const</span> $body = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);</span><br><span class="line">        $body.innerText = _.content</span><br><span class="line">          .trim()</span><br><span class="line">          .replace(<span class="regexp">/\n/ig</span>, <span class="string">" "</span>)</span><br><span class="line">          .substring(<span class="number">0</span>, <span class="number">256</span>);</span><br><span class="line">        $opt.appendChild($body);</span><br><span class="line">        $searchDataList.appendChild($opt);</span><br><span class="line">        <span class="comment">// highlight the first matched post by default</span></span><br><span class="line">        <span class="keyword">if</span> (i === <span class="number">0</span>) &#123;</span><br><span class="line">          $opt.classList.add(<span class="string">"active"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      $searchDataList.innerHTML =</span><br><span class="line">        <span class="string">"&lt;p&gt;NO post(s) that matched with your input can be found, please try other keywords.&lt;/p&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// initial search web work with delay</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">document</span>.getElementById(<span class="string">"search-index-file"</span>)) &#123;</span><br><span class="line">      <span class="keyword">const</span> indexFilePath = <span class="built_in">document</span>.getElementById(<span class="string">"search-index-file"</span>)</span><br><span class="line">        .value;</span><br><span class="line">      search_ww.postMessage(&#123; <span class="attr">action</span>: <span class="string">"INIT"</span>, <span class="attr">data</span>: indexFilePath &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// shortcut for showing search form</span></span><br><span class="line">    <span class="built_in">document</span>.body.addEventListener(<span class="string">"keyup"</span>, evt =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span> ([<span class="string">"E"</span>, <span class="string">"e"</span>].includes(evt.key)) &#123;</span><br><span class="line">        showSearchForm();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;, <span class="number">1024</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>search-ww.js</code> 源码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">///// web worker for searching post</span></span><br><span class="line"><span class="keyword">let</span> searchStore = [];</span><br><span class="line"><span class="comment">/** event listener for the web worker */</span></span><br><span class="line">onmessage = <span class="keyword">async</span> e =&gt; &#123;</span><br><span class="line">  <span class="keyword">let</span> &#123; action, data &#125; = e.data;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> action === <span class="string">"string"</span> &amp;&amp; action.length) &#123;</span><br><span class="line">    action = action.toUpperCase().trim();</span><br><span class="line">    <span class="keyword">switch</span> (action) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">"INIT"</span>:</span><br><span class="line">        <span class="comment">// initialization</span></span><br><span class="line">        <span class="comment">// fetch posts' indexing file</span></span><br><span class="line">        <span class="keyword">const</span> response = <span class="keyword">await</span> fetch(data);</span><br><span class="line">        <span class="keyword">const</span> content = <span class="keyword">await</span> response.json();</span><br><span class="line">        searchStore = content || [];</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">"SEARCH"</span>:</span><br><span class="line">      <span class="keyword">case</span> <span class="string">"QUERY"</span>:</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="comment">// perform search with user input keyword</span></span><br><span class="line">        <span class="keyword">let</span> value = (data || <span class="string">""</span>).toLowerCase();</span><br><span class="line">        <span class="keyword">if</span> (value.length === <span class="number">0</span>) &#123;</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// <span class="doctag">TODO:</span> implement advanced search algorithm</span></span><br><span class="line">        <span class="comment">// reference: https://stackoverflow.com/questions/5859561/getting-the-closest-string-match</span></span><br><span class="line">        <span class="keyword">const</span> matchedPosts = searchStore</span><br><span class="line">          .filter(</span><br><span class="line">            _ =&gt;</span><br><span class="line">              _.title.toLowerCase().includes(value) ||</span><br><span class="line">              _.content.toLowerCase().includes(value)</span><br><span class="line">          )</span><br><span class="line">          .slice(<span class="number">0</span>, <span class="number">10</span>);</span><br><span class="line">        postMessage(matchedPosts);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"please specify action when invoking search web worker!"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>具体可查看本博客源码（按 <code>F12</code> 快捷键即可）。</p>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/12/16/search-within-hexo-site/" data-id="cla8bpvmw00359j8c2fmc3x5c" data-title="Hexo 站点支持搜索" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%90%9C%E7%B4%A2/" rel="tag">搜索</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2021/01/04/onepiece-materials/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          海贼王素材
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/11/28/webapp-security-improvements/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">Web 应用程序安全提升</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

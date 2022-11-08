@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>ASP.NET WebAPI 编译包瘦身 | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="伏尔泰曾说：  生命，在于运动折腾！  不知何时起，经过数次迭代，项目的依赖项（第三方包）逐渐变多，导致现在编译的时间变长了，发布包也慢慢的变大了。有些依赖项可能只是引用了其中的某一个小功能，有些则是完全废弃的包，但是项目编译的时候都会编译。确实是因为项目小，人手少，所有的改动（还包括不成熟的 research 模块）都在一个代码库上，导致现在编译包过大。理想做法是，有一个主分支，至少一个开发分支">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET WebAPI 编译包瘦身">
+<meta property="og:url" content="https://zxs66.github.io/2020/08/31/shrink-ASP-NET-WebAPI-build-package-file-size/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="伏尔泰曾说：  生命，在于运动折腾！  不知何时起，经过数次迭代，项目的依赖项（第三方包）逐渐变多，导致现在编译的时间变长了，发布包也慢慢的变大了。有些依赖项可能只是引用了其中的某一个小功能，有些则是完全废弃的包，但是项目编译的时候都会编译。确实是因为项目小，人手少，所有的改动（还包括不成熟的 research 模块）都在一个代码库上，导致现在编译包过大。理想做法是，有一个主分支，至少一个开发分支">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zxs66.github.io/images/shrink-ASP-NET-WebAPI-build-package-file-size/confidence.gif">
+<meta property="og:image" content="https://zxs66.github.io/images/shrink-ASP-NET-WebAPI-build-package-file-size/comparison.png">
+<meta property="article:published_time" content="2020-08-31T15:07:55.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.203Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="asp.net">
+<meta property="article:tag" content="webapi">
+<meta property="article:tag" content="build">
+<meta property="article:tag" content="package">
+<meta property="article:tag" content="shrink">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zxs66.github.io/images/shrink-ASP-NET-WebAPI-build-package-file-size/confidence.gif">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-shrink-ASP-NET-WebAPI-build-package-file-size" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/08/31/shrink-ASP-NET-WebAPI-build-package-file-size/" class="article-date">
+  <time datetime="2020-08-31T15:07:55.000Z" itemprop="datePublished">2020-08-31</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      ASP.NET WebAPI 编译包瘦身
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>伏尔泰曾说：</p>
+<blockquote>
+<p>生命，在于<del>运动</del>折腾！</p>
+</blockquote>
+<p>不知何时起，经过数次迭代，项目的依赖项（第三方包）逐渐变多，导致现在编译的时间变长了，发布包也慢慢的变大了。有些依赖项可能只是引用了其中的某一个小功能，有些则是完全废弃的包，但是项目编译的时候都会编译。确实是因为项目小，人手少，所有的改动（还包括不成熟的 research 模块）都在一个代码库上，导致现在编译包过大。理想做法是，有一个主分支，至少一个开发分支。考虑到，可预见的未来内，项目组成员是不会变了（对，就我一个），所以，还是一个开发分支省事（其实就是因为懒）。但也不能屈服于现状，得做点事，改善一下，证明我还是个好程序猿。</p>
+<p>说干就干。但是动手前，得足够了解自身项目，了解所有的项目依赖项。</p>
+<p>其次，了解哪些源文件/依赖项还在用，这样我们就可以删除掉那些不再使用的源文件/依赖项。前端有 <a href="https://webpack.js.org/guides/tree-shaking/" target="_blank" rel="noopener">Tree Shaking</a> 的概念，相应地可以推广到 ASP.NET 中。虽说强类型语言编译时已做到了排除未使用(unused)/无法触达(unreachable)代码，但是奈何有些开发人员代码编写不规范，编译器也无法识别出 TA 写的代码到底该不该排除，导致编译时默认还是会包含很多不需要的内容。所以，Tree Shaking 也应该推广到开发人员的思维。🙂</p>
+<p>以下是动手之前，我的项目依赖项清单 (NuGet 的 <code>packages.config</code> 文件)：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">packages</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Antlr"</span> <span class="attr">version</span>=<span class="string">"3.5.0.2"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"BouncyCastle"</span> <span class="attr">version</span>=<span class="string">"1.8.3.1"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"EntityFramework"</span> <span class="attr">version</span>=<span class="string">"6.2.0"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Google.Protobuf"</span> <span class="attr">version</span>=<span class="string">"3.6.1"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.Mvc"</span> <span class="attr">version</span>=<span class="string">"5.2.4"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.Razor"</span> <span class="attr">version</span>=<span class="string">"3.2.4"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.TelemetryCorrelation"</span> <span class="attr">version</span>=<span class="string">"1.0.0"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.Web.Optimization"</span> <span class="attr">version</span>=<span class="string">"1.1.3"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.WebApi"</span> <span class="attr">version</span>=<span class="string">"5.2.4"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.WebApi.Client"</span> <span class="attr">version</span>=<span class="string">"5.2.4"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.WebApi.Core"</span> <span class="attr">version</span>=<span class="string">"5.2.4"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.WebApi.HelpPage"</span> <span class="attr">version</span>=<span class="string">"5.2.4"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.WebApi.WebHost"</span> <span class="attr">version</span>=<span class="string">"5.2.4"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.WebPages"</span> <span class="attr">version</span>=<span class="string">"3.2.4"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.CodeDom.Providers.DotNetCompilerPlatform"</span> <span class="attr">version</span>=<span class="string">"2.0.0"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.Web.Infrastructure"</span> <span class="attr">version</span>=<span class="string">"1.0.0.0"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"MySql.Data"</span> <span class="attr">version</span>=<span class="string">"8.0.16"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"MySql.Data.Entities"</span> <span class="attr">version</span>=<span class="string">"6.8.3.0"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"MySql.Data.Entity"</span> <span class="attr">version</span>=<span class="string">"6.10.8"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Newtonsoft.Json"</span> <span class="attr">version</span>=<span class="string">"12.0.2"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"popper.js"</span> <span class="attr">version</span>=<span class="string">"1.14.0"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"System.Diagnostics.DiagnosticSource"</span> <span class="attr">version</span>=<span class="string">"4.4.1"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"WebGrease"</span> <span class="attr">version</span>=<span class="string">"1.5.2"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">packages</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，虽然之前已经移除了很多默认的、没必要的依赖项，比如 <code>bootstrap</code>、<code>jQuery</code> 等，但是还是有 23 个包！考虑到该项目是个 Web API 程序，所以，还是有很多依赖项可以删除。</p>
+<p>⚠⚠⚠ 警告 ⚠⚠⚠： <strong>一定要在足够了解自身项目，并且明白每个依赖项的用处的前提下，思考再三才能动手</strong>。前者可以在平日的项目经验积累获得，后者只能通过看官方文档、社区问答、博客去了解。</p>
+<p>官方文档是指 <a href="https://www.nuget.org/" target="_blank" rel="noopener">NuGet</a> 的官方链接或者其 <a href="https://github.com/" target="_blank" rel="noopener">Github</a> 主页介绍。社区问答参考 <a href="https://stackoverflow.com" target="_blank" rel="noopener">Stackoverflow</a> 等。博客的话就比较广了，可以参考各搜索引擎的结果。</p>
+<p>以下是我的参考链接节选：</p>
+<ul>
+<li><a href="https://exceptionnotfound.net/whats-this-and-can-i-delete-it-examining-a-default-asp-net-mvc-project/" target="_blank" rel="noopener">What’s This and Can I Delete It? Examining A Default ASP.NET MVC Project</a></li>
+<li><a href="https://galdin.dev/blog/removing-roslyn-from-asp-net-4-5-2-project-template/" target="_blank" rel="noopener">Removing roslyn from ASP.NET 4.5.2 project template</a></li>
+<li><a href="https://www.nuget.org/packages/MySql.Data/" target="_blank" rel="noopener">NuGet Gallery | MySql.Data</a></li>
+</ul>
+<p>以下是此次移除的依赖项清单：</p>
+<h5 id="Antlr"><a href="#Antlr" class="headerlink" title="Antlr "></a>Antlr <a href="https://www.nuget.org/packages/Antlr/" target="_blank" rel="noopener"><fa-link/></a></h5><p>此依赖项被 <code>WebGrease</code> 所引用（参考 NuGet 主页 Used By 章节，一般 top 5 NuGet packages 都会有你想要的东西），后者是优化 <code>JavaScript</code>、<code>CSS</code> 及图片的工具包。考虑到该项目性质是 Web API，不是 Web Application，删除。</p>
+<h5 id="BouncyCastle"><a href="#BouncyCastle" class="headerlink" title="BouncyCastle "></a>BouncyCastle <a href="https://www.nuget.org/packages/BouncyCastle/" target="_blank" rel="noopener"><fa-link/></a></h5><p>此依赖项被 <code>MySql.Data</code> 所引用，后者是项目前期 Research 阶段使用 MySQL 引入的。现阶段项目采用 SQL Server 作为结构化数据存储数据库，删除。</p>
+<h5 id="EntityFramework"><a href="#EntityFramework" class="headerlink" title="EntityFramework "></a>EntityFramework <a href="https://www.nuget.org/packages/EntityFramework/" target="_blank" rel="noopener"><fa-link/></a></h5><p>EntityFramework 是项目前期快速搭建 prototype 引入的。现阶段项目采用 ADO.NET 及 Stored Procedure 作为底层数据访问方式，删除。</p>
+<h5 id="Google-Protobuf"><a href="#Google-Protobuf" class="headerlink" title="Google.Protobuf "></a>Google.Protobuf <a href="https://www.nuget.org/packages/Google.Protobuf/" target="_blank" rel="noopener"><fa-link/></a></h5><p>此依赖项被 <code>MySql.Data</code> 所引用，后者是项目前期 Research 阶段使用 MySQL 引入的。现阶段项目采用 SQL Server 作为结构化存储数据库，删除。</p>
+<h5 id="Microsoft-AspNet-TelemetryCorrelation"><a href="#Microsoft-AspNet-TelemetryCorrelation" class="headerlink" title="Microsoft.AspNet.TelemetryCorrelation "></a>Microsoft.AspNet.TelemetryCorrelation <a href="https://www.nuget.org/packages/Microsoft.AspNet.TelemetryCorrelation/" target="_blank" rel="noopener"><fa-link/></a></h5><p>此依赖项被 <code>Microsoft.ApplicationInsights.Web</code>，后者在上一次瘦身中已经移除，故移除。</p>
+<h5 id="Microsoft-AspNet-Web-Optimization"><a href="#Microsoft-AspNet-Web-Optimization" class="headerlink" title="Microsoft.AspNet.Web.Optimization "></a>Microsoft.AspNet.Web.Optimization <a href="https://www.nuget.org/packages/Microsoft.AspNet.Web.Optimization/" target="_blank" rel="noopener"><fa-link/></a></h5><p>此依赖项是优化 <code>JavaScript</code> 和 <code>CSS</code> 文件打包的，考虑到该项目性质是 Web API，不是 Web Application，删除。</p>
+<p>Tips: 既然不是个 Web Application，那就应在项目中排除 <code>Views</code> 文件夹。</p>
+<h5 id="Microsoft-CodeDom-Providers-DotNetCompilerPlatform"><a href="#Microsoft-CodeDom-Providers-DotNetCompilerPlatform" class="headerlink" title="Microsoft.CodeDom.Providers.DotNetCompilerPlatform "></a>Microsoft.CodeDom.Providers.DotNetCompilerPlatform <a href="https://www.nuget.org/packages/Microsoft.CodeDom.Providers.DotNetCompilerPlatform/" target="_blank" rel="noopener"><fa-link/></a></h5><p>这个是 .Net 编译平台 <a href="https://github.com/aspnet/RoslynCodeDomProvider/" target="_blank" rel="noopener">Roslyn</a> 的包，移除此依赖项得当心，因为很可能导致项目编译不通过。但是移除此依赖项会带来显著的效果。移除前，每次编译，都会在项目的 <code>bin\roslyn</code> 文件夹下生成一堆你并不想要的东西，还特别大。移除后，这些烦恼随着文件夹一并烟消云散了。</p>
+<p>根据官方文档，<code>Roslyn</code> 是能够让我们在老的运行环境 （.Net Framework）里可以使用新的语法，比如 <a href="https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-6" target="_blank" rel="noopener">C# 6.0</a> 里 <code>?.</code>、<code>??</code> 空值条件运算符，新的使用美元符进行字符串拼接，<code>nameof</code> 运算符等等。</p>
+<p>因为项目的目标运行环境(.Net Framework)版本是 4.6.1，<a href="https://devblogs.microsoft.com/dotnet/announcing-net-framework-4-6/" target="_blank" rel="noopener">该版本天然支持 C# 6.0 语法</a> (或参考此<a href="https://stackoverflow.com/questions/28921701/does-c-sharp-6-0-work-for-net-4-0" target="_blank" rel="noopener">问答</a>)，只要我不去学习 C# 7.0，那就可以任意玩耍了，哈哈，机智如我。<em>（此处未经验证，如有错误，欢迎指正）</em></p>
+<h5 id="MySql-Data"><a href="#MySql-Data" class="headerlink" title="MySql.Data "></a>MySql.Data <a href="https://www.nuget.org/packages/MySql.Data/" target="_blank" rel="noopener"><fa-link/></a></h5><h5 id="MySql-Data-Entities"><a href="#MySql-Data-Entities" class="headerlink" title="MySql.Data.Entities "></a>MySql.Data.Entities <a href="https://www.nuget.org/packages/MySql.Data.Entities/" target="_blank" rel="noopener"><fa-link/></a></h5><h5 id="MySql-Data-Entity"><a href="#MySql-Data-Entity" class="headerlink" title="MySql.Data.Entity "></a>MySql.Data.Entity <a href="https://www.nuget.org/packages/MySql.Data.Entity/" target="_blank" rel="noopener"><fa-link/></a></h5><h5 id="popper-js"><a href="#popper-js" class="headerlink" title="popper.js "></a>popper.js <a href="https://www.nuget.org/packages/popper.js/" target="_blank" rel="noopener"><fa-link/></a></h5><p>以上四个依赖项，皆因项目前期 Research 阶段使用 MySQL 引入的。现阶段项目采用 SQL Server 作为结构化存储数据库，删除。</p>
+<h5 id="System-Diagnostics-DiagnosticSource"><a href="#System-Diagnostics-DiagnosticSource" class="headerlink" title="System.Diagnostics.DiagnosticSource "></a>System.Diagnostics.DiagnosticSource <a href="https://www.nuget.org/packages/System.Diagnostics.DiagnosticSource/" target="_blank" rel="noopener"><fa-link/></a></h5><p>官网看不出来做什么用的，但是自信项目没用到这个依赖项，删！(迷之自信)</p>
+<h5 id="WebGrease"><a href="#WebGrease" class="headerlink" title="WebGrease "></a>WebGrease <a href="https://www.nuget.org/packages/WebGrease/" target="_blank" rel="noopener"><fa-link/></a></h5><p><code>WebGrease</code> 是优化 <code>JavaScript</code>、<code>CSS</code> 及图片的工具包。考虑到该项目性质是 Web API，不是 Web Application，删除。</p>
+<p>所有依赖项删除完了之后，现在的 <code>packages.config</code> 长这样：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">packages</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.Mvc"</span> <span class="attr">version</span>=<span class="string">"5.2.4"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.Razor"</span> <span class="attr">version</span>=<span class="string">"3.2.4"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.WebApi"</span> <span class="attr">version</span>=<span class="string">"5.2.4"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.WebApi.Client"</span> <span class="attr">version</span>=<span class="string">"5.2.4"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.WebApi.Core"</span> <span class="attr">version</span>=<span class="string">"5.2.4"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.WebApi.HelpPage"</span> <span class="attr">version</span>=<span class="string">"5.2.4"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.WebApi.WebHost"</span> <span class="attr">version</span>=<span class="string">"5.2.4"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.AspNet.WebPages"</span> <span class="attr">version</span>=<span class="string">"3.2.4"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Microsoft.Web.Infrastructure"</span> <span class="attr">version</span>=<span class="string">"1.0.0.0"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">package</span> <span class="attr">id</span>=<span class="string">"Newtonsoft.Json"</span> <span class="attr">version</span>=<span class="string">"12.0.2"</span> <span class="attr">targetFramework</span>=<span class="string">"net461"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">packages</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>舒服多了 ~</p>
+<p>还差最后一步，编译：✔️ 通过；发布：✔️ 通过；部署到测试环境：✔️ 运行没问题。</p>
+<p><img src="/images/shrink-ASP-NET-WebAPI-build-package-file-size/confidence.gif" alt="自信"> </p>
+<p>对比一下瘦身前与瘦身后的文件大小，可以开心一整天了。😄</p>
+<p><img src="/images/shrink-ASP-NET-WebAPI-build-package-file-size/comparison.png" alt="编译文件前后对比"> </p>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/08/31/shrink-ASP-NET-WebAPI-build-package-file-size/" data-id="cla8bpvmw00389j8c6dgzdhrw" data-title="ASP.NET WebAPI 编译包瘦身" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/asp-net/" rel="tag">asp.net</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/build/" rel="tag">build</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/package/" rel="tag">package</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shrink/" rel="tag">shrink</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webapi/" rel="tag">webapi</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2020/09/06/tiny-caching-and-logging-in-ASP-NET/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          ASP.NET 极简缓存及日志
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/08/20/node-package-version/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">node 包的版本号</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

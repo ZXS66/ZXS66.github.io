@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>JavaScript Web Speech API | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="Web Speech API 是 JavaScript 新的规范，主要分为 Speech Recognition 和 Speech Synthesis。目前（2020&#x2F;7&#x2F;12），除了 Chrome，其他浏览器基本上都不支持。即使是 Chrome，也是在联网情况下方可使用。 兼容性&#x2F;限制Web Speech API 还是比较新的功能，兼容性并没有那么好。最新的浏览器支持情况请参考 Can I Us">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript Web Speech API">
+<meta property="og:url" content="https://zxs66.github.io/2020/07/12/JavaScript-Web-Speech-API/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="Web Speech API 是 JavaScript 新的规范，主要分为 Speech Recognition 和 Speech Synthesis。目前（2020&#x2F;7&#x2F;12），除了 Chrome，其他浏览器基本上都不支持。即使是 Chrome，也是在联网情况下方可使用。 兼容性&#x2F;限制Web Speech API 还是比较新的功能，兼容性并没有那么好。最新的浏览器支持情况请参考 Can I Us">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zxs66.github.io/images/javascript-web-speech-api/Speech%20Recognition%20API.20200713.PNG">
+<meta property="og:image" content="https://zxs66.github.io/images/javascript-web-speech-api/Speech%20Synthesis%20API.20200713.PNG">
+<meta property="article:published_time" content="2020-07-12T03:18:40.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.193Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="web speech api">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zxs66.github.io/images/javascript-web-speech-api/Speech%20Recognition%20API.20200713.PNG">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-JavaScript-Web-Speech-API" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/07/12/JavaScript-Web-Speech-API/" class="article-date">
+  <time datetime="2020-07-12T03:18:40.000Z" itemprop="datePublished">2020-07-12</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      JavaScript Web Speech API
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>Web Speech API 是 JavaScript 新的规范，主要分为 Speech Recognition 和 Speech Synthesis。目前（2020/7/12），除了 Chrome，其他浏览器基本上都不支持。即使是 Chrome，也是在联网情况下方可使用。</p>
+<h2 id="兼容性-限制"><a href="#兼容性-限制" class="headerlink" title="兼容性/限制"></a>兼容性/限制</h2><p>Web Speech API 还是比较新的功能，兼容性并没有那么好。最新的浏览器支持情况请参考 <a href="https://caniuse.com/#feat=speech" target="_blank" rel="noopener">Can I Use</a>。</p>
+<h2 id="Speech-Recognition-API"><a href="#Speech-Recognition-API" class="headerlink" title="Speech Recognition API"></a>Speech Recognition API</h2><p>其实，最想体验的就是 Speech Recognition API，毕竟，如果有免费的语音识别 API 可用，谁还会去购买收费的云语音识别，除非，人傻钱多，或者后者识别率要高很多。</p>
+<p>emmm，我还是太年轻了，看着这个功能的支持情况，我觉得，还是过几年再看吧。</p>
+<p><img src="/images/javascript-web-speech-api/Speech%20Recognition%20API.20200713.PNG" alt="Speech Recognition API"></p>
+<h2 id="Speech-Synthesis-API"><a href="#Speech-Synthesis-API" class="headerlink" title="Speech Synthesis API"></a>Speech Synthesis API</h2><p>Speech Synthesis API 虽然实用性没前者大，但是也是值得一玩的。</p>
+<p><img src="/images/javascript-web-speech-api/Speech%20Synthesis%20API.20200713.PNG" alt="Speech Synthesis API"></p>
+<p>(Coming soon…)</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API/Using_the_Web_Speech_API" target="_blank" rel="noopener">Using the Web Speech API</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/07/12/JavaScript-Web-Speech-API/" data-id="cla8bpvm6000q9j8cd6m7dfcf" data-title="JavaScript Web Speech API" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web-speech-api/" rel="tag">web speech api</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2020/07/15/Windows-Saved-WiFi-password/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          Windows 显示已保存 WiFi 密码
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/07/08/best-practices-for-Entity-Framework/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">Entity Framework 最佳实践</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

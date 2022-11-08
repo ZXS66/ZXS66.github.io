@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="时代残党">
+<meta property="og:url" content="https://zxs66.github.io/page/6/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="Angular">
+<meta property="article:tag" content="NodeJS">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="ASP.NET">
+<meta property="article:tag" content="Full Stack">
+<meta name="twitter:card" content="summary">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+
+
+<article id="post-add-watermark-to-webpage" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/11/06/add-watermark-to-webpage/" class="article-date">
+  <time datetime="2021-11-06T04:47:16.000Z" itemprop="datePublished">2021-11-06</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/11/06/add-watermark-to-webpage/">页面添加水印</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>水印，这个让人又爱又恨的发明，终于，老板让我染指了… 😟</p>
+<p>需求很简单，就是给页面加上水印，这样不管用户是截图还是保存页面的时候，都会强制带上水印信息。</p>
+<p>简单来讲，按用途来分，水印也分两种：</p>
+<ol>
+<li>版权声明。一般在网络上散布的各种图片当中，肉眼可见的水印。</li>
+<li>监控回溯。比如之前有新闻报道，某员工将内部邮件截图发布到网上，然后公司立马约该员工喝茶，其实就是利用了邮件 APP 中肉眼极其难以分辨的水印。😰</li>
+</ol>
+<p>我这次的用户需求，更贴合第一种情况。</p>
+<p>首先，在面向搜索引擎编程之前，一定要自己试试，有哪些可能的解决方案。我大概构思了一下，简单列觉如下：</p>
+<ol>
+<li>整体 <code>body</code> 或者主要内容的 <code>div</code> 设置 <code>background-image</code>，并设置 <code>opacity</code>；</li>
+<li>在页面上放置一个 <code>position:fixed</code> 或者和页面同宽高的 <code>img</code> 或者 <code>div</code>（设置 <code>background-image</code>），然后设置 <code>z-index</code> 和 <code>opacity</code>；</li>
+<li>给需要加水印的 <code>div</code> 或者 <code>img</code> 添加 <code>:before</code> 或者 <code>:after</code> 属性，自动添加水印；</li>
+</ol>
+<p>当然，为了防篡改，以上的这些 <code>CSS</code> 属性设置，也可以通过 <code>JS</code> 代码实现；并且通过定时任务，保持水印。更多防擦除水印，可以自行搜索，或者参考业界防复制的办法…</p>
+<p>我的解决办法，超级简单，就是采用第一种，整体设置 <code>background-image</code>。但是这个 <code>image</code> 比较特殊，是个 SVG。考虑用 SVG 的原因是：</p>
+<ol>
+<li>水印内容为纯文本信息，很简单，省的制作背景图片了；</li>
+<li>对提升网络请求有益；</li>
+<li>方便之后动态设置水印内容（比如附带时间信息）；</li>
+</ol>
+<p>SVG 文件的内容参考如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; viewBox&#x3D;&quot;0 0 128 64&quot;&gt;&lt;text x&#x3D;&quot;50%&quot; y&#x3D;&quot;50%&quot; dominant-baseline&#x3D;&quot;middle&quot; text-anchor&#x3D;&quot;middle&quot; opacity&#x3D;&quot;0.125&quot; fill&#x3D;&quot;#999&quot; font-style&#x3D;&quot;italic&quot; transform-origin&#x3D;&quot;center&quot; transform&#x3D;&quot;rotate(-30)&quot;&gt;Confidential&lt;&#x2F;text&gt;&lt;&#x2F;svg&gt;</span><br></pre></td></tr></table></figure>
+
+<p>设置整体 <code>background-image</code>：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#app-root</span> &#123;</span><br><span class="line">  <span class="attribute">background-image</span>: <span class="built_in">url</span>(<span class="string">"/assets/images/confidential.svg"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果需要通过代码设置动态 SVG 的话，可以使用以下代码：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.watermark</span> &#123;</span><br><span class="line">   <span class="attribute">background-image</span>: <span class="built_in">url</span>(<span class="string">"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 200'%3E%3Cpath d='M10 10h123v123H10z'/%3E%3C/svg%3E"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后通过操作 <a href="https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model" target="_blank" rel="noopener">CSSOM</a> 来替换对应的样式，比如 <a href="https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/replaceSync" target="_blank" rel="noopener">CSSStyleSheet.replaceSync()</a> 整体替换，或者 <code>[cssRules](https://developer.mozilla.org/en-US/docs/Web/API/CSSRuleList)\[index\].style</code> 部分替换。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// https://bl.ocks.org/jennyknuth/222825e315d45a738ed9d6e04c7a88d0</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">encodeSvg</span>(<span class="params">svg: string</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> svg.replace(<span class="string">'&lt;svg'</span>, (~svg.indexOf(<span class="string">'xmlns'</span>) ? <span class="string">'&lt;svg'</span> : <span class="string">'&lt;svg xmlns="http://www.w3.org/2000/svg"'</span>))</span><br><span class="line">    .replace(<span class="regexp">/"/g</span>, <span class="string">'\''</span>)</span><br><span class="line">    .replace(<span class="regexp">/%/g</span>, <span class="string">'%25'</span>)</span><br><span class="line">    .replace(<span class="regexp">/#/g</span>, <span class="string">'%23'</span>)</span><br><span class="line">    .replace(<span class="regexp">/&#123;/g</span>, <span class="string">'%7B'</span>)</span><br><span class="line">    .replace(<span class="regexp">/&#125;/g</span>, <span class="string">'%7D'</span>)</span><br><span class="line">    .replace(<span class="regexp">/&lt;/g</span>, <span class="string">'%3C'</span>)</span><br><span class="line">    .replace(<span class="regexp">/&gt;/g</span>, <span class="string">'%3E'</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> dataUri = <span class="string">`data:image/svg+xml;utf8,<span class="subst">$&#123;encodeSvg(svg)&#125;</span>`</span>;</span><br><span class="line"><span class="keyword">const</span> stylesheet = <span class="built_in">document</span>.styleSheets[<span class="number">0</span>]; <span class="comment">// need to update accordingly</span></span><br><span class="line">stylesheet.cssRules[<span class="number">0</span>].style.backgroundImage=dataUri; <span class="comment">// need to update accordingly</span></span><br></pre></td></tr></table></figure>
+
+<p>某些时候，修改了以上代码之后，你会发现，页面好像没有任何的变动，或者只有部分组件有水印。这可能是因为，页面 <code>DOM</code> 设置了背景颜色，比如我的项目代码中引用了 <code>Ant Design</code> 的组件，而这些组件默认背景色就是白色。解决办法就是调整主题样式：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-btn</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-card</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-alert</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-drawer</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-form</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-grid</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-moal</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-notification</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-popover</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-tabs</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-table</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-table</span> <span class="selector-tag">tr</span> <span class="selector-tag">th</span><span class="selector-pseudo">:not(.ant-table-cell-fix-left)</span>,</span><br><span class="line"><span class="selector-id">#app-root</span> <span class="selector-class">.ant-table</span> <span class="selector-tag">tr</span> <span class="selector-tag">td</span><span class="selector-pseudo">:not(.ant-table-cell-fix-left)</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: initial;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://www.svgbackgrounds.com/how-to-add-svgs-with-css-background-image/" target="_blank" rel="noopener">How to add SVGs with CSS (background-image)</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/replaceSync" target="_blank" rel="noopener">CSSStyleSheet.replaceSync()</a> </li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model/Using_dynamic_styling_information#modify_a_stylesheet_rule_with_cssom" target="_blank" rel="noopener">Modify a stylesheet rule with CSSOM</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/11/06/add-watermark-to-webpage/" data-id="cla8bpvmg001f9j8cg2ll4aem" data-title="页面添加水印" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svg/" rel="tag">svg</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/watermark/" rel="tag">watermark</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+<article id="post-emoji-knowledge-review" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/10/16/emoji-knowledge-review/" class="article-date">
+  <time datetime="2021-10-16T14:15:25.000Z" itemprop="datePublished">2021-10-16</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/10/16/emoji-knowledge-review/">Emoji 知识复习</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p><code>Emoji</code> 现在已经充满我们生活的各种角落里。平时说起 <code>Emoji</code>，自然会联想起 <code>Unicode</code>，有些人还可能会想起微信或者 <code>iOS</code>。事先说明一点，<code>Emoji</code> 不是微信表情包，也不是苹果原创！！！</p>
+<p>首先，有一点得承认，<code>Emoji</code> 是日本人原创（日语：絵文字／えもじ emoji），后来被 <code>Unicode</code> 收编（这也是为什么会有一些 <code>Emoji</code> 明明显示的是中文，被 <code>Unicode</code> 解释却是 <code>Japanese Character XXXX</code>，比如：🈲、㊙️）。</p>
+<p>然后，我们得了解，一个 <code>Emoji</code> 是如何在一台设备（主机、网页、手机、平板、便携设备等）上显示出来的。这其中会牵扯到很多因素，包括但不限于：码点（<a href="https://en.wikipedia.org/wiki/Code_point" target="_blank" rel="noopener">Code Points</a>）、字符集（<a href="https://en.wikipedia.org/wiki/Character_set" target="_blank" rel="noopener">Character Set</a>）、字体（<a href="https://www.dictionary.com/browse/font" target="_blank" rel="noopener">Font</a>）、<code>Unicode</code> 编码（<a href="https://techterms.com/definition/unicode" target="_blank" rel="noopener">Unicode Encoding</a>）、零宽度连接字符序列（<a href="https://emojipedia.org/emoji-zwj-sequence/" target="_blank" rel="noopener">Emoji ZWJ Sequence</a>，Emoji Zero Width Joiner Sequence） 等。</p>
+<h3 id="码点"><a href="#码点" class="headerlink" title="码点"></a>码点</h3><p>每个字符（<code>ASCII</code>、中文、阿拉伯文等）在 <code>Unicode</code> 表中都会有一个坑，也就是码点（十六进制）。比如空格排 32，相应的码点是 <code>U+0020</code>；<code>a</code> 排 97，码点是 <code>U+0061</code>。相应的，<code>Emoji</code> 被收录到 <code>Unicode</code> 之后，也会给每个 <code>Emoji</code> 分配一个坑（码点）。</p>
+<p>比如，<code>😀</code> 的码点就是 <code>U+1F600</code>。</p>
+<h3 id="字符集"><a href="#字符集" class="headerlink" title="字符集"></a>字符集</h3><p>细心的同学可能发现了，Windows 系统自带了一个小工具，字符集（Character Map）。</p>
+<p><img src="/images/emoji-knowledge-review/character-map.png" alt="Character Map"></p>
+<p>打开这个软件，大家就会发现，其实一个字符集定义了每个坑到底该存什么。</p>
+<h3 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h3><p>字符集再往上就是字体了。一个字体里包含至少一套字符集。还是打开 Characte Map 这个软件，你会发现，同一个字符集中，即使是同一个码点，切换不同字体，它可能长得会不太一样。这就是字体的作用。字体其实定义了每个码点的字符到底该长什么样。计算机只有拿到字体了，它才能正常渲染字符，否则（未安装字体/该字体中未定义该字符对应的码点）该字符就会被异常显示，俗称乱码。</p>
+<p>扩展：</p>
+<ol>
+<li>前端中有个概念叫 <strong>图标字体</strong>（Icon Font），就是自定义了字符展示方式。</li>
+<li>同一个 <code>Emoji</code> 在不同平台（Windows/Android/iOS等）、不同软件（Chrome、输入法、微信等）、不同版本都不一样，很可能是背后所支持的字体不一样。</li>
+</ol>
+<h3 id="Unicode-编码"><a href="#Unicode-编码" class="headerlink" title="Unicode 编码"></a>Unicode 编码</h3><p>关于 <code>Unicode</code>，网上资料数不胜数，此处就不赘述了。</p>
+<h3 id="零宽度连接字符序列"><a href="#零宽度连接字符序列" class="headerlink" title="零宽度连接字符序列"></a>零宽度连接字符序列</h3><p><code>Emoji</code> 其实就是 <code>Unicode</code> 中特定的码点。特别的，有这么一些 <code>Emoji</code>，是由一些简单的 <code>Emoji</code> 组合而来。比如 👩‍❤️‍👩，其实是由两个 👩 和一个 ❤️ 组合而来：</p>
+<p><img src="/images/emoji-knowledge-review/couple-with-heart-woman-woman-emojipedia.jpg" alt="couple with heart woman woman emojipedia"></p>
+<p>而 <code>Emoji</code> 组合的时候，就会用到一些特殊的连接字符。如果设备支持的 <code>Unicode</code> 不是最新的，那就可能不会正常显示，一个 <code>Emoji</code> 会展示成为两个。</p>
+<h3 id="Emoji-搜索"><a href="#Emoji-搜索" class="headerlink" title="Emoji 搜索"></a>Emoji 搜索</h3><p><a href="/app/#/lab/emoji"><i class="fa fa-search" aria-hidden="true"></i> Emoji 搜索工具</a></p>
+<h3 id="Emoji-清单"><a href="#Emoji-清单" class="headerlink" title="Emoji 清单"></a>Emoji 清单</h3><p>我已整理当前完整的 <code>Emoji</code> 清单(v14.0)，请 <a href="/images/emoji-knowledge-review/full-emoji-list.json">点击这里</a> 查收。</p>
+<ul>
+<li>Smileys &amp; Emotion<br>😀 😃 😄 😁 😆 😅 🤣 😂 🙂 🙃 🫠 😉 😊 😇 🥰 😍 🤩 😘 😗 ☺️ ☺ 😚 😙 🥲 😋 😛 😜 🤪 😝 🤑 🤗 🤭 🫢 🫣 🤫 🤔 🫡 🤐 🤨 😐 😑 😶 🫥 😶‍🌫️ 😶‍🌫 😏 😒 🙄 😬 😮‍💨 🤥 😌 😔 😪 🤤 😴 😷 🤒 🤕 🤢 🤮 🤧 🥵 🥶 🥴 😵 😵‍💫 🤯 🤠 🥳 🥸 😎 🤓 🧐 😕 🫤 😟 🙁 ☹️ ☹ 😮 😯 😲 😳 🥺 🥹 😦 😧 😨 😰 😥 😢 😭 😱 😖 😣 😞 😓 😩 😫 🥱 😤 😡 😠 🤬 😈 👿 💀 ☠️ ☠ 💩 🤡 👹 👺 👻 👽 👾 🤖 😺 😸 😹 😻 😼 😽 🙀 😿 😾 🙈 🙉 🙊 💋 💌 💘 💝 💖 💗 💓 💞 💕 💟 ❣️ ❣ 💔 ❤️‍🔥 ❤‍🔥 ❤️‍🩹 ❤‍🩹 ❤️ ❤ 🧡 💛 💚 💙 💜 🤎 🖤 🤍 💯 💢 💥 💫 💦 💨 🕳️ 🕳 💣 💬 👁️‍🗨️ 👁‍🗨️ 👁️‍🗨 👁‍🗨 🗨️ 🗨 🗯️ 🗯 💭 💤</li>
+<li>People &amp; Body<br>👋 👋🏻 👋🏼 👋🏽 👋🏾 👋🏿 🤚 🤚🏻 🤚🏼 🤚🏽 🤚🏾 🤚🏿 🖐️ 🖐 🖐🏻 🖐🏼 🖐🏽 🖐🏾 🖐🏿 ✋ ✋🏻 ✋🏼 ✋🏽 ✋🏾 ✋🏿 🖖 🖖🏻 🖖🏼 🖖🏽 🖖🏾 🖖🏿 🫱 🫱🏻 🫱🏼 🫱🏽 🫱🏾 🫱🏿 🫲 🫲🏻 🫲🏼 🫲🏽 🫲🏾 🫲🏿 🫳 🫳🏻 🫳🏼 🫳🏽 🫳🏾 🫳🏿 🫴 🫴🏻 🫴🏼 🫴🏽 🫴🏾 🫴🏿 👌 👌🏻 👌🏼 👌🏽 👌🏾 👌🏿 🤌 🤌🏻 🤌🏼 🤌🏽 🤌🏾 🤌🏿 🤏 🤏🏻 🤏🏼 🤏🏽 🤏🏾 🤏🏿 ✌️ ✌ ✌🏻 ✌🏼 ✌🏽 ✌🏾 ✌🏿 🤞 🤞🏻 🤞🏼 🤞🏽 🤞🏾 🤞🏿 🫰 🫰🏻 🫰🏼 🫰🏽 🫰🏾 🫰🏿 🤟 🤟🏻 🤟🏼 🤟🏽 🤟🏾 🤟🏿 🤘 🤘🏻 🤘🏼 🤘🏽 🤘🏾 🤘🏿 🤙 🤙🏻 🤙🏼 🤙🏽 🤙🏾 🤙🏿 👈 👈🏻 👈🏼 👈🏽 👈🏾 👈🏿 👉 👉🏻 👉🏼 👉🏽 👉🏾 👉🏿 👆 👆🏻 👆🏼 👆🏽 👆🏾 👆🏿 🖕 🖕🏻 🖕🏼 🖕🏽 🖕🏾 🖕🏿 👇 👇🏻 👇🏼 👇🏽 👇🏾 👇🏿 ☝️ ☝ ☝🏻 ☝🏼 ☝🏽 ☝🏾 ☝🏿 🫵 🫵🏻 🫵🏼 🫵🏽 🫵🏾 🫵🏿 👍 👍🏻 👍🏼 👍🏽 👍🏾 👍🏿 👎 👎🏻 👎🏼 👎🏽 👎🏾 👎🏿 ✊ ✊🏻 ✊🏼 ✊🏽 ✊🏾 ✊🏿 👊 👊🏻 👊🏼 👊🏽 👊🏾 👊🏿 🤛 🤛🏻 🤛🏼 🤛🏽 🤛🏾 🤛🏿 🤜 🤜🏻 🤜🏼 🤜🏽 🤜🏾 🤜🏿 👏 👏🏻 👏🏼 👏🏽 👏🏾 👏🏿 🙌 🙌🏻 🙌🏼 🙌🏽 🙌🏾 🙌🏿 🫶 🫶🏻 🫶🏼 🫶🏽 🫶🏾 🫶🏿 👐 👐🏻 👐🏼 👐🏽 👐🏾 👐🏿 🤲 🤲🏻 🤲🏼 🤲🏽 🤲🏾 🤲🏿 🤝 🤝🏻 🤝🏼 🤝🏽 🤝🏾 🤝🏿 🫱🏻‍🫲🏼 🫱🏻‍🫲🏽 🫱🏻‍🫲🏾 🫱🏻‍🫲🏿 🫱🏼‍🫲🏻 🫱🏼‍🫲🏽 🫱🏼‍🫲🏾 🫱🏼‍🫲🏿 🫱🏽‍🫲🏻 🫱🏽‍🫲🏼 🫱🏽‍🫲🏾 🫱🏽‍🫲🏿 🫱🏾‍🫲🏻 🫱🏾‍🫲🏼 🫱🏾‍🫲🏽 🫱🏾‍🫲🏿 🫱🏿‍🫲🏻 🫱🏿‍🫲🏼 🫱🏿‍🫲🏽 🫱🏿‍🫲🏾 🙏 🙏🏻 🙏🏼 🙏🏽 🙏🏾 🙏🏿 ✍️ ✍ ✍🏻 ✍🏼 ✍🏽 ✍🏾 ✍🏿 💅 💅🏻 💅🏼 💅🏽 💅🏾 💅🏿 🤳 🤳🏻 🤳🏼 🤳🏽 🤳🏾 🤳🏿 💪 💪🏻 💪🏼 💪🏽 💪🏾 💪🏿 🦾 🦿 🦵 🦵🏻 🦵🏼 🦵🏽 🦵🏾 🦵🏿 🦶 🦶🏻 🦶🏼 🦶🏽 🦶🏾 🦶🏿 👂 👂🏻 👂🏼 👂🏽 👂🏾 👂🏿 🦻 🦻🏻 🦻🏼 🦻🏽 🦻🏾 🦻🏿 👃 👃🏻 👃🏼 👃🏽 👃🏾 👃🏿 🧠 🫀 🫁 🦷 🦴 👀 👁️ 👁 👅 👄 🫦 👶 👶🏻 👶🏼 👶🏽 👶🏾 👶🏿 🧒 🧒🏻 🧒🏼 🧒🏽 🧒🏾 🧒🏿 👦 👦🏻 👦🏼 👦🏽 👦🏾 👦🏿 👧 👧🏻 👧🏼 👧🏽 👧🏾 👧🏿 🧑 🧑🏻 🧑🏼 🧑🏽 🧑🏾 🧑🏿 👱 👱🏻 👱🏼 👱🏽 👱🏾 👱🏿 👨 👨🏻 👨🏼 👨🏽 👨🏾 👨🏿 🧔 🧔🏻 🧔🏼 🧔🏽 🧔🏾 🧔🏿 🧔‍♂️ 🧔‍♂ 🧔🏻‍♂️ 🧔🏻‍♂ 🧔🏼‍♂️ 🧔🏼‍♂ 🧔🏽‍♂️ 🧔🏽‍♂ 🧔🏾‍♂️ 🧔🏾‍♂ 🧔🏿‍♂️ 🧔🏿‍♂ 🧔‍♀️ 🧔‍♀ 🧔🏻‍♀️ 🧔🏻‍♀ 🧔🏼‍♀️ 🧔🏼‍♀ 🧔🏽‍♀️ 🧔🏽‍♀ 🧔🏾‍♀️ 🧔🏾‍♀ 🧔🏿‍♀️ 🧔🏿‍♀ 👨‍🦰 👨🏻‍🦰 👨🏼‍🦰 👨🏽‍🦰 👨🏾‍🦰 👨🏿‍🦰 👨‍🦱 👨🏻‍🦱 👨🏼‍🦱 👨🏽‍🦱 👨🏾‍🦱 👨🏿‍🦱 👨‍🦳 👨🏻‍🦳 👨🏼‍🦳 👨🏽‍🦳 👨🏾‍🦳 👨🏿‍🦳 👨‍🦲 👨🏻‍🦲 👨🏼‍🦲 👨🏽‍🦲 👨🏾‍🦲 👨🏿‍🦲 👩 👩🏻 👩🏼 👩🏽 👩🏾 👩🏿 👩‍🦰 👩🏻‍🦰 👩🏼‍🦰 👩🏽‍🦰 👩🏾‍🦰 👩🏿‍🦰 🧑‍🦰 🧑🏻‍🦰 🧑🏼‍🦰 🧑🏽‍🦰 🧑🏾‍🦰 🧑🏿‍🦰 👩‍🦱 👩🏻‍🦱 👩🏼‍🦱 👩🏽‍🦱 👩🏾‍🦱 👩🏿‍🦱 🧑‍🦱 🧑🏻‍🦱 🧑🏼‍🦱 🧑🏽‍🦱 🧑🏾‍🦱 🧑🏿‍🦱 👩‍🦳 👩🏻‍🦳 👩🏼‍🦳 👩🏽‍🦳 👩🏾‍🦳 👩🏿‍🦳 🧑‍🦳 🧑🏻‍🦳 🧑🏼‍🦳 🧑🏽‍🦳 🧑🏾‍🦳 🧑🏿‍🦳 👩‍🦲 👩🏻‍🦲 👩🏼‍🦲 👩🏽‍🦲 👩🏾‍🦲 👩🏿‍🦲 🧑‍🦲 🧑🏻‍🦲 🧑🏼‍🦲 🧑🏽‍🦲 🧑🏾‍🦲 🧑🏿‍🦲 👱‍♀️ 👱‍♀ 👱🏻‍♀️ 👱🏻‍♀ 👱🏼‍♀️ 👱🏼‍♀ 👱🏽‍♀️ 👱🏽‍♀ 👱🏾‍♀️ 👱🏾‍♀ 👱🏿‍♀️ 👱🏿‍♀ 👱‍♂️ 👱‍♂ 👱🏻‍♂️ 👱🏻‍♂ 👱🏼‍♂️ 👱🏼‍♂ 👱🏽‍♂️ 👱🏽‍♂ 👱🏾‍♂️ 👱🏾‍♂ 👱🏿‍♂️ 👱🏿‍♂ 🧓 🧓🏻 🧓🏼 🧓🏽 🧓🏾 🧓🏿 👴 👴🏻 👴🏼 👴🏽 👴🏾 👴🏿 👵 👵🏻 👵🏼 👵🏽 👵🏾 👵🏿 🙍 🙍🏻 🙍🏼 🙍🏽 🙍🏾 🙍🏿 🙍‍♂️ 🙍‍♂ 🙍🏻‍♂️ 🙍🏻‍♂ 🙍🏼‍♂️ 🙍🏼‍♂ 🙍🏽‍♂️ 🙍🏽‍♂ 🙍🏾‍♂️ 🙍🏾‍♂ 🙍🏿‍♂️ 🙍🏿‍♂ 🙍‍♀️ 🙍‍♀ 🙍🏻‍♀️ 🙍🏻‍♀ 🙍🏼‍♀️ 🙍🏼‍♀ 🙍🏽‍♀️ 🙍🏽‍♀ 🙍🏾‍♀️ 🙍🏾‍♀ 🙍🏿‍♀️ 🙍🏿‍♀ 🙎 🙎🏻 🙎🏼 🙎🏽 🙎🏾 🙎🏿 🙎‍♂️ 🙎‍♂ 🙎🏻‍♂️ 🙎🏻‍♂ 🙎🏼‍♂️ 🙎🏼‍♂ 🙎🏽‍♂️ 🙎🏽‍♂ 🙎🏾‍♂️ 🙎🏾‍♂ 🙎🏿‍♂️ 🙎🏿‍♂ 🙎‍♀️ 🙎‍♀ 🙎🏻‍♀️ 🙎🏻‍♀ 🙎🏼‍♀️ 🙎🏼‍♀ 🙎🏽‍♀️ 🙎🏽‍♀ 🙎🏾‍♀️ 🙎🏾‍♀ 🙎🏿‍♀️ 🙎🏿‍♀ 🙅 🙅🏻 🙅🏼 🙅🏽 🙅🏾 🙅🏿 🙅‍♂️ 🙅‍♂ 🙅🏻‍♂️ 🙅🏻‍♂ 🙅🏼‍♂️ 🙅🏼‍♂ 🙅🏽‍♂️ 🙅🏽‍♂ 🙅🏾‍♂️ 🙅🏾‍♂ 🙅🏿‍♂️ 🙅🏿‍♂ 🙅‍♀️ 🙅‍♀ 🙅🏻‍♀️ 🙅🏻‍♀ 🙅🏼‍♀️ 🙅🏼‍♀ 🙅🏽‍♀️ 🙅🏽‍♀ 🙅🏾‍♀️ 🙅🏾‍♀ 🙅🏿‍♀️ 🙅🏿‍♀ 🙆 🙆🏻 🙆🏼 🙆🏽 🙆🏾 🙆🏿 🙆‍♂️ 🙆‍♂ 🙆🏻‍♂️ 🙆🏻‍♂ 🙆🏼‍♂️ 🙆🏼‍♂ 🙆🏽‍♂️ 🙆🏽‍♂ 🙆🏾‍♂️ 🙆🏾‍♂ 🙆🏿‍♂️ 🙆🏿‍♂ 🙆‍♀️ 🙆‍♀ 🙆🏻‍♀️ 🙆🏻‍♀ 🙆🏼‍♀️ 🙆🏼‍♀ 🙆🏽‍♀️ 🙆🏽‍♀ 🙆🏾‍♀️ 🙆🏾‍♀ 🙆🏿‍♀️ 🙆🏿‍♀ 💁 💁🏻 💁🏼 💁🏽 💁🏾 💁🏿 💁‍♂️ 💁‍♂ 💁🏻‍♂️ 💁🏻‍♂ 💁🏼‍♂️ 💁🏼‍♂ 💁🏽‍♂️ 💁🏽‍♂ 💁🏾‍♂️ 💁🏾‍♂ 💁🏿‍♂️ 💁🏿‍♂ 💁‍♀️ 💁‍♀ 💁🏻‍♀️ 💁🏻‍♀ 💁🏼‍♀️ 💁🏼‍♀ 💁🏽‍♀️ 💁🏽‍♀ 💁🏾‍♀️ 💁🏾‍♀ 💁🏿‍♀️ 💁🏿‍♀ 🙋 🙋🏻 🙋🏼 🙋🏽 🙋🏾 🙋🏿 🙋‍♂️ 🙋‍♂ 🙋🏻‍♂️ 🙋🏻‍♂ 🙋🏼‍♂️ 🙋🏼‍♂ 🙋🏽‍♂️ 🙋🏽‍♂ 🙋🏾‍♂️ 🙋🏾‍♂ 🙋🏿‍♂️ 🙋🏿‍♂ 🙋‍♀️ 🙋‍♀ 🙋🏻‍♀️ 🙋🏻‍♀ 🙋🏼‍♀️ 🙋🏼‍♀ 🙋🏽‍♀️ 🙋🏽‍♀ 🙋🏾‍♀️ 🙋🏾‍♀ 🙋🏿‍♀️ 🙋🏿‍♀ 🧏 🧏🏻 🧏🏼 🧏🏽 🧏🏾 🧏🏿 🧏‍♂️ 🧏‍♂ 🧏🏻‍♂️ 🧏🏻‍♂ 🧏🏼‍♂️ 🧏🏼‍♂ 🧏🏽‍♂️ 🧏🏽‍♂ 🧏🏾‍♂️ 🧏🏾‍♂ 🧏🏿‍♂️ 🧏🏿‍♂ 🧏‍♀️ 🧏‍♀ 🧏🏻‍♀️ 🧏🏻‍♀ 🧏🏼‍♀️ 🧏🏼‍♀ 🧏🏽‍♀️ 🧏🏽‍♀ 🧏🏾‍♀️ 🧏🏾‍♀ 🧏🏿‍♀️ 🧏🏿‍♀ 🙇 🙇🏻 🙇🏼 🙇🏽 🙇🏾 🙇🏿 🙇‍♂️ 🙇‍♂ 🙇🏻‍♂️ 🙇🏻‍♂ 🙇🏼‍♂️ 🙇🏼‍♂ 🙇🏽‍♂️ 🙇🏽‍♂ 🙇🏾‍♂️ 🙇🏾‍♂ 🙇🏿‍♂️ 🙇🏿‍♂ 🙇‍♀️ 🙇‍♀ 🙇🏻‍♀️ 🙇🏻‍♀ 🙇🏼‍♀️ 🙇🏼‍♀ 🙇🏽‍♀️ 🙇🏽‍♀ 🙇🏾‍♀️ 🙇🏾‍♀ 🙇🏿‍♀️ 🙇🏿‍♀ 🤦 🤦🏻 🤦🏼 🤦🏽 🤦🏾 🤦🏿 🤦‍♂️ 🤦‍♂ 🤦🏻‍♂️ 🤦🏻‍♂ 🤦🏼‍♂️ 🤦🏼‍♂ 🤦🏽‍♂️ 🤦🏽‍♂ 🤦🏾‍♂️ 🤦🏾‍♂ 🤦🏿‍♂️ 🤦🏿‍♂ 🤦‍♀️ 🤦‍♀ 🤦🏻‍♀️ 🤦🏻‍♀ 🤦🏼‍♀️ 🤦🏼‍♀ 🤦🏽‍♀️ 🤦🏽‍♀ 🤦🏾‍♀️ 🤦🏾‍♀ 🤦🏿‍♀️ 🤦🏿‍♀ 🤷 🤷🏻 🤷🏼 🤷🏽 🤷🏾 🤷🏿 🤷‍♂️ 🤷‍♂ 🤷🏻‍♂️ 🤷🏻‍♂ 🤷🏼‍♂️ 🤷🏼‍♂ 🤷🏽‍♂️ 🤷🏽‍♂ 🤷🏾‍♂️ 🤷🏾‍♂ 🤷🏿‍♂️ 🤷🏿‍♂ 🤷‍♀️ 🤷‍♀ 🤷🏻‍♀️ 🤷🏻‍♀ 🤷🏼‍♀️ 🤷🏼‍♀ 🤷🏽‍♀️ 🤷🏽‍♀ 🤷🏾‍♀️ 🤷🏾‍♀ 🤷🏿‍♀️ 🤷🏿‍♀ 🧑‍⚕️ 🧑‍⚕ 🧑🏻‍⚕️ 🧑🏻‍⚕ 🧑🏼‍⚕️ 🧑🏼‍⚕ 🧑🏽‍⚕️ 🧑🏽‍⚕ 🧑🏾‍⚕️ 🧑🏾‍⚕ 🧑🏿‍⚕️ 🧑🏿‍⚕ 👨‍⚕️ 👨‍⚕ 👨🏻‍⚕️ 👨🏻‍⚕ 👨🏼‍⚕️ 👨🏼‍⚕ 👨🏽‍⚕️ 👨🏽‍⚕ 👨🏾‍⚕️ 👨🏾‍⚕ 👨🏿‍⚕️ 👨🏿‍⚕ 👩‍⚕️ 👩‍⚕ 👩🏻‍⚕️ 👩🏻‍⚕ 👩🏼‍⚕️ 👩🏼‍⚕ 👩🏽‍⚕️ 👩🏽‍⚕ 👩🏾‍⚕️ 👩🏾‍⚕ 👩🏿‍⚕️ 👩🏿‍⚕ 🧑‍🎓 🧑🏻‍🎓 🧑🏼‍🎓 🧑🏽‍🎓 🧑🏾‍🎓 🧑🏿‍🎓 👨‍🎓 👨🏻‍🎓 👨🏼‍🎓 👨🏽‍🎓 👨🏾‍🎓 👨🏿‍🎓 👩‍🎓 👩🏻‍🎓 👩🏼‍🎓 👩🏽‍🎓 👩🏾‍🎓 👩🏿‍🎓 🧑‍🏫 🧑🏻‍🏫 🧑🏼‍🏫 🧑🏽‍🏫 🧑🏾‍🏫 🧑🏿‍🏫 👨‍🏫 👨🏻‍🏫 👨🏼‍🏫 👨🏽‍🏫 👨🏾‍🏫 👨🏿‍🏫 👩‍🏫 👩🏻‍🏫 👩🏼‍🏫 👩🏽‍🏫 👩🏾‍🏫 👩🏿‍🏫 🧑‍⚖️ 🧑‍⚖ 🧑🏻‍⚖️ 🧑🏻‍⚖ 🧑🏼‍⚖️ 🧑🏼‍⚖ 🧑🏽‍⚖️ 🧑🏽‍⚖ 🧑🏾‍⚖️ 🧑🏾‍⚖ 🧑🏿‍⚖️ 🧑🏿‍⚖ 👨‍⚖️ 👨‍⚖ 👨🏻‍⚖️ 👨🏻‍⚖ 👨🏼‍⚖️ 👨🏼‍⚖ 👨🏽‍⚖️ 👨🏽‍⚖ 👨🏾‍⚖️ 👨🏾‍⚖ 👨🏿‍⚖️ 👨🏿‍⚖ 👩‍⚖️ 👩‍⚖ 👩🏻‍⚖️ 👩🏻‍⚖ 👩🏼‍⚖️ 👩🏼‍⚖ 👩🏽‍⚖️ 👩🏽‍⚖ 👩🏾‍⚖️ 👩🏾‍⚖ 👩🏿‍⚖️ 👩🏿‍⚖ 🧑‍🌾 🧑🏻‍🌾 🧑🏼‍🌾 🧑🏽‍🌾 🧑🏾‍🌾 🧑🏿‍🌾 👨‍🌾 👨🏻‍🌾 👨🏼‍🌾 👨🏽‍🌾 👨🏾‍🌾 👨🏿‍🌾 👩‍🌾 👩🏻‍🌾 👩🏼‍🌾 👩🏽‍🌾 👩🏾‍🌾 👩🏿‍🌾 🧑‍🍳 🧑🏻‍🍳 🧑🏼‍🍳 🧑🏽‍🍳 🧑🏾‍🍳 🧑🏿‍🍳 👨‍🍳 👨🏻‍🍳 👨🏼‍🍳 👨🏽‍🍳 👨🏾‍🍳 👨🏿‍🍳 👩‍🍳 👩🏻‍🍳 👩🏼‍🍳 👩🏽‍🍳 👩🏾‍🍳 👩🏿‍🍳 🧑‍🔧 🧑🏻‍🔧 🧑🏼‍🔧 🧑🏽‍🔧 🧑🏾‍🔧 🧑🏿‍🔧 👨‍🔧 👨🏻‍🔧 👨🏼‍🔧 👨🏽‍🔧 👨🏾‍🔧 👨🏿‍🔧 👩‍🔧 👩🏻‍🔧 👩🏼‍🔧 👩🏽‍🔧 👩🏾‍🔧 👩🏿‍🔧 🧑‍🏭 🧑🏻‍🏭 🧑🏼‍🏭 🧑🏽‍🏭 🧑🏾‍🏭 🧑🏿‍🏭 👨‍🏭 👨🏻‍🏭 👨🏼‍🏭 👨🏽‍🏭 👨🏾‍🏭 👨🏿‍🏭 👩‍🏭 👩🏻‍🏭 👩🏼‍🏭 👩🏽‍🏭 👩🏾‍🏭 👩🏿‍🏭 🧑‍💼 🧑🏻‍💼 🧑🏼‍💼 🧑🏽‍💼 🧑🏾‍💼 🧑🏿‍💼 👨‍💼 👨🏻‍💼 👨🏼‍💼 👨🏽‍💼 👨🏾‍💼 👨🏿‍💼 👩‍💼 👩🏻‍💼 👩🏼‍💼 👩🏽‍💼 👩🏾‍💼 👩🏿‍💼 🧑‍🔬 🧑🏻‍🔬 🧑🏼‍🔬 🧑🏽‍🔬 🧑🏾‍🔬 🧑🏿‍🔬 👨‍🔬 👨🏻‍🔬 👨🏼‍🔬 👨🏽‍🔬 👨🏾‍🔬 👨🏿‍🔬 👩‍🔬 👩🏻‍🔬 👩🏼‍🔬 👩🏽‍🔬 👩🏾‍🔬 👩🏿‍🔬 🧑‍💻 🧑🏻‍💻 🧑🏼‍💻 🧑🏽‍💻 🧑🏾‍💻 🧑🏿‍💻 👨‍💻 👨🏻‍💻 👨🏼‍💻 👨🏽‍💻 👨🏾‍💻 👨🏿‍💻 👩‍💻 👩🏻‍💻 👩🏼‍💻 👩🏽‍💻 👩🏾‍💻 👩🏿‍💻 🧑‍🎤 🧑🏻‍🎤 🧑🏼‍🎤 🧑🏽‍🎤 🧑🏾‍🎤 🧑🏿‍🎤 👨‍🎤 👨🏻‍🎤 👨🏼‍🎤 👨🏽‍🎤 👨🏾‍🎤 👨🏿‍🎤 👩‍🎤 👩🏻‍🎤 👩🏼‍🎤 👩🏽‍🎤 👩🏾‍🎤 👩🏿‍🎤 🧑‍🎨 🧑🏻‍🎨 🧑🏼‍🎨 🧑🏽‍🎨 🧑🏾‍🎨 🧑🏿‍🎨 👨‍🎨 👨🏻‍🎨 👨🏼‍🎨 👨🏽‍🎨 👨🏾‍🎨 👨🏿‍🎨 👩‍🎨 👩🏻‍🎨 👩🏼‍🎨 👩🏽‍🎨 👩🏾‍🎨 👩🏿‍🎨 🧑‍✈️ 🧑‍✈ 🧑🏻‍✈️ 🧑🏻‍✈ 🧑🏼‍✈️ 🧑🏼‍✈ 🧑🏽‍✈️ 🧑🏽‍✈ 🧑🏾‍✈️ 🧑🏾‍✈ 🧑🏿‍✈️ 🧑🏿‍✈ 👨‍✈️ 👨‍✈ 👨🏻‍✈️ 👨🏻‍✈ 👨🏼‍✈️ 👨🏼‍✈ 👨🏽‍✈️ 👨🏽‍✈ 👨🏾‍✈️ 👨🏾‍✈ 👨🏿‍✈️ 👨🏿‍✈ 👩‍✈️ 👩‍✈ 👩🏻‍✈️ 👩🏻‍✈ 👩🏼‍✈️ 👩🏼‍✈ 👩🏽‍✈️ 👩🏽‍✈ 👩🏾‍✈️ 👩🏾‍✈ 👩🏿‍✈️ 👩🏿‍✈ 🧑‍🚀 🧑🏻‍🚀 🧑🏼‍🚀 🧑🏽‍🚀 🧑🏾‍🚀 🧑🏿‍🚀 👨‍🚀 👨🏻‍🚀 👨🏼‍🚀 👨🏽‍🚀 👨🏾‍🚀 👨🏿‍🚀 👩‍🚀 👩🏻‍🚀 👩🏼‍🚀 👩🏽‍🚀 👩🏾‍🚀 👩🏿‍🚀 🧑‍🚒 🧑🏻‍🚒 🧑🏼‍🚒 🧑🏽‍🚒 🧑🏾‍🚒 🧑🏿‍🚒 👨‍🚒 👨🏻‍🚒 👨🏼‍🚒 👨🏽‍🚒 👨🏾‍🚒 👨🏿‍🚒 👩‍🚒 👩🏻‍🚒 👩🏼‍🚒 👩🏽‍🚒 👩🏾‍🚒 👩🏿‍🚒 👮 👮🏻 👮🏼 👮🏽 👮🏾 👮🏿 👮‍♂️ 👮‍♂ 👮🏻‍♂️ 👮🏻‍♂ 👮🏼‍♂️ 👮🏼‍♂ 👮🏽‍♂️ 👮🏽‍♂ 👮🏾‍♂️ 👮🏾‍♂ 👮🏿‍♂️ 👮🏿‍♂ 👮‍♀️ 👮‍♀ 👮🏻‍♀️ 👮🏻‍♀ 👮🏼‍♀️ 👮🏼‍♀ 👮🏽‍♀️ 👮🏽‍♀ 👮🏾‍♀️ 👮🏾‍♀ 👮🏿‍♀️ 👮🏿‍♀ 🕵️ 🕵 🕵🏻 🕵🏼 🕵🏽 🕵🏾 🕵🏿 🕵️‍♂️ 🕵‍♂️ 🕵️‍♂ 🕵‍♂ 🕵🏻‍♂️ 🕵🏻‍♂ 🕵🏼‍♂️ 🕵🏼‍♂ 🕵🏽‍♂️ 🕵🏽‍♂ 🕵🏾‍♂️ 🕵🏾‍♂ 🕵🏿‍♂️ 🕵🏿‍♂ 🕵️‍♀️ 🕵‍♀️ 🕵️‍♀ 🕵‍♀ 🕵🏻‍♀️ 🕵🏻‍♀ 🕵🏼‍♀️ 🕵🏼‍♀ 🕵🏽‍♀️ 🕵🏽‍♀ 🕵🏾‍♀️ 🕵🏾‍♀ 🕵🏿‍♀️ 🕵🏿‍♀ 💂 💂🏻 💂🏼 💂🏽 💂🏾 💂🏿 💂‍♂️ 💂‍♂ 💂🏻‍♂️ 💂🏻‍♂ 💂🏼‍♂️ 💂🏼‍♂ 💂🏽‍♂️ 💂🏽‍♂ 💂🏾‍♂️ 💂🏾‍♂ 💂🏿‍♂️ 💂🏿‍♂ 💂‍♀️ 💂‍♀ 💂🏻‍♀️ 💂🏻‍♀ 💂🏼‍♀️ 💂🏼‍♀ 💂🏽‍♀️ 💂🏽‍♀ 💂🏾‍♀️ 💂🏾‍♀ 💂🏿‍♀️ 💂🏿‍♀ 🥷 🥷🏻 🥷🏼 🥷🏽 🥷🏾 🥷🏿 👷 👷🏻 👷🏼 👷🏽 👷🏾 👷🏿 👷‍♂️ 👷‍♂ 👷🏻‍♂️ 👷🏻‍♂ 👷🏼‍♂️ 👷🏼‍♂ 👷🏽‍♂️ 👷🏽‍♂ 👷🏾‍♂️ 👷🏾‍♂ 👷🏿‍♂️ 👷🏿‍♂ 👷‍♀️ 👷‍♀ 👷🏻‍♀️ 👷🏻‍♀ 👷🏼‍♀️ 👷🏼‍♀ 👷🏽‍♀️ 👷🏽‍♀ 👷🏾‍♀️ 👷🏾‍♀ 👷🏿‍♀️ 👷🏿‍♀ 🫅 🫅🏻 🫅🏼 🫅🏽 🫅🏾 🫅🏿 🤴 🤴🏻 🤴🏼 🤴🏽 🤴🏾 🤴🏿 👸 👸🏻 👸🏼 👸🏽 👸🏾 👸🏿 👳 👳🏻 👳🏼 👳🏽 👳🏾 👳🏿 👳‍♂️ 👳‍♂ 👳🏻‍♂️ 👳🏻‍♂ 👳🏼‍♂️ 👳🏼‍♂ 👳🏽‍♂️ 👳🏽‍♂ 👳🏾‍♂️ 👳🏾‍♂ 👳🏿‍♂️ 👳🏿‍♂ 👳‍♀️ 👳‍♀ 👳🏻‍♀️ 👳🏻‍♀ 👳🏼‍♀️ 👳🏼‍♀ 👳🏽‍♀️ 👳🏽‍♀ 👳🏾‍♀️ 👳🏾‍♀ 👳🏿‍♀️ 👳🏿‍♀ 👲 👲🏻 👲🏼 👲🏽 👲🏾 👲🏿 🧕 🧕🏻 🧕🏼 🧕🏽 🧕🏾 🧕🏿 🤵 🤵🏻 🤵🏼 🤵🏽 🤵🏾 🤵🏿 🤵‍♂️ 🤵‍♂ 🤵🏻‍♂️ 🤵🏻‍♂ 🤵🏼‍♂️ 🤵🏼‍♂ 🤵🏽‍♂️ 🤵🏽‍♂ 🤵🏾‍♂️ 🤵🏾‍♂ 🤵🏿‍♂️ 🤵🏿‍♂ 🤵‍♀️ 🤵‍♀ 🤵🏻‍♀️ 🤵🏻‍♀ 🤵🏼‍♀️ 🤵🏼‍♀ 🤵🏽‍♀️ 🤵🏽‍♀ 🤵🏾‍♀️ 🤵🏾‍♀ 🤵🏿‍♀️ 🤵🏿‍♀ 👰 👰🏻 👰🏼 👰🏽 👰🏾 👰🏿 👰‍♂️ 👰‍♂ 👰🏻‍♂️ 👰🏻‍♂ 👰🏼‍♂️ 👰🏼‍♂ 👰🏽‍♂️ 👰🏽‍♂ 👰🏾‍♂️ 👰🏾‍♂ 👰🏿‍♂️ 👰🏿‍♂ 👰‍♀️ 👰‍♀ 👰🏻‍♀️ 👰🏻‍♀ 👰🏼‍♀️ 👰🏼‍♀ 👰🏽‍♀️ 👰🏽‍♀ 👰🏾‍♀️ 👰🏾‍♀ 👰🏿‍♀️ 👰🏿‍♀ 🤰 🤰🏻 🤰🏼 🤰🏽 🤰🏾 🤰🏿 🫃 🫃🏻 🫃🏼 🫃🏽 🫃🏾 🫃🏿 🫄 🫄🏻 🫄🏼 🫄🏽 🫄🏾 🫄🏿 🤱 🤱🏻 🤱🏼 🤱🏽 🤱🏾 🤱🏿 👩‍🍼 👩🏻‍🍼 👩🏼‍🍼 👩🏽‍🍼 👩🏾‍🍼 👩🏿‍🍼 👨‍🍼 👨🏻‍🍼 👨🏼‍🍼 👨🏽‍🍼 👨🏾‍🍼 👨🏿‍🍼 🧑‍🍼 🧑🏻‍🍼 🧑🏼‍🍼 🧑🏽‍🍼 🧑🏾‍🍼 🧑🏿‍🍼 👼 👼🏻 👼🏼 👼🏽 👼🏾 👼🏿 🎅 🎅🏻 🎅🏼 🎅🏽 🎅🏾 🎅🏿 🤶 🤶🏻 🤶🏼 🤶🏽 🤶🏾 🤶🏿 🧑‍🎄 🧑🏻‍🎄 🧑🏼‍🎄 🧑🏽‍🎄 🧑🏾‍🎄 🧑🏿‍🎄 🦸 🦸🏻 🦸🏼 🦸🏽 🦸🏾 🦸🏿 🦸‍♂️ 🦸‍♂ 🦸🏻‍♂️ 🦸🏻‍♂ 🦸🏼‍♂️ 🦸🏼‍♂ 🦸🏽‍♂️ 🦸🏽‍♂ 🦸🏾‍♂️ 🦸🏾‍♂ 🦸🏿‍♂️ 🦸🏿‍♂ 🦸‍♀️ 🦸‍♀ 🦸🏻‍♀️ 🦸🏻‍♀ 🦸🏼‍♀️ 🦸🏼‍♀ 🦸🏽‍♀️ 🦸🏽‍♀ 🦸🏾‍♀️ 🦸🏾‍♀ 🦸🏿‍♀️ 🦸🏿‍♀ 🦹 🦹🏻 🦹🏼 🦹🏽 🦹🏾 🦹🏿 🦹‍♂️ 🦹‍♂ 🦹🏻‍♂️ 🦹🏻‍♂ 🦹🏼‍♂️ 🦹🏼‍♂ 🦹🏽‍♂️ 🦹🏽‍♂ 🦹🏾‍♂️ 🦹🏾‍♂ 🦹🏿‍♂️ 🦹🏿‍♂ 🦹‍♀️ 🦹‍♀ 🦹🏻‍♀️ 🦹🏻‍♀ 🦹🏼‍♀️ 🦹🏼‍♀ 🦹🏽‍♀️ 🦹🏽‍♀ 🦹🏾‍♀️ 🦹🏾‍♀ 🦹🏿‍♀️ 🦹🏿‍♀ 🧙 🧙🏻 🧙🏼 🧙🏽 🧙🏾 🧙🏿 🧙‍♂️ 🧙‍♂ 🧙🏻‍♂️ 🧙🏻‍♂ 🧙🏼‍♂️ 🧙🏼‍♂ 🧙🏽‍♂️ 🧙🏽‍♂ 🧙🏾‍♂️ 🧙🏾‍♂ 🧙🏿‍♂️ 🧙🏿‍♂ 🧙‍♀️ 🧙‍♀ 🧙🏻‍♀️ 🧙🏻‍♀ 🧙🏼‍♀️ 🧙🏼‍♀ 🧙🏽‍♀️ 🧙🏽‍♀ 🧙🏾‍♀️ 🧙🏾‍♀ 🧙🏿‍♀️ 🧙🏿‍♀ 🧚 🧚🏻 🧚🏼 🧚🏽 🧚🏾 🧚🏿 🧚‍♂️ 🧚‍♂ 🧚🏻‍♂️ 🧚🏻‍♂ 🧚🏼‍♂️ 🧚🏼‍♂ 🧚🏽‍♂️ 🧚🏽‍♂ 🧚🏾‍♂️ 🧚🏾‍♂ 🧚🏿‍♂️ 🧚🏿‍♂ 🧚‍♀️ 🧚‍♀ 🧚🏻‍♀️ 🧚🏻‍♀ 🧚🏼‍♀️ 🧚🏼‍♀ 🧚🏽‍♀️ 🧚🏽‍♀ 🧚🏾‍♀️ 🧚🏾‍♀ 🧚🏿‍♀️ 🧚🏿‍♀ 🧛 🧛🏻 🧛🏼 🧛🏽 🧛🏾 🧛🏿 🧛‍♂️ 🧛‍♂ 🧛🏻‍♂️ 🧛🏻‍♂ 🧛🏼‍♂️ 🧛🏼‍♂ 🧛🏽‍♂️ 🧛🏽‍♂ 🧛🏾‍♂️ 🧛🏾‍♂ 🧛🏿‍♂️ 🧛🏿‍♂ 🧛‍♀️ 🧛‍♀ 🧛🏻‍♀️ 🧛🏻‍♀ 🧛🏼‍♀️ 🧛🏼‍♀ 🧛🏽‍♀️ 🧛🏽‍♀ 🧛🏾‍♀️ 🧛🏾‍♀ 🧛🏿‍♀️ 🧛🏿‍♀ 🧜 🧜🏻 🧜🏼 🧜🏽 🧜🏾 🧜🏿 🧜‍♂️ 🧜‍♂ 🧜🏻‍♂️ 🧜🏻‍♂ 🧜🏼‍♂️ 🧜🏼‍♂ 🧜🏽‍♂️ 🧜🏽‍♂ 🧜🏾‍♂️ 🧜🏾‍♂ 🧜🏿‍♂️ 🧜🏿‍♂ 🧜‍♀️ 🧜‍♀ 🧜🏻‍♀️ 🧜🏻‍♀ 🧜🏼‍♀️ 🧜🏼‍♀ 🧜🏽‍♀️ 🧜🏽‍♀ 🧜🏾‍♀️ 🧜🏾‍♀ 🧜🏿‍♀️ 🧜🏿‍♀ 🧝 🧝🏻 🧝🏼 🧝🏽 🧝🏾 🧝🏿 🧝‍♂️ 🧝‍♂ 🧝🏻‍♂️ 🧝🏻‍♂ 🧝🏼‍♂️ 🧝🏼‍♂ 🧝🏽‍♂️ 🧝🏽‍♂ 🧝🏾‍♂️ 🧝🏾‍♂ 🧝🏿‍♂️ 🧝🏿‍♂ 🧝‍♀️ 🧝‍♀ 🧝🏻‍♀️ 🧝🏻‍♀ 🧝🏼‍♀️ 🧝🏼‍♀ 🧝🏽‍♀️ 🧝🏽‍♀ 🧝🏾‍♀️ 🧝🏾‍♀ 🧝🏿‍♀️ 🧝🏿‍♀ 🧞 🧞‍♂️ 🧞‍♂ 🧞‍♀️ 🧞‍♀ 🧟 🧟‍♂️ 🧟‍♂ 🧟‍♀️ 🧟‍♀ 🧌 💆 💆🏻 💆🏼 💆🏽 💆🏾 💆🏿 💆‍♂️ 💆‍♂ 💆🏻‍♂️ 💆🏻‍♂ 💆🏼‍♂️ 💆🏼‍♂ 💆🏽‍♂️ 💆🏽‍♂ 💆🏾‍♂️ 💆🏾‍♂ 💆🏿‍♂️ 💆🏿‍♂ 💆‍♀️ 💆‍♀ 💆🏻‍♀️ 💆🏻‍♀ 💆🏼‍♀️ 💆🏼‍♀ 💆🏽‍♀️ 💆🏽‍♀ 💆🏾‍♀️ 💆🏾‍♀ 💆🏿‍♀️ 💆🏿‍♀ 💇 💇🏻 💇🏼 💇🏽 💇🏾 💇🏿 💇‍♂️ 💇‍♂ 💇🏻‍♂️ 💇🏻‍♂ 💇🏼‍♂️ 💇🏼‍♂ 💇🏽‍♂️ 💇🏽‍♂ 💇🏾‍♂️ 💇🏾‍♂ 💇🏿‍♂️ 💇🏿‍♂ 💇‍♀️ 💇‍♀ 💇🏻‍♀️ 💇🏻‍♀ 💇🏼‍♀️ 💇🏼‍♀ 💇🏽‍♀️ 💇🏽‍♀ 💇🏾‍♀️ 💇🏾‍♀ 💇🏿‍♀️ 💇🏿‍♀ 🚶 🚶🏻 🚶🏼 🚶🏽 🚶🏾 🚶🏿 🚶‍♂️ 🚶‍♂ 🚶🏻‍♂️ 🚶🏻‍♂ 🚶🏼‍♂️ 🚶🏼‍♂ 🚶🏽‍♂️ 🚶🏽‍♂ 🚶🏾‍♂️ 🚶🏾‍♂ 🚶🏿‍♂️ 🚶🏿‍♂ 🚶‍♀️ 🚶‍♀ 🚶🏻‍♀️ 🚶🏻‍♀ 🚶🏼‍♀️ 🚶🏼‍♀ 🚶🏽‍♀️ 🚶🏽‍♀ 🚶🏾‍♀️ 🚶🏾‍♀ 🚶🏿‍♀️ 🚶🏿‍♀ 🧍 🧍🏻 🧍🏼 🧍🏽 🧍🏾 🧍🏿 🧍‍♂️ 🧍‍♂ 🧍🏻‍♂️ 🧍🏻‍♂ 🧍🏼‍♂️ 🧍🏼‍♂ 🧍🏽‍♂️ 🧍🏽‍♂ 🧍🏾‍♂️ 🧍🏾‍♂ 🧍🏿‍♂️ 🧍🏿‍♂ 🧍‍♀️ 🧍‍♀ 🧍🏻‍♀️ 🧍🏻‍♀ 🧍🏼‍♀️ 🧍🏼‍♀ 🧍🏽‍♀️ 🧍🏽‍♀ 🧍🏾‍♀️ 🧍🏾‍♀ 🧍🏿‍♀️ 🧍🏿‍♀ 🧎 🧎🏻 🧎🏼 🧎🏽 🧎🏾 🧎🏿 🧎‍♂️ 🧎‍♂ 🧎🏻‍♂️ 🧎🏻‍♂ 🧎🏼‍♂️ 🧎🏼‍♂ 🧎🏽‍♂️ 🧎🏽‍♂ 🧎🏾‍♂️ 🧎🏾‍♂ 🧎🏿‍♂️ 🧎🏿‍♂ 🧎‍♀️ 🧎‍♀ 🧎🏻‍♀️ 🧎🏻‍♀ 🧎🏼‍♀️ 🧎🏼‍♀ 🧎🏽‍♀️ 🧎🏽‍♀ 🧎🏾‍♀️ 🧎🏾‍♀ 🧎🏿‍♀️ 🧎🏿‍♀ 🧑‍🦯 🧑🏻‍🦯 🧑🏼‍🦯 🧑🏽‍🦯 🧑🏾‍🦯 🧑🏿‍🦯 👨‍🦯 👨🏻‍🦯 👨🏼‍🦯 👨🏽‍🦯 👨🏾‍🦯 👨🏿‍🦯 👩‍🦯 👩🏻‍🦯 👩🏼‍🦯 👩🏽‍🦯 👩🏾‍🦯 👩🏿‍🦯 🧑‍🦼 🧑🏻‍🦼 🧑🏼‍🦼 🧑🏽‍🦼 🧑🏾‍🦼 🧑🏿‍🦼 👨‍🦼 👨🏻‍🦼 👨🏼‍🦼 👨🏽‍🦼 👨🏾‍🦼 👨🏿‍🦼 👩‍🦼 👩🏻‍🦼 👩🏼‍🦼 👩🏽‍🦼 👩🏾‍🦼 👩🏿‍🦼 🧑‍🦽 🧑🏻‍🦽 🧑🏼‍🦽 🧑🏽‍🦽 🧑🏾‍🦽 🧑🏿‍🦽 👨‍🦽 👨🏻‍🦽 👨🏼‍🦽 👨🏽‍🦽 👨🏾‍🦽 👨🏿‍🦽 👩‍🦽 👩🏻‍🦽 👩🏼‍🦽 👩🏽‍🦽 👩🏾‍🦽 👩🏿‍🦽 🏃 🏃🏻 🏃🏼 🏃🏽 🏃🏾 🏃🏿 🏃‍♂️ 🏃‍♂ 🏃🏻‍♂️ 🏃🏻‍♂ 🏃🏼‍♂️ 🏃🏼‍♂ 🏃🏽‍♂️ 🏃🏽‍♂ 🏃🏾‍♂️ 🏃🏾‍♂ 🏃🏿‍♂️ 🏃🏿‍♂ 🏃‍♀️ 🏃‍♀ 🏃🏻‍♀️ 🏃🏻‍♀ 🏃🏼‍♀️ 🏃🏼‍♀ 🏃🏽‍♀️ 🏃🏽‍♀ 🏃🏾‍♀️ 🏃🏾‍♀ 🏃🏿‍♀️ 🏃🏿‍♀ 💃 💃🏻 💃🏼 💃🏽 💃🏾 💃🏿 🕺 🕺🏻 🕺🏼 🕺🏽 🕺🏾 🕺🏿 🕴️ 🕴 🕴🏻 🕴🏼 🕴🏽 🕴🏾 🕴🏿 👯 👯‍♂️ 👯‍♂ 👯‍♀️ 👯‍♀ 🧖 🧖🏻 🧖🏼 🧖🏽 🧖🏾 🧖🏿 🧖‍♂️ 🧖‍♂ 🧖🏻‍♂️ 🧖🏻‍♂ 🧖🏼‍♂️ 🧖🏼‍♂ 🧖🏽‍♂️ 🧖🏽‍♂ 🧖🏾‍♂️ 🧖🏾‍♂ 🧖🏿‍♂️ 🧖🏿‍♂ 🧖‍♀️ 🧖‍♀ 🧖🏻‍♀️ 🧖🏻‍♀ 🧖🏼‍♀️ 🧖🏼‍♀ 🧖🏽‍♀️ 🧖🏽‍♀ 🧖🏾‍♀️ 🧖🏾‍♀ 🧖🏿‍♀️ 🧖🏿‍♀ 🧗 🧗🏻 🧗🏼 🧗🏽 🧗🏾 🧗🏿 🧗‍♂️ 🧗‍♂ 🧗🏻‍♂️ 🧗🏻‍♂ 🧗🏼‍♂️ 🧗🏼‍♂ 🧗🏽‍♂️ 🧗🏽‍♂ 🧗🏾‍♂️ 🧗🏾‍♂ 🧗🏿‍♂️ 🧗🏿‍♂ 🧗‍♀️ 🧗‍♀ 🧗🏻‍♀️ 🧗🏻‍♀ 🧗🏼‍♀️ 🧗🏼‍♀ 🧗🏽‍♀️ 🧗🏽‍♀ 🧗🏾‍♀️ 🧗🏾‍♀ 🧗🏿‍♀️ 🧗🏿‍♀ 🤺 🏇 🏇🏻 🏇🏼 🏇🏽 🏇🏾 🏇🏿 ⛷️ ⛷ 🏂 🏂🏻 🏂🏼 🏂🏽 🏂🏾 🏂🏿 🏌️ 🏌 🏌🏻 🏌🏼 🏌🏽 🏌🏾 🏌🏿 🏌️‍♂️ 🏌‍♂️ 🏌️‍♂ 🏌‍♂ 🏌🏻‍♂️ 🏌🏻‍♂ 🏌🏼‍♂️ 🏌🏼‍♂ 🏌🏽‍♂️ 🏌🏽‍♂ 🏌🏾‍♂️ 🏌🏾‍♂ 🏌🏿‍♂️ 🏌🏿‍♂ 🏌️‍♀️ 🏌‍♀️ 🏌️‍♀ 🏌‍♀ 🏌🏻‍♀️ 🏌🏻‍♀ 🏌🏼‍♀️ 🏌🏼‍♀ 🏌🏽‍♀️ 🏌🏽‍♀ 🏌🏾‍♀️ 🏌🏾‍♀ 🏌🏿‍♀️ 🏌🏿‍♀ 🏄 🏄🏻 🏄🏼 🏄🏽 🏄🏾 🏄🏿 🏄‍♂️ 🏄‍♂ 🏄🏻‍♂️ 🏄🏻‍♂ 🏄🏼‍♂️ 🏄🏼‍♂ 🏄🏽‍♂️ 🏄🏽‍♂ 🏄🏾‍♂️ 🏄🏾‍♂ 🏄🏿‍♂️ 🏄🏿‍♂ 🏄‍♀️ 🏄‍♀ 🏄🏻‍♀️ 🏄🏻‍♀ 🏄🏼‍♀️ 🏄🏼‍♀ 🏄🏽‍♀️ 🏄🏽‍♀ 🏄🏾‍♀️ 🏄🏾‍♀ 🏄🏿‍♀️ 🏄🏿‍♀ 🚣 🚣🏻 🚣🏼 🚣🏽 🚣🏾 🚣🏿 🚣‍♂️ 🚣‍♂ 🚣🏻‍♂️ 🚣🏻‍♂ 🚣🏼‍♂️ 🚣🏼‍♂ 🚣🏽‍♂️ 🚣🏽‍♂ 🚣🏾‍♂️ 🚣🏾‍♂ 🚣🏿‍♂️ 🚣🏿‍♂ 🚣‍♀️ 🚣‍♀ 🚣🏻‍♀️ 🚣🏻‍♀ 🚣🏼‍♀️ 🚣🏼‍♀ 🚣🏽‍♀️ 🚣🏽‍♀ 🚣🏾‍♀️ 🚣🏾‍♀ 🚣🏿‍♀️ 🚣🏿‍♀ 🏊 🏊🏻 🏊🏼 🏊🏽 🏊🏾 🏊🏿 🏊‍♂️ 🏊‍♂ 🏊🏻‍♂️ 🏊🏻‍♂ 🏊🏼‍♂️ 🏊🏼‍♂ 🏊🏽‍♂️ 🏊🏽‍♂ 🏊🏾‍♂️ 🏊🏾‍♂ 🏊🏿‍♂️ 🏊🏿‍♂ 🏊‍♀️ 🏊‍♀ 🏊🏻‍♀️ 🏊🏻‍♀ 🏊🏼‍♀️ 🏊🏼‍♀ 🏊🏽‍♀️ 🏊🏽‍♀ 🏊🏾‍♀️ 🏊🏾‍♀ 🏊🏿‍♀️ 🏊🏿‍♀ ⛹️ ⛹ ⛹🏻 ⛹🏼 ⛹🏽 ⛹🏾 ⛹🏿 ⛹️‍♂️ ⛹‍♂️ ⛹️‍♂ ⛹‍♂ ⛹🏻‍♂️ ⛹🏻‍♂ ⛹🏼‍♂️ ⛹🏼‍♂ ⛹🏽‍♂️ ⛹🏽‍♂ ⛹🏾‍♂️ ⛹🏾‍♂ ⛹🏿‍♂️ ⛹🏿‍♂ ⛹️‍♀️ ⛹‍♀️ ⛹️‍♀ ⛹‍♀ ⛹🏻‍♀️ ⛹🏻‍♀ ⛹🏼‍♀️ ⛹🏼‍♀ ⛹🏽‍♀️ ⛹🏽‍♀ ⛹🏾‍♀️ ⛹🏾‍♀ ⛹🏿‍♀️ ⛹🏿‍♀ 🏋️ 🏋 🏋🏻 🏋🏼 🏋🏽 🏋🏾 🏋🏿 🏋️‍♂️ 🏋‍♂️ 🏋️‍♂ 🏋‍♂ 🏋🏻‍♂️ 🏋🏻‍♂ 🏋🏼‍♂️ 🏋🏼‍♂ 🏋🏽‍♂️ 🏋🏽‍♂ 🏋🏾‍♂️ 🏋🏾‍♂ 🏋🏿‍♂️ 🏋🏿‍♂ 🏋️‍♀️ 🏋‍♀️ 🏋️‍♀ 🏋‍♀ 🏋🏻‍♀️ 🏋🏻‍♀ 🏋🏼‍♀️ 🏋🏼‍♀ 🏋🏽‍♀️ 🏋🏽‍♀ 🏋🏾‍♀️ 🏋🏾‍♀ 🏋🏿‍♀️ 🏋🏿‍♀ 🚴 🚴🏻 🚴🏼 🚴🏽 🚴🏾 🚴🏿 🚴‍♂️ 🚴‍♂ 🚴🏻‍♂️ 🚴🏻‍♂ 🚴🏼‍♂️ 🚴🏼‍♂ 🚴🏽‍♂️ 🚴🏽‍♂ 🚴🏾‍♂️ 🚴🏾‍♂ 🚴🏿‍♂️ 🚴🏿‍♂ 🚴‍♀️ 🚴‍♀ 🚴🏻‍♀️ 🚴🏻‍♀ 🚴🏼‍♀️ 🚴🏼‍♀ 🚴🏽‍♀️ 🚴🏽‍♀ 🚴🏾‍♀️ 🚴🏾‍♀ 🚴🏿‍♀️ 🚴🏿‍♀ 🚵 🚵🏻 🚵🏼 🚵🏽 🚵🏾 🚵🏿 🚵‍♂️ 🚵‍♂ 🚵🏻‍♂️ 🚵🏻‍♂ 🚵🏼‍♂️ 🚵🏼‍♂ 🚵🏽‍♂️ 🚵🏽‍♂ 🚵🏾‍♂️ 🚵🏾‍♂ 🚵🏿‍♂️ 🚵🏿‍♂ 🚵‍♀️ 🚵‍♀ 🚵🏻‍♀️ 🚵🏻‍♀ 🚵🏼‍♀️ 🚵🏼‍♀ 🚵🏽‍♀️ 🚵🏽‍♀ 🚵🏾‍♀️ 🚵🏾‍♀ 🚵🏿‍♀️ 🚵🏿‍♀ 🤸 🤸🏻 🤸🏼 🤸🏽 🤸🏾 🤸🏿 🤸‍♂️ 🤸‍♂ 🤸🏻‍♂️ 🤸🏻‍♂ 🤸🏼‍♂️ 🤸🏼‍♂ 🤸🏽‍♂️ 🤸🏽‍♂ 🤸🏾‍♂️ 🤸🏾‍♂ 🤸🏿‍♂️ 🤸🏿‍♂ 🤸‍♀️ 🤸‍♀ 🤸🏻‍♀️ 🤸🏻‍♀ 🤸🏼‍♀️ 🤸🏼‍♀ 🤸🏽‍♀️ 🤸🏽‍♀ 🤸🏾‍♀️ 🤸🏾‍♀ 🤸🏿‍♀️ 🤸🏿‍♀ 🤼 🤼‍♂️ 🤼‍♂ 🤼‍♀️ 🤼‍♀ 🤽 🤽🏻 🤽🏼 🤽🏽 🤽🏾 🤽🏿 🤽‍♂️ 🤽‍♂ 🤽🏻‍♂️ 🤽🏻‍♂ 🤽🏼‍♂️ 🤽🏼‍♂ 🤽🏽‍♂️ 🤽🏽‍♂ 🤽🏾‍♂️ 🤽🏾‍♂ 🤽🏿‍♂️ 🤽🏿‍♂ 🤽‍♀️ 🤽‍♀ 🤽🏻‍♀️ 🤽🏻‍♀ 🤽🏼‍♀️ 🤽🏼‍♀ 🤽🏽‍♀️ 🤽🏽‍♀ 🤽🏾‍♀️ 🤽🏾‍♀ 🤽🏿‍♀️ 🤽🏿‍♀ 🤾 🤾🏻 🤾🏼 🤾🏽 🤾🏾 🤾🏿 🤾‍♂️ 🤾‍♂ 🤾🏻‍♂️ 🤾🏻‍♂ 🤾🏼‍♂️ 🤾🏼‍♂ 🤾🏽‍♂️ 🤾🏽‍♂ 🤾🏾‍♂️ 🤾🏾‍♂ 🤾🏿‍♂️ 🤾🏿‍♂ 🤾‍♀️ 🤾‍♀ 🤾🏻‍♀️ 🤾🏻‍♀ 🤾🏼‍♀️ 🤾🏼‍♀ 🤾🏽‍♀️ 🤾🏽‍♀ 🤾🏾‍♀️ 🤾🏾‍♀ 🤾🏿‍♀️ 🤾🏿‍♀ 🤹 🤹🏻 🤹🏼 🤹🏽 🤹🏾 🤹🏿 🤹‍♂️ 🤹‍♂ 🤹🏻‍♂️ 🤹🏻‍♂ 🤹🏼‍♂️ 🤹🏼‍♂ 🤹🏽‍♂️ 🤹🏽‍♂ 🤹🏾‍♂️ 🤹🏾‍♂ 🤹🏿‍♂️ 🤹🏿‍♂ 🤹‍♀️ 🤹‍♀ 🤹🏻‍♀️ 🤹🏻‍♀ 🤹🏼‍♀️ 🤹🏼‍♀ 🤹🏽‍♀️ 🤹🏽‍♀ 🤹🏾‍♀️ 🤹🏾‍♀ 🤹🏿‍♀️ 🤹🏿‍♀ 🧘 🧘🏻 🧘🏼 🧘🏽 🧘🏾 🧘🏿 🧘‍♂️ 🧘‍♂ 🧘🏻‍♂️ 🧘🏻‍♂ 🧘🏼‍♂️ 🧘🏼‍♂ 🧘🏽‍♂️ 🧘🏽‍♂ 🧘🏾‍♂️ 🧘🏾‍♂ 🧘🏿‍♂️ 🧘🏿‍♂ 🧘‍♀️ 🧘‍♀ 🧘🏻‍♀️ 🧘🏻‍♀ 🧘🏼‍♀️ 🧘🏼‍♀ 🧘🏽‍♀️ 🧘🏽‍♀ 🧘🏾‍♀️ 🧘🏾‍♀ 🧘🏿‍♀️ 🧘🏿‍♀ 🛀 🛀🏻 🛀🏼 🛀🏽 🛀🏾 🛀🏿 🛌 🛌🏻 🛌🏼 🛌🏽 🛌🏾 🛌🏿 🧑‍🤝‍🧑 🧑🏻‍🤝‍🧑🏻 🧑🏻‍🤝‍🧑🏼 🧑🏻‍🤝‍🧑🏽 🧑🏻‍🤝‍🧑🏾 🧑🏻‍🤝‍🧑🏿 🧑🏼‍🤝‍🧑🏻 🧑🏼‍🤝‍🧑🏼 🧑🏼‍🤝‍🧑🏽 🧑🏼‍🤝‍🧑🏾 🧑🏼‍🤝‍🧑🏿 🧑🏽‍🤝‍🧑🏻 🧑🏽‍🤝‍🧑🏼 🧑🏽‍🤝‍🧑🏽 🧑🏽‍🤝‍🧑🏾 🧑🏽‍🤝‍🧑🏿 🧑🏾‍🤝‍🧑🏻 🧑🏾‍🤝‍🧑🏼 🧑🏾‍🤝‍🧑🏽 🧑🏾‍🤝‍🧑🏾 🧑🏾‍🤝‍🧑🏿 🧑🏿‍🤝‍🧑🏻 🧑🏿‍🤝‍🧑🏼 🧑🏿‍🤝‍🧑🏽 🧑🏿‍🤝‍🧑🏾 🧑🏿‍🤝‍🧑🏿 👭 👭🏻 👩🏻‍🤝‍👩🏼 👩🏻‍🤝‍👩🏽 👩🏻‍🤝‍👩🏾 👩🏻‍🤝‍👩🏿 👩🏼‍🤝‍👩🏻 👭🏼 👩🏼‍🤝‍👩🏽 👩🏼‍🤝‍👩🏾 👩🏼‍🤝‍👩🏿 👩🏽‍🤝‍👩🏻 👩🏽‍🤝‍👩🏼 👭🏽 👩🏽‍🤝‍👩🏾 👩🏽‍🤝‍👩🏿 👩🏾‍🤝‍👩🏻 👩🏾‍🤝‍👩🏼 👩🏾‍🤝‍👩🏽 👭🏾 👩🏾‍🤝‍👩🏿 👩🏿‍🤝‍👩🏻 👩🏿‍🤝‍👩🏼 👩🏿‍🤝‍👩🏽 👩🏿‍🤝‍👩🏾 👭🏿 👫 👫🏻 👩🏻‍🤝‍👨🏼 👩🏻‍🤝‍👨🏽 👩🏻‍🤝‍👨🏾 👩🏻‍🤝‍👨🏿 👩🏼‍🤝‍👨🏻 👫🏼 👩🏼‍🤝‍👨🏽 👩🏼‍🤝‍👨🏾 👩🏼‍🤝‍👨🏿 👩🏽‍🤝‍👨🏻 👩🏽‍🤝‍👨🏼 👫🏽 👩🏽‍🤝‍👨🏾 👩🏽‍🤝‍👨🏿 👩🏾‍🤝‍👨🏻 👩🏾‍🤝‍👨🏼 👩🏾‍🤝‍👨🏽 👫🏾 👩🏾‍🤝‍👨🏿 👩🏿‍🤝‍👨🏻 👩🏿‍🤝‍👨🏼 👩🏿‍🤝‍👨🏽 👩🏿‍🤝‍👨🏾 👫🏿 👬 👬🏻 👨🏻‍🤝‍👨🏼 👨🏻‍🤝‍👨🏽 👨🏻‍🤝‍👨🏾 👨🏻‍🤝‍👨🏿 👨🏼‍🤝‍👨🏻 👬🏼 👨🏼‍🤝‍👨🏽 👨🏼‍🤝‍👨🏾 👨🏼‍🤝‍👨🏿 👨🏽‍🤝‍👨🏻 👨🏽‍🤝‍👨🏼 👬🏽 👨🏽‍🤝‍👨🏾 👨🏽‍🤝‍👨🏿 👨🏾‍🤝‍👨🏻 👨🏾‍🤝‍👨🏼 👨🏾‍🤝‍👨🏽 👬🏾 👨🏾‍🤝‍👨🏿 👨🏿‍🤝‍👨🏻 👨🏿‍🤝‍👨🏼 👨🏿‍🤝‍👨🏽 👨🏿‍🤝‍👨🏾 👬🏿 💏 💏🏻 💏🏼 💏🏽 💏🏾 💏🏿 🧑🏻‍❤️‍💋‍🧑🏼 🧑🏻‍❤‍💋‍🧑🏼 🧑🏻‍❤️‍💋‍🧑🏽 🧑🏻‍❤‍💋‍🧑🏽 🧑🏻‍❤️‍💋‍🧑🏾 🧑🏻‍❤‍💋‍🧑🏾 🧑🏻‍❤️‍💋‍🧑🏿 🧑🏻‍❤‍💋‍🧑🏿 🧑🏼‍❤️‍💋‍🧑🏻 🧑🏼‍❤‍💋‍🧑🏻 🧑🏼‍❤️‍💋‍🧑🏽 🧑🏼‍❤‍💋‍🧑🏽 🧑🏼‍❤️‍💋‍🧑🏾 🧑🏼‍❤‍💋‍🧑🏾 🧑🏼‍❤️‍💋‍🧑🏿 🧑🏼‍❤‍💋‍🧑🏿 🧑🏽‍❤️‍💋‍🧑🏻 🧑🏽‍❤‍💋‍🧑🏻 🧑🏽‍❤️‍💋‍🧑🏼 🧑🏽‍❤‍💋‍🧑🏼 🧑🏽‍❤️‍💋‍🧑🏾 🧑🏽‍❤‍💋‍🧑🏾 🧑🏽‍❤️‍💋‍🧑🏿 🧑🏽‍❤‍💋‍🧑🏿 🧑🏾‍❤️‍💋‍🧑🏻 🧑🏾‍❤‍💋‍🧑🏻 🧑🏾‍❤️‍💋‍🧑🏼 🧑🏾‍❤‍💋‍🧑🏼 🧑🏾‍❤️‍💋‍🧑🏽 🧑🏾‍❤‍💋‍🧑🏽 🧑🏾‍❤️‍💋‍🧑🏿 🧑🏾‍❤‍💋‍🧑🏿 🧑🏿‍❤️‍💋‍🧑🏻 🧑🏿‍❤‍💋‍🧑🏻 🧑🏿‍❤️‍💋‍🧑🏼 🧑🏿‍❤‍💋‍🧑🏼 🧑🏿‍❤️‍💋‍🧑🏽 🧑🏿‍❤‍💋‍🧑🏽 🧑🏿‍❤️‍💋‍🧑🏾 🧑🏿‍❤‍💋‍🧑🏾 👩‍❤️‍💋‍👨 👩‍❤‍💋‍👨 👩🏻‍❤️‍💋‍👨🏻 👩🏻‍❤‍💋‍👨🏻 👩🏻‍❤️‍💋‍👨🏼 👩🏻‍❤‍💋‍👨🏼 👩🏻‍❤️‍💋‍👨🏽 👩🏻‍❤‍💋‍👨🏽 👩🏻‍❤️‍💋‍👨🏾 👩🏻‍❤‍💋‍👨🏾 👩🏻‍❤️‍💋‍👨🏿 👩🏻‍❤‍💋‍👨🏿 👩🏼‍❤️‍💋‍👨🏻 👩🏼‍❤‍💋‍👨🏻 👩🏼‍❤️‍💋‍👨🏼 👩🏼‍❤‍💋‍👨🏼 👩🏼‍❤️‍💋‍👨🏽 👩🏼‍❤‍💋‍👨🏽 👩🏼‍❤️‍💋‍👨🏾 👩🏼‍❤‍💋‍👨🏾 👩🏼‍❤️‍💋‍👨🏿 👩🏼‍❤‍💋‍👨🏿 👩🏽‍❤️‍💋‍👨🏻 👩🏽‍❤‍💋‍👨🏻 👩🏽‍❤️‍💋‍👨🏼 👩🏽‍❤‍💋‍👨🏼 👩🏽‍❤️‍💋‍👨🏽 👩🏽‍❤‍💋‍👨🏽 👩🏽‍❤️‍💋‍👨🏾 👩🏽‍❤‍💋‍👨🏾 👩🏽‍❤️‍💋‍👨🏿 👩🏽‍❤‍💋‍👨🏿 👩🏾‍❤️‍💋‍👨🏻 👩🏾‍❤‍💋‍👨🏻 👩🏾‍❤️‍💋‍👨🏼 👩🏾‍❤‍💋‍👨🏼 👩🏾‍❤️‍💋‍👨🏽 👩🏾‍❤‍💋‍👨🏽 👩🏾‍❤️‍💋‍👨🏾 👩🏾‍❤‍💋‍👨🏾 👩🏾‍❤️‍💋‍👨🏿 👩🏾‍❤‍💋‍👨🏿 👩🏿‍❤️‍💋‍👨🏻 👩🏿‍❤‍💋‍👨🏻 👩🏿‍❤️‍💋‍👨🏼 👩🏿‍❤‍💋‍👨🏼 👩🏿‍❤️‍💋‍👨🏽 👩🏿‍❤‍💋‍👨🏽 👩🏿‍❤️‍💋‍👨🏾 👩🏿‍❤‍💋‍👨🏾 👩🏿‍❤️‍💋‍👨🏿 👩🏿‍❤‍💋‍👨🏿 👨‍❤️‍💋‍👨 👨‍❤‍💋‍👨 👨🏻‍❤️‍💋‍👨🏻 👨🏻‍❤‍💋‍👨🏻 👨🏻‍❤️‍💋‍👨🏼 👨🏻‍❤‍💋‍👨🏼 👨🏻‍❤️‍💋‍👨🏽 👨🏻‍❤‍💋‍👨🏽 👨🏻‍❤️‍💋‍👨🏾 👨🏻‍❤‍💋‍👨🏾 👨🏻‍❤️‍💋‍👨🏿 👨🏻‍❤‍💋‍👨🏿 👨🏼‍❤️‍💋‍👨🏻 👨🏼‍❤‍💋‍👨🏻 👨🏼‍❤️‍💋‍👨🏼 👨🏼‍❤‍💋‍👨🏼 👨🏼‍❤️‍💋‍👨🏽 👨🏼‍❤‍💋‍👨🏽 👨🏼‍❤️‍💋‍👨🏾 👨🏼‍❤‍💋‍👨🏾 👨🏼‍❤️‍💋‍👨🏿 👨🏼‍❤‍💋‍👨🏿 👨🏽‍❤️‍💋‍👨🏻 👨🏽‍❤‍💋‍👨🏻 👨🏽‍❤️‍💋‍👨🏼 👨🏽‍❤‍💋‍👨🏼 👨🏽‍❤️‍💋‍👨🏽 👨🏽‍❤‍💋‍👨🏽 👨🏽‍❤️‍💋‍👨🏾 👨🏽‍❤‍💋‍👨🏾 👨🏽‍❤️‍💋‍👨🏿 👨🏽‍❤‍💋‍👨🏿 👨🏾‍❤️‍💋‍👨🏻 👨🏾‍❤‍💋‍👨🏻 👨🏾‍❤️‍💋‍👨🏼 👨🏾‍❤‍💋‍👨🏼 👨🏾‍❤️‍💋‍👨🏽 👨🏾‍❤‍💋‍👨🏽 👨🏾‍❤️‍💋‍👨🏾 👨🏾‍❤‍💋‍👨🏾 👨🏾‍❤️‍💋‍👨🏿 👨🏾‍❤‍💋‍👨🏿 👨🏿‍❤️‍💋‍👨🏻 👨🏿‍❤‍💋‍👨🏻 👨🏿‍❤️‍💋‍👨🏼 👨🏿‍❤‍💋‍👨🏼 👨🏿‍❤️‍💋‍👨🏽 👨🏿‍❤‍💋‍👨🏽 👨🏿‍❤️‍💋‍👨🏾 👨🏿‍❤‍💋‍👨🏾 👨🏿‍❤️‍💋‍👨🏿 👨🏿‍❤‍💋‍👨🏿 👩‍❤️‍💋‍👩 👩‍❤‍💋‍👩 👩🏻‍❤️‍💋‍👩🏻 👩🏻‍❤‍💋‍👩🏻 👩🏻‍❤️‍💋‍👩🏼 👩🏻‍❤‍💋‍👩🏼 👩🏻‍❤️‍💋‍👩🏽 👩🏻‍❤‍💋‍👩🏽 👩🏻‍❤️‍💋‍👩🏾 👩🏻‍❤‍💋‍👩🏾 👩🏻‍❤️‍💋‍👩🏿 👩🏻‍❤‍💋‍👩🏿 👩🏼‍❤️‍💋‍👩🏻 👩🏼‍❤‍💋‍👩🏻 👩🏼‍❤️‍💋‍👩🏼 👩🏼‍❤‍💋‍👩🏼 👩🏼‍❤️‍💋‍👩🏽 👩🏼‍❤‍💋‍👩🏽 👩🏼‍❤️‍💋‍👩🏾 👩🏼‍❤‍💋‍👩🏾 👩🏼‍❤️‍💋‍👩🏿 👩🏼‍❤‍💋‍👩🏿 👩🏽‍❤️‍💋‍👩🏻 👩🏽‍❤‍💋‍👩🏻 👩🏽‍❤️‍💋‍👩🏼 👩🏽‍❤‍💋‍👩🏼 👩🏽‍❤️‍💋‍👩🏽 👩🏽‍❤‍💋‍👩🏽 👩🏽‍❤️‍💋‍👩🏾 👩🏽‍❤‍💋‍👩🏾 👩🏽‍❤️‍💋‍👩🏿 👩🏽‍❤‍💋‍👩🏿 👩🏾‍❤️‍💋‍👩🏻 👩🏾‍❤‍💋‍👩🏻 👩🏾‍❤️‍💋‍👩🏼 👩🏾‍❤‍💋‍👩🏼 👩🏾‍❤️‍💋‍👩🏽 👩🏾‍❤‍💋‍👩🏽 👩🏾‍❤️‍💋‍👩🏾 👩🏾‍❤‍💋‍👩🏾 👩🏾‍❤️‍💋‍👩🏿 👩🏾‍❤‍💋‍👩🏿 👩🏿‍❤️‍💋‍👩🏻 👩🏿‍❤‍💋‍👩🏻 👩🏿‍❤️‍💋‍👩🏼 👩🏿‍❤‍💋‍👩🏼 👩🏿‍❤️‍💋‍👩🏽 👩🏿‍❤‍💋‍👩🏽 👩🏿‍❤️‍💋‍👩🏾 👩🏿‍❤‍💋‍👩🏾 👩🏿‍❤️‍💋‍👩🏿 👩🏿‍❤‍💋‍👩🏿 💑 💑🏻 💑🏼 💑🏽 💑🏾 💑🏿 🧑🏻‍❤️‍🧑🏼 🧑🏻‍❤‍🧑🏼 🧑🏻‍❤️‍🧑🏽 🧑🏻‍❤‍🧑🏽 🧑🏻‍❤️‍🧑🏾 🧑🏻‍❤‍🧑🏾 🧑🏻‍❤️‍🧑🏿 🧑🏻‍❤‍🧑🏿 🧑🏼‍❤️‍🧑🏻 🧑🏼‍❤‍🧑🏻 🧑🏼‍❤️‍🧑🏽 🧑🏼‍❤‍🧑🏽 🧑🏼‍❤️‍🧑🏾 🧑🏼‍❤‍🧑🏾 🧑🏼‍❤️‍🧑🏿 🧑🏼‍❤‍🧑🏿 🧑🏽‍❤️‍🧑🏻 🧑🏽‍❤‍🧑🏻 🧑🏽‍❤️‍🧑🏼 🧑🏽‍❤‍🧑🏼 🧑🏽‍❤️‍🧑🏾 🧑🏽‍❤‍🧑🏾 🧑🏽‍❤️‍🧑🏿 🧑🏽‍❤‍🧑🏿 🧑🏾‍❤️‍🧑🏻 🧑🏾‍❤‍🧑🏻 🧑🏾‍❤️‍🧑🏼 🧑🏾‍❤‍🧑🏼 🧑🏾‍❤️‍🧑🏽 🧑🏾‍❤‍🧑🏽 🧑🏾‍❤️‍🧑🏿 🧑🏾‍❤‍🧑🏿 🧑🏿‍❤️‍🧑🏻 🧑🏿‍❤‍🧑🏻 🧑🏿‍❤️‍🧑🏼 🧑🏿‍❤‍🧑🏼 🧑🏿‍❤️‍🧑🏽 🧑🏿‍❤‍🧑🏽 🧑🏿‍❤️‍🧑🏾 🧑🏿‍❤‍🧑🏾 👩‍❤️‍👨 👩‍❤‍👨 👩🏻‍❤️‍👨🏻 👩🏻‍❤‍👨🏻 👩🏻‍❤️‍👨🏼 👩🏻‍❤‍👨🏼 👩🏻‍❤️‍👨🏽 👩🏻‍❤‍👨🏽 👩🏻‍❤️‍👨🏾 👩🏻‍❤‍👨🏾 👩🏻‍❤️‍👨🏿 👩🏻‍❤‍👨🏿 👩🏼‍❤️‍👨🏻 👩🏼‍❤‍👨🏻 👩🏼‍❤️‍👨🏼 👩🏼‍❤‍👨🏼 👩🏼‍❤️‍👨🏽 👩🏼‍❤‍👨🏽 👩🏼‍❤️‍👨🏾 👩🏼‍❤‍👨🏾 👩🏼‍❤️‍👨🏿 👩🏼‍❤‍👨🏿 👩🏽‍❤️‍👨🏻 👩🏽‍❤‍👨🏻 👩🏽‍❤️‍👨🏼 👩🏽‍❤‍👨🏼 👩🏽‍❤️‍👨🏽 👩🏽‍❤‍👨🏽 👩🏽‍❤️‍👨🏾 👩🏽‍❤‍👨🏾 👩🏽‍❤️‍👨🏿 👩🏽‍❤‍👨🏿 👩🏾‍❤️‍👨🏻 👩🏾‍❤‍👨🏻 👩🏾‍❤️‍👨🏼 👩🏾‍❤‍👨🏼 👩🏾‍❤️‍👨🏽 👩🏾‍❤‍👨🏽 👩🏾‍❤️‍👨🏾 👩🏾‍❤‍👨🏾 👩🏾‍❤️‍👨🏿 👩🏾‍❤‍👨🏿 👩🏿‍❤️‍👨🏻 👩🏿‍❤‍👨🏻 👩🏿‍❤️‍👨🏼 👩🏿‍❤‍👨🏼 👩🏿‍❤️‍👨🏽 👩🏿‍❤‍👨🏽 👩🏿‍❤️‍👨🏾 👩🏿‍❤‍👨🏾 👩🏿‍❤️‍👨🏿 👩🏿‍❤‍👨🏿 👨‍❤️‍👨 👨‍❤‍👨 👨🏻‍❤️‍👨🏻 👨🏻‍❤‍👨🏻 👨🏻‍❤️‍👨🏼 👨🏻‍❤‍👨🏼 👨🏻‍❤️‍👨🏽 👨🏻‍❤‍👨🏽 👨🏻‍❤️‍👨🏾 👨🏻‍❤‍👨🏾 👨🏻‍❤️‍👨🏿 👨🏻‍❤‍👨🏿 👨🏼‍❤️‍👨🏻 👨🏼‍❤‍👨🏻 👨🏼‍❤️‍👨🏼 👨🏼‍❤‍👨🏼 👨🏼‍❤️‍👨🏽 👨🏼‍❤‍👨🏽 👨🏼‍❤️‍👨🏾 👨🏼‍❤‍👨🏾 👨🏼‍❤️‍👨🏿 👨🏼‍❤‍👨🏿 👨🏽‍❤️‍👨🏻 👨🏽‍❤‍👨🏻 👨🏽‍❤️‍👨🏼 👨🏽‍❤‍👨🏼 👨🏽‍❤️‍👨🏽 👨🏽‍❤‍👨🏽 👨🏽‍❤️‍👨🏾 👨🏽‍❤‍👨🏾 👨🏽‍❤️‍👨🏿 👨🏽‍❤‍👨🏿 👨🏾‍❤️‍👨🏻 👨🏾‍❤‍👨🏻 👨🏾‍❤️‍👨🏼 👨🏾‍❤‍👨🏼 👨🏾‍❤️‍👨🏽 👨🏾‍❤‍👨🏽 👨🏾‍❤️‍👨🏾 👨🏾‍❤‍👨🏾 👨🏾‍❤️‍👨🏿 👨🏾‍❤‍👨🏿 👨🏿‍❤️‍👨🏻 👨🏿‍❤‍👨🏻 👨🏿‍❤️‍👨🏼 👨🏿‍❤‍👨🏼 👨🏿‍❤️‍👨🏽 👨🏿‍❤‍👨🏽 👨🏿‍❤️‍👨🏾 👨🏿‍❤‍👨🏾 👨🏿‍❤️‍👨🏿 👨🏿‍❤‍👨🏿 👩‍❤️‍👩 👩‍❤‍👩 👩🏻‍❤️‍👩🏻 👩🏻‍❤‍👩🏻 👩🏻‍❤️‍👩🏼 👩🏻‍❤‍👩🏼 👩🏻‍❤️‍👩🏽 👩🏻‍❤‍👩🏽 👩🏻‍❤️‍👩🏾 👩🏻‍❤‍👩🏾 👩🏻‍❤️‍👩🏿 👩🏻‍❤‍👩🏿 👩🏼‍❤️‍👩🏻 👩🏼‍❤‍👩🏻 👩🏼‍❤️‍👩🏼 👩🏼‍❤‍👩🏼 👩🏼‍❤️‍👩🏽 👩🏼‍❤‍👩🏽 👩🏼‍❤️‍👩🏾 👩🏼‍❤‍👩🏾 👩🏼‍❤️‍👩🏿 👩🏼‍❤‍👩🏿 👩🏽‍❤️‍👩🏻 👩🏽‍❤‍👩🏻 👩🏽‍❤️‍👩🏼 👩🏽‍❤‍👩🏼 👩🏽‍❤️‍👩🏽 👩🏽‍❤‍👩🏽 👩🏽‍❤️‍👩🏾 👩🏽‍❤‍👩🏾 👩🏽‍❤️‍👩🏿 👩🏽‍❤‍👩🏿 👩🏾‍❤️‍👩🏻 👩🏾‍❤‍👩🏻 👩🏾‍❤️‍👩🏼 👩🏾‍❤‍👩🏼 👩🏾‍❤️‍👩🏽 👩🏾‍❤‍👩🏽 👩🏾‍❤️‍👩🏾 👩🏾‍❤‍👩🏾 👩🏾‍❤️‍👩🏿 👩🏾‍❤‍👩🏿 👩🏿‍❤️‍👩🏻 👩🏿‍❤‍👩🏻 👩🏿‍❤️‍👩🏼 👩🏿‍❤‍👩🏼 👩🏿‍❤️‍👩🏽 👩🏿‍❤‍👩🏽 👩🏿‍❤️‍👩🏾 👩🏿‍❤‍👩🏾 👩🏿‍❤️‍👩🏿 👩🏿‍❤‍👩🏿 👪 👨‍👩‍👦 👨‍👩‍👧 👨‍👩‍👧‍👦 👨‍👩‍👦‍👦 👨‍👩‍👧‍👧 👨‍👨‍👦 👨‍👨‍👧 👨‍👨‍👧‍👦 👨‍👨‍👦‍👦 👨‍👨‍👧‍👧 👩‍👩‍👦 👩‍👩‍👧 👩‍👩‍👧‍👦 👩‍👩‍👦‍👦 👩‍👩‍👧‍👧 👨‍👦 👨‍👦‍👦 👨‍👧 👨‍👧‍👦 👨‍👧‍👧 👩‍👦 👩‍👦‍👦 👩‍👧 👩‍👧‍👦 👩‍👧‍👧 🗣️ 🗣 👤 👥 🫂 👣</li>
+<li>Component<br>🏻 🏼 🏽 🏾 🏿 🦰 🦱 🦳 🦲</li>
+<li>Animals &amp; Nature<br>🐵 🐒 🦍 🦧 🐶 🐕 🦮 🐕‍🦺 🐩 🐺 🦊 🦝 🐱 🐈 🐈‍⬛ 🦁 🐯 🐅 🐆 🐴 🐎 🦄 🦓 🦌 🦬 🐮 🐂 🐃 🐄 🐷 🐖 🐗 🐽 🐏 🐑 🐐 🐪 🐫 🦙 🦒 🐘 🦣 🦏 🦛 🐭 🐁 🐀 🐹 🐰 🐇 🐿️ 🐿 🦫 🦔 🦇 🐻 🐻‍❄️ 🐻‍❄ 🐨 🐼 🦥 🦦 🦨 🦘 🦡 🐾 🦃 🐔 🐓 🐣 🐤 🐥 🐦 🐧 🕊️ 🕊 🦅 🦆 🦢 🦉 🦤 🪶 🦩 🦚 🦜 🐸 🐊 🐢 🦎 🐍 🐲 🐉 🦕 🦖 🐳 🐋 🐬 🦭 🐟 🐠 🐡 🦈 🐙 🐚 🪸 🐌 🦋 🐛 🐜 🐝 🪲 🐞 🦗 🪳 🕷️ 🕷 🕸️ 🕸 🦂 🦟 🪰 🪱 🦠 💐 🌸 💮 🪷 🏵️ 🏵 🌹 🥀 🌺 🌻 🌼 🌷 🌱 🪴 🌲 🌳 🌴 🌵 🌾 🌿 ☘️ ☘ 🍀 🍁 🍂 🍃 🪹 🪺</li>
+<li>Food &amp; Drink<br>🍇 🍈 🍉 🍊 🍋 🍌 🍍 🥭 🍎 🍏 🍐 🍑 🍒 🍓 🫐 🥝 🍅 🫒 🥥 🥑 🍆 🥔 🥕 🌽 🌶️ 🌶 🫑 🥒 🥬 🥦 🧄 🧅 🍄 🥜 🫘 🌰 🍞 🥐 🥖 🫓 🥨 🥯 🥞 🧇 🧀 🍖 🍗 🥩 🥓 🍔 🍟 🍕 🌭 🥪 🌮 🌯 🫔 🥙 🧆 🥚 🍳 🥘 🍲 🫕 🥣 🥗 🍿 🧈 🧂 🥫 🍱 🍘 🍙 🍚 🍛 🍜 🍝 🍠 🍢 🍣 🍤 🍥 🥮 🍡 🥟 🥠 🥡 🦀 🦞 🦐 🦑 🦪 🍦 🍧 🍨 🍩 🍪 🎂 🍰 🧁 🥧 🍫 🍬 🍭 🍮 🍯 🍼 🥛 ☕ 🫖 🍵 🍶 🍾 🍷 🍸 🍹 🍺 🍻 🥂 🥃 🫗 🥤 🧋 🧃 🧉 🧊 🥢 🍽️ 🍽 🍴 🥄 🔪 🫙 🏺</li>
+<li>Travel &amp; Places<br>🌍 🌎 🌏 🌐 🗺️ 🗺 🗾 🧭 🏔️ 🏔 ⛰️ ⛰ 🌋 🗻 🏕️ 🏕 🏖️ 🏖 🏜️ 🏜 🏝️ 🏝 🏞️ 🏞 🏟️ 🏟 🏛️ 🏛 🏗️ 🏗 🧱 🪨 🪵 🛖 🏘️ 🏘 🏚️ 🏚 🏠 🏡 🏢 🏣 🏤 🏥 🏦 🏨 🏩 🏪 🏫 🏬 🏭 🏯 🏰 💒 🗼 🗽 ⛪ 🕌 🛕 🕍 ⛩️ ⛩ 🕋 ⛲ ⛺ 🌁 🌃 🏙️ 🏙 🌄 🌅 🌆 🌇 🌉 ♨️ ♨ 🎠 🛝 🎡 🎢 💈 🎪 🚂 🚃 🚄 🚅 🚆 🚇 🚈 🚉 🚊 🚝 🚞 🚋 🚌 🚍 🚎 🚐 🚑 🚒 🚓 🚔 🚕 🚖 🚗 🚘 🚙 🛻 🚚 🚛 🚜 🏎️ 🏎 🏍️ 🏍 🛵 🦽 🦼 🛺 🚲 🛴 🛹 🛼 🚏 🛣️ 🛣 🛤️ 🛤 🛢️ 🛢 ⛽ 🛞 🚨 🚥 🚦 🛑 🚧 ⚓ 🛟 ⛵ 🛶 🚤 🛳️ 🛳 ⛴️ ⛴ 🛥️ 🛥 🚢 ✈️ ✈ 🛩️ 🛩 🛫 🛬 🪂 💺 🚁 🚟 🚠 🚡 🛰️ 🛰 🚀 🛸 🛎️ 🛎 🧳 ⌛ ⏳ ⌚ ⏰ ⏱️ ⏱ ⏲️ ⏲ 🕰️ 🕰 🕛 🕧 🕐 🕜 🕑 🕝 🕒 🕞 🕓 🕟 🕔 🕠 🕕 🕡 🕖 🕢 🕗 🕣 🕘 🕤 🕙 🕥 🕚 🕦 🌑 🌒 🌓 🌔 🌕 🌖 🌗 🌘 🌙 🌚 🌛 🌜 🌡️ 🌡 ☀️ ☀ 🌝 🌞 🪐 ⭐ 🌟 🌠 🌌 ☁️ ☁ ⛅ ⛈️ ⛈ 🌤️ 🌤 🌥️ 🌥 🌦️ 🌦 🌧️ 🌧 🌨️ 🌨 🌩️ 🌩 🌪️ 🌪 🌫️ 🌫 🌬️ 🌬 🌀 🌈 🌂 ☂️ ☂ ☔ ⛱️ ⛱ ⚡ ❄️ ❄ ☃️ ☃ ⛄ ☄️ ☄ 🔥 💧 🌊</li>
+<li>Activities<br>🎃 🎄 🎆 🎇 🧨 ✨ 🎈 🎉 🎊 🎋 🎍 🎎 🎏 🎐 🎑 🧧 🎀 🎁 🎗️ 🎗 🎟️ 🎟 🎫 🎖️ 🎖 🏆 🏅 🥇 🥈 🥉 ⚽ ⚾ 🥎 🏀 🏐 🏈 🏉 🎾 🥏 🎳 🏏 🏑 🏒 🥍 🏓 🏸 🥊 🥋 🥅 ⛳ ⛸️ ⛸ 🎣 🤿 🎽 🎿 🛷 🥌 🎯 🪀 🪁 🎱 🔮 🪄 🧿 🪬 🎮 🕹️ 🕹 🎰 🎲 🧩 🧸 🪅 🪩 🪆 ♠️ ♠ ♥️ ♥ ♦️ ♦ ♣️ ♣ ♟️ ♟ 🃏 🀄 🎴 🎭 🖼️ 🖼 🎨 🧵 🪡 🧶 🪢</li>
+<li>Objects<br>👓 🕶️ 🕶 🥽 🥼 🦺 👔 👕 👖 🧣 🧤 🧥 🧦 👗 👘 🥻 🩱 🩲 🩳 👙 👚 👛 👜 👝 🛍️ 🛍 🎒 🩴 👞 👟 🥾 🥿 👠 👡 🩰 👢 👑 👒 🎩 🎓 🧢 🪖 ⛑️ ⛑ 📿 💄 💍 💎 🔇 🔈 🔉 🔊 📢 📣 📯 🔔 🔕 🎼 🎵 🎶 🎙️ 🎙 🎚️ 🎚 🎛️ 🎛 🎤 🎧 📻 🎷 🪗 🎸 🎹 🎺 🎻 🪕 🥁 🪘 📱 📲 ☎️ ☎ 📞 📟 📠 🔋 🪫 🔌 💻 🖥️ 🖥 🖨️ 🖨 ⌨️ ⌨ 🖱️ 🖱 🖲️ 🖲 💽 💾 💿 📀 🧮 🎥 🎞️ 🎞 📽️ 📽 🎬 📺 📷 📸 📹 📼 🔍 🔎 🕯️ 🕯 💡 🔦 🏮 🪔 📔 📕 📖 📗 📘 📙 📚 📓 📒 📃 📜 📄 📰 🗞️ 🗞 📑 🔖 🏷️ 🏷 💰 🪙 💴 💵 💶 💷 💸 💳 🧾 💹 ✉️ ✉ 📧 📨 📩 📤 📥 📦 📫 📪 📬 📭 📮 🗳️ 🗳 ✏️ ✏ ✒️ ✒ 🖋️ 🖋 🖊️ 🖊 🖌️ 🖌 🖍️ 🖍 📝 💼 📁 📂 🗂️ 🗂 📅 📆 🗒️ 🗒 🗓️ 🗓 📇 📈 📉 📊 📋 📌 📍 📎 🖇️ 🖇 📏 📐 ✂️ ✂ 🗃️ 🗃 🗄️ 🗄 🗑️ 🗑 🔒 🔓 🔏 🔐 🔑 🗝️ 🗝 🔨 🪓 ⛏️ ⛏ ⚒️ ⚒ 🛠️ 🛠 🗡️ 🗡 ⚔️ ⚔ 🔫 🪃 🏹 🛡️ 🛡 🪚 🔧 🪛 🔩 ⚙️ ⚙ 🗜️ 🗜 ⚖️ ⚖ 🦯 🔗 ⛓️ ⛓ 🪝 🧰 🧲 🪜 ⚗️ ⚗ 🧪 🧫 🧬 🔬 🔭 📡 💉 🩸 💊 🩹 🩼 🩺 🩻 🚪 🛗 🪞 🪟 🛏️ 🛏 🛋️ 🛋 🪑 🚽 🪠 🚿 🛁 🪤 🪒 🧴 🧷 🧹 🧺 🧻 🪣 🧼 🫧 🪥 🧽 🧯 🛒 🚬 ⚰️ ⚰ 🪦 ⚱️ ⚱ 🗿 🪧 🪪</li>
+<li>Symbols<br>🏧 🚮 🚰 ♿ 🚹 🚺 🚻 🚼 🚾 🛂 🛃 🛄 🛅 ⚠️ ⚠ 🚸 ⛔ 🚫 🚳 🚭 🚯 🚱 🚷 📵 🔞 ☢️ ☢ ☣️ ☣ ⬆️ ⬆ ↗️ ↗ ➡️ ➡ ↘️ ↘ ⬇️ ⬇ ↙️ ↙ ⬅️ ⬅ ↖️ ↖ ↕️ ↕ ↔️ ↔ ↩️ ↩ ↪️ ↪ ⤴️ ⤴ ⤵️ ⤵ 🔃 🔄 🔙 🔚 🔛 🔜 🔝 🛐 ⚛️ ⚛ 🕉️ 🕉 ✡️ ✡ ☸️ ☸ ☯️ ☯ ✝️ ✝ ☦️ ☦ ☪️ ☪ ☮️ ☮ 🕎 🔯 ♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓ ⛎ 🔀 🔁 🔂 ▶️ ▶ ⏩ ⏭️ ⏭ ⏯️ ⏯ ◀️ ◀ ⏪ ⏮️ ⏮ 🔼 ⏫ 🔽 ⏬ ⏸️ ⏸ ⏹️ ⏹ ⏺️ ⏺ ⏏️ ⏏ 🎦 🔅 🔆 📶 📳 📴 ♀️ ♀ ♂️ ♂ ⚧️ ⚧ ✖️ ✖ ➕ ➖ ➗ 🟰 ♾️ ♾ ‼️ ‼ ⁉️ ⁉ ❓ ❔ ❕ ❗ 〰️ 〰 💱 💲 ⚕️ ⚕ ♻️ ♻ ⚜️ ⚜ 🔱 📛 🔰 ⭕ ✅ ☑️ ☑ ✔️ ✔ ❌ ❎ ➰ ➿ 〽️ 〽 ✳️ ✳ ✴️ ✴ ❇️ ❇ ©️ © ®️ ® ™️ ™ #️⃣ #⃣ *️⃣ *⃣ 0️⃣ 0⃣ 1️⃣ 1⃣ 2️⃣ 2⃣ 3️⃣ 3⃣ 4️⃣ 4⃣ 5️⃣ 5⃣ 6️⃣ 6⃣ 7️⃣ 7⃣ 8️⃣ 8⃣ 9️⃣ 9⃣ 🔟 🔠 🔡 🔢 🔣 🔤 🅰️ 🅰 🆎 🅱️ 🅱 🆑 🆒 🆓 ℹ️ ℹ 🆔 Ⓜ️ Ⓜ 🆕 🆖 🅾️ 🅾 🆗 🅿️ 🅿 🆘 🆙 🆚 🈁 🈂️ 🈂 🈷️ 🈷 🈶 🈯 🉐 🈹 🈚 🈲 🉑 🈸 🈴 🈳 ㊗️ ㊗ ㊙️ ㊙ 🈺 🈵 🔴 🟠 🟡 🟢 🔵 🟣 🟤 ⚫ ⚪ 🟥 🟧 🟨 🟩 🟦 🟪 🟫 ⬛ ⬜ ◼️ ◼ ◻️ ◻ ◾ ◽ ▪️ ▪ ▫️ ▫ 🔶 🔷 🔸 🔹 🔺 🔻 💠 🔘 🔳 🔲</li>
+<li>Flags<br>🏁 🚩 🎌 🏴 🏳️ 🏳 🏳️‍🌈 🏳‍🌈 🏳️‍⚧️ 🏳‍⚧️ 🏳️‍⚧ 🏳‍⚧ 🏴‍☠️ 🏴‍☠ 🇦🇨 🇦🇩 🇦🇪 🇦🇫 🇦🇬 🇦🇮 🇦🇱 🇦🇲 🇦🇴 🇦🇶 🇦🇷 🇦🇸 🇦🇹 🇦🇺 🇦🇼 🇦🇽 🇦🇿 🇧🇦 🇧🇧 🇧🇩 🇧🇪 🇧🇫 🇧🇬 🇧🇭 🇧🇮 🇧🇯 🇧🇱 🇧🇲 🇧🇳 🇧🇴 🇧🇶 🇧🇷 🇧🇸 🇧🇹 🇧🇻 🇧🇼 🇧🇾 🇧🇿 🇨🇦 🇨🇨 🇨🇩 🇨🇫 🇨🇬 🇨🇭 🇨🇮 🇨🇰 🇨🇱 🇨🇲 🇨🇳 🇨🇴 🇨🇵 🇨🇷 🇨🇺 🇨🇻 🇨🇼 🇨🇽 🇨🇾 🇨🇿 🇩🇪 🇩🇬 🇩🇯 🇩🇰 🇩🇲 🇩🇴 🇩🇿 🇪🇦 🇪🇨 🇪🇪 🇪🇬 🇪🇭 🇪🇷 🇪🇸 🇪🇹 🇪🇺 🇫🇮 🇫🇯 🇫🇰 🇫🇲 🇫🇴 🇫🇷 🇬🇦 🇬🇧 🇬🇩 🇬🇪 🇬🇫 🇬🇬 🇬🇭 🇬🇮 🇬🇱 🇬🇲 🇬🇳 🇬🇵 🇬🇶 🇬🇷 🇬🇸 🇬🇹 🇬🇺 🇬🇼 🇬🇾 🇭🇰 🇭🇲 🇭🇳 🇭🇷 🇭🇹 🇭🇺 🇮🇨 🇮🇩 🇮🇪 🇮🇱 🇮🇲 🇮🇳 🇮🇴 🇮🇶 🇮🇷 🇮🇸 🇮🇹 🇯🇪 🇯🇲 🇯🇴 🇯🇵 🇰🇪 🇰🇬 🇰🇭 🇰🇮 🇰🇲 🇰🇳 🇰🇵 🇰🇷 🇰🇼 🇰🇾 🇰🇿 🇱🇦 🇱🇧 🇱🇨 🇱🇮 🇱🇰 🇱🇷 🇱🇸 🇱🇹 🇱🇺 🇱🇻 🇱🇾 🇲🇦 🇲🇨 🇲🇩 🇲🇪 🇲🇫 🇲🇬 🇲🇭 🇲🇰 🇲🇱 🇲🇲 🇲🇳 🇲🇴 🇲🇵 🇲🇶 🇲🇷 🇲🇸 🇲🇹 🇲🇺 🇲🇻 🇲🇼 🇲🇽 🇲🇾 🇲🇿 🇳🇦 🇳🇨 🇳🇪 🇳🇫 🇳🇬 🇳🇮 🇳🇱 🇳🇴 🇳🇵 🇳🇷 🇳🇺 🇳🇿 🇴🇲 🇵🇦 🇵🇪 🇵🇫 🇵🇬 🇵🇭 🇵🇰 🇵🇱 🇵🇲 🇵🇳 🇵🇷 🇵🇸 🇵🇹 🇵🇼 🇵🇾 🇶🇦 🇷🇪 🇷🇴 🇷🇸 🇷🇺 🇷🇼 🇸🇦 🇸🇧 🇸🇨 🇸🇩 🇸🇪 🇸🇬 🇸🇭 🇸🇮 🇸🇯 🇸🇰 🇸🇱 🇸🇲 🇸🇳 🇸🇴 🇸🇷 🇸🇸 🇸🇹 🇸🇻 🇸🇽 🇸🇾 🇸🇿 🇹🇦 🇹🇨 🇹🇩 🇹🇫 🇹🇬 🇹🇭 🇹🇯 🇹🇰 🇹🇱 🇹🇲 🇹🇳 🇹🇴 🇹🇷 🇹🇹 🇹🇻 🇹🇼 🇹🇿 🇺🇦 🇺🇬 🇺🇲 🇺🇳 🇺🇸 🇺🇾 🇺🇿 🇻🇦 🇻🇨 🇻🇪 🇻🇬 🇻🇮 🇻🇳 🇻🇺 🇼🇫 🇼🇸 🇽🇰 🇾🇪 🇾🇹 🇿🇦 🇿🇲 🇿🇼 🏴󠁧󠁢󠁥󠁮󠁧󠁿 🏴󠁧󠁢󠁳󠁣󠁴󠁿 🏴󠁧󠁢󠁷󠁬󠁳󠁿</li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://unicode.org/emoji/charts/full-emoji-list.html" target="_blank" rel="noopener">Full Emoji List, v14.0</a></li>
+<li><a href="https://unicode.org/Public/emoji/14.0/emoji-test.txt" target="_blank" rel="noopener">Unicode Emoji data files</a></li>
+<li><a href="https://emojipedia.org/emoji/" target="_blank" rel="noopener">😃 Every Emoji by Codepoint</a></li>
+<li><a href="https://blog.emojipedia.org/emoji-zwj-sequences-three-letters-many-possibilities/" target="_blank" rel="noopener">Emoji ZWJ Sequences: Three Letters, Many Possibilities</a></li>
+<li><a href="https://mp.weixin.qq.com/s/yMxUjIsfdQsP6XGj6SNr2w" target="_blank" rel="noopener"><i class="fa fa-weixin" aria-hidden="true"></i> 特殊Emoji编码的介绍</a></li>
+<li><a href="https://mp.weixin.qq.com/s/LHVIyN-_B33rK4e_OTeTlw" target="_blank" rel="noopener"><i class="fa fa-weixin" aria-hidden="true"></i> 没有版权的Emoji表情，居然能被这网站拿来卖钱？</a></li>
+<li><a href="https://mp.weixin.qq.com/s/YIJzT7ymxbxNxXYsV8zpVg" target="_blank" rel="noopener"><i class="fa fa-weixin" aria-hidden="true"></i> 每个 JavaScript 开发者都应该了解的 Unicode</a></li>
+<li><a href="https://mp.weixin.qq.com/s/zI32qR7aZPVHsMH5LX9Vcg" target="_blank" rel="noopener"><i class="fa fa-weixin" aria-hidden="true"></i> 展开操作符：一家人就这么被拆散了</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/10/16/emoji-knowledge-review/" data-id="cla8bpvmt002v9j8c99fu3qb8" data-title="Emoji 知识复习" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/emoji/" rel="tag">emoji</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/unicode/" rel="tag">unicode</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+<article id="post-SQL-Server-Replication" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/09/27/SQL-Server-Replication/" class="article-date">
+  <time datetime="2021-09-27T09:07:26.000Z" itemprop="datePublished">2021-09-27</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/09/27/SQL-Server-Replication/">SQL Server 复制</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>前段时间，使用 <code>SSIS</code> (<code>SQL Server Integration Services</code>，SQL Server 数据集成服务)将数据从 A 同步到 B，基本满足需求。但是有些情况下，比如数据量特别大的时候，就该轮到 <code>SQL Server Replication</code> (SQL Server 复制) 出场了。</p>
+<p>但是，在开启 <code>SQL Server Replication</code> 之前，相应的数据库和表必须满足若干条件。比如：</p>
+<ol>
+<li>源数据库和目标数据库能够连通（这是句废话）；</li>
+<li>源表和目标表结构一致；</li>
+<li>源表和目标表必须有主键；</li>
+<li>源数据库和目标数据库支持并 <a href="https://docs.microsoft.com/en-us/sql/relational-databases/replication/enable-a-remote-publisher-at-a-distributor-sql-server-management-studio?view=sql-server-ver15" target="_blank" rel="noopener">已启用</a> <code>SQL Server Replication</code>；</li>
+<li>拥有可访问数据库的账户，同时该账户可访问用于保存快照文件的目录（有权限），并可访问源数据库及目标数据库的复制发布者、分发者、订阅者；</li>
+<li>足够的带宽和存储空间。</li>
+</ol>
+<p>满足这些条件之后，就可以按照 <a href="https://docs.microsoft.com/en-us/sql/relational-databases/replication/configure-publishing-and-distribution?view=sql-server-ver15" target="_blank" rel="noopener">官方教程</a> 或者 <a href="https://www.sqlshack.com/sql-replication-basic-setup-and-configuration/" target="_blank" rel="noopener">这篇博客</a> 一步一步设置即可。</p>
+<p>目前，<code>SQL Server</code> 支持 <a href="https://docs.microsoft.com/en-us/sql/relational-databases/replication/types-of-replication?view=sql-server-ver15" target="_blank" rel="noopener">四种复制模式</a>：</p>
+<ol>
+<li><code>Transaction Replication</code> (事务复制)。一般需要近实时或者较快同步频率时采用；</li>
+<li><code>Merge Replication</code> (合并复制)。一般变更在源和目标数据库都会发生时采用这种模式；</li>
+<li><code>Snapshot Replication</code> (快照复制)。一般不需要实时同步，只需要目标数据库重现源数据库在某个时间点的情况即可；</li>
+<li><code>Peer-to-peer Replication</code> (点对点复制)。基于事务复制，但是支持多个源数据库和多个目标数据库。</li>
+</ol>
+<p>好像更新版本的 <code>SQL Server</code> 支持额外两种模式：</p>
+<ol start="5">
+<li><code>Bidirectional Replication</code> (双向复制)。基于事务复制，一般用于源数据库和目标数据库都可以推送/结束数据；</li>
+<li><code>Updateable Replication</code> (可更新订阅复制)。基于事务复制，一般用于将一个变更推送到其他发布者然后再次分发。</li>
+</ol>
+<p>具体步骤这里就不赘述了，仅记录一下我遇到的问题：</p>
+<ul>
+<li><p><strong>硬盘空间不足</strong>。因为每次复制都需要创建快照，所以可能会遇到“<code>There is not enough space on the disk</code>”错误。简单，记得定期清理一下快照文件夹下的文件。</p>
+</li>
+<li><p><strong>发布者需要重新初始化</strong>。因为某些未知错误，需要定期重新初始化 <code>SQL Server Replication</code> 发布者。</p>
+</li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://docs.microsoft.com/en-us/sql/relational-databases/replication/sql-server-replication?view=sql-server-ver15" target="_blank" rel="noopener"><i class="fa fa-microsoft" aria-hidden="true"></i>SQL Server Replication</a></li>
+<li><a href="https://www.sqlshack.com/sql-replication-basic-setup-and-configuration/" target="_blank" rel="noopener">SQL Replication: Basic setup and configuration</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/09/27/SQL-Server-Replication/" data-id="cla8bpvmd00199j8chxyb8lht" data-title="SQL Server 复制" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/replication/" rel="tag">replication</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql-server/" rel="tag">sql server</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+
+<nav id="page-nav">
+
+<a class="extend prev" rel="prev" href="/page/5/">&lt; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/7/">下一页 &gt;</a>
+</nav>
+
+<style>
+.article {max-height: 123vh;overflow: hidden;position: relative;}
+.article.unfold {max-height: initial;}
+.article .more {position: absolute;bottom: 0;padding: 3em;cursor: pointer;text-align: center;width: 100%;background: linear-gradient(rgba(0, 0, 0, 0), silver);color: white;box-sizing: border-box;}
+.article.unfold .more {display: none;}
+</style>
+<script>
+(function () {
+// show more
+const moreText = '<i class="fa fa-arrow-circle-down" aria-hidden="true"></i> ' + "更多";
+const articles = document.getElementsByClassName('article');
+for (let i = 0; i < articles.length; i++) {
+const $more = document.createElement('div');
+$more.classList.add('more');$more.innerHTML = moreText;
+$more.onclick = function (evt) {
+const $src = evt.target || evt.srcElement;$src.parentElement.classList.add('unfold');
+};
+articles[i].appendChild($more);
+}})();
+</script>
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>SQL Server 复制 | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="前段时间，使用 SSIS (SQL Server Integration Services，SQL Server 数据集成服务)将数据从 A 同步到 B，基本满足需求。但是有些情况下，比如数据量特别大的时候，就该轮到 SQL Server Replication (SQL Server 复制) 出场了。 但是，在开启 SQL Server Replication 之前，相应的数据库和表必须满足若干">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL Server 复制">
+<meta property="og:url" content="https://zxs66.github.io/2021/09/27/SQL-Server-Replication/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="前段时间，使用 SSIS (SQL Server Integration Services，SQL Server 数据集成服务)将数据从 A 同步到 B，基本满足需求。但是有些情况下，比如数据量特别大的时候，就该轮到 SQL Server Replication (SQL Server 复制) 出场了。 但是，在开启 SQL Server Replication 之前，相应的数据库和表必须满足若干">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-09-27T09:07:26.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.193Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="sql server">
+<meta property="article:tag" content="replication">
+<meta name="twitter:card" content="summary">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-SQL-Server-Replication" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/09/27/SQL-Server-Replication/" class="article-date">
+  <time datetime="2021-09-27T09:07:26.000Z" itemprop="datePublished">2021-09-27</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      SQL Server 复制
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>前段时间，使用 <code>SSIS</code> (<code>SQL Server Integration Services</code>，SQL Server 数据集成服务)将数据从 A 同步到 B，基本满足需求。但是有些情况下，比如数据量特别大的时候，就该轮到 <code>SQL Server Replication</code> (SQL Server 复制) 出场了。</p>
+<p>但是，在开启 <code>SQL Server Replication</code> 之前，相应的数据库和表必须满足若干条件。比如：</p>
+<ol>
+<li>源数据库和目标数据库能够连通（这是句废话）；</li>
+<li>源表和目标表结构一致；</li>
+<li>源表和目标表必须有主键；</li>
+<li>源数据库和目标数据库支持并 <a href="https://docs.microsoft.com/en-us/sql/relational-databases/replication/enable-a-remote-publisher-at-a-distributor-sql-server-management-studio?view=sql-server-ver15" target="_blank" rel="noopener">已启用</a> <code>SQL Server Replication</code>；</li>
+<li>拥有可访问数据库的账户，同时该账户可访问用于保存快照文件的目录（有权限），并可访问源数据库及目标数据库的复制发布者、分发者、订阅者；</li>
+<li>足够的带宽和存储空间。</li>
+</ol>
+<p>满足这些条件之后，就可以按照 <a href="https://docs.microsoft.com/en-us/sql/relational-databases/replication/configure-publishing-and-distribution?view=sql-server-ver15" target="_blank" rel="noopener">官方教程</a> 或者 <a href="https://www.sqlshack.com/sql-replication-basic-setup-and-configuration/" target="_blank" rel="noopener">这篇博客</a> 一步一步设置即可。</p>
+<p>目前，<code>SQL Server</code> 支持 <a href="https://docs.microsoft.com/en-us/sql/relational-databases/replication/types-of-replication?view=sql-server-ver15" target="_blank" rel="noopener">四种复制模式</a>：</p>
+<ol>
+<li><code>Transaction Replication</code> (事务复制)。一般需要近实时或者较快同步频率时采用；</li>
+<li><code>Merge Replication</code> (合并复制)。一般变更在源和目标数据库都会发生时采用这种模式；</li>
+<li><code>Snapshot Replication</code> (快照复制)。一般不需要实时同步，只需要目标数据库重现源数据库在某个时间点的情况即可；</li>
+<li><code>Peer-to-peer Replication</code> (点对点复制)。基于事务复制，但是支持多个源数据库和多个目标数据库。</li>
+</ol>
+<p>好像更新版本的 <code>SQL Server</code> 支持额外两种模式：</p>
+<ol start="5">
+<li><code>Bidirectional Replication</code> (双向复制)。基于事务复制，一般用于源数据库和目标数据库都可以推送/结束数据；</li>
+<li><code>Updateable Replication</code> (可更新订阅复制)。基于事务复制，一般用于将一个变更推送到其他发布者然后再次分发。</li>
+</ol>
+<p>具体步骤这里就不赘述了，仅记录一下我遇到的问题：</p>
+<ul>
+<li><p><strong>硬盘空间不足</strong>。因为每次复制都需要创建快照，所以可能会遇到“<code>There is not enough space on the disk</code>”错误。简单，记得定期清理一下快照文件夹下的文件。</p>
+</li>
+<li><p><strong>发布者需要重新初始化</strong>。因为某些未知错误，需要定期重新初始化 <code>SQL Server Replication</code> 发布者。</p>
+</li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://docs.microsoft.com/en-us/sql/relational-databases/replication/sql-server-replication?view=sql-server-ver15" target="_blank" rel="noopener"><i class="fa fa-microsoft" aria-hidden="true"></i>SQL Server Replication</a></li>
+<li><a href="https://www.sqlshack.com/sql-replication-basic-setup-and-configuration/" target="_blank" rel="noopener">SQL Replication: Basic setup and configuration</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/09/27/SQL-Server-Replication/" data-id="cla8bpvmd00199j8chxyb8lht" data-title="SQL Server 复制" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/replication/" rel="tag">replication</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql-server/" rel="tag">sql server</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2021/10/16/emoji-knowledge-review/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          Emoji 知识复习
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/08/26/one-piece-devil-fruit-translation/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">海贼王恶魔果实（翻译）</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>JavaScript Promise 异常捕获 | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="Promise 在前端编程中，越来越频繁地被使用了。作为 ES6 的核心功能之一，Promise 现在 基本上没有兼容性问题（除了 Promise.prototype.finally、Promise.allSettled、Promise.any 这些比较新的 API）。而且，现在 async functions 写法越来越普遍，Promise 作为其背后的基础功能，自然需要各位前端更好地掌握了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript Promise 异常捕获">
+<meta property="og:url" content="https://zxs66.github.io/2021/06/19/JavaScript-Promise-error-handling/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="Promise 在前端编程中，越来越频繁地被使用了。作为 ES6 的核心功能之一，Promise 现在 基本上没有兼容性问题（除了 Promise.prototype.finally、Promise.allSettled、Promise.any 这些比较新的 API）。而且，现在 async functions 写法越来越普遍，Promise 作为其背后的基础功能，自然需要各位前端更好地掌握了。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/promises.png">
+<meta property="article:published_time" content="2021-06-19T09:34:03.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.193Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="promise">
+<meta property="article:tag" content="throw">
+<meta property="article:tag" content="try...catch">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/promises.png">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-JavaScript-Promise-error-handling" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/06/19/JavaScript-Promise-error-handling/" class="article-date">
+  <time datetime="2021-06-19T09:34:03.000Z" itemprop="datePublished">2021-06-19</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      JavaScript Promise 异常捕获
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" rel="noopener">Promise</a> 在前端编程中，越来越频繁地被使用了。作为 <code>ES6</code> 的核心功能之一，<code>Promise</code> 现在 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise#browser_compatibility" target="_blank" rel="noopener">基本上没有兼容性问题</a>（除了 <a href="https://caniuse.com/mdn-javascript_builtins_promise_finally" target="_blank" rel="noopener">Promise.prototype.finally</a>、<a href="https://caniuse.com/mdn-javascript_builtins_promise_allsettled" target="_blank" rel="noopener">Promise.allSettled</a>、<a href="https://caniuse.com/mdn-javascript_builtins_promise_any" target="_blank" rel="noopener">Promise.any</a> 这些比较新的 API）。而且，现在 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function" target="_blank" rel="noopener">async functions</a> 写法越来越普遍，<code>Promise</code> 作为其背后的基础功能，自然需要各位前端更好地掌握了。</p>
+<p>这里推荐 <a href="http://www.ruanyifeng.com/home.html" target="_blank" rel="noopener">阮一峰老师</a> 的 <a href="https://es6.ruanyifeng.com/#docs/promise" target="_blank" rel="noopener">ES6 入门</a>，简洁明了，还举例说明，同时满足新手和专家不同的学习需求！👍👍👍</p>
+<p>好了，进入主题：<strong>如何捕获 JS 中 <code>Promise</code> 的异常？</strong></p>
+<p>一般 JS 中异常捕获都是使用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch" target="_blank" rel="noopener">try…catch</a> 语句，而 <code>Promise</code> 中如果出现异常，一般都是 <code>reject()</code>，然后在 <code>Promise</code> 链的末尾 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch" target="_blank" rel="noopener">Promise.prototype.catch</a> 里处理异常。</p>
+<p><img src="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/promises.png" alt="Promise Chain"></p>
+<p>但 <code>Promise</code> 也可以使用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/finally" target="_blank" rel="noopener">Promise.prototype.finally</a> 或者使用 JS 原生的 <code>try...catch</code> 语句达到抛出异常的目的。</p>
+<h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><p>根据 <a href="https://developer.mozilla.org" target="_blank" rel="noopener">MDN</a> 的文章 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises#common_mistakes" target="_blank" rel="noopener"><fa-link/></a> 推荐，一般 <code>Promise</code> 链的最佳实践满足以下三个条件：</p>
+<ol>
+<li>内链返回新的 <code>Promise</code>；</li>
+<li>避免不必要的嵌套；</li>
+<li>使用 <code>catch</code> 中止 <code>Promise</code> 链。</li>
+</ol>
+<p>反例 🙁：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Bad example! Spot 3 mistakes!</span></span><br><span class="line">doSomething().then(<span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123;</span><br><span class="line">  doSomethingElse(result) <span class="comment">// Forgot to return promise from inner chain + unnecessary nesting</span></span><br><span class="line">  .then(<span class="function"><span class="params">newResult</span> =&gt;</span> doThirdThing(newResult));</span><br><span class="line">&#125;).then(<span class="function"><span class="params">()</span> =&gt;</span> doFourthThing());</span><br><span class="line"><span class="comment">// Forgot to terminate chain with a catch!</span></span><br></pre></td></tr></table></figure>
+
+<p>正确姿势 🙂：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">doSomething()</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> doSomethingElse(result);</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="params">newResult</span> =&gt;</span> doThirdThing(newResult))</span><br><span class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> doFourthThing())</span><br><span class="line">.catch(<span class="function"><span class="params">error</span> =&gt;</span> <span class="built_in">console</span>.error(error));</span><br></pre></td></tr></table></figure>
+
+<p>总结：</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch" target="_blank" rel="noopener">Promise.prototype.catch</a> 可以捕获 <code>Promise</code> 中所有的异常，包括 <code>reject</code> 掉的、或者抛出的异常；以下两种写法其实是等效的：<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Whoops!"</span>);</span><br><span class="line">&#125;).catch(alert); <span class="comment">// Error: Whoops!</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Whoops!"</span>));</span><br><span class="line">&#125;).catch(alert); <span class="comment">// Error: Whoops!</span></span><br></pre></td></tr></table></figure></li>
+<li>当我们明确知道哪里会出现异常，知道如何处理异常，请时刻牢记使用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch" target="_blank" rel="noopener">Promise.prototype.catch</a> 来捕获/分析/记录异常；如果我们不知道捕获到的异常种类（比如编程错别字导致的），那就重新抛出异常；</li>
+<li>当然，如果发生了无法预料到的异常，那我们也可以不使用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch" target="_blank" rel="noopener">Promise.prototype.catch</a></li>
+<li>任何情况下，我们都应该监听 <code>unhandledrejection</code> 事件，跟踪未捕获的异常并通知给用户（也可能是我们的服务器），这样的话我们的应用才不会“死”。</li>
+</ul>
+<h3 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h3><ol>
+<li><code>reject</code> 只能用在 <code>Promise</code> 回调函数里，而抛出 (<code>throw</code>) 异常则可以使用在任何 <code>try...catch</code> 语句或者 <code>Promise</code> 中；</li>
+<li><code>reject</code> 异常之后，方法内的函数会继续执行，而抛出 (<code>throw</code>) 异常则会立刻终止执行；</li>
+<li><code>reject</code> 可以用在 <code>Promise</code> 的同步/异步回调函数里，而抛出 (<code>throw</code>) 异常只能用在同步回调函数里。</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://javascript.info/promise-error-handling" target="_blank" rel="noopener">Error handling with promises</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises" target="_blank" rel="noopener">Using Promises</a></li>
+<li><a href="https://www.geeksforgeeks.org/reject-vs-throw-promises-in-javascript" target="_blank" rel="noopener">Reject Vs Throw Promises in JavaScript</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/06/19/JavaScript-Promise-error-handling/" data-id="cla8bpvm7000t9j8ch3e2ecs4" data-title="JavaScript Promise 异常捕获" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/promise/" rel="tag">promise</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/throw/" rel="tag">throw</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/try-catch/" rel="tag">try...catch</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2021/06/20/WeChat-mini-program-102/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          微信小程序入门篇(2)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/06/09/JavaScript-window-print-not-working/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">JavaScript window.print 不能正常调用</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

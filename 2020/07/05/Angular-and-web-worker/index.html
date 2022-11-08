@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>Angular × web worker | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="继前段时间瞎折腾 Angular 应用性能之后，页面性能确实有所提升，但感觉还有提升空间。想到此前一直缠绕在心中的 Web Worker，于是耐不住萌（ji）动（mo）的心，准备再接再厉，来一顿骚操作，让页面更加丝滑。 升级 Angular此前项目的 Angular 版本是 v7，足够支撑所有的业务功能了。如果没有足够充分的理由，强烈不建议这种大版本升级（v7 -&gt; v10.0.0）！！！强">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular × web worker">
+<meta property="og:url" content="https://zxs66.github.io/2020/07/05/Angular-and-web-worker/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="继前段时间瞎折腾 Angular 应用性能之后，页面性能确实有所提升，但感觉还有提升空间。想到此前一直缠绕在心中的 Web Worker，于是耐不住萌（ji）动（mo）的心，准备再接再厉，来一顿骚操作，让页面更加丝滑。 升级 Angular此前项目的 Angular 版本是 v7，足够支撑所有的业务功能了。如果没有足够充分的理由，强烈不建议这种大版本升级（v7 -&gt; v10.0.0）！！！强">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://vignette.wikia.nocookie.net/naruto/images/c/cf/Guy_Opening_7th_Gate.png/revision/latest/scale-to-width-down/1000?cb=20150709214439">
+<meta property="article:published_time" content="2020-07-05T15:19:38.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.193Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="Angular">
+<meta property="article:tag" content="Web Worker">
+<meta property="article:tag" content="Performance">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://vignette.wikia.nocookie.net/naruto/images/c/cf/Guy_Opening_7th_Gate.png/revision/latest/scale-to-width-down/1000?cb=20150709214439">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-Angular-and-web-worker" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/07/05/Angular-and-web-worker/" class="article-date">
+  <time datetime="2020-07-05T15:19:38.000Z" itemprop="datePublished">2020-07-05</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      Angular × web worker
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>继前段时间瞎折腾 Angular 应用性能之后，页面性能确实有所提升，但感觉还有提升空间。想到此前一直缠绕在心中的 Web Worker，于是耐不住萌（ji）动（mo）的心，准备再接再厉，来一顿骚操作，让页面更加丝滑。</p>
+<h2 id="升级-Angular"><a href="#升级-Angular" class="headerlink" title="升级 Angular"></a>升级 Angular</h2><p>此前项目的 Angular 版本是 v7，足够支撑所有的业务功能了。<strong>如果没有足够充分的理由，强烈不建议这种大版本升级（v7 -&gt; v10.0.0）！！！强烈不建议这种大版本升级（v7 -&gt; v10.0.0）！！！强烈不建议这种大版本升级（v7 -&gt; v10.0.0）！！！</strong> 不要问我为什么，问就是 <em>“谁升级谁知道”</em>。😔……</p>
+<p>但是，想要在 Angular 应用中体验 Web Worker，则必须版本至少是 8.0。写原生 js？没问题，但是既然官方支持了，所有的配置、最佳实践啊都是现成的，它不香吗。正好体验一下 Ivy  :)</p>
+<p>“诸位，青春可是永无止境的！” - 【<a href="https://naruto.fandom.com/wiki/Might_Guy" target="_blank" rel="noopener">凯皇</a>】</p>
+<p><img src="https://vignette.wikia.nocookie.net/naruto/images/c/cf/Guy_Opening_7th_Gate.png/revision/latest/scale-to-width-down/1000?cb=20150709214439" alt="Might Guy"></p>
+<p>所以，尽情绽放吧，少年！哈哈哈哈哈哈哈哈哈</p>
+<p>完整文档请参考此<a href="https://update.angular.io/#7.2:10.0" target="_blank" rel="noopener">官网链接</a></p>
+<h2 id="升级依赖项-（可选）"><a href="#升级依赖项-（可选）" class="headerlink" title="升级依赖项 （可选）"></a>升级依赖项 （可选）</h2><p>我是使用如下命令一次性升级所有的依赖项（不推荐，但是我这个项目小，所以无所谓啦）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng update --all --force</span><br></pre></td></tr></table></figure>
+
+<h2 id="尝试运行项目，解决编译时-运行时的警告-错误提示-（可选）"><a href="#尝试运行项目，解决编译时-运行时的警告-错误提示-（可选）" class="headerlink" title="尝试运行项目，解决编译时/运行时的警告/错误提示 （可选）"></a>尝试运行项目，解决编译时/运行时的警告/错误提示 （可选）</h2><p>毕竟，从 7 到 10，步子有点大，很多 breaking changes，不仅仅是 Angular 本身，包括我项目用到的 <a href="https://github.com/NG-ZORRO/ng-zorro-antd" target="_blank" rel="noopener">NG ZORRO</a> 等等。</p>
+<p>我的项目中遇到的问题有（大概记录一下，不记得每个改动了）：</p>
+<ul>
+<li>更改所有 <code>/deep/</code> 为 <code>::ng-deep</code></li>
+<li><code>nzTooltip</code> 移除 <code>nzTitle</code>，推荐使用 <code>nzTooltipTitle</code></li>
+<li><code>nzTable</code> 新的排序方式</li>
+<li><code>nzModal</code> API 下，<code>nzGetContainer</code> 设置非空时，弹出框正文可能被遮挡</li>
+</ul>
+<h2 id="跑起来，确保升级之后应用仍可以正常运行且编译（很重要！！！）"><a href="#跑起来，确保升级之后应用仍可以正常运行且编译（很重要！！！）" class="headerlink" title="跑起来，确保升级之后应用仍可以正常运行且编译（很重要！！！）"></a>跑起来，确保升级之后应用仍可以正常运行且编译（很重要！！！）</h2><p>一般情况下都是可以的正常运行的。真碰见问题，问 <a href="github.com/angular/angular/issues/">Github</a> 或者搜索引擎。</p>
+<p>好了，终于可以进入正题啦！</p>
+<h2 id="在项目目录中，创建一个基础的-Web-Worker"><a href="#在项目目录中，创建一个基础的-Web-Worker" class="headerlink" title="在项目目录中，创建一个基础的 Web Worker"></a>在项目目录中，创建一个基础的 Web Worker</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng generate webWorker [name]</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://angular.cn/cli/generate#webworker" target="_blank" rel="noopener">参考链接</a></p>
+<h2 id="查看项目变化"><a href="#查看项目变化" class="headerlink" title="查看项目变化"></a>查看项目变化</h2><p>此时 Angular CLI 会自动处理好所有变更。比如添加 <code>tsconfig.worker.json</code>、修改 <code>angular.json</code>、添加 web worker 文件等等。</p>
+<h2 id="编写-web-worker-文件"><a href="#编写-web-worker-文件" class="headerlink" title="编写 web worker 文件"></a>编写 web worker 文件</h2><p>一般情况下，web worker 是需要操作请求服务器数据的，所以这里简单贴一下请求代码</p>
+<h5 id="xxxx-worker-ts-文件："><a href="#xxxx-worker-ts-文件：" class="headerlink" title="xxxx.worker.ts 文件："></a><code>xxxx.worker.ts</code> 文件：</h5><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// &lt;reference lib="webworker" /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// importScripts('./worker-common.model');</span></span><br><span class="line"><span class="keyword">import</span> &#123; WorkerMessage, WorkerAction &#125; <span class="keyword">from</span> <span class="string">'./worker-common.model'</span>;</span><br><span class="line"></span><br><span class="line">addEventListener(<span class="string">'message'</span>, <span class="keyword">async</span> (&#123; data &#125;) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (data) &#123;</span><br><span class="line">    <span class="keyword">const</span> theMessage = data <span class="keyword">as</span> WorkerMessage;</span><br><span class="line">    <span class="keyword">const</span> theData = theMessage.data;</span><br><span class="line">    <span class="keyword">const</span> theAction = theMessage.action;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> responseMessage: WorkerMessage;</span><br><span class="line">    <span class="keyword">if</span> (theAction === WorkerAction.FetchCheckpoints) &#123;</span><br><span class="line">      <span class="keyword">const</span> tagID = +theData;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">typeof</span> tagID !== <span class="string">'number'</span>) &#123;</span><br><span class="line">        <span class="comment">// throw new Error('tagID should be number');</span></span><br><span class="line">        <span class="keyword">return</span> postMessage(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'tagID should be number'</span>));</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">const</span> responseData = <span class="keyword">await</span> fetchCheckpointsByTag(+theData);</span><br><span class="line">      responseMessage = <span class="keyword">new</span> WorkerMessage(responseData, theAction);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// if (action === WorkerAction.Ping)</span></span><br><span class="line">      <span class="keyword">const</span> content = (theData || <span class="string">''</span>).split(<span class="string">''</span>).sort().join(<span class="string">''</span>);</span><br><span class="line">      responseMessage = <span class="keyword">new</span> WorkerMessage(content, theAction);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> postMessage(responseMessage);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(<span class="string">'data of MessageEvent is empty'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">/// localStorage is not available in web worker</span></span><br><span class="line"><span class="comment">// https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Functions_and_classes_available_to_workers</span></span><br><span class="line"><span class="comment">/** caching */</span></span><br><span class="line"><span class="keyword">const</span> __STORAGE__ = <span class="keyword">new</span> Map&lt;<span class="built_in">string</span>, <span class="built_in">any</span>&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">/** generate key for localStorage */</span></span><br><span class="line"><span class="keyword">const</span> genStorageKey = <span class="function">(<span class="params">...parameters</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// arguments.callee is also not availabe in web worker</span></span><br><span class="line">  <span class="keyword">return</span> (parameters || []).join(<span class="string">':'</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> fetchCheckpointsByTag = <span class="keyword">async</span> (tagID?: <span class="built_in">number</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> checkpoints = <span class="keyword">await</span> fetchCheckpoints();</span><br><span class="line">  <span class="keyword">if</span> (tagID) &#123;</span><br><span class="line">    <span class="keyword">const</span> checkpointIDs = (<span class="keyword">await</span> fetchCheckpointTagMap()).filter(_ =&gt; _.TagID === tagID).map(_ =&gt; _.CheckPointID);</span><br><span class="line">    <span class="keyword">const</span> hashMap = <span class="keyword">new</span> Set(checkpointIDs);</span><br><span class="line">    <span class="keyword">return</span> checkpoints.filter(_ =&gt; hashMap.has(_.ID));</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> checkpoints;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> CheckPoint = &#123; ID: <span class="built_in">number</span>, Title: <span class="built_in">string</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** function to fetch checkpoints */</span></span><br><span class="line"><span class="keyword">const</span> fetchCheckpoints = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> storeKey = genStorageKey(fetchCheckpoints.name);</span><br><span class="line">  <span class="keyword">let</span> checkpoints: <span class="built_in">Array</span>&lt;CheckPoint&gt; = __STORAGE__.get(storeKey);</span><br><span class="line">  <span class="keyword">if</span> (!(<span class="built_in">Array</span>.isArray(checkpoints) &amp;&amp; checkpoints.length)) &#123;</span><br><span class="line">    <span class="comment">// no data stored in localStorage</span></span><br><span class="line">    <span class="keyword">const</span> resp = <span class="keyword">await</span> fetch(<span class="string">'http://localhost:44316/api/CheckPoints'</span>, &#123;</span><br><span class="line">      method: <span class="string">'POST'</span>,</span><br><span class="line">      credentials: <span class="string">'include'</span></span><br><span class="line">    &#125;);</span><br><span class="line">    checkpoints = <span class="keyword">await</span> resp.json();</span><br><span class="line">    __STORAGE__.set(storeKey, checkpoints);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> checkpoints || [];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> CheckPoint_Tag_Map = &#123; CheckPointID: <span class="built_in">number</span>, TagID: <span class="built_in">number</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> fetchCheckpointTagMap = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> storeKey = genStorageKey(fetchCheckpointTagMap.name);</span><br><span class="line">  <span class="keyword">let</span> checkpointTagMap: <span class="built_in">Array</span>&lt;CheckPoint_Tag_Map&gt; = __STORAGE__.get(storeKey);</span><br><span class="line">  <span class="keyword">if</span> (!(<span class="built_in">Array</span>.isArray(checkpointTagMap) &amp;&amp; checkpointTagMap.length)) &#123;</span><br><span class="line">    <span class="keyword">const</span> resp = <span class="keyword">await</span> fetch(<span class="string">'http://localhost:44316/api/CheckPointTagMap'</span>, &#123;</span><br><span class="line">      method: <span class="string">'POST'</span>,</span><br><span class="line">      credentials: <span class="string">'include'</span></span><br><span class="line">    &#125;);</span><br><span class="line">    checkpointTagMap = <span class="keyword">await</span> resp.json();</span><br><span class="line">    __STORAGE__.set(storeKey, checkpointTagMap);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> checkpointTagMap || [];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="worker-common-model-ts-文件"><a href="#worker-common-model-ts-文件" class="headerlink" title="worker-common.model.ts 文件"></a><code>worker-common.model.ts</code> 文件</h5><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/** enumerator for all worker actions */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">enum</span> WorkerAction &#123;</span><br><span class="line">    Ping,</span><br><span class="line">    FetchCheckpoints</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">enum</span> WorkerStatusCode &#123;</span><br><span class="line">    Initial,</span><br><span class="line">    OK,</span><br><span class="line">    <span class="built_in">Error</span>,</span><br><span class="line">    Empty,</span><br><span class="line">    ToBeContinued</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> WorkerMessage &#123;</span><br><span class="line">    <span class="keyword">constructor</span>(<span class="params"></span></span><br><span class="line"><span class="params">        <span class="keyword">public</span> data: <span class="built_in">any</span>,</span></span><br><span class="line"><span class="params">        <span class="keyword">public</span> action: WorkerAction</span></span><br><span class="line"><span class="params">    </span>) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> status?: WorkerStatusCode = WorkerStatusCode.Initial;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写-component-ts-文件"><a href="#编写-component-ts-文件" class="headerlink" title="编写 *.component.ts 文件"></a>编写 <code>*.component.ts</code> 文件</h2><p>同样，简单示例一下，<code>xxxx.component.ts</code> 文件：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ngOnInit(): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="comment">// register web worker</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> Worker !== <span class="string">'undefined'</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.webWorker = <span class="keyword">new</span> Worker(<span class="string">'../xxxx.worker'</span>, &#123; <span class="keyword">type</span>: <span class="string">'module'</span> &#125;);</span><br><span class="line">    <span class="keyword">this</span>.webWorker.addEventListener(<span class="string">'message'</span>, <span class="function">(<span class="params">&#123; data &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> theMessage = data <span class="keyword">as</span> WorkerMessage;</span><br><span class="line">      <span class="keyword">const</span> theAction = theMessage.action;</span><br><span class="line">      <span class="keyword">if</span> (theAction === WorkerAction.FetchCheckpoints) &#123;</span><br><span class="line">        <span class="keyword">this</span>.qwCheckPoints.response.Data = theMessage.data || [];</span><br><span class="line">        <span class="keyword">this</span>.qwCheckPoints.status = Utility.isNotEmptyArray(<span class="keyword">this</span>.qwCheckPoints.response.Data) ?</span><br><span class="line">          QueryStatus.SUCCESS : QueryStatus.EMPTY;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">this</span>.webWorker.postMessage(<span class="keyword">new</span> WorkerMessage(<span class="literal">null</span>, WorkerAction.FetchCheckpoints));</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// Web workers are not supported in this environment.</span></span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> You should add a fallback so that your program still executes correctly.</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'The browser doesn\'t support Web Worker.'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">someAction(tce) &#123;</span><br><span class="line">  <span class="keyword">const</span> tagID = tce.index === <span class="number">0</span> ? <span class="number">0</span> : (<span class="keyword">this</span>.qwCheckPointTags.response.Data[tce.index - <span class="number">1</span>] || &#123;&#125;).ID;</span><br><span class="line">  <span class="comment">// this.qwCheckPoints.query(tagID);</span></span><br><span class="line">  <span class="keyword">this</span>.webWorker.postMessage(<span class="keyword">new</span> WorkerMessage(tagID, WorkerAction.FetchCheckpoints));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="拉出来遛一遛"><a href="#拉出来遛一遛" class="headerlink" title="拉出来遛一遛"></a>拉出来遛一遛</h2><p><a href="/app/#/lab/emoji"><i class="fa fa-search" aria-hidden="true"></i> Emoji 搜索工具</a></p>
+<p>emmmm，一切都按照预期走了，没什么问题。除了：Google Chrome 调试 Web Worker 真的是鸡肋！！！以后真的在项目中大量使用了再说吧。。。。。。</p>
+<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers" target="_blank" rel="noopener">Using Web Workers</a></li>
+<li><a href="https://www.html5rocks.com/en/tutorials/workers/basics/#toc-gettingstarted" target="_blank" rel="noopener">The Basics of Web Workers</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Functions_and_classes_available_to_workers" target="_blank" rel="noopener">Functions and classes available to Web Workers</a></li>
+<li><a href="https://github.com/CntChen/cntchen.github.io/issues/19" target="_blank" rel="noopener">Web Worker 文献综述</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/07/05/Angular-and-web-worker/" data-id="cla8bpvm1000d9j8c4voj1zjz" data-title="Angular × web worker" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Angular/" rel="tag">Angular</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Performance/" rel="tag">Performance</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web-Worker/" rel="tag">Web Worker</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2020/07/08/best-practices-for-Entity-Framework/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          Entity Framework 最佳实践
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/07/01/Angular-internationalization/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">Angular 应用国际化</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

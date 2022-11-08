@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>dotnet core 编译绿色版程序 | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="一般情况下，运维人员一般都会点 Python，遇到问题，都会写一些脚手架、小脚本什么的。如果写得好，领导看重，进而分享给更多同事&#x2F;上传至服务器，这就需要运维人员把其编写的程序编译（打包）成 exe 程序（一般公司同事都在用 Windows 系统），然后同事直接双击 exe 程序即可获取相同结果（虽然编译&#x2F;运行过程中会遇到各种各样的问题…）。 但是，其实 Windows 系统理应是 .NET 程序员">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dotnet core 编译绿色版程序">
+<meta property="og:url" content="https://zxs66.github.io/2022/05/13/dotnet-core-build-standalone-executable-program/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="一般情况下，运维人员一般都会点 Python，遇到问题，都会写一些脚手架、小脚本什么的。如果写得好，领导看重，进而分享给更多同事&#x2F;上传至服务器，这就需要运维人员把其编写的程序编译（打包）成 exe 程序（一般公司同事都在用 Windows 系统），然后同事直接双击 exe 程序即可获取相同结果（虽然编译&#x2F;运行过程中会遇到各种各样的问题…）。 但是，其实 Windows 系统理应是 .NET 程序员">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zxs66.github.io/images/dotnet-core-build-standalone-executable-program/publish_profile.png">
+<meta property="article:published_time" content="2022-05-13T03:24:33.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.203Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="dotnet core">
+<meta property="article:tag" content="standalone">
+<meta property="article:tag" content="console program">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zxs66.github.io/images/dotnet-core-build-standalone-executable-program/publish_profile.png">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-dotnet-core-build-standalone-executable-program" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2022/05/13/dotnet-core-build-standalone-executable-program/" class="article-date">
+  <time datetime="2022-05-13T03:24:33.000Z" itemprop="datePublished">2022-05-13</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      dotnet core 编译绿色版程序
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>一般情况下，运维人员一般都会点 <code>Python</code>，遇到问题，都会写一些脚手架、小脚本什么的。如果写得好，领导看重，进而分享给更多同事/上传至服务器，这就需要运维人员把其编写的程序编译（打包）成 <code>exe</code> 程序（一般公司同事都在用 <code>Windows</code> 系统），然后同事直接双击 <code>exe</code> 程序即可获取相同结果（虽然编译/运行过程中会遇到各种各样的问题…）。</p>
+<p>但是，其实 <code>Windows</code> 系统理应是 <code>.NET</code> 程序员的主场。以前，传统 <code>.NET</code> 程序员会编写完控制台应用程序，然后使用 <code>Visual Studio</code> 编译好，直接把 <code>./bin/Debug</code> 或者 <code>./bin/Release</code> 文件夹下的文件打包复制到目标机器上，然后就可以跟在本地运行一样。当然，高级一点的，可以使用 <code>Visual Studio</code> 的发布功能，这样，在目标服务器上先安装，再使用。</p>
+<p>不过，这种方式有个缺点：<strong>需要目标机器和本地机器一样，有安装运行环境（.net framework）</strong>。</p>
+<p>但是，某些情况下，目标机器不允许安装运行环境（需要提升权限），或者，目标机器用户不知道需要安装运行环境，怎么办？</p>
+<p><del>一般这时候，通常轮到介绍 <code>Docker</code> 了 😏</del></p>
+<p>所以，<code>.NET</code> 程序员，如何解决“一次编写，到处运行”这个难题？</p>
+<p>直接揭晓“我的魔法”吧：<strong>使用 <code>.NET Core</code> 编写</strong>！</p>
+<p>实际代码编写就略过了，这里只讲如何编译：</p>
+<ol>
+<li>右键项目，“发布”；</li>
+<li>选择“文件夹发布”；</li>
+<li>更换部署模式为“Self-contained”，根据目标机器类型 <a href="https://docs.microsoft.com/en-us/dotnet/core/deploying/deploy-with-vs?tabs=vs156" target="_blank" rel="noopener"><fa-link/></a>：<br><img src="/images/dotnet-core-build-standalone-executable-program/publish_profile.png" alt="publish profile"></li>
+</ol>
+<p>当然，上述操作可以使用 <code>.NET Core CLI</code> 达到相同目的 <a href="https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish" target="_blank" rel="noopener"><fa-link/></a></p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/core/deploying/" target="_blank" rel="noopener">.NET application publishing overview</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2022/05/13/dotnet-core-build-standalone-executable-program/" data-id="cla8bpvmj001s9j8cezyj24ew" data-title="dotnet core 编译绿色版程序" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/console-program/" rel="tag">console program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dotnet-core/" rel="tag">dotnet core</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/standalone/" rel="tag">standalone</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2022/05/20/CSharp-bulk-insert-records-into-MySQL/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          C# 批量插入记录至 MySQL
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/05/04/browser-find-multiple-keywords/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">浏览器查找多个关键词</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

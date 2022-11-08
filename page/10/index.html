@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="时代残党">
+<meta property="og:url" content="https://zxs66.github.io/page/10/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="Angular">
+<meta property="article:tag" content="NodeJS">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="ASP.NET">
+<meta property="article:tag" content="Full Stack">
+<meta name="twitter:card" content="summary">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+
+
+<article id="post-self-serve-QRCode-in-hexo" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/05/16/self-serve-QRCode-in-hexo/" class="article-date">
+  <time datetime="2021-05-16T09:30:56.000Z" itemprop="datePublished">2021-05-16</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/16/self-serve-QRCode-in-hexo/">Hexo博客使用二维码生成器</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>一般情况下，网上的二维码生成器都是后台解决方案，即前台填写信息后，发送至后台，后台生成二维码图片返回前台。比如 <a href="https://cli.im" target="_blank" rel="noopener">草料二维码</a> 或 <a href="https://zixuephp.net/inc/qrcode_img.php?url=https://zxs66.github.io" target="_blank" rel="noopener">自学PHP网的二维码生成器</a> 或者</p>
+<p>考虑到二维码生成器是个很简单的任务，没必要非要搞个后台托管服务器，这里提供另一种纯前端方案。具体使用方法可以参考 <a href="https://github.com/ZXS66/qrcode-web" target="_blank" rel="noopener">这个仓库</a></p>
+<p>这里我就介绍一下 <code>Hexo</code> 静态博客中如何启用。</p>
+<ol>
+<li><p>拷贝 <a href="https://github.com/ZXS66/qrcode-web" target="_blank" rel="noopener">此仓库</a> 中 <code>index.html</code> 和 <code>qrcode.min.js</code> 文件到目标博客目录，比如 <code>/source/static</code>；</p>
+</li>
+<li><p>打开需要使用的二位生成器的脚本或页面，引用链接到上一步复制的 <code>index.html</code>，动态传入参数 <code>data</code>(记得转义字符)，比如 <code>/static/qrcode.html?data=https%3A%2F%2Fzxs66.github.io%2F2021%2F05%2F16%2Fself-serve-QRCode-in-hexo%2F</code>(此处重命名 <code>index.html</code> 为 <code>qrcode.html</code>)；</p>
+</li>
+<li><p>更新 <code>Hexo</code> 配置 <code>_config.yml</code>，添加忽略目标目录 <code>skip_render</code>，比如 <code>static/**</code>；</p>
+</li>
+<li><p>更多可参考本博客每篇文章右下角的分享/微信分享。</p>
+</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://www.npmjs.com/package/qrcode" target="_blank" rel="noopener">qrcode - npm</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/05/16/self-serve-QRCode-in-hexo/" data-id="cla8bpvmv00349j8cfenhd74j" data-title="Hexo博客使用二维码生成器" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/qr-code/" rel="tag">qr code</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+<article id="post-get-started-with-PWA" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/05/06/get-started-with-PWA/" class="article-date">
+  <time datetime="2021-05-06T04:54:15.000Z" itemprop="datePublished">2021-05-06</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/06/get-started-with-PWA/">渐进式网页应用(PWA)入门</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p><code>PWA</code> 现在越来越流行了。虽然国内见得不多，但国外已经非常常见了。闲来无事，那就把本博客改造成 <code>PWA</code> 好了。</p>
+<h3 id="PWA-介绍"><a href="#PWA-介绍" class="headerlink" title="PWA 介绍"></a>PWA 介绍</h3><p>此处省略一万字。<a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps" target="_blank" rel="noopener"><fa-link/></a></p>
+<h3 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h3><p>参考的是 <a href="https://docs.microsoft.com/en-us/microsoft-edge/progressive-web-apps-chromium/get-started" target="_blank" rel="noopener"><i class="fa fa-microsoft" aria-hidden="true"></i> 这篇文档</a>。<del>此处又省略了一万字。</del></p>
+<h3 id="一个小-bug"><a href="#一个小-bug" class="headerlink" title="一个小 bug"></a>一个小 bug</h3><p><code>@pwabuilder/pwaupdate</code> 组件 <a href="https://github.com/pwa-builder/pwa-update#api" target="_blank" rel="noopener">默认</a> 加载的 <code>service worker</code> 是<strong>当前路径</strong>下的 “pwabuilder-sw.js” 文件。可是，当路径变了，比如跳到了更深一层目录，<code>service worker</code> 就不能正常加载了。解决办法是在注册 <code>service worker</code> 时（执行 <code>pwabuilder-sw-register.js</code> 文件），指定 <code>swpath</code> 为 “<code>/pwabuilder-sw.js</code>“。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate"</span>;</span><br><span class="line"><span class="keyword">const</span> el = <span class="built_in">document</span>.createElement(<span class="string">"pwa-update"</span>);</span><br><span class="line"><span class="comment">// default is "pwabuilder-sw.js", but it doesn't work in subpaths</span></span><br><span class="line">el.setAttribute(<span class="string">"swpath"</span>, <span class="string">"/pwabuilder-sw.js"</span>);</span><br><span class="line"><span class="built_in">document</span>.body.appendChild(el);</span><br></pre></td></tr></table></figure>
+
+<h3 id="强制更新"><a href="#强制更新" class="headerlink" title="强制更新"></a>强制更新</h3><p>上线后一段时间发现，<code>PWA</code> 是可以正常工作了，也能离线使用，但是因为使用的是 <code>Cache-First</code> 策略，所以会发生服务器端其实已经更新了，但是本地一直看不到最新版本。PC 端还好，可以使用强制刷新 (<code>Ctrl</code>+<code>Shift</code>+<code>R</code>或者<code>Ctrl</code>+<code>Shift</code>+<code>F5</code>组合键或者长按刷新按钮)来查看最新版本，手机端怎么办。手机浏览器又没有强制刷新功能。</p>
+<p>上网搜寻解决方案，发现我并不是一个人，很多人有这个痛点！！使用 <code>Cache-First</code> 策略的人，其实大部分人都是希望优先打开本地缓存版本（以提升速度），在设备联网的时候，有更新即更新版本，这次/下次刷新直接用，没更新就接着用本地缓存版。</p>
+<p><img src="https://cdn.sanity.io/images/uf1om34c/production/5c7f0c54f4c05c14d0bbbfe4a76753c51faf9154-1014x492.png?w=1200&fm=webp&max-h=600&q=80&auto=format" alt="The stale-while-revalidate strategy"></p>
+<p>其实，Google 在设计 <code>workbox</code> 的时候，已经考虑到这个场景，解决办法非常简单，把策略改成 <code>Stale-While-Revalidate</code> 即可。<br><code>pwabuilder-sw.js</code> 内容修改如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This is the "Offline copy of assets" service worker</span></span><br><span class="line"><span class="keyword">const</span> CACHE = <span class="string">"pwabuilder-offline"</span>;</span><br><span class="line"><span class="keyword">const</span> QUEUE_NAME = <span class="string">"bgSyncQueue"</span>;</span><br><span class="line">importScripts(</span><br><span class="line">  <span class="string">"https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js"</span></span><br><span class="line">);</span><br><span class="line">self.addEventListener(<span class="string">"message"</span>, event =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (event.data &amp;&amp; event.data.type === <span class="string">"SKIP_WAITING"</span>) &#123;</span><br><span class="line">    self.skipWaiting();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">const</span> bgSyncPlugin = <span class="keyword">new</span> workbox.backgroundSync.BackgroundSyncPlugin(</span><br><span class="line">  QUEUE_NAME,</span><br><span class="line">  <span class="comment">// &#123; maxRetentionTime: 7 * 24 * 60 &#125; // Retry for max of 1 week (specified in minutes)</span></span><br><span class="line">);</span><br><span class="line">workbox.routing.registerRoute(</span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"/*"</span>),</span><br><span class="line">  <span class="keyword">new</span> workbox.strategies.StaleWhileRevalidate(&#123;</span><br><span class="line">    cacheName: CACHE,</span><br><span class="line">    plugins: [bgSyncPlugin]</span><br><span class="line">  &#125;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>更多策略，请参考 <a href="https://developers.google.com/web/tools/workbox/modules/workbox-strategies" target="_blank" rel="noopener"><i class="fa fa-google" aria-hidden="true"></i> Workbox 官方文档</a> 或 <a href="https://www.charistheo.io/blog/2021/03/workbox-strategies-with-examples-and-use-cases/" target="_blank" rel="noopener">Workbox Strategies with examples and use-cases</a>。</p>
+<p>发布上线，测试，完美解决问题！😄</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://docs.microsoft.com/en-us/microsoft-edge/progressive-web-apps-chromium/get-started" target="_blank" rel="noopener"><i class="fa fa-microsoft" aria-hidden="true"></i> Get started with Progressive Web Apps (Chromium)</a></li>
+<li><a href="https://stackoverflow.com/questions/49739438/when-and-how-does-a-pwa-update-itself" target="_blank" rel="noopener"><i class="fa fa-stack-overflow" aria-hidden="true"></i> When and how does a PWA update itself?</a></li>
+<li><a href="https://www.pwabuilder.com/" target="_blank" rel="noopener">PWA Builder</a></li>
+<li><a href="https://developers.google.com/web/tools/workbox/modules/workbox-strategies" target="_blank" rel="noopener"><i class="fa fa-google" aria-hidden="true"></i> Workbox 官方文档</a></li>
+<li><a href="https://www.charistheo.io/blog/2021/03/workbox-strategies-with-examples-and-use-cases/" target="_blank" rel="noopener">Workbox Strategies with examples and use-cases</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/05/06/get-started-with-PWA/" data-id="cla8bpvml001w9j8cav21aqai" data-title="渐进式网页应用(PWA)入门" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/get-started/" rel="tag">get started</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/progressive-web-app/" rel="tag">progressive web app</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwa/" rel="tag">pwa</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/workbox/" rel="tag">workbox</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+<article id="post-open-source-licenses" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/05/01/open-source-licenses/" class="article-date">
+  <time datetime="2021-05-01T01:46:29.000Z" itemprop="datePublished">2021-05-01</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/01/open-source-licenses/">开源许可证</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/201105/bg2011050101.png" alt="如何选择开源许可证"></p>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/05/01/open-source-licenses/" data-id="cla8bpvmr002q9j8c9t77cvow" data-title="开源许可证" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/license/" rel="tag">license</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/open-source/" rel="tag">open source</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+
+<nav id="page-nav">
+
+<a class="extend prev" rel="prev" href="/page/9/">&lt; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/11/">下一页 &gt;</a>
+</nav>
+
+<style>
+.article {max-height: 123vh;overflow: hidden;position: relative;}
+.article.unfold {max-height: initial;}
+.article .more {position: absolute;bottom: 0;padding: 3em;cursor: pointer;text-align: center;width: 100%;background: linear-gradient(rgba(0, 0, 0, 0), silver);color: white;box-sizing: border-box;}
+.article.unfold .more {display: none;}
+</style>
+<script>
+(function () {
+// show more
+const moreText = '<i class="fa fa-arrow-circle-down" aria-hidden="true"></i> ' + "更多";
+const articles = document.getElementsByClassName('article');
+for (let i = 0; i < articles.length; i++) {
+const $more = document.createElement('div');
+$more.classList.add('more');$more.innerHTML = moreText;
+$more.onclick = function (evt) {
+const $src = evt.target || evt.srcElement;$src.parentElement.classList.add('unfold');
+};
+articles[i].appendChild($more);
+}})();
+</script>
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

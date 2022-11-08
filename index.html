@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="时代残党">
+<meta property="og:url" content="https://zxs66.github.io/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="Angular">
+<meta property="article:tag" content="NodeJS">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="ASP.NET">
+<meta property="article:tag" content="Full Stack">
+<meta name="twitter:card" content="summary">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+
+
+<article id="post-csv-to-excel-file" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2022/07/14/csv-to-excel-file/" class="article-date">
+  <time datetime="2022-07-14T05:15:25.000Z" itemprop="datePublished">2022-07-14</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/07/14/csv-to-excel-file/">CSV转Excel</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>本篇是接 <a href="/2022/05/13/dotnet-core-build-standalone-executable-program/">上一篇文章</a>，具体到 CSV 转 Excel 这一个场景下的实际应用。</p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>一般从数据库(比如 MySQL 或者 SQL Server)或者一些数据平台（比如 Symantec 日志）导出的 CSV 文件，基本都是采用 <code>UTF-8</code> 编码保存的文件。使用 <code>UTF-8</code> 保存的 CSV 文件作为通用的传输数据媒介，一般来说，是没有问题的。然而，有一些朋友，使用 CSV 文件并不一定是用来传输数据的，而是用来查看的。这些情况下，他们会尝试使用 Microsoft Excel 打开。哦额，问题来了，Excel 一般不会优先使用 <code>UTF-8</code> 编码打开 CSV 文件，结果就是乱码。</p>
+<p>一般的通用解决办法是：</p>
+<p><strong>使用 Excel 的“数据”菜单，选择“自文本”，然后通过一些列的鼠标点点点操作，把 CSV 文件加载到 Excel 中（具体细节请参考各大搜索引擎或博客）。</strong></p>
+<p><del>本篇完！</del>😄</p>
+<p>既然身为程序员，最不能容忍的事情就是重复自己！最喜欢做的事情就是重复造轮子。😏</p>
+<h1 id="技术简介"><a href="#技术简介" class="headerlink" title="技术简介"></a>技术简介</h1><p>直入主题，如何使用代码，才能把 CSV 转换成 Excel 格式？</p>
+<ol>
+<li>选择编程语言</li>
+<li>读取 CSV 文件文本内容</li>
+<li>按 CSV（Comma Separated Values）文件规范，转换成二维表格数据</li>
+<li>按 Excel 文件规范，把二维表格数据转换成 Excel 文件</li>
+<li>保存 Excel 文件</li>
+</ol>
+<h3 id="选择编程语言"><a href="#选择编程语言" class="headerlink" title="选择编程语言"></a>选择编程语言</h3><p>这个就无所谓了，既然是造轮子，哪个语言顺手就用哪个。</p>
+<h3 id="读取-CSV-文件内容"><a href="#读取-CSV-文件内容" class="headerlink" title="读取 CSV 文件内容"></a>读取 CSV 文件内容</h3><h3 id="按-CSV（Comma-Separated-Values）文件规范，转换成二维表格数据"><a href="#按-CSV（Comma-Separated-Values）文件规范，转换成二维表格数据" class="headerlink" title="按 CSV（Comma Separated Values）文件规范，转换成二维表格数据"></a>按 CSV（Comma Separated Values）文件规范，转换成二维表格数据</h3><p>上面两个内容我放一起，主要是<del>我懒</del>考虑到读取 CSV 文件实在是太常见了，网上已经有很多成熟的解决方案。我这里引用的是 <a href="">ClosedXML</a>。</p>
+<h3 id="按-Excel-文件规范，把二维表格数据转换成-Excel-文件"><a href="#按-Excel-文件规范，把二维表格数据转换成-Excel-文件" class="headerlink" title="按 Excel 文件规范，把二维表格数据转换成 Excel 文件"></a>按 Excel 文件规范，把二维表格数据转换成 Excel 文件</h3><h3 id="保存-Excel-文件"><a href="#保存-Excel-文件" class="headerlink" title="保存 Excel 文件"></a>保存 Excel 文件</h3><p>同上，保存数据到 Excel 也太稀疏平常了。我这里引用的是 <a href="">ClosedXML</a>。</p>
+<p>综上，我们需要做的，就非常少了，仅剩一些业务代码。</p>
+<p><a href="https://github.com/ZXS66/csv2excel" target="_blank" rel="noopener">点击此处</a> 查看源代码。</p>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2022/07/14/csv-to-excel-file/" data-id="cla8bpvmi001m9j8c9ajzahqq" data-title="CSV转Excel" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/asp-net-core/" rel="tag">asp.net core</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/encoding/" rel="tag">encoding</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/excel/" rel="tag">excel</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gb2312/" rel="tag">gb2312</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/unicode/" rel="tag">unicode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/utf-8/" rel="tag">utf-8</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+<article id="post-MySQL-regex-for-multi-bytes-character" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2022/06/25/MySQL-regex-for-multi-bytes-character/" class="article-date">
+  <time datetime="2022-06-25T09:30:04.000Z" itemprop="datePublished">2022-06-25</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/06/25/MySQL-regex-for-multi-bytes-character/">MySQL 正则表达式支持多字节字符</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>最近在工作中遇到一个小问题，就是需要一些简单的字符串匹配，自然而然想到使用正则表达式了。简单搜索了一下，<code>MySQL</code> 中如何使用正则，基本上都介绍用 <a href="https://dev.mysql.com/doc/refman/8.0/en/regexp.html" target="_blank" rel="noopener">REGEXP</a> 函数。</p>
+<p>但是，这个函数有个限制，在 MySQL 8.0.4 之前的版本，它是按字节匹配的，而不是字符！换句话说，对于汉字或者 Emoji 这样多字节的字符，它不支持！</p>
+<blockquote>
+<p>The REGEXP and RLIKE operators work in byte-wise fashion, so they are not multibyte safe and may produce unexpected results with multibyte character sets. In addition, these operators compare characters by their byte values and accented characters may not compare as equal even if a given collation treats them as equal. <a href="https://dev.mysql.com/doc/refman/5.6/en/regexp.html" target="_blank" rel="noopener"><a href="https://your-link.here" target="_blank" rel="noopener"><fa-link/></a></a></p>
+</blockquote>
+<p>所以，在 MySQL 8.0.4 之前的版本，我们该如何针对多字节的字符使用正则表达式呢？</p>
+<p>升级 MySQL？好吧，当我没问。🙊</p>
+<p>针对一个线上的 MySQL，如果要必须要实现业务逻辑，又不能变更 MySQL，有什么好的办法？</p>
+<p>不用正则表达式，采用 IF ELSE 语句替代？也不是不可以，但是逻辑稍负责一点，SQL 脚本就开始变得冗长、性能低下且难以维护了。</p>
+<p>以下是我自己的经验总结，仅供参考。</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>既然 MySQL 8.0.4 之前的 REGEXP 只能支持单字节，那我把多字节字符都替换成单字节字符再正则匹配不就行了？<a href="https://dev.mysql.com/doc/refman/8.0/en/replace.html" target="_blank" rel="noopener">REPLACE</a> 函数是支持多字节的。</p>
+<h1 id="放码"><a href="#放码" class="headerlink" title="放码"></a>放码</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line"></span><br><span class="line"><span class="keyword">USE</span> <span class="string">`project_otis2019`</span>$$</span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">FUNCTION</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`fx_regexp_over_multi_characters_sample`</span>$$</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> DEFINER=<span class="string">`zxs66`</span>@<span class="string">`%`</span> <span class="keyword">FUNCTION</span> <span class="string">`fx_regexp_over_multi_characters_sample`</span>(<span class="keyword">content</span> <span class="built_in">TEXT</span>) <span class="keyword">RETURNS</span> <span class="built_in">TINYINT</span>(<span class="number">4</span>)</span><br><span class="line">    <span class="keyword">COMMENT</span> <span class="string">'check if given content match specific regular expression'</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">DECLARE</span> normalized_content <span class="built_in">TEXT</span>;</span><br><span class="line">	<span class="keyword">SET</span> normalized_content=<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(</span><br><span class="line">					<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(</span><br><span class="line">						<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">content</span>,<span class="string">'水果'</span>,<span class="string">'`'</span>),<span class="string">'蔬菜'</span>,<span class="string">'`'</span>),<span class="string">'牛奶'</span>,<span class="string">'`'</span>),<span class="string">'牛羊肉'</span>,<span class="string">'`'</span>),<span class="string">'杂粮'</span>,<span class="string">'`'</span>),</span><br><span class="line">						<span class="string">'，'</span>,<span class="string">','</span>),<span class="string">'；'</span>,<span class="string">','</span>),<span class="string">'。'</span>,<span class="string">','</span>),</span><br><span class="line">						<span class="string">'种植'</span>,<span class="string">'@'</span>),<span class="string">'运输'</span>,<span class="string">'@'</span>),<span class="string">'储藏'</span>,<span class="string">'@'</span>),<span class="string">'销售'</span>,<span class="string">'@'</span>),<span class="string">'检验'</span>,<span class="string">'@'</span>),<span class="string">'保供'</span>,<span class="string">'@'</span>),<span class="string">'批发'</span>,<span class="string">'@'</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">-- the regular expression below can be revised based on your actual bussiness requirements.</span></span><br><span class="line">	RETURN normalized_content REGEXP '`[^,;\.]*@' OR normalized_content REGEXP '@[^,;\.]*`'; </span><br><span class="line"></span><br><span class="line"><span class="keyword">END</span>$$</span><br><span class="line"></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+
+<h1 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h1><p>上述脚本仅提供一种思路，肯定不是最优解，还存在诸多弊端，其中一个显而易见的问题就是，替换掉的单字节字符不能与原来的文件内容有冲突。如果有不同意见，还请不吝赐教。</p>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2022/06/25/MySQL-regex-for-multi-bytes-character/" data-id="cla8bpvmb00129j8cd7vn2pi3" data-title="MySQL 正则表达式支持多字节字符" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/multi-bytes/" rel="tag">multi-bytes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/regex/" rel="tag">regex</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+<article id="post-CSharp-bulk-insert-records-into-MySQL" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2022/05/20/CSharp-bulk-insert-records-into-MySQL/" class="article-date">
+  <time datetime="2022-05-20T06:58:42.000Z" itemprop="datePublished">2022-05-20</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/05/20/CSharp-bulk-insert-records-into-MySQL/">C# 批量插入记录至 MySQL</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>本以为，<code>C#</code> 批量插入记录至 <code>MySQL</code> 这个情况应该很普遍，批量插入的代码很简单，就像批量插入 <code>SQL Server</code> 一样 (使用 <a href="https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/bulk-copy-operations-in-sql-server" target="_blank" rel="noopener">SQLBulkCopy</a>)。结果：我草率了。</p>
+<p>一般 <code>.NET</code> 开发人员，使用 <a href="https://www.nuget.org/packages/MySql.Data" target="_blank" rel="noopener">MySql.Data</a> 这个官方包来连接 <code>MySQL</code>。这个包很优秀，能够满足绝大多数的问题，但不包括批量插入（如果有哪位大牛知道官方的推荐做法，烦请告知，提前感谢！）。唯一和批量插入(bulk insert)可能有关联的是 <a href="https://dev.mysql.com/doc/dev/connector-net/6.10/html/T_MySql_Data_MySqlClient_MySqlCommandBuilder.htm" target="_blank" rel="noopener">MySqlBulkLoader</a>，但这个类的使用场景是从 csv 文件批量导入，类似于以下命令：<code>LOAD DATA INFILE &#39;/tmp/data.csv&#39; INTO TABLE bulk FIELDS TERMINATED BY &#39;,&#39; ENCLOSED BY &#39;\&quot;&#39; LINES TERMINATED BY &#39;\n&#39;</code>。</p>
+<p>但其实，<code>.NET</code> 开发人员在日常开发过程中，需要把运行时的列表批量插入到数据库，比如 <code>IEnumerable&lt;object&gt;</code>。网上稍微找了一通，发现没有现成的封装类或可供参考的代码。没办法了，自己动手吧。</p>
+<p>以下是我简单封装的代码，拿走不谢：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> handy functions for inquiring mysql</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">MySQLCommonHelper</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> bulk insert data into database</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;typeparam name="T"&gt;</span>data type<span class="doctag">&lt;/typeparam&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="data"&gt;</span>the data to be inserted into database<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="tableName"&gt;</span>destination table name<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="connectionString"&gt;</span>connection string of MySQL<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;exception cref="ArgumentNullException"&gt;</span><span class="doctag">&lt;/exception&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">bool</span> BulkInsert&lt;T&gt;(IEnumerable&lt;T&gt; data, <span class="keyword">string</span> tableName, <span class="keyword">string</span> connectionString)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (CommonUtility.IsNullOrEmptyList(data))</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;<span class="comment">// throw new ArgumentNullException(nameof(dt));</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">string</span>.IsNullOrWhiteSpace(tableName))</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentNullException(<span class="keyword">nameof</span>(tableName));</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">string</span>.IsNullOrEmpty(connectionString))</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentNullException(<span class="keyword">nameof</span>(connectionString));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// init the DataTable for bulk inserting</span></span><br><span class="line">        <span class="keyword">var</span> table = <span class="keyword">new</span> DataTable(tableName);</span><br><span class="line">        <span class="keyword">var</span> props = <span class="keyword">typeof</span>(T).GetProperties();</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> prop <span class="keyword">in</span> props)</span><br><span class="line">        &#123;</span><br><span class="line">            table.Columns.Add(<span class="keyword">new</span> DataColumn(prop.Name, prop.PropertyType));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">foreach</span>(<span class="keyword">var</span> d <span class="keyword">in</span> data)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> row = table.NewRow();</span><br><span class="line">            <span class="keyword">foreach</span>(<span class="keyword">var</span> prop <span class="keyword">in</span> props)</span><br><span class="line">            &#123;</span><br><span class="line">                row[prop.Name] = prop.GetValue(d, <span class="literal">null</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            table.Rows.Add(row);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">using</span> (MySqlConnection connection = <span class="keyword">new</span> MySqlConnection(connectionString))</span><br><span class="line">        &#123;</span><br><span class="line">            connection.Open();</span><br><span class="line">            <span class="keyword">using</span> (MySqlCommand cmd = connection.CreateCommand())</span><br><span class="line">            &#123;</span><br><span class="line">                cmd.CommandText = <span class="string">$"SELECT * FROM <span class="subst">&#123;tableName&#125;</span> LIMIT 0"</span>;</span><br><span class="line">                <span class="keyword">using</span> (MySqlDataAdapter adapter = <span class="keyword">new</span> MySqlDataAdapter(cmd))</span><br><span class="line">                &#123;</span><br><span class="line">                    adapter.UpdateBatchSize = <span class="number">8192</span>;</span><br><span class="line">                    <span class="keyword">using</span> (MySqlCommandBuilder cb = <span class="keyword">new</span> MySqlCommandBuilder(adapter))</span><br><span class="line">                    &#123;</span><br><span class="line">                        adapter.InsertCommand = cb.GetInsertCommand();</span><br><span class="line">                        adapter.Fill(table);</span><br><span class="line">                        <span class="comment">// Without the MySqlCommandBuilder this line would fail</span></span><br><span class="line">                        <span class="keyword">var</span> rows = adapter.Update(table);</span><br><span class="line">                        <span class="keyword">return</span> rows &gt; <span class="number">0</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://social.msdn.microsoft.com/forums/en-US/a8c1e923-e2d1-439c-a114-2b734c9e7fd4/bulk-insert-aspnet-datatable-to-mysql" target="_blank" rel="noopener">Bulk Insert asp.net Datatable to Mysql</a></li>
+<li><a href="https://mysqly.com/educate/insert-bulk-into-mysql" target="_blank" rel="noopener">Insert large amounts of data into Mysql</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2022/05/20/CSharp-bulk-insert-records-into-MySQL/" data-id="cla8bpvm2000e9j8c2mda98l2" data-title="C# 批量插入记录至 MySQL" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bulk-insert/" rel="tag">bulk insert</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/csharp/" rel="tag">csharp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql-connector/" rel="tag">mysql.connector</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+
+<nav id="page-nav">
+
+<span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/2/">下一页 &gt;</a>
+</nav>
+
+<style>
+.article {max-height: 123vh;overflow: hidden;position: relative;}
+.article.unfold {max-height: initial;}
+.article .more {position: absolute;bottom: 0;padding: 3em;cursor: pointer;text-align: center;width: 100%;background: linear-gradient(rgba(0, 0, 0, 0), silver);color: white;box-sizing: border-box;}
+.article.unfold .more {display: none;}
+</style>
+<script>
+(function () {
+// show more
+const moreText = '<i class="fa fa-arrow-circle-down" aria-hidden="true"></i> ' + "更多";
+const articles = document.getElementsByClassName('article');
+for (let i = 0; i < articles.length; i++) {
+const $more = document.createElement('div');
+$more.classList.add('more');$more.innerHTML = moreText;
+$more.onclick = function (evt) {
+const $src = evt.target || evt.srcElement;$src.parentElement.classList.add('unfold');
+};
+articles[i].appendChild($more);
+}})();
+</script>
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

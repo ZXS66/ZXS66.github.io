@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>javascript 剪切板 | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="在页面上启用剪切板，一直是一个常见而又头疼的问题。我说的是自定义需要复制&#x2F;剪切的内容。 以前，有如下几种解决方案：  如果需要复制的内容来自页面上已有标签（input、textarea等），先调用该标签的 .select() 选中文本，然后调用 document.execCommand(&#39;copy&#39;) 复制至剪切板； 如果需要复制的内容不来自页面上已有标签（比如拼接字符串），可以先">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript 剪切板">
+<meta property="og:url" content="https://zxs66.github.io/2020/09/07/javascript-clipboard-API/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="在页面上启用剪切板，一直是一个常见而又头疼的问题。我说的是自定义需要复制&#x2F;剪切的内容。 以前，有如下几种解决方案：  如果需要复制的内容来自页面上已有标签（input、textarea等），先调用该标签的 .select() 选中文本，然后调用 document.execCommand(&#39;copy&#39;) 复制至剪切板； 如果需要复制的内容不来自页面上已有标签（比如拼接字符串），可以先">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zxs66.github.io/images/javascript-clipboard-API/writeText%20compatibility.PNG">
+<meta property="og:image" content="https://zxs66.github.io/images/javascript-clipboard-API/demo.gif">
+<meta property="article:published_time" content="2020-09-07T02:46:46.000Z">
+<meta property="article:modified_time" content="2022-11-08T14:11:27.203Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="clipboard">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zxs66.github.io/images/javascript-clipboard-API/writeText%20compatibility.PNG">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-javascript-clipboard-API" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/09/07/javascript-clipboard-API/" class="article-date">
+  <time datetime="2020-09-07T02:46:46.000Z" itemprop="datePublished">2020-09-07</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      javascript 剪切板
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>在页面上启用剪切板，一直是一个常见而又头疼的问题。我说的是自定义需要复制/剪切的内容。</p>
+<p>以前，有如下几种解决方案：</p>
+<ol>
+<li>如果需要复制的内容来自页面上已有标签（<code>input</code>、<code>textarea</code>等），先调用该标签的 <code>.select()</code> 选中文本，然后调用 <code>document.execCommand(&#39;copy&#39;)</code> 复制至剪切板；</li>
+<li>如果需要复制的内容不来自页面上已有标签（比如拼接字符串），可以先创建一个 <code>input</code> 或 <code>textarea</code>，赋值需要复制的内容，append 到页面上，调用 <code>document.execCommand(&#39;copy&#39;)</code> 复制至剪切板，再从页面上 remove；</li>
+<li>把需要复制的内容，使用 <code>window.prompt</code> 弹出来，再提示用户按 <code>Ctrl</code> + <code>C</code>；</li>
+<li>使用第三方插件，具体内部原理因插件不同而不同。大概 4、5 年前依稀记得有一款插件还需要依赖 <code>Flash</code>？？？现在与时俱进了，有一款不依赖 <code>Flash</code> 和其他 framework 的插件 <a href="https://clipboardjs.com/" target="_blank" rel="noopener">clipboard.js</a>；</li>
+</ol>
+<p>不过如果仅仅是自定义需要复制内容的话，完全没必要引入第三方库。有了 Clipboard 的新 API，使用剪切板将变得炒鸡方便啦。</p>
+<p>先看一下目前（2020/9/7）的<a href="https://caniuse.com/?search=clipboard" target="_blank" rel="noopener">兼容性</a>。</p>
+<p><em>(仅看最重要的 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText" target="_blank" rel="noopener">writeText</a> 的情况)</em></p>
+<p><img src="/images/javascript-clipboard-API/writeText%20compatibility.PNG" alt="`writeText` 的兼容性"></p>
+<p>嗯，还行，82.33% 啦。如果不需要其他 API（readText、监听 ClipboardEvent 等），不考虑 IE 用户的话，足够了！</p>
+<p>说干就干。那就从本博客的源代码复制开始着手吧。</p>
+<p>Hexo 的默认主题 landscape 不支持源代码复制功能，那就手撸一个吧。</p>
+<p>先更改 <code>themes/landscape/source/js/script.js</code>，在末尾处添加如下代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// append copy icon to each source code section</span></span><br><span class="line"><span class="keyword">if</span> (navigator.clipboard) &#123;</span><br><span class="line">  <span class="keyword">const</span> className_shining = <span class="string">"shining"</span>;</span><br><span class="line">  <span class="keyword">const</span> copySourceCode = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> $elem = event.currentTarget;</span><br><span class="line">    <span class="keyword">const</span> sourceCode = $elem.parentElement.querySelector(<span class="string">".code"</span>).innerText;</span><br><span class="line">    <span class="keyword">await</span> navigator.clipboard.writeText(sourceCode);</span><br><span class="line">    <span class="keyword">const</span> $msg = $elem.querySelector(<span class="string">"span"</span>);</span><br><span class="line">    <span class="comment">// const duration = $msg.style.animationDuration;</span></span><br><span class="line">    <span class="keyword">const</span> duration = <span class="number">512</span>; <span class="comment">// 512ms</span></span><br><span class="line">    $elem.classList.add(className_shining); <span class="comment">// add the class to trigger the animation</span></span><br><span class="line">    <span class="comment">// swap the innerText during the animation</span></span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      $msg.innerText = $msg.dataset.afterMsg;</span><br><span class="line">    &#125;, duration / <span class="number">2</span>);</span><br><span class="line">    <span class="comment">// resume</span></span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// https://css-tricks.com/restart-css-animation/</span></span><br><span class="line">      $elem.classList.remove(className_shining);</span><br><span class="line">      <span class="keyword">void</span> $elem.offsetWidth; <span class="comment">// trigger reflow</span></span><br><span class="line">      $elem.classList.add(className_shining);</span><br><span class="line">      setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        $msg.innerText = $msg.dataset.beforeMsg;</span><br><span class="line">      &#125;, duration / <span class="number">2</span>);</span><br><span class="line">      setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        $elem.classList.remove(className_shining);</span><br><span class="line">      &#125;, duration);</span><br><span class="line">    &#125;, duration * <span class="number">4</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">Array</span>.from(</span><br><span class="line">    <span class="built_in">document</span>.querySelectorAll(<span class="string">".article-entry figure.highlight"</span>)</span><br><span class="line">  ).forEach(<span class="function"><span class="params">$fig</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> $fa = <span class="built_in">document</span>.createElement(<span class="string">"i"</span>);</span><br><span class="line">    $fa.classList.add(<span class="string">"copy"</span>);</span><br><span class="line">    $fa.classList.add(<span class="string">"fa"</span>);</span><br><span class="line">    $fa.classList.add(<span class="string">"fa-files-o"</span>);</span><br><span class="line">    <span class="keyword">const</span> beforeMsg = <span class="string">`👈 tap this icon to copy the code snippet`</span>;</span><br><span class="line">    <span class="keyword">const</span> afterMsg = <span class="string">`copied`</span>;</span><br><span class="line">    <span class="keyword">const</span> $msg = <span class="built_in">document</span>.createElement(<span class="string">"span"</span>);</span><br><span class="line">    $msg.classList.add(<span class="string">"msg"</span>);</span><br><span class="line">    $msg.innerText = beforeMsg;</span><br><span class="line">    $msg.dataset.beforeMsg = beforeMsg;</span><br><span class="line">    $msg.dataset.afterMsg = afterMsg;</span><br><span class="line">    <span class="keyword">const</span> $row = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);</span><br><span class="line">    $row.classList.add(<span class="string">"source-clipboard"</span>);</span><br><span class="line">    $row.appendChild($fa);</span><br><span class="line">    $row.appendChild($msg);</span><br><span class="line">    $row.addEventListener(<span class="string">"click"</span>, copySourceCode);</span><br><span class="line">    $fig.appendChild($row);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>更改 <code>themes/landscape/source/css/_partial/article.styl</code>，设置样式:</p>
+<figure class="highlight styl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">figure</span><br><span class="line">  &amp;.highlight</span><br><span class="line">    .source-clipboard</span><br><span class="line">      <span class="attribute">margin-top</span>: <span class="number">0.5em</span></span><br><span class="line">      <span class="attribute">border-top</span>: <span class="number">1px</span> solid gray</span><br><span class="line">      <span class="attribute">padding-top</span>: <span class="number">0.5em</span></span><br><span class="line">      .msg</span><br><span class="line">        <span class="attribute">display</span>: inline-block</span><br><span class="line">        <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">0.5em</span></span><br><span class="line">        <span class="attribute">opacity</span>: <span class="number">1</span></span><br><span class="line">      &amp;.shining</span><br><span class="line">        .msg</span><br><span class="line">          <span class="attribute">animation-name</span>: shining </span><br><span class="line">          <span class="attribute">animation-duration</span>: <span class="number">0.512s</span></span><br><span class="line">          <span class="attribute">animation-iteration-count</span>: <span class="number">1</span></span><br><span class="line">          <span class="attribute">animation-timing-function</span>: ease-in-out</span><br><span class="line">          <span class="attribute">animation-fill-mode</span>: forwards</span><br><span class="line">          <span class="attribute">animation-direction</span>: alternative</span><br><span class="line"></span><br><span class="line">@keyframes shining&#123;</span><br><span class="line">  <span class="number">0%</span> &#123; <span class="attribute">opacity</span>: <span class="number">1</span>;&#125;</span><br><span class="line">  <span class="number">50%</span> &#123; <span class="attribute">opacity</span>: <span class="number">0</span>;&#125;</span><br><span class="line">  <span class="number">100%</span> &#123; <span class="attribute">opacity</span>: <span class="number">1</span>;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用了点 CSS 3 animation 新特性。🙂</p>
+<h2 id="友情提醒"><a href="#友情提醒" class="headerlink" title="友情提醒"></a>友情提醒</h2><p>The clipboard-write permission is granted automatically to pages when they are in the active tab. The clipboard-read permission must be requested, which you can do by trying to read data from the clipboard.</p>
+<h2 id="展示"><a href="#展示" class="headerlink" title="展示"></a>展示</h2><p><img src="/images/javascript-clipboard-API/demo.gif" alt="copy source code demo"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API" target="_blank" rel="noopener">Clipboard API</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard" target="_blank" rel="noopener">Interact with the clipboard</a></li>
+<li><a href="https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript" target="_blank" rel="noopener">How do I copy to the clipboard in JavaScript?</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/09/07/javascript-clipboard-API/" data-id="cla8bpvmo002b9j8cej3h8pno" data-title="javascript 剪切板" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/clipboard/" rel="tag">clipboard</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+    <a href="/2020/09/11/get-started-with-WeChat-mini-program/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更新</strong>
+      <div class="article-nav-title">
+        
+          微信小程序入门
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/06/tiny-caching-and-logging-in-ASP-NET/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">ASP.NET 极简缓存及日志</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>
