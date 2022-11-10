@@ -90,6 +90,80 @@ s.parentNode.insertBefore(hm, s);
 <section id="main">
 
 
+<article id="post-cancelling-tasks-in-JS" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/11/05/cancelling-tasks-in-JS/" class="article-date">
+  <time datetime="2020-11-05T08:24:40.000Z" itemprop="datePublished">2020-11-05</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/05/cancelling-tasks-in-JS/">JS 中如何取消任务</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>在前端编程过程中，虽然很少发生，但确实会遇到，需要取消此前的任务。一般这些任务是耗时任务，比如网络请求、<code>setTimeout</code> 或动画等等。而这些不同的场景分别都有不同的解决方案。</p>
+<h2 id="XMLHttpRequest"><a href="#XMLHttpRequest" class="headerlink" title="XMLHttpRequest"></a>XMLHttpRequest</h2><p>就是传统的 ajax 请求，要取消非常简单，直接调用 <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/abort" target="_blank" rel="noopener">abort</a> 方法即可，炒鸡简单，完全木有兼容性问题，这里就不赘述了。</p>
+<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" rel="noopener">Promise</a> 是早在 ES6 中就推出的方案，很早之前就被各大浏览器实现的，兼容性也 <a href="https://caniuse.com/promises" target="_blank" rel="noopener">挺好的</a> (IE：？？？)。但是，自 Promise 推出之日，就有两个备受诟病的点，其中一个就是无法取消任务。<em>另一个点是无法监听最新状态（类似于 <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/progress_event" target="_blank" rel="noopener">XMLHttpRequest: progress</a> 事件)</em></p>
+<p>基本上现在很多的前端项目都用到 Promise，毕竟真的很好用。但是没有取消功能，有时候真的很让人捉急。W3C 规范一时半会儿是不会支持此功能了，难道只能这样，坐以待毙？作为一枚爱瞎折腾的前端开发，当然会说 “不” 。</p>
+<p><a href="https://stackoverflow.com/questions/30233302/promise-is-it-possible-to-force-cancel-a-promise" target="_blank" rel="noopener">Stackoverflow</a> 上有一个问答已经很好的回答了大部分用户的疑惑了。简单来说，① 是的，Promise 不支持取消功能 ② 但你可以使用第三方类库比如 <a href="https://github.com/petkaantonov/bluebird" target="_blank" rel="noopener">bluebird</a> ③ 手动传入取消 token ④ 利用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race" target="_blank" rel="noopener">Promise.race</a> 方法</p>
+<h5 id="第三方类库"><a href="#第三方类库" class="headerlink" title="第三方类库"></a>第三方类库</h5><p>emmm，我就是想要取消一个 Promise 任务（停止执行 then 方法），为什么要我引入第三方库，而且还要对以前的代码大改？！anyway，第三方存在即合理，我就不去纠结引入第三方库的利弊了。各位如果感兴趣，请移步至其官网或各大搜索引擎。</p>
+<h5 id="手动传入取消-token"><a href="#手动传入取消-token" class="headerlink" title="手动传入取消 token"></a>手动传入取消 token</h5><p>这个稍微有点复杂，就是自己处理取消逻辑。拿 XMLHttpRequest 举例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getWithCancel</span>(<span class="params">url, token</span>) </span>&#123; <span class="comment">// the token is for cancellation</span></span><br><span class="line">   <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest;</span><br><span class="line">   xhr.open(<span class="string">"GET"</span>, url);</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">      xhr.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; resolve(xhr.responseText); &#125;);</span><br><span class="line">      token.cancel = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;  <span class="comment">// SPECIFY CANCELLATION</span></span><br><span class="line">          xhr.abort(); <span class="comment">// abort request</span></span><br><span class="line">          reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Cancelled"</span>)); <span class="comment">// reject the promise</span></span><br><span class="line">      &#125;;</span><br><span class="line">      xhr.onerror = reject;</span><br><span class="line">   &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">/////// sample: cancel a promise </span></span><br><span class="line"><span class="keyword">var</span> token = &#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> promise = getWithCancel(<span class="string">"/someUrl"</span>, token);</span><br><span class="line"><span class="comment">// later we want to abort the promise:</span></span><br><span class="line">token.cancel();</span><br></pre></td></tr></table></figure>
+
+<p>简单来说，就是在返回 <code>Promise</code> 实例之前，返回一个 <code>token</code>，其自带 <code>cancel</code> 方法供之后使用。</p>
+<p>不过我个人觉得使用起来还是很麻烦，可以优化：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getWithCancel</span>(<span class="params">url</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest;</span><br><span class="line">    xhr.open(<span class="string">"GET"</span>, url);</span><br><span class="line">    <span class="keyword">let</span> cancel = <span class="function"><span class="params">()</span>=&gt;</span>&#123;&#125;;</span><br><span class="line">    <span class="keyword">const</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">        xhr.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; resolve(xhr.responseText); &#125;);</span><br><span class="line">        cancel = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;  <span class="comment">// SPECIFY CANCELLATION</span></span><br><span class="line">            xhr.abort(); <span class="comment">// abort request</span></span><br><span class="line">            reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Cancelled"</span>)); <span class="comment">// reject the promise</span></span><br><span class="line">        &#125;;</span><br><span class="line">        xhr.onerror = reject;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> [p, cancel];</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/////// sample: normal request</span></span><br><span class="line"><span class="keyword">var</span> [req1] = getWithCancel(<span class="string">"/someUrl"</span>);</span><br><span class="line"><span class="comment">/////// sample: cancel a promise </span></span><br><span class="line"><span class="keyword">var</span> [req2, cancel2] = getWithCancel(<span class="string">"/someUrl"</span>);</span><br><span class="line"><span class="comment">// later we want to abort the promise:</span></span><br><span class="line">cancel2();</span><br></pre></td></tr></table></figure>
+
+<h5 id="利用-Promise-race-方法"><a href="#利用-Promise-race-方法" class="headerlink" title="利用 Promise.race 方法"></a>利用 Promise.race 方法</h5><p>没用过这个方法的，可以参考 MDN 上的 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race" target="_blank" rel="noopener">这个范例</a> 快速上手。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> promise1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  setTimeout(resolve, <span class="number">500</span>, <span class="string">'one'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> promise2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  setTimeout(resolve, <span class="number">100</span>, <span class="string">'two'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">Promise</span>.race([promise1, promise2]).then(<span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(value);</span><br><span class="line">  <span class="comment">// Both resolve, but promise2 is faster</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// expected output: "two"</span></span><br></pre></td></tr></table></figure>
+
+<p>通过名字即可看出，这个方法返回一个 <code>Promise</code> 实例，只要传入的一堆 promise 其中任何一个被 resolve 或者被 reject 了，该实例相应的立马被 resolve 或者 reject。</p>
+<p>那怎么用 <code>Promise.race</code> 来实现取消功能？请参考以下代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> myTask = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// use setTimeout to simulate a time-cost task</span></span><br><span class="line">    setTimeout(resolve, <span class="number">1024</span>, <span class="string">'fulfilled'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">let</span> cancel = <span class="function"><span class="params">()</span>=&gt;</span>&#123;&#125;;<span class="comment">//empty function</span></span><br><span class="line"><span class="keyword">const</span> cancelTask = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span>=&gt;</span>cancel=resolve)</span><br><span class="line"><span class="keyword">const</span> testcase = <span class="built_in">Promise</span>.race([cancelTask, myTask]);</span><br><span class="line">testcase.then(<span class="function">(<span class="params">result</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(result); <span class="comment">// just for test, print the result</span></span><br><span class="line">    <span class="keyword">if</span> (result !== <span class="string">'cancelled'</span>)&#123;</span><br><span class="line">        <span class="comment">// my business logic code here</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// cancel later</span></span><br><span class="line">setTimeout(cancel,<span class="number">512</span>,<span class="string">'cancelled'</span>);</span><br></pre></td></tr></table></figure>
+<p><em>↑ 为了更好理解，上述有一些不太好编码风格。大家可以在真正需要使用取消功能之前稍加优化一下，这里我就偷个懒了 😛</em></p>
+<p>其实是上一种方法的变种，需要手动传入取消 token。有一个小限制就是，如果在运行 <code>testcase</code> 之前，已经订阅了 <code>myTask</code>（调用 .then 方法），那其实在取消（调用 <code>cancel</code> 方法）之后，该订阅者还是会被通知的。所以，应该订阅 <code>testcase</code> 而非 <code>myTask</code>。</p>
+<h5 id="改写-Promise-prototype-cancel-❌不推荐"><a href="#改写-Promise-prototype-cancel-❌不推荐" class="headerlink" title="改写 Promise.prototype.cancel  ❌不推荐"></a>改写 <code>Promise.prototype.cancel</code>  ❌不推荐</h5><p>其实还有一个更简单又很好用的办法，就是直接更改 <code>Promise</code> 原型，添加 <code>Promise.prototype.cancel</code> 方法，这样以前代码也不用变，还附赠了 <code>cancel</code> 方法。但是个人不推荐，因为，是侵入性的，太粗鲁了。不过我相信萝卜白菜，各有所爱，总有人好这一口。既然这样，大家自行实现去吧。 😄</p>
+<p>当然，你也可以使用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy" target="_blank" rel="noopener">Proxy</a> 或者对 <code>promise</code> 实例 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty" target="_blank" rel="noopener">Object.defineProperty()</a> 而不是改写 <code>Prototype</code> 来减少侵入性。 👍</p>
+<h2 id="fetch"><a href="#fetch" class="headerlink" title="fetch"></a>fetch</h2><p><code>fetch</code> 是比 <code>Promise</code> 还要新的 API，现代浏览器基本上都有实现（IE：？？？），它返回的就是一个 <code>Promise</code> 实例。所以上一章节的方案也适用于 <code>fetch</code>。</p>
+<p>可能是呼声太大了，fetch 其实还提供了额外的取消方式，请参考一下代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// abort in 1 second</span></span><br><span class="line"><span class="keyword">let</span> controller = <span class="keyword">new</span> AbortController();</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> controller.abort(), <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> response = <span class="keyword">await</span> fetch(<span class="string">'/article/fetch-abort/demo/hang'</span>, &#123;</span><br><span class="line">    signal: controller.signal</span><br><span class="line">  &#125;);</span><br><span class="line">&#125; <span class="keyword">catch</span>(err) &#123;</span><br><span class="line">  <span class="keyword">if</span> (err.name == <span class="string">'AbortError'</span>) &#123; <span class="comment">// handle abort()</span></span><br><span class="line">    alert(<span class="string">"Aborted!"</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">throw</span> err;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>简单理解，<strong>此方案取消发送该网络请求并模拟 <code>reject</code> 一个 <code>AbortError</code> 实例</strong>（执行 <code>then:onrejected</code>、<code>catch</code>、<code>finally</code>，但不执行<code>then:onfulfilled</code>）。</p>
+<p><img src="/images/cancelling-tasks-in-JS/F12.source.2.png" alt="source"><br><img src="/images/cancelling-tasks-in-JS/F12.console.2.png" alt="console"><br><img src="/images/cancelling-tasks-in-JS/F12.network.2.png" alt="network"></p>
+<p><em>更多请查看 <a href="https://javascript.info/fetch-abort" target="_blank" rel="noopener">此文档</a></em></p>
+<p>代码不长，就是先初始化一个 <a href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController" target="_blank" rel="noopener">AbortController</a> 实例，在调用 <code>fetch</code> 方法的时候，将此实例的 <code>signal</code> 属性也传进去。在之后，如果想要取消了，直接调用该实例的 <a href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort" target="_blank" rel="noopener">abort</a> 方法。emmm，还挺香的嘛~</p>
+<p>基本上支持 Promise 的现代浏览器，也都支持 <a href="https://www.caniuse.com/abortcontroller" target="_blank" rel="noopener">AbortController</a>。</p>
+<h2 id="rxjs-Subscription"><a href="#rxjs-Subscription" class="headerlink" title="rxjs Subscription"></a>rxjs Subscription</h2><p>在我平时的工作中，接触 <a href="https://angular.cn" target="_blank" rel="noopener">Angular</a> 比较多，<code>Angular</code> 默认依赖 <a href="https://rxjs.dev" target="_blank" rel="noopener">rxjs</a>。<a href="https://angular.cn/api/common/http/HttpClient" target="_blank" rel="noopener">HttpClient</a>（用于网络请求）的 <code>get</code> 或 <code>post</code> 方法返回值是 <code>rxjs</code> 中的 <a href="https://rxjs.dev/guide/observable" target="_blank" rel="noopener">Observable</a>。 如果此 <code>Observable</code> 未被订阅，那该请求就不会被发送出去；如果此 <code>Observable</code> 已被订阅（调用 <code>subscribe</code> 方法，返回值为 <code>Subscription</code> 类型），想要取消，很简单，直接调用 <a href="http://reactivex.io/rxjs/class/es6/Subscription.js~Subscription.html#instance-method-unsubscribe" target="_blank" rel="noopener">unsubscribe</a> 方法即可。值得注意的是，此方法不仅可以终止订阅时定义的成功返回的方法，也会 <strong>终止发生错误的方法</strong> (当然，第三个参数 <code>complete</code> 方法也会一并终止执行)，还同时回取消网络请求，一步到位！</p>
+<p><img src="/images/cancelling-tasks-in-JS/F12.source.png" alt="source"><br><img src="/images/cancelling-tasks-in-JS/F12.console.png" alt="console"><br><img src="/images/cancelling-tasks-in-JS/F12.network.png" alt="network"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/abort" target="_blank" rel="noopener">XMLHttpRequest.abort()</a></li>
+<li><i class="fa fa-stack-overflow" aria-hidden="true"></i> <a href="https://stackoverflow.com/questions/30233302/promise-is-it-possible-to-force-cancel-a-promise" target="_blank" rel="noopener">Promise - is it possible to force cancel a promise</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race" target="_blank" rel="noopener">Promise.race()</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort" target="_blank" rel="noopener">AbortController.abort()</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/11/05/cancelling-tasks-in-JS/" data-id="clab8ajt9001v6o8c58jwgot3" data-title="JS 中如何取消任务" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/abort/" rel="tag">abort</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cancel/" rel="tag">cancel</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/fetch/" rel="tag">fetch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/promise/" rel="tag">promise</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rxjs/" rel="tag">rxjs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/xmlhttprequest/" rel="tag">xmlhttprequest</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
 <article id="post-ASP-NET-i18n-get-started" class="article article-type-post" itemscope itemprop="blogPost">
 <div class="article-meta">
 <a href="/2020/10/28/ASP-NET-i18n-get-started/" class="article-date">
@@ -146,7 +220,7 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2020/10/28/ASP-NET-i18n-get-started/" data-id="cla8bpvlz00089j8c6giz66n2" data-title="ASP.NET 应用国际化" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2020/10/28/ASP-NET-i18n-get-started/" data-id="clab8ajso00086o8c0tw4byif" data-title="ASP.NET 应用国际化" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/asp-net/" rel="tag">asp.net</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/get-started/" rel="tag">get started</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/i18n/" rel="tag">i18n</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mvc/" rel="tag">mvc</a></li></ul>
@@ -315,63 +389,10 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2020/10/20/SQL-Server-Pivot-Tables/" data-id="cla8bpvmc00189j8cbcqt768f" data-title="SQL Server 数据透视表" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2020/10/20/SQL-Server-Pivot-Tables/" data-id="clab8ajt100196o8cbi82bc9d" data-title="SQL Server 数据透视表" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pivot-table/" rel="tag">pivot table</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql-server/" rel="tag">sql server</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
-
-</footer>
-</div>
-
-</article>
-
-
-
-<article id="post-react-hooks" class="article article-type-post" itemscope itemprop="blogPost">
-<div class="article-meta">
-<a href="/2020/10/10/react-hooks/" class="article-date">
-  <time datetime="2020-10-10T08:46:10.000Z" itemprop="datePublished">2020-10-10</time>
-</a>
-
-</div>
-<div class="article-inner">
-
-
-<header class="article-header">
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/10/react-hooks/">React Hooks 学习笔记</a>
-    </h1>
-  
-</header>
-
-<div class="article-entry" itemprop="articleBody">
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>刚看到一篇文章，2019年最值得学习的前端技能，里面给了 React Hooks 很大一部分介绍，不禁引起我的好奇，决定稍微深入了解一下，虽然我平时用 Angular 比较多。 🙂</p>
-<h2 id="TLDR，太长不看版"><a href="#TLDR，太长不看版" class="headerlink" title="TLDR，太长不看版"></a>TLDR，太长不看版</h2><p>其实这就是<em>面向对象编程</em> 和<em>函数式编程</em> 在前端编程的碰撞。</p>
-<p><img src="https://www.wangbase.com/blogimg/asset/202009/bg2020091407.jpg" alt="ReactJS Function Component VS Class Component"></p>
-<p>以前类组件的编写方式是面向对象编程，而用 Hooks 是函数式编程。给个例子就能很好理解了：</p>
-<p><img src="https://www.wangbase.com/blogimg/asset/202009/bg2020091320.jpg" alt="Function Component and Class Component"></p>
-<h2 id="为什么会有-React-Hooks，动机是什么？"><a href="#为什么会有-React-Hooks，动机是什么？" class="headerlink" title="为什么会有 React Hooks，动机是什么？"></a>为什么会有 React Hooks，动机是什么？</h2><p>官方的解释：</p>
-<h5 id="类组件不能很好重用状态逻辑代码"><a href="#类组件不能很好重用状态逻辑代码" class="headerlink" title="类组件不能很好重用状态逻辑代码"></a>类组件不能很好重用状态逻辑代码</h5><p>使用 Hooks 则可以在不改变组件层次地前提下很好地重用状态逻辑，因为状态逻辑已经从组件中抽离出来了。</p>
-<h5 id="复杂组件变得越来越难以理解（维护）"><a href="#复杂组件变得越来越难以理解（维护）" class="headerlink" title="复杂组件变得越来越难以理解（维护）"></a>复杂组件变得越来越难以理解（维护）</h5><p>其实 React JS 以前的代码我也不喜欢，即使它使用了 JSX。因为感觉把所有东西都揉在一起了，这和以前 JSP，ASP.NET 不是差不多嘛。是时代在倒退吗？我喜欢模板（HTML）、样式（CSS）、逻辑（JS）分的清清楚楚的，就像 Angular 那样。我的确是个老顽固，但是我在用 Angular 之前，也用了 <a href="https://github.com/mustache/mustache" target="_blank" rel="noopener">mustache</a> 和 scss，感觉都挺好的。</p>
-<p>使用 Hooks 就逼迫我们把组件拆分成更小的方法了，模板和逻辑可以不用像以前那样，严重依赖于组件的生命周期。</p>
-<h5 id="程序员和机器并不能更好理解类"><a href="#程序员和机器并不能更好理解类" class="headerlink" title="程序员和机器并不能更好理解类"></a>程序员和机器并不能更好理解类</h5><p>emmm，前端等了这么多年，终于有了 class （虽然只是个语法糖），前端开发千辛万苦学会了面向对象，你现在说，不要面向对象？好吧，你说的都对，我继续学还不行吗！</p>
-<p>不过也的确是这样，机器里才没有类的概念，函数倒是基本上每个编程语言都有。使用函数（Hooks）可以让我们更贴近机器，也就能更好的利用 React 的特性。</p>
-<h2 id="我的理解"><a href="#我的理解" class="headerlink" title="我的理解"></a>我的理解</h2><p>看起来挺好的，确实值得一学。毕竟，朝着我喜欢的方向在走（模板、样式、逻辑分清）。</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="https://reactjs.org/docs/hooks-intro.html" target="_blank" rel="noopener">Introducing Hooks</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2020/09/react-hooks-useeffect-tutorial.html" target="_blank" rel="noopener">轻松学会 React 钩子：以 useEffect() 为例</a></li>
-<li><a href="https://www.geeksforgeeks.org/reactjs-usestate-hook/" target="_blank" rel="noopener">ReactJS | useState Hook</a></li>
-<li><del><a href="https://mp.weixin.qq.com/s?__biz=MzU0OTExNzYwNg==&mid=2247486638&idx=1&sn=6168cd4c6ebd46bb7626d5e1acac199a&chksm=fbb58767ccc20e71c147abd5816d85c85addfe9bb7f7ae531b3be6874e82bbf3aeff10b3151f&mpshare=1&scene=1&srcid=1030zRXiWBapn8lTHy7okyV4&sharer_sharetime=1604039376391&sharer_shareid=fc704ae6aea43f30cbec7d9e541d4beb&exportkey=A9iZHUit3MmzB9UtwIFqMKE%3D&pass_ticket=tzMbsF%2FeUkmqmIp8swkg9KboR45uJ3wADbDOUq8VTpvz9SXqBf7n2B5O3xo%2Fhbg6&wx_header=0#rd" target="_blank" rel="noopener">带你快速了解React Hooks</a></del></li>
-<li><a href="https://mp.weixin.qq.com/s/FQzSFwx3wWqwLCeQZ1eAEA" target="_blank" rel="noopener">带你快速了解React Hooks</a></li>
-</ul>
-
-</div>
-<footer class="article-footer">
-<a data-url="https://zxs66.github.io/2020/10/10/react-hooks/" data-id="cla8bpvmu002w9j8c82q7dh2b" data-title="React Hooks 学习笔记" class="article-share-link">分享</a>
-
-
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hooks/" rel="tag">hooks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
 
 </footer>
 </div>

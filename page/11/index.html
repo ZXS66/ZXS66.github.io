@@ -90,6 +90,41 @@ s.parentNode.insertBefore(hm, s);
 <section id="main">
 
 
+<article id="post-open-source-licenses" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/05/01/open-source-licenses/" class="article-date">
+  <time datetime="2021-05-01T01:46:29.000Z" itemprop="datePublished">2021-05-01</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/01/open-source-licenses/">开源许可证</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/201105/bg2011050101.png" alt="如何选择开源许可证"></p>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/05/01/open-source-licenses/" data-id="clab8ajtf002n6o8c7g0fa62w" data-title="开源许可证" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/license/" rel="tag">license</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/open-source/" rel="tag">open source</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
 <article id="post-SQL-Server-data-migration" class="article article-type-post" itemscope itemprop="blogPost">
 <div class="article-meta">
 <a href="/2021/04/25/SQL-Server-data-migration/" class="article-date">
@@ -122,7 +157,7 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2021/04/25/SQL-Server-data-migration/" data-id="cla8bpvmg001h9j8c52drfgam" data-title="SQL Server 数据迁移" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2021/04/25/SQL-Server-data-migration/" data-id="clab8ajt4001e6o8c7ln6bnno" data-title="SQL Server 数据迁移" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/migration/" rel="tag">migration</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql-server/" rel="tag">sql server</a></li></ul>
@@ -173,46 +208,10 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2021/04/20/CSharp-debounce-and-throttle/" data-id="cla8bpvm3000i9j8c5n07g4fe" data-title="CSharp 去抖和节流" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2021/04/20/CSharp-debounce-and-throttle/" data-id="clab8ajss000g6o8ccdskbpke" data-title="CSharp 去抖和节流" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/csharp/" rel="tag">csharp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/debounce/" rel="tag">debounce</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/throttle/" rel="tag">throttle</a></li></ul>
-
-</footer>
-</div>
-
-</article>
-
-
-
-<article id="post-CSharp-Regular-Experssion-taste" class="article article-type-post" itemscope itemprop="blogPost">
-<div class="article-meta">
-<a href="/2021/04/15/CSharp-Regular-Experssion-taste/" class="article-date">
-  <time datetime="2021-04-15T10:05:56.000Z" itemprop="datePublished">2021-04-15</time>
-</a>
-
-</div>
-<div class="article-inner">
-
-
-<header class="article-header">
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/15/CSharp-Regular-Experssion-taste/">CSharp 正则表达式初尝</a>
-    </h1>
-  
-</header>
-
-<div class="article-entry" itemprop="articleBody">
-<p>检测用户名和密码是否符合相应的强度要求：</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">string</span> username = <span class="string">"BF-37"</span>;</span><br><span class="line"><span class="keyword">if</span> (!System.Text.RegularExpressions.Regex.Match(username, <span class="string">@"^[a-zA-Z0-9\-\.]&#123;4,16&#125;$"</span>).Success)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 大小写、数字、分隔符(-)、点号(.)，密码长度4到16</span></span><br><span class="line">  Console.WriteLine(<span class="string">"invalid user name"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">string</span> password = <span class="string">"Super hent@i"</span>;</span><br><span class="line"><span class="keyword">if</span> (!System.Text.RegularExpressions.Regex.Match(password, <span class="string">@"^[\s!-~]&#123;8,32&#125;$"</span>).Success)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 可打印字符（ASCII码从空格到~结束），密码长度8到32</span></span><br><span class="line">  Console.WriteLine(<span class="string">"invalid password"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</div>
-<footer class="article-footer">
-<a data-url="https://zxs66.github.io/2021/04/15/CSharp-Regular-Experssion-taste/" data-id="cla8bpvm0000b9j8cad393aks" data-title="CSharp 正则表达式初尝" class="article-share-link">分享</a>
-
-
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/csharp/" rel="tag">csharp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/regular-expression/" rel="tag">regular expression</a></li></ul>
 
 </footer>
 </div>

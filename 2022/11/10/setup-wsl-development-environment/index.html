@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>配置 WSL 开发环境 | 时代残党</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.png">
+<meta name="description" content="背景安装步骤启用虚拟化和WSL 完成之后需要重启。 启用WSL1wsl --install 完成之后可能需要重启。 安装Windows Terminal在 Microsoft Store （应用商城）中搜索 Windows Terminal 即可一键安装，此处省。 安装Ubuntu有多种方式可以安装 Ubuntu。最简单的方式，就是和上一步一样，在 Microsoft Store （应用商城）中搜">
+<meta property="og:type" content="article">
+<meta property="og:title" content="配置 WSL 开发环境">
+<meta property="og:url" content="https://zxs66.github.io/2022/11/10/setup-wsl-development-environment/">
+<meta property="og:site_name" content="时代残党">
+<meta property="og:description" content="背景安装步骤启用虚拟化和WSL 完成之后需要重启。 启用WSL1wsl --install 完成之后可能需要重启。 安装Windows Terminal在 Microsoft Store （应用商城）中搜索 Windows Terminal 即可一键安装，此处省。 安装Ubuntu有多种方式可以安装 Ubuntu。最简单的方式，就是和上一步一样，在 Microsoft Store （应用商城）中搜">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zxs66.github.io/images/setup-wsl-development-environment/turn-on-or-off-windows-features.jpg">
+<meta property="og:image" content="https://zxs66.github.io/images/setup-wsl-development-environment/windows-terminal.jpg">
+<meta property="article:published_time" content="2022-11-10T13:50:30.000Z">
+<meta property="article:modified_time" content="2022-11-10T15:31:16.247Z">
+<meta property="article:author" content="时代残党">
+<meta property="article:tag" content="wsl">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zxs66.github.io/images/setup-wsl-development-environment/turn-on-or-off-windows-features.jpg">
+<link rel="dns-prefetch" href="https://cdn.bootcdn.net/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<meta name="baidu-site-verification" content="1W34rVIdAO" />
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" integrity="sha256-eZrrJcwDc&#x2F;3uDhsdt61sL2oOBY362qM3lon1gyExkL0&#x3D; sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN sha512-SfTiTlX6kk+qitfevl&#x2F;7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+&#x2F;Sw&#x3D;&#x3D;">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" />
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="manifest" href="/manifest.json">
+<script type="module" src="/pwabuilder-sw-register.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?de1c4b02a9f8a51a6001797e045d3af9";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head><body>
+<div id="container">
+<div id="wrap">
+<header id="header">
+<div id="banner"></div>
+<div id="header-outer" class="outer">
+<div id="header-title" class="inner">
+<h1 id="logo-wrap">
+<a href="/" id="logo">时代残党</a>
+</h1>
+
+<h2 id="subtitle-wrap">
+<a href="/" id="subtitle">随手笔记</a>
+</h2>
+
+</div>
+<div id="header-inner" class="inner">
+<nav id="main-nav">
+<a id="main-nav-toggle" class="nav-icon"></a>
+
+<a class="main-nav-link" href="/">首页</a>
+
+<a class="main-nav-link" href="/archives">归档</a>
+
+<a class="main-nav-link" href="/app">联系我</a>
+
+</nav>
+<div id="search-form-wrap">
+<div class="search-form"><input type="search" name="wd" class="search-form-input" placeholder="Search" list="search-datalist" autocomplete="false"/></div>
+
+<input type="hidden" id="search-index-file" value="/search.json" />
+<div id="search-form-datalist"></div>
+
+</div>
+<nav id="sub-nav">
+
+<a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+</nav>
+</div>
+</div>
+</header>
+<div class="outer">
+<section id="main">
+<article id="post-setup-wsl-development-environment" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2022/11/10/setup-wsl-development-environment/" class="article-date">
+  <time datetime="2022-11-10T13:50:30.000Z" itemprop="datePublished">2022-11-10</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 class="article-title" itemprop="name">
+      配置 WSL 开发环境
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><h3 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h3><h5 id="启用虚拟化和WSL"><a href="#启用虚拟化和WSL" class="headerlink" title="启用虚拟化和WSL"></a>启用虚拟化和WSL</h5><p><img src="/images/setup-wsl-development-environment/turn-on-or-off-windows-features.jpg" alt="启用或关闭Windows功能"></p>
+<p>完成之后需要重启。</p>
+<h5 id="启用WSL"><a href="#启用WSL" class="headerlink" title="启用WSL"></a>启用WSL</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --install</span><br></pre></td></tr></table></figure>
+<p>完成之后<em>可能</em>需要重启。</p>
+<h5 id="安装Windows-Terminal"><a href="#安装Windows-Terminal" class="headerlink" title="安装Windows Terminal"></a>安装Windows Terminal</h5><p>在 Microsoft Store （应用商城）中搜索 Windows Terminal 即可一键安装，此处省。</p>
+<h5 id="安装Ubuntu"><a href="#安装Ubuntu" class="headerlink" title="安装Ubuntu"></a>安装Ubuntu</h5><p>有多种方式可以安装 Ubuntu。最简单的方式，就是和上一步一样，在 Microsoft Store （应用商城）中搜索 Ubuntu 即可一键安装，此处省。</p>
+<h5 id="配置-apt-国内软件源镜像"><a href="#配置-apt-国内软件源镜像" class="headerlink" title="配置 apt 国内软件源镜像"></a>配置 apt 国内软件源镜像</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo cp /etc/apt/sources.list /etc/apt/sources.list.20221110.bak <span class="comment"># 备份是个好习惯</span></span><br><span class="line">sudo vim /etc/apt/sources.list <span class="comment"># 替换国内镜像源以加速，根据 Ubuntu 不同版本号，选择不同的路径</span></span><br></pre></td></tr></table></figure>
+
+<p>因为我在上海，使用的又是 Ubuntu 22.04，所以我的配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">deb https:&#x2F;&#x2F;mirror.sjtu.edu.cn&#x2F;ubuntu&#x2F; jammy main restricted universe multiverse</span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirror.sjtu.edu.cn&#x2F;ubuntu&#x2F; jammy main restricted universe multiverse</span><br><span class="line">deb https:&#x2F;&#x2F;mirror.sjtu.edu.cn&#x2F;ubuntu&#x2F; jammy-updates main restricted universe multiverse</span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirror.sjtu.edu.cn&#x2F;ubuntu&#x2F; jammy-updates main restricted universe multiverse</span><br><span class="line">deb https:&#x2F;&#x2F;mirror.sjtu.edu.cn&#x2F;ubuntu&#x2F; jammy-backports main restricted universe multiverse</span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirror.sjtu.edu.cn&#x2F;ubuntu&#x2F; jammy-backports main restricted universe multiverse</span><br><span class="line">deb https:&#x2F;&#x2F;mirror.sjtu.edu.cn&#x2F;ubuntu&#x2F; jammy-security main restricted universe multiverse</span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirror.sjtu.edu.cn&#x2F;ubuntu&#x2F; jammy-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># deb https:&#x2F;&#x2F;mirror.sjtu.edu.cn&#x2F;ubuntu&#x2F; jammy-proposed main restricted universe multiverse</span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirror.sjtu.edu.cn&#x2F;ubuntu&#x2F; jammy-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+
+<h5 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h5><p>安装完成之后，打开 Windows Terminal，选择 Ubuntu：</p>
+<p><img src="/images/setup-wsl-development-environment/windows-terminal.jpg" alt="Windows Terminal"></p>
+<p>第一次打开会提示设置用户名密码（超级用户权限）。</p>
+<h5 id="Windows-环境必要软件安装"><a href="#Windows-环境必要软件安装" class="headerlink" title="Windows 环境必要软件安装"></a>Windows 环境必要软件安装</h5><p>根据各开发者技术栈不同，需要安装的软件会有所不同。包括但不限于：<a href="https://www.docker.com/products/docker-desktop/" target="_blank" rel="noopener">Docker Desktop</a>、<a href="https://code.visualstudio.com" target="_blank" rel="noopener">Visual Studio Code</a>、<a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack" target="_blank" rel="noopener">Remote Development Extension Pack</a></p>
+<h5 id="WSL-环境必要软件安装"><a href="#WSL-环境必要软件安装" class="headerlink" title="WSL 环境必要软件安装"></a>WSL 环境必要软件安装</h5><p>根据各开发者技术栈不同，需要安装的软件会有所不同。包括但不限于：<a href="https://git-scm.com/download/linux" target="_blank" rel="noopener">git</a>、<a href="https://nodejs.org" target="_blank" rel="noopener">node.js</a>、<a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python</a></p>
+<h5 id="GitHub-加速"><a href="#GitHub-加速" class="headerlink" title="GitHub 加速"></a>GitHub 加速</h5><p>其实，现在好多办法都可以加速访问 <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>，我这里介绍一种特别原始的办法，就是修改 hosts 文件。</p>
+<ol>
+<li>以管理员权限，打开记事本</li>
+<li>记事本中打开 <code>C:\Windows\System32\drivers\etc\hosts</code> 文件</li>
+<li>添加以下 IP 映射：</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 需要定期更新如下代码</span></span><br><span class="line"><span class="comment"># New！欢迎使用基于DNS的新方案</span></span><br><span class="line"><span class="comment"># https://gitlab.com/ineo6/hosts/-/raw/master/next-hosts</span></span><br><span class="line"><span class="comment"># 地址可能会变动，请务必关注GitHub、Gitlab获取最新消息</span></span><br><span class="line"><span class="comment"># 也可以关注公众号：湖中剑，保证不迷路</span></span><br><span class="line"><span class="comment"># GitHub Host Start</span></span><br><span class="line"></span><br><span class="line">140.82.114.3                 central.github.com</span><br><span class="line">140.82.114.3                 assets-cdn.github.com</span><br><span class="line">151.101.1.6                  github.map.fastly.net</span><br><span class="line">151.101.1.6                  github.global.ssl.fastly.net</span><br><span class="line">140.82.114.3                 gist.github.com</span><br><span class="line">185.199.108.153              github.io</span><br><span class="line">140.82.114.3                 github.com</span><br><span class="line">140.82.114.3                 api.github.com</span><br><span class="line">140.82.114.3                 codeload.github.com</span><br><span class="line">72.21.206.80                 github-cloud.s3.amazonaws.com</span><br><span class="line">72.21.206.80                 github-com.s3.amazonaws.com</span><br><span class="line">72.21.206.80                 github-production-release-asset-2e65be.s3.amazonaws.com</span><br><span class="line">72.21.206.80                 github-production-user-asset-6210df.s3.amazonaws.com</span><br><span class="line">72.21.206.80                 github-production-repository-file-5c1aeb.s3.amazonaws.com</span><br><span class="line">185.199.108.153              githubstatus.com</span><br><span class="line">140.82.113.18                github.community</span><br><span class="line">140.82.114.3                 raw.github.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># Please Star : https://github.com/ineo6/hosts</span></span><br><span class="line"><span class="comment"># Mirror Repo : https://gitlab.com/ineo6/hosts</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Update at: 2022-11-10 16:20:33</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># GitHub Host End</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://learn.microsoft.com/en-us/windows/wsl/install" target="_blank" rel="noopener">Install Linux on Windows with WSL</a></li>
+<li><a href="https://mirrors.sjtug.sjtu.edu.cn/docs/ubuntu" target="_blank" rel="noopener">上海交通大学 Linux 用户组 软件源镜像服务</a></li>
+<li><a href="https://learn.microsoft.com/en-us/windows/wsl/setup/environment" target="_blank" rel="noopener">Set up a WSL development environment</a></li>
+<li><a href="https://ineo6.github.io/hosts/" target="_blank" rel="noopener">GitHub Hosts | hosts</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2022/11/10/setup-wsl-development-environment/" data-id="clab8ajtj00366o8c9szhh2t3" data-title="配置 WSL 开发环境" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wsl/" rel="tag">wsl</a></li></ul>
+
+</footer>
+</div>
+
+<nav id="article-nav">
+  
+  
+    <a href="/2022/07/14/csv-to-excel-file/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">更早</strong>
+      <div class="article-nav-title">CSV转Excel</div>
+    </a>
+  
+</nav>
+
+</article>
+
+
+</section>
+
+</div>
+<footer id="footer">
+
+<div class="outer"><div id="footer-info" class="inner">&copy; 2022 时代残党<br>
+Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></div>
+</div></footer>
+</div>
+<nav id="mobile-nav">
+
+<a href="/" class="mobile-nav-link">home</a>
+
+<a href="/archives" class="mobile-nav-link">archives</a>
+
+<a href="/app" class="mobile-nav-link">contact</a>
+
+</nav>
+<!--
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.0.3/jquery.min.js" crossorigin="anonymous" integrity="sha256-pXtSQrmprcTB74RsNlFHuJxHK5zXcPrOMx78uWU0ayU&#x3D; sha384-ECTndYny330R2jlSXBiZkdXzAVi0Z&#x2F;iDXJTwV6cp39HECmalqg6+b2sFZFf&#x2F;Y2m6 sha512-epzJ9ms+0Pq+zFMrG1lXVNvjEXgtfKx9iuEWqz3hmbaU2m&#x2F;Dp1pcmpYzuSdDLqX6PMIjzMOyGFwMc+SkgFhMFg&#x3D;&#x3D;"></script>
+
+-->
+
+<script src="/js/script.js" async></script>
+
+</div>
+<script>
+(function () {
+// append image-caption
+const images = document.querySelectorAll('article img');
+for (let j = 0; j < images.length; j++) {
+const $img = images[j];
+const altText = $img.getAttribute('alt');
+if (altText && altText.length && !$img.classList.contains('inline')) {
+const $imgCaption = document.createElement('div');
+$imgCaption.classList.add('img-caption');
+$imgCaption.innerText = $img.getAttribute('alt');
+$img.parentNode.insertBefore($imgCaption, $img.nextSibling);
+}}})();
+</script>
+</body></html>

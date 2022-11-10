@@ -90,6 +90,78 @@ s.parentNode.insertBefore(hm, s);
 <section id="main">
 
 
+<article id="post-reliable-CDN" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/07/19/reliable-CDN/" class="article-date">
+  <time datetime="2020-07-19T07:40:45.000Z" itemprop="datePublished">2020-07-19</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/19/reliable-CDN/">可靠 CDN</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>前几天，把博客的 <a href="https://fontawesome.com/" target="_blank" rel="noopener">font-awesome</a> 引用从博客站点本身切换到 CDN。图省事，就用了以前国内外通用的 <a href="https://www.cloudflare.com/zh-cn/network/china/" target="_blank" rel="noopener">cloudflare</a>，因为之前不管是在公司（外网），还是在家里（国内），访问都挺快的。然后，就出事了。。。</p>
+<p>今天在家，闲来没事，打开自己的博客，发现 font-awesome 加载不了。起初，我以为是浏览器问题，因为我用 Firefox 有时候能正常渲染 icon font，过一会儿刷新一下又不能了，但是我用 Chrome 一直都可以正常工作。</p>
+<p>去网上搜索一圈，发现 MDN 说：</p>
+<blockquote>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS" target="_blank" rel="noopener"><i class="fa fa-link" aria-hidden="true"></i></a> Web Fonts (for cross-domain font usage in @font-face within CSS), so that servers can deploy TrueType fonts that can only be cross-site loaded and used by web sites that are permitted to do so. </p>
+</blockquote>
+<blockquote>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy" target="_blank" rel="noopener"><i class="fa fa-link" aria-hidden="true"></i></a> Fonts applied with @font-face. Some browsers allow cross-origin fonts, others require same-origin. </p>
+</blockquote>
+<p>发生跨域了？废话，用 CDN 肯定要跨域啊。但这些应该都是正常操作，Chrome 都行。emmm，Firefox 你在作妖吗。MDN 说的 others，该不会说的就是它自己吧。。。</p>
+<p>查证一下 <a href="https://caniuse.com/#feat=fontface" target="_blank" rel="noopener">Can I use</a>：</p>
+<p><img src="/images/reliable-cdn/caniuse%20font%20face%20web%20fonts.jpg" alt=""></p>
+<p>只要服务器支持 CORS 浏览器就没问题！<a href="http://cssbakery.com/2010/07/fixing-firefox-font-face-cross-domain_25.html" target="_blank" rel="noopener">这篇文章</a> 遇到的问题也是这样。</p>
+<p>不会吧，CDN 不支持 CORS 那 CDN 要怎么用，cloudflare 肯定是支持 CORS 的！</p>
+<p>再回头对比一下，我发现是 Firefox 请求字体文件出错时，发送的请求，是不带 HTTP 版本号的。</p>
+<p><img src="/images/reliable-cdn/firefox%20cert%20invalid.jpg" alt="firefox 请求字体文件不带版本号"></p>
+<p>而正常请求是指定了 HTTP 版本号的：</p>
+<p><img src="/images/reliable-cdn/firefox%20working.jpg" alt="firefox 正常请求字体"></p>
+<p>但是偶然又有一次带了版本号依然无法请求资源</p>
+<p><img src="/images/reliable-cdn/firefox%20cert%20invalid%204.jpg" alt="firefox 请求字体文件不带版本号"></p>
+<p>什么鬼，你耍我？ <img src="/images/reliable-cdn/questions.png" alt="？？？"> </p>
+<p>莫非，真的是 CDN 问题？我查查…</p>
+<p>好家伙，还真有问题！<a href="https://segmentfault.com/a/1190000023290310" target="_blank" rel="noopener">Cloudflare DNS 服务中断，大量网站和服务无法访问</a> </p>
+<p>虽然文中并未提及国内是否受波及，但为什么我受影响了？我去 <a href="https://www.cloudflarestatus.com/" target="_blank" rel="noopener">官网</a> 看看。官网说了</p>
+<blockquote>
+<p>All Systems Operational</p>
+</blockquote>
+<p>所有节点均正常？你确定？然后，我发现，7月17号，也就是前天有一个 incident</p>
+<blockquote>
+<h2 id="Cloudflare-Network-and-Resolver-Issues"><a href="#Cloudflare-Network-and-Resolver-Issues" class="headerlink" title="Cloudflare Network and Resolver Issues"></a>Cloudflare Network and Resolver Issues</h2><p>Resolved - This incident has been resolved.<br>Jul 17, 22:57 UTC<br>Monitoring - A fix has been implemented and we are monitoring the results.<br>Jul 17, 22:34 UTC<br>Update - This afternoon we saw an outage across some parts of our network. It was not as a result of an attack. It appears a router on our global backbone announced bad routes and caused some portions of the network to not be available. We believe we have addressed the root cause and are monitoring systems for stability now.<br>Jul 17, 22:09 UTC</p>
+</blockquote>
+<p>嘶<del>~</del> 有点不靠谱的感觉。没人攻击您，后台路由出问题了？</p>
+<p>稍等，我之前好像看见，cloudflare 国内是和百度云合作的？嘶<del>~</del> （不吹不黑，只是个人不喜欢太商业化的东西）</p>
+<p>拜拜咯，cloudflare！下载一个 js 和 css 文件都这么慢，还不如直接使用自己站点资源 🤦‍</p>
+<p><img src="/images/reliable-cdn/firefox%20cert%20invalid%202.jpg" alt="firefox 请求 css 文件"><br><img src="/images/reliable-cdn/firefox%20cert%20invalid%203.jpg" alt="firefox 请求 js 文件"></p>
+<p>既然不用 cloudflare，那换谁呢？简单搜索了一下，目前看起来，bootcdn 还不错，行，安排！！</p>
+<p>刷刷刷，搞定！</p>
+<p>firefox 打开，正常！</p>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/07/19/reliable-CDN/" data-id="clab8ajth002w6o8chghtguuw" data-title="可靠 CDN" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/baidu/" rel="tag">baidu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cdn/" rel="tag">cdn</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cloudflare/" rel="tag">cloudflare</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/firefox/" rel="tag">firefox</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iconfont/" rel="tag">iconfont</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
 <article id="post-get-started-with-Flutter" class="article article-type-post" itemscope itemprop="blogPost">
 <div class="article-meta">
 <a href="/2020/07/18/get-started-with-Flutter/" class="article-date">
@@ -162,7 +234,7 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2020/07/18/get-started-with-Flutter/" data-id="cla8bpvmk001v9j8c7cavfcyc" data-title="Flutter 入门" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2020/07/18/get-started-with-Flutter/" data-id="clab8ajt9001s6o8c65m9euu9" data-title="Flutter 入门" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flutter/" rel="tag">flutter</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/get-started/" rel="tag">get started</a></li></ul>
@@ -224,56 +296,10 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2020/07/15/share-to-WeChat-QQ-and-weibo/" data-id="cla8bpvmw00379j8c8i080cw5" data-title="微信、微博、QQ一键分享" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2020/07/15/share-to-WeChat-QQ-and-weibo/" data-id="clab8ajtk00386o8ccliec1id" data-title="微信、微博、QQ一键分享" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript/" rel="tag">javaScript</a></li></ul>
-
-</footer>
-</div>
-
-</article>
-
-
-
-<article id="post-Windows-Saved-WiFi-password" class="article article-type-post" itemscope itemprop="blogPost">
-<div class="article-meta">
-<a href="/2020/07/15/Windows-Saved-WiFi-password/" class="article-date">
-  <time datetime="2020-07-15T07:05:03.000Z" itemprop="datePublished">2020-07-15</time>
-</a>
-
-</div>
-<div class="article-inner">
-
-
-<header class="article-header">
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/15/Windows-Saved-WiFi-password/">Windows 显示已保存 WiFi 密码</a>
-    </h1>
-  
-</header>
-
-<div class="article-entry" itemprop="articleBody">
-<p>有的时候，需要查看 Windows 下已保存的 WiFi 密码。比如好基友问：你要你家 WiFi 密码多少，连上去一起打局 Dota 玩玩。额，我看看。。。</p>
-<p>只知道，在网络配置里可以找得到，但是具体在哪里，emmm，别问，问就是不知道。Windows 7 之后，Windows 的设置经常改来改去，传统的设置界面和新款的设置界面经常纠缠不清。</p>
-<p>一般情况，快速的解决办法就是去度娘一下。  <a href="https://www.baidu.com/s?wd=Windows%2010%E6%9F%A5%E7%9C%8Bwifi%E5%AF%86%E7%A0%81" target="_blank" rel="noopener">出门左转</a></p>
-<p>下面的方案，则是使用命令行，简单粗暴又高效。</p>
-<h2 id="步骤一-显示所有已保存配置"><a href="#步骤一-显示所有已保存配置" class="headerlink" title="步骤一: 显示所有已保存配置"></a>步骤一: 显示所有已保存配置</h2><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh wlan show profiles</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/windows-saved-wifi-password/Windows%20saved%20wifi_1.png" alt=""></p>
-<h2 id="步骤二-显示指定配置的详情"><a href="#步骤二-显示指定配置的详情" class="headerlink" title="步骤二: 显示指定配置的详情"></a>步骤二: 显示指定配置的详情</h2><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh wlan show profile name="your-profile-name" key=clear</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/windows-saved-wifi-password/Windows%20saved%20wifi_2.png" alt=""></p>
-<p>找到图片中 Key Content 就是了！</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://www.howtogeek.com/426257/how-to-see-all-your-pcs-saved-wi-fi-passwords/" target="_blank" rel="noopener">How to See All Your Saved Wi-Fi Passwords on Windows 10</a></p>
-
-</div>
-<footer class="article-footer">
-<a data-url="https://zxs66.github.io/2020/07/15/Windows-Saved-WiFi-password/" data-id="cla8bpvme001b9j8c859l8b4u" data-title="Windows 显示已保存 WiFi 密码" class="article-share-link">分享</a>
-
-
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/command/" rel="tag">command</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/password/" rel="tag">password</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wifi/" rel="tag">wifi</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/" rel="tag">windows</a></li></ul>
 
 </footer>
 </div>

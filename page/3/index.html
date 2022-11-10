@@ -90,6 +90,60 @@ s.parentNode.insertBefore(hm, s);
 <section id="main">
 
 
+<article id="post-mysql-charset-issue" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2022/04/07/mysql-charset-issue/" class="article-date">
+  <time datetime="2022-04-07T01:26:56.000Z" itemprop="datePublished">2022-04-07</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/04/07/mysql-charset-issue/">MySQL 编码问题</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p><code>MySQL</code> 到底支持不支持 <code>Emoji</code>？</p>
+<p>可能有些人说支持，有些人说不支持。并且双方都能给出自己的亲身实践经验。😄😄</p>
+<p>简单来说：支持，但是需要注意几个点：</p>
+<ol>
+<li>数据库编码设置为 <code>utf8mb4</code>；</li>
+<li>数据库连接编码设置为 <code>utf8</code>；</li>
+<li>编程语言（<code>Python</code>、<code>SQL</code> 等）代码保存格式为 <code>utf8</code>。</li>
+</ol>
+<p>第一点简单，网上教设置（吐槽）的文章很多，就不赘述了。</p>
+<p>第二点，就是说从程序连接到 <code>MySQL</code> 时，需要显示的指明编码，比如 <code>C#</code> 的连接字符串：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"MySQLConnection"</span> <span class="attr">connectionString</span>=<span class="string">"server=xxxx;database=yyyy;uid=zzzz;pwd=your_password;charset=utf8"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>再比如 <code>Python</code> 的连接字符串（默认是 <a href="https://dev.mysql.com/doc/connector-python/en/connector-python-connectargs.html" target="_blank" rel="noopener"><code>utf8mb4</code></a>）：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlconn.connect(user=user,password=password,database=database,charset=<span class="string">'utf8'</span>,connection_timeout=timeout)</span><br></pre></td></tr></table></figure>
+
+<p>至于第三点，一般情况下，都不是问题，因为现代编程语言，基本默认都是存成 <code>utf8</code> 了。但是，当你卡壳了，记住，这一点也很重要！举个🌰：</p>
+<p>在 MySQL Workbench 查询窗口中，我是用 <code>ASCII</code> 字符拼接，是可以正常返回的：<br><img src="/images/mysql-character-set-issue/working-concat-sql.JPG" alt="sql query with normal characters concat statement"><br>但当我尝试使用 <code>Emoji</code> 字符拼接时，它就不行了：<br><img src="/images/mysql-character-set-issue/not-working-concat-sql.png" alt="sql query with emoji characters concat statement"></p>
+<p>但是，其实你把同样的拼接语句，放在 <code>Python</code> 或者 <code>C#</code> 代码里直接运行，都是可以按照预期返回结果的（前提：正确配置连接编码）。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://docs.python.org/3/howto/unicode.html" target="_blank" rel="noopener">Unicode HOWTO - Python</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2022/04/07/mysql-charset-issue/" data-id="clab8ajtd002d6o8cd00y7rxe" data-title="MySQL 编码问题" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/charset/" rel="tag">charset</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/encoding/" rel="tag">encoding</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/utf8/" rel="tag">utf8</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/utf8mb4/" rel="tag">utf8mb4</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
 <article id="post-MySQL-quirks" class="article article-type-post" itemscope itemprop="blogPost">
 <div class="article-meta">
 <a href="/2022/03/31/MySQL-quirks/" class="article-date">
@@ -135,7 +189,7 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2022/03/31/MySQL-quirks/" data-id="cla8bpvma00109j8c7eoydo6f" data-title="MySQL怪癖" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2022/03/31/MySQL-quirks/" data-id="clab8ajsy000z6o8c9mtc2f4f" data-title="MySQL怪癖" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/if-statement/" rel="tag">if statement</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sleep/" rel="tag">sleep</a></li></ul>
@@ -197,143 +251,10 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2022/03/04/display-non-ASCII-characters-in-Windows-command-and-PowerShell/" data-id="cla8bpvmj001o9j8c3uiw0dem" data-title="在 Windows 命令行和 PowerShell 中显示非 ASCII 字符" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2022/03/04/display-non-ASCII-characters-in-Windows-command-and-PowerShell/" data-id="clab8ajt7001o6o8c1xnx23ao" data-title="在 Windows 命令行和 PowerShell 中显示非 ASCII 字符" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ASCII/" rel="tag">ASCII</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BOM/" rel="tag">BOM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UTF8/" rel="tag">UTF8</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/encoding/" rel="tag">encoding</a></li></ul>
-
-</footer>
-</div>
-
-</article>
-
-
-
-<article id="post-MySQL-case-sensitivity-issue" class="article article-type-post" itemscope itemprop="blogPost">
-<div class="article-meta">
-<a href="/2022/02/10/MySQL-case-sensitivity-issue/" class="article-date">
-  <time datetime="2022-02-10T14:25:28.000Z" itemprop="datePublished">2022-02-10</time>
-</a>
-
-</div>
-<div class="article-inner">
-
-
-<header class="article-header">
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/02/10/MySQL-case-sensitivity-issue/">MySQL 大小写问题</a>
-    </h1>
-  
-</header>
-
-<div class="article-entry" itemprop="articleBody">
-<p>先说结论，一个对于像我这样的 <code>MySQL</code> 小菜狗们来说可能不清楚的知识点：同样的 <code>SQL</code> 脚本，如果不注意大小规范，在某些系统上可以正常运行，而扔到另一个系统上可能就会报错。</p>
-<p>举个🌰：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> col_name <span class="keyword">FROM</span> tbl_name <span class="keyword">AS</span> a <span class="keyword">WHERE</span> a.col_name = <span class="number">1</span> <span class="keyword">OR</span> A.col_name = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
-
-<p>默认情况下，在 <code>Unix</code> 系统中表别名区分大小写，而 <code>Windows</code> 或者 <code>macOS</code> 中不。👆 上述语句在 <code>Unix</code> 系统中会报错，因为它同时引用到 <code>a</code> 和 <code>A</code>。</p>
-<p>在 <code>MySQL</code> 中，存储在磁盘上的表格和数据库的名字由系统变量 <a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_lower_case_table_names" target="_blank" rel="noopener">lower_case_table_names</a> 决定。该变量不影响触发器(trigger)标识符的大小写敏感性。在 <code>Unix</code> 系统，默认值是 <code>0</code>，在 <code>Windows</code> 系统，默认值是 <code>1</code>，而在 <code>macOS</code> 系统，默认值是 <code>2</code>。</p>
-<table>
-<thead>
-<tr>
-<th>值</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>0</td>
-<td>存储在磁盘中的表格和数据的名字使用的是 <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener">CREATE TABLE</a> 或者 <a href="https://dev.mysql.com/doc/refman/8.0/en/create-database.html" target="_blank" rel="noopener">CREATE DATABASE</a> 语句中的字母大小写。名称比较区分大小写。如果你要在一个文件名大小写不敏感的系统上运行 <code>MySQL</code><strong>不</strong>应该设置此变量为 <code>0</code>。如果你在一个文件名大小写不敏感的系统上使用 <a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_lower_case_table_names" target="_blank" rel="noopener">–lower-case-table-names=0</a> 强制设置该变量为 <code>0</code>，并且使用不同的大小写字母访问 <code>MyISAM</code> 表名，那么可能导致索引损坏。</td>
-</tr>
-<tr>
-<td>1</td>
-<td>存储在磁盘中的表格和数据的名字都是小写，并且名称比较不区分大小写。<code>MySQL</code> 在存储和查找时把所有表名转换成小写。该行为也适用于数据库名字和表别名。</td>
-</tr>
-<tr>
-<td>2</td>
-<td>存储在磁盘中的表格和数据的名字使用的是 <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener">CREATE TABLE</a> 或者 <a href="https://dev.mysql.com/doc/refman/8.0/en/create-database.html" target="_blank" rel="noopener">CREATE DATABASE</a> 语句中的字母大小写，但是 <code>MySQL</code> 在查找时会把它们转换成小写。名称比较不区分大小写。这仅仅在大小写不敏感的系统上可行！<code>InnoDB</code> 表名和视图名存储的是小写，类似于 <code>lower_case_table_names=1</code>。</td>
-</tr>
-</tbody></table>
-<p>如果你使用的 <code>MySQL</code> 服务器和客户端都是一个系统，那么使用默认值完全没问题。然而，如果你在文件系统大小写敏感性不一样的系统间传输表格和数据，你可能会遇到问题。</p>
-<p>比如，我有一个 <code>MySQL</code> 源数据库，部署在 <code>Linux</code> 服务器上，其配置如下（执行脚本：<code>SHOW VARIABLES like &#39;lower%&#39;;</code>）：</p>
-<table>
-<thead>
-<tr>
-<th>Variable_name</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>lower_case_file_system</td>
-<td>OFF</td>
-</tr>
-<tr>
-<td>lower_case_table_names</td>
-<td>0</td>
-</tr>
-</tbody></table>
-<p>这意味着，其对应的数据库名和表明存储和查找时是区分大小写的！碰巧，我在上面有一个<strong>名称大写</strong>的数据库。</p>
-<p>现在，我有另一台 <code>MySQL</code> 目标数据库，部署在 <code>Windows</code> 服务器上：</p>
-<table>
-<thead>
-<tr>
-<th>Variable_name</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>lower_case_file_system</td>
-<td>ON</td>
-</tr>
-<tr>
-<td>lower_case_table_names</td>
-<td>1</td>
-</tr>
-</tbody></table>
-<p>意味着存储时都是小写，查找时不区分大小写。</p>
-<p>当我像往常一样，创建一张 <code>FEDERATED</code> 表格时，居然报错了，提示 <code>The foreign data source you are trying to reference does not exist</code>。</p>
-<p>针对这个问题，<code>MySQL</code> 官方推荐了两个方法：</p>
-<ul>
-<li>在所有系统中设置 <code>lower_case_table_names=1</code>。这样做最大的不足是，当你使用 <a href="https://dev.mysql.com/doc/refman/8.0/en/show-tables.html" target="_blank" rel="noopener">SHOW TABLES</a> 或者 <a href="https://dev.mysql.com/doc/refman/8.0/en/show-databases.html" target="_blank" rel="noopener">SHOW DATABASES</a> ，你将不能看到这些名字原始的大小写。</li>
-<li>在 <code>Unix</code> 系统中设置 <code>lower_case_table_names=0</code>，在 <code>Windows</code> 中设置 <code>lower_case_table_names=2</code>。这样做将保留数据库和表名的字母大小写。缺点是你必须确保你的语句在 <code>Windows</code> 上始终以正确的字母大小写引用数据库和表名。如果你将你的 <code>sql</code> 语句迁移到 <code>Unix</code>(大小写很重要)，未正确拼写字母大小写将导致报错。</li>
-</ul>
-<p><strong>例外：</strong>如果你使用 <code>InnoDB</code> 表格并且想要避免数据传输问题，你应当在所有平台使用 <code>lower_case_table_names=1</code> 来强制转换名字成小写。</p>
-<p>emmm，第一个推荐方法，我不能更改 <code>Linux</code> 上的 <code>MySQL</code> 啊，人家那是产品环境；第二个推荐办法，更改部署在 <code>Windows</code> 上的 <code>MySQL</code> 目标数据库配置？听起来似乎可行？且慢：</p>
-<blockquote>
-<p><code>lower_case_table_names</code> 仅能在初始化服务器的时候设置。在服务器初始化之后更改 <code>lower_case_table_names</code> 设置是被禁止的。<a href="https://dev.mysql.com/doc/refman/8.0/en/identifier-case-sensitivity.html" target="_blank" rel="noopener"><fa-link/></a></p>
-</blockquote>
-<blockquote>
-<p>禁止在服务器初始化之后，使用不同的 <code>lower_case_table_names</code> 设置来启动服务器。该限制十分必要，因为各种数据字典表字段使用的排序规则是由初始化服务器时的设置决定，使用不同的设置重新启动服务器会在标识符的排序和比较方式方面引入不一致。 <a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_lower_case_table_names" target="_blank" rel="noopener"><fa-link/></a></p>
-</blockquote>
-<p>以下是初始化服务器时的设置：</p>
-<p><img src="/images/mysql-case/show-advanced-and-logging-options.png" alt="show advanced and logging options"></p>
-<p><img src="/images/mysql-case/preserve-given-case.png" alt="preserve given case"></p>
-<p>什么鬼，推荐了两个不能用的办法???</p>
-<p>那还有没有其他办法？我先去倒杯咖啡，冷静一下！<i class="fa fa-coffee" aria-hidden="true"></i></p>
-<p><i class="fa fa-lightbulb-o" aria-hidden="true"></i> 有了！既然服务器配置无法更改，那我试试改数据库配置？我记得，<code>MySQL</code> 数据库中有一个编码问题（<code>utf8</code>、<code>latin</code> 等等），还有一个 <code>collation</code> 问题。</p>
-<p>OK，先调研，再备份，再动手。</p>
-<p>根据这篇文档，</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> <span class="string">`your_database`</span> <span class="keyword">DEFAULT</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_0900_as_cs;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">SERVER</span> s</span><br><span class="line"><span class="keyword">FOREIGN</span> <span class="keyword">DATA</span> WRAPPER mysql</span><br><span class="line">OPTIONS (<span class="keyword">USER</span> <span class="string">'Remote'</span>,<span class="keyword">PASSWORD</span> <span class="string">''</span>, HOST <span class="string">'XXX.XXX.XXX.XXX'</span>, <span class="keyword">DATABASE</span> <span class="string">'test'</span>);</span><br></pre></td></tr></table></figure>
-
-<p>不行，没有预期结果。</p>
-<p>这个好像是和表里的<strong>数据</strong>编码有关系，而不是<strong>数据库/表</strong>名称的编码。</p>
-<p>所以，结论就是，到此为止了？？？</p>
-<p>有一个办法，虽然肯定不是最佳实践，但应该能解决问题（我没试过 😂）：用一个能够区分数据库/表名称大小写的 <code>MySQL</code> 实例中转，然后在这个实例中名称能小写的都小写。然后再对这个中转实例创建 <code>FEDERATED</code> 表格。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/identifier-case-sensitivity.html" target="_blank" rel="noopener">MySQL::Identifier Case Sensitivity</a></li>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_lower_case_table_names" target="_blank" rel="noopener">MySQL::Server System Variables</a></li>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/charset-mysql.html" target="_blank" rel="noopener">MySQL::Character Sets and Collations in MySQL</a></li>
-<li><a href="https://stackoverflow.com/questions/3242504/how-can-i-transfer-data-between-2-mysql-databases" target="_blank" rel="noopener"><i class="fa fa-stackoverflow" aria-hidden="true"></i> How can I transfer data between 2 MySQL databases?</a></li>
-</ul>
-
-</div>
-<footer class="article-footer">
-<a data-url="https://zxs66.github.io/2022/02/10/MySQL-case-sensitivity-issue/" data-id="cla8bpvmb00149j8c2ux503fc" data-title="MySQL 大小写问题" class="article-share-link">分享</a>
-
-
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/case-sensitivity/" rel="tag">case sensitivity</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
 
 </footer>
 </div>

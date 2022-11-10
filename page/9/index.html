@@ -90,6 +90,76 @@ s.parentNode.insertBefore(hm, s);
 <section id="main">
 
 
+<article id="post-JavaScript-Promise-error-handling" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/06/19/JavaScript-Promise-error-handling/" class="article-date">
+  <time datetime="2021-06-19T09:34:03.000Z" itemprop="datePublished">2021-06-19</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/06/19/JavaScript-Promise-error-handling/">JavaScript Promise 异常捕获</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" rel="noopener">Promise</a> 在前端编程中，越来越频繁地被使用了。作为 <code>ES6</code> 的核心功能之一，<code>Promise</code> 现在 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise#browser_compatibility" target="_blank" rel="noopener">基本上没有兼容性问题</a>（除了 <a href="https://caniuse.com/mdn-javascript_builtins_promise_finally" target="_blank" rel="noopener">Promise.prototype.finally</a>、<a href="https://caniuse.com/mdn-javascript_builtins_promise_allsettled" target="_blank" rel="noopener">Promise.allSettled</a>、<a href="https://caniuse.com/mdn-javascript_builtins_promise_any" target="_blank" rel="noopener">Promise.any</a> 这些比较新的 API）。而且，现在 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function" target="_blank" rel="noopener">async functions</a> 写法越来越普遍，<code>Promise</code> 作为其背后的基础功能，自然需要各位前端更好地掌握了。</p>
+<p>这里推荐 <a href="http://www.ruanyifeng.com/home.html" target="_blank" rel="noopener">阮一峰老师</a> 的 <a href="https://es6.ruanyifeng.com/#docs/promise" target="_blank" rel="noopener">ES6 入门</a>，简洁明了，还举例说明，同时满足新手和专家不同的学习需求！👍👍👍</p>
+<p>好了，进入主题：<strong>如何捕获 JS 中 <code>Promise</code> 的异常？</strong></p>
+<p>一般 JS 中异常捕获都是使用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch" target="_blank" rel="noopener">try…catch</a> 语句，而 <code>Promise</code> 中如果出现异常，一般都是 <code>reject()</code>，然后在 <code>Promise</code> 链的末尾 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch" target="_blank" rel="noopener">Promise.prototype.catch</a> 里处理异常。</p>
+<p><img src="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/promises.png" alt="Promise Chain"></p>
+<p>但 <code>Promise</code> 也可以使用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/finally" target="_blank" rel="noopener">Promise.prototype.finally</a> 或者使用 JS 原生的 <code>try...catch</code> 语句达到抛出异常的目的。</p>
+<h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><p>根据 <a href="https://developer.mozilla.org" target="_blank" rel="noopener">MDN</a> 的文章 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises#common_mistakes" target="_blank" rel="noopener"><fa-link/></a> 推荐，一般 <code>Promise</code> 链的最佳实践满足以下三个条件：</p>
+<ol>
+<li>内链返回新的 <code>Promise</code>；</li>
+<li>避免不必要的嵌套；</li>
+<li>使用 <code>catch</code> 中止 <code>Promise</code> 链。</li>
+</ol>
+<p>反例 🙁：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Bad example! Spot 3 mistakes!</span></span><br><span class="line">doSomething().then(<span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123;</span><br><span class="line">  doSomethingElse(result) <span class="comment">// Forgot to return promise from inner chain + unnecessary nesting</span></span><br><span class="line">  .then(<span class="function"><span class="params">newResult</span> =&gt;</span> doThirdThing(newResult));</span><br><span class="line">&#125;).then(<span class="function"><span class="params">()</span> =&gt;</span> doFourthThing());</span><br><span class="line"><span class="comment">// Forgot to terminate chain with a catch!</span></span><br></pre></td></tr></table></figure>
+
+<p>正确姿势 🙂：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">doSomething()</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> doSomethingElse(result);</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="params">newResult</span> =&gt;</span> doThirdThing(newResult))</span><br><span class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> doFourthThing())</span><br><span class="line">.catch(<span class="function"><span class="params">error</span> =&gt;</span> <span class="built_in">console</span>.error(error));</span><br></pre></td></tr></table></figure>
+
+<p>总结：</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch" target="_blank" rel="noopener">Promise.prototype.catch</a> 可以捕获 <code>Promise</code> 中所有的异常，包括 <code>reject</code> 掉的、或者抛出的异常；以下两种写法其实是等效的：<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Whoops!"</span>);</span><br><span class="line">&#125;).catch(alert); <span class="comment">// Error: Whoops!</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Whoops!"</span>));</span><br><span class="line">&#125;).catch(alert); <span class="comment">// Error: Whoops!</span></span><br></pre></td></tr></table></figure></li>
+<li>当我们明确知道哪里会出现异常，知道如何处理异常，请时刻牢记使用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch" target="_blank" rel="noopener">Promise.prototype.catch</a> 来捕获/分析/记录异常；如果我们不知道捕获到的异常种类（比如编程错别字导致的），那就重新抛出异常；</li>
+<li>当然，如果发生了无法预料到的异常，那我们也可以不使用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch" target="_blank" rel="noopener">Promise.prototype.catch</a></li>
+<li>任何情况下，我们都应该监听 <code>unhandledrejection</code> 事件，跟踪未捕获的异常并通知给用户（也可能是我们的服务器），这样的话我们的应用才不会“死”。</li>
+</ul>
+<h3 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h3><ol>
+<li><code>reject</code> 只能用在 <code>Promise</code> 回调函数里，而抛出 (<code>throw</code>) 异常则可以使用在任何 <code>try...catch</code> 语句或者 <code>Promise</code> 中；</li>
+<li><code>reject</code> 异常之后，方法内的函数会继续执行，而抛出 (<code>throw</code>) 异常则会立刻终止执行；</li>
+<li><code>reject</code> 可以用在 <code>Promise</code> 的同步/异步回调函数里，而抛出 (<code>throw</code>) 异常只能用在同步回调函数里。</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://javascript.info/promise-error-handling" target="_blank" rel="noopener">Error handling with promises</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises" target="_blank" rel="noopener">Using Promises</a></li>
+<li><a href="https://www.geeksforgeeks.org/reject-vs-throw-promises-in-javascript" target="_blank" rel="noopener">Reject Vs Throw Promises in JavaScript</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/06/19/JavaScript-Promise-error-handling/" data-id="clab8ajsv000v6o8c9fc9bzid" data-title="JavaScript Promise 异常捕获" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/promise/" rel="tag">promise</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/throw/" rel="tag">throw</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/try-catch/" rel="tag">try...catch</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
 <article id="post-JavaScript-window-print-not-working" class="article article-type-post" itemscope itemprop="blogPost">
 <div class="article-meta">
 <a href="/2021/06/09/JavaScript-window-print-not-working/" class="article-date">
@@ -120,7 +190,7 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2021/06/09/JavaScript-window-print-not-working/" data-id="cla8bpvm7000r9j8c44tt0pv8" data-title="JavaScript window.print 不能正常调用" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2021/06/09/JavaScript-window-print-not-working/" data-id="clab8ajsu000r6o8c11xxai4p" data-title="JavaScript window.print 不能正常调用" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/window-print/" rel="tag">window.print</a></li></ul>
@@ -218,53 +288,10 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2021/06/06/migrate-data-from-MySQL-to-SQL-Server/" data-id="cla8bpvmp002f9j8c4o6vb6bf" data-title="从 MySQL 迁移数据至 SQL Server" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2021/06/06/migrate-data-from-MySQL-to-SQL-Server/" data-id="clab8ajtd002a6o8c89afax3s" data-title="从 MySQL 迁移数据至 SQL Server" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/etl/" rel="tag">etl</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/microsoft-sql-server-migration-assistant-for-mysql/" rel="tag">microsoft sql server migration assistant for mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/migration/" rel="tag">migration</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql-server/" rel="tag">sql server</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql-server-integration-service/" rel="tag">sql server integration service</a></li></ul>
-
-</footer>
-</div>
-
-</article>
-
-
-
-<article id="post-message-digest-in-database" class="article article-type-post" itemscope itemprop="blogPost">
-<div class="article-meta">
-<a href="/2021/05/23/message-digest-in-database/" class="article-date">
-  <time datetime="2021-05-23T08:17:58.000Z" itemprop="datePublished">2021-05-23</time>
-</a>
-
-</div>
-<div class="article-inner">
-
-
-<header class="article-header">
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/23/message-digest-in-database/">数据库信息摘要</a>
-    </h1>
-  
-</header>
-
-<div class="article-entry" itemprop="articleBody">
-<p>数据库中，经常遇见需要去重的场景。可能是整行记录（除了 ID）去重，也可能是整行记录的部分字段去重（仅看核心字段）。一般都是采用 SELECT DISTINCT 或者 GROUP BY 方式拿到唯一值，但是这个方法有一个缺陷，SELECT DISTINCT 或者 GROUP BY 多个字段的时候，每次都要书写把所有参与去重逻辑的字段写全了，稍微更改字段或调整次序都需要在所有 SELECT DISTINCT 或者 GROUP BY 的地方同步代码，既繁琐又易出错。下面介绍一下我在项目中使用到的办法（其实很简单，在插入数据库记录时，每次都是先计算好这一条记录的<a href="https://baike.baidu.com/item/%E6%95%B0%E5%AD%97%E6%91%98%E8%A6%81/4069118?fromtitle=%E6%B6%88%E6%81%AF%E6%91%98%E8%A6%81&fromid=4547744&fr=aladdin" target="_blank" rel="noopener">信息摘要</a>并存成额外的字段如checksum，查询的时候只需要看这一个字段就行）：</p>
-<h3 id="MySQL-解决办法"><a href="#MySQL-解决办法" class="headerlink" title="MySQL 解决办法"></a>MySQL 解决办法</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> tableA <span class="keyword">SET</span> <span class="keyword">checksum</span>=<span class="keyword">MD5</span>(<span class="keyword">CONCAT_WS</span>(</span><br><span class="line">  col1</span><br><span class="line">  ,col2</span><br><span class="line">  ,col3</span><br><span class="line">  <span class="comment">-- more columns here</span></span><br><span class="line">  ))</span><br><span class="line"><span class="comment">-- WHERE col1=1;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="SQL-Server-解决办法"><a href="#SQL-Server-解决办法" class="headerlink" title="SQL Server 解决办法"></a>SQL Server 解决办法</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> tableA <span class="keyword">SET</span> <span class="keyword">checksum</span>=<span class="keyword">CONVERT</span>(<span class="built_in">VARCHAR</span>(<span class="number">256</span>),HashBytes(<span class="string">'SHA2_256'</span>, <span class="keyword">CONCAT</span>(</span><br><span class="line">  col1</span><br><span class="line">  ,col2</span><br><span class="line">  ,col3</span><br><span class="line">  <span class="comment">-- more columns here</span></span><br><span class="line">  )),<span class="number">2</span>)</span><br><span class="line"><span class="comment">-- WHERE col1=1;</span></span><br></pre></td></tr></table></figure>
-
-<p>备注：此种方法有一个限制，参与计算信息摘要的所有字段不能超过一定长度限制。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://docs.microsoft.com/en-us/sql/t-sql/functions/hashbytes-transact-sql?view=sql-server-ver15" target="_blank" rel="noopener">HASHBYTES (Transact-SQL)</a></li>
-</ul>
-
-</div>
-<footer class="article-footer">
-<a data-url="https://zxs66.github.io/2021/05/23/message-digest-in-database/" data-id="cla8bpvmo00299j8cdyda9s3k" data-title="数据库信息摘要" class="article-share-link">分享</a>
-
-
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/md5/" rel="tag">md5</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/message-digest/" rel="tag">message digest</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sha256/" rel="tag">sha256</a></li></ul>
 
 </footer>
 </div>
