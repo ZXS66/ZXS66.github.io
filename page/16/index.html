@@ -90,6 +90,66 @@ s.parentNode.insertBefore(hm, s);
 <section id="main">
 
 
+<article id="post-CSharp-dynamic-type" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/11/17/CSharp-dynamic-type/" class="article-date">
+  <time datetime="2020-11-17T07:08:11.000Z" itemprop="datePublished">2020-11-17</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/17/CSharp-dynamic-type/">C# 动态类型</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>以前大家常说，虽说 <code>C#</code> 是强类型的静态编程语言，数据类型都在编译的时候已经确定了，不支持运行时更改数据类型（像 <code>JS</code> 或者 <code>Python</code> 那样）。但是在某些特定场景，开发者就是希望 <code>C#</code> 支持动态类型，怎么办。比如以下场景：</p>
+<ol>
+<li>数据由数据库中的 <code>JSON</code> 字符串反序列化得出，但反序列化后数据的属性不定；</li>
+<li>某个方法的某个参数，它可以是类型A，也可以是类型B（类似于 <code>C++</code> 或者 <code>TypeScript</code> 中的 <a href="https://en.cppreference.com/w/cpp/language/union" target="_blank" rel="noopener">Union</a> 类型），但是我不想因为这个简单的场景，去定义一个父类或者接口。</li>
+</ol>
+<p>针对于此，自 <code>C# 4.0</code> (<code>.Net 4.5</code>) 开始即推出了 <code>dynamic</code> 类型。<code>dynamic</code> 类型的变量，在编译的时候不会类型检查，所以运行时可以更改数据类型（就像 <code>JS</code> 或者 <code>Python</code> 那样）。大部分场景，<code>dynamic</code> 类型变量，就像 <code>object</code> 类型变量一样，可以使用 <code>ToString()</code> 等方法，并且可以使用 <code>GetType</code> 方法获取运行时当前变量的实际数据类型。</p>
+<p>即便有如此便利的工具，我个人还是不建议大家频繁使用这个关键字。就像 <code>TypeScript</code> 不推荐大家使用 <code>any</code> 关键字一样。能够解决问题，但不是最佳实践。</p>
+<h2 id="与-object-类型的区别"><a href="#与-object-类型的区别" class="headerlink" title="与 object 类型的区别"></a>与 object 类型的区别</h2><p><code>C#</code> 中所有类型都直接或间接继承于 <code>Object</code> 类型，原始数据类型（<code>int</code>、<code>float</code> 等等）也不例外！我们可以把任意类型定义为 <code>object</code> 类型，比如 <code>object i = 666;</code>。这里面涉及装箱和拆箱的问题，此处就不展开了。但是使用 <code>dynamic</code> 就不涉及装拆箱操作，看起来更丝滑，更像是一个动态类型编程语言了。</p>
+<h2 id="与-var-声明的变量区别"><a href="#与-var-声明的变量区别" class="headerlink" title="与 var 声明的变量区别"></a>与 var 声明的变量区别</h2><p>与大多数现代编程语言一样，<code>C#</code> 支持使用 <code>var</code> 声明变量，自带类型推断。表面上看，<code>var</code> 也是可以声明任意类型的变量，但是 <code>dynamic</code> 类型和 <code>var</code> 的变量完全不一样。</p>
+<h5 id="动态类型和静态类型"><a href="#动态类型和静态类型" class="headerlink" title="动态类型和静态类型"></a>动态类型和静态类型</h5><p><code>var</code> 关键字虽然可以存储任意类型的变量，但是其类型一旦确定（在<strong>编译</strong>的时候，<strong>推断</strong>得出）<strong>不可变更</strong>。<code>dynamic</code> 的类型则是<strong>运行时</strong>由编译器得出。声明为类型1之后仍可重新赋值为类型2，<strong>可变更</strong>。</p>
+<h5 id="var-需要初始化，dynamic-不用"><a href="#var-需要初始化，dynamic-不用" class="headerlink" title="var 需要初始化，dynamic 不用"></a><code>var</code> 需要初始化，<del><code>dynamic</code> 不用</del></h5><p>保持一个简单的想法在脑子里，<code>C#</code> 的 <code>var</code> 只是一个语法糖，我们可以在写代码时候偷懒，不必书写完整的类型名称，编译器会在编译的时候替我们自动补全，但是毕竟 <code>C#</code> 是一门强类型的编程语言，数据类型在编译的时候必须指定。所以，类似于 <code>JS</code> 或者 <code>Python</code> 中 <code>var temp;</code> 或者 <code>var temp = null;</code> 这样书写风格的语句，是会报错的。</p>
+<p><del><code>dynamic temp;</code> 这样的书写风格倒是没毛病，但是个人不建议。</del></p>
+<h5 id="dynamic-类型变量可以作为函数参数或者函数返回值，var-不可以"><a href="#dynamic-类型变量可以作为函数参数或者函数返回值，var-不可以" class="headerlink" title="dynamic 类型变量可以作为函数参数或者函数返回值，var 不可以"></a><code>dynamic</code> 类型变量可以作为函数参数或者函数返回值，<code>var</code> 不可以</h5><p>原因和上面一点一样。<code>var</code> 仅仅是语法糖，实际上是有数据类型的，由编译器编译时推断得出。如果 <code>var</code> 作为函数的参数/返回值类型，他从何推断？？一切少了右半部分赋值操作的 <code>var</code> 使用方法都是错误的。</p>
+<p>使用 <code>dynamic</code> 就没有这些烦恼。</p>
+<h5 id="var-只能在方法体内使用，不能用作类实例的属性。"><a href="#var-只能在方法体内使用，不能用作类实例的属性。" class="headerlink" title="var 只能在方法体内使用，不能用作类实例的属性。"></a><code>var</code> 只能在方法体内使用，不能用作类实例的属性。</h5><p>↑ 原因同上。</p>
+<h2 id="与-Anonymous-Type-（匿名类型）-变量区别"><a href="#与-Anonymous-Type-（匿名类型）-变量区别" class="headerlink" title="与 Anonymous Type （匿名类型） 变量区别"></a>与 Anonymous Type （匿名类型） 变量区别</h2><p><code>Anonymous</code> 类型（匿名类型）的变量，一般都是结合 <code>var</code> 使用得出的。 <code>Anonymous</code> 类型的变量，其实也是一种类型的，只不过对于开发者不可见（开发者也不用知道其类型），编译器及 IDE 都会自动推断出来 <code>Anonymous</code> 类型变量的各个属性。详细参见下图：</p>
+<p><img src="/images/csharp-dynamic-type/anonymous-type.png" alt="Anonymous type, source"></p>
+<p><img src="/images/csharp-dynamic-type/anonymous-type-2.png" alt="Anonymous type, compiled assembly"></p>
+<p>我的理解是这样的，<code>Anonymous</code> 类型是一种泛型，类似于元组 <code>Tuple</code>，不同的是，你不需要书写 <code>Tuple</code> 或者 <code>Anonymous</code> 这样的关键字。<a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/choosing-between-anonymous-and-tuple" target="_blank" rel="noopener"><fa-link/></a></p>
+<p>其实，更常见的场景是，我们在用 <code>LINQ</code> 的时候会用到 <code>Anonymous</code> 类型 <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/features-that-support-linq#anonymous-types" target="_blank" rel="noopener"><fa-link/></a>。</p>
+<h2 id="引用链接"><a href="#引用链接" class="headerlink" title="引用链接"></a>引用链接</h2><ul>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/using-type-dynamic" target="_blank" rel="noopener">Using type dynamic (C# Programming Guide)</a></li>
+<li><a href="https://www.c-sharpcorner.com/UploadFile/f0b2ed/dynamic-data-type-in-C-Sharp/" target="_blank" rel="noopener">Dynamic Data Type In C#</a></li>
+<li><a href="https://thedotnetguide.com/dynamic-type-in-csharp" target="_blank" rel="noopener">Dynamic Type in C#</a></li>
+<li><a href="https://thedotnetguide.com/anonymous-types-in-csharp/" target="_blank" rel="noopener">Anonymous Types in C#</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/11/17/CSharp-dynamic-type/" data-id="clbrssbba0013e28c8vx18p0j" data-title="C# 动态类型" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/anonymous-type/" rel="tag">anonymous type</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/csharp/" rel="tag">csharp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dynamic/" rel="tag">dynamic</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/var/" rel="tag">var</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
 <article id="post-cancelling-tasks-in-JS" class="article article-type-post" itemscope itemprop="blogPost">
 <div class="article-meta">
 <a href="/2020/11/05/cancelling-tasks-in-JS/" class="article-date">
@@ -152,7 +212,7 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2020/11/05/cancelling-tasks-in-JS/" data-id="clbrr63fu001pm08capwp1t44" data-title="JS 中如何取消任务" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2020/11/05/cancelling-tasks-in-JS/" data-id="clbrssbbn002ae28c8kxa61hf" data-title="JS 中如何取消任务" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/abort/" rel="tag">abort</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cancel/" rel="tag">cancel</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/fetch/" rel="tag">fetch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/promise/" rel="tag">promise</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rxjs/" rel="tag">rxjs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/xmlhttprequest/" rel="tag">xmlhttprequest</a></li></ul>
@@ -220,179 +280,10 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2020/10/28/ASP-NET-i18n-get-started/" data-id="clbrr63fa0008m08ce2fe51uq" data-title="ASP.NET 应用国际化" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2020/10/28/ASP-NET-i18n-get-started/" data-id="clbrssbb3000pe28cazlm2d9m" data-title="ASP.NET 应用国际化" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/asp-net/" rel="tag">asp.net</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/get-started/" rel="tag">get started</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/i18n/" rel="tag">i18n</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mvc/" rel="tag">mvc</a></li></ul>
-
-</footer>
-</div>
-
-</article>
-
-
-
-<article id="post-SQL-Server-Pivot-Tables" class="article article-type-post" itemscope itemprop="blogPost">
-<div class="article-meta">
-<a href="/2020/10/20/SQL-Server-Pivot-Tables/" class="article-date">
-  <time datetime="2020-10-20T08:46:37.000Z" itemprop="datePublished">2020-10-20</time>
-</a>
-
-</div>
-<div class="article-inner">
-
-
-<header class="article-header">
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/20/SQL-Server-Pivot-Tables/">SQL Server 数据透视表</a>
-    </h1>
-  
-</header>
-
-<div class="article-entry" itemprop="articleBody">
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在搜索 <a href="https://docs.microsoft.com/en-us/sql/t-sql/functions/string-agg-transact-sql?view=sql-server-ver15" target="_blank" rel="noopener">STRING_AGG</a> 方法（同 MySQL 中的 <a href="https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html#function_group-concat" target="_blank" rel="noopener">GROUP_CONCAT</a>）在低版本 SQL Server 中实现的时候，无意中想到，之前好像有用过 pivot table (数据透视表)，用来拼接字符串？？年代久远，记忆模糊了，没办法，又得学习一遍。为加深印象，还是记一下笔记吧。</p>
-<h2 id="TLDR，太长不看版"><a href="#TLDR，太长不看版" class="headerlink" title="TLDR，太长不看版"></a>TLDR，太长不看版</h2><p>数据透视表就是 <strong>把数据表转置，行变列，或者列变行</strong>。</p>
-<h2 id="pivot-范例"><a href="#pivot-范例" class="headerlink" title="pivot 范例"></a>pivot 范例</h2><p>脚本如下：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> AdventureWorks2014;  </span><br><span class="line">GO  </span><br><span class="line"><span class="keyword">SELECT</span> VendorID, [<span class="number">250</span>] <span class="keyword">AS</span> Emp1, [<span class="number">251</span>] <span class="keyword">AS</span> Emp2, [<span class="number">256</span>] <span class="keyword">AS</span> Emp3, [<span class="number">257</span>] <span class="keyword">AS</span> Emp4, [<span class="number">260</span>] <span class="keyword">AS</span> Emp5  </span><br><span class="line"><span class="keyword">FROM</span>   </span><br><span class="line">(<span class="keyword">SELECT</span> PurchaseOrderID, EmployeeID, VendorID <span class="keyword">FROM</span> Purchasing.PurchaseOrderHeader) p  </span><br><span class="line"><span class="keyword">PIVOT</span>  </span><br><span class="line">(<span class="keyword">COUNT</span> (PurchaseOrderID) <span class="keyword">FOR</span> EmployeeID <span class="keyword">IN</span>  ([<span class="number">250</span>], [<span class="number">251</span>], [<span class="number">256</span>], [<span class="number">257</span>], [<span class="number">260</span>])) <span class="keyword">AS</span> pvt  </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> pvt.VendorID;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果如下：</p>
-<table>
-<thead>
-<tr>
-<th>VendorID</th>
-<th>Emp1</th>
-<th>Emp2</th>
-<th>Emp3</th>
-<th>Emp4</th>
-<th>Emp5</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1492</td>
-<td>2</td>
-<td>5</td>
-<td>4</td>
-<td>4</td>
-<td>4</td>
-</tr>
-<tr>
-<td>1494</td>
-<td>2</td>
-<td>5</td>
-<td>4</td>
-<td>5</td>
-<td>4</td>
-</tr>
-<tr>
-<td>1496</td>
-<td>2</td>
-<td>4</td>
-<td>4</td>
-<td>5</td>
-<td>5</td>
-</tr>
-<tr>
-<td>1498</td>
-<td>2</td>
-<td>5</td>
-<td>4</td>
-<td>4</td>
-<td>4</td>
-</tr>
-<tr>
-<td>1500</td>
-<td>3</td>
-<td>4</td>
-<td>4</td>
-<td>5</td>
-<td>4</td>
-</tr>
-</tbody></table>
-<h2 id="unpivot-范例"><a href="#unpivot-范例" class="headerlink" title="unpivot 范例"></a>unpivot 范例</h2><p>脚本如下：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Create the table and insert values as portrayed in the previous example.  </span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> pvt (</span><br><span class="line">    VendorID <span class="built_in">INT</span>, </span><br><span class="line">    Emp1 <span class="built_in">INT</span>, </span><br><span class="line">    Emp2 <span class="built_in">INT</span>,  </span><br><span class="line">    Emp3 <span class="built_in">INT</span>, </span><br><span class="line">    Emp4 <span class="built_in">INT</span>, </span><br><span class="line">    Emp5 <span class="built_in">INT</span></span><br><span class="line">);  </span><br><span class="line">GO  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pvt <span class="keyword">VALUES</span> (<span class="number">1</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">4</span>);  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pvt <span class="keyword">VALUES</span> (<span class="number">2</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">5</span>);  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pvt <span class="keyword">VALUES</span> (<span class="number">3</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">4</span>);  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pvt <span class="keyword">VALUES</span> (<span class="number">4</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">4</span>);  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pvt <span class="keyword">VALUES</span> (<span class="number">5</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">5</span>);  </span><br><span class="line">GO  </span><br><span class="line"><span class="comment">-- Unpivot the table.  </span></span><br><span class="line"><span class="keyword">SELECT</span> VendorID, Employee, Orders  </span><br><span class="line"><span class="keyword">FROM</span>   </span><br><span class="line">(<span class="keyword">SELECT</span> VendorID, Emp1, Emp2, Emp3, Emp4, Emp5  <span class="keyword">FROM</span> pvt) p  </span><br><span class="line"><span class="keyword">UNPIVOT</span>  </span><br><span class="line">(Orders <span class="keyword">FOR</span> Employee <span class="keyword">IN</span> (Emp1, Emp2, Emp3, Emp4, Emp5))<span class="keyword">AS</span> unpvt;  </span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
-
-<p>输出结果如下：</p>
-<table>
-<thead>
-<tr>
-<th>VendorID</th>
-<th>Employee</th>
-<th>Orders</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>Emp1</td>
-<td>4</td>
-</tr>
-<tr>
-<td>1</td>
-<td>Emp2</td>
-<td>3</td>
-</tr>
-<tr>
-<td>1</td>
-<td>Emp3</td>
-<td>5</td>
-</tr>
-<tr>
-<td>1</td>
-<td>Emp4</td>
-<td>4</td>
-</tr>
-<tr>
-<td>1</td>
-<td>Emp5</td>
-<td>4</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Emp1</td>
-<td>4</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Emp2</td>
-<td>1</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Emp3</td>
-<td>5</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Emp4</td>
-<td>5</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Emp5</td>
-<td>5</td>
-</tr>
-<tr>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-</tr>
-</tbody></table>
-<h2 id="附录1：STRING-AGG-polyfill"><a href="#附录1：STRING-AGG-polyfill" class="headerlink" title="附录1：STRING_AGG polyfill"></a>附录1：STRING_AGG polyfill</h2><p>虽然 <a href="https://docs.microsoft.com/en-us/sql/t-sql/functions/string-agg-transact-sql?view=sql-server-ver15" target="_blank" rel="noopener">STRING_AGG</a> 方法只在 SQL Server 2017 及之后版本可用，但在此之前的版本，则可以通过运行以下代码创建自定义方法：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- coming soon</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="附录2：STRING-SPLIT-polyfill"><a href="#附录2：STRING-SPLIT-polyfill" class="headerlink" title="附录2：STRING_SPLIT polyfill"></a>附录2：STRING_SPLIT polyfill</h2><p><a href="https://docs.microsoft.com/en-us/sql/t-sql/functions/string-split-transact-sql?view=sql-server-ver15" target="_blank" rel="noopener">STRING_SPLIT</a> 方法只在 SQL Server 2016 及之后版本可用，在此之前的版本，则可通过运行以下代码创建自定义方法：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> [dbo].[fx_STRING_SPLIT](</span><br><span class="line">	@SourceString <span class="keyword">NVARCHAR</span>(<span class="keyword">MAX</span>)</span><br><span class="line">	,@Seperator <span class="built_in">VARCHAR</span>(<span class="number">25</span>)=<span class="string">','</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">RETURNS</span> @ResultTable <span class="keyword">TABLE</span>(</span><br><span class="line">	[<span class="keyword">Position</span>] <span class="built_in">INT</span> <span class="keyword">IDENTITY</span>(<span class="number">1</span>,<span class="number">1</span>),</span><br><span class="line">	[<span class="keyword">Value</span>] <span class="keyword">NVARCHAR</span>(<span class="keyword">MAX</span>)</span><br><span class="line">)</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="comment">/**************************************************************</span></span><br><span class="line"><span class="comment">* Author: Beaulin @ www.MyTecBits.com</span></span><br><span class="line"><span class="comment">* Description: Function to split the delimited text and</span></span><br><span class="line"><span class="comment">* returns teh result in table format</span></span><br><span class="line"><span class="comment">**************************************************************/</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">DECLARE</span> @w_xml <span class="keyword">xml</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> @w_xml = N<span class="string">'&lt;root&gt;&lt;i&gt;'</span> + <span class="keyword">replace</span>(@SourceString, @Seperator,<span class="string">'&lt;/i&gt;&lt;i&gt;'</span>) + <span class="string">'&lt;/i&gt;&lt;/root&gt;'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> @ResultTable</span><br><span class="line">([<span class="keyword">Value</span>])</span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">	[i].value(<span class="string">'.'</span>, <span class="string">'NVARCHAR(MAX)'</span>) <span class="keyword">AS</span> <span class="keyword">Value</span> </span><br><span class="line"><span class="keyword">FROM</span> </span><br><span class="line">@w_xml.nodes(<span class="string">'//root/i'</span>) <span class="keyword">AS</span> [Items]([i]);</span><br><span class="line">RETURN;</span><br><span class="line"><span class="keyword">END</span>;</span><br><span class="line"></span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="https://docs.microsoft.com/en-us/sql/t-sql/queries/from-using-pivot-and-unpivot?view=sql-server-ver15" target="_blank" rel="noopener">FROM - Using PIVOT and UNPIVOT</a></li>
-</ul>
-
-</div>
-<footer class="article-footer">
-<a data-url="https://zxs66.github.io/2020/10/20/SQL-Server-Pivot-Tables/" data-id="clbrr63fn0014m08cb3rudwqd" data-title="SQL Server 数据透视表" class="article-share-link">分享</a>
-
-
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pivot-table/" rel="tag">pivot table</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql-server/" rel="tag">sql server</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
 
 </footer>
 </div>

@@ -143,10 +143,50 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2022/11/10/setup-wsl-development-environment/" data-id="clbrr63ho00c7m08cdh1326cc" data-title="配置 WSL 开发环境" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2022/11/10/setup-wsl-development-environment/" data-id="clbrssbc1003pe28c1555efjy" data-title="配置 WSL 开发环境" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wsl/" rel="tag">wsl</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
+<article id="post-data-synchronise-between-SQL-Server-instances" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2022/10/07/data-synchronise-between-SQL-Server-instances/" class="article-date">
+  <time datetime="2022-10-07T10:06:06.000Z" itemprop="datePublished">2022-10-07</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/10/07/data-synchronise-between-SQL-Server-instances/">SQL Server 实例间的数据同步</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>组内有两套 SQL Server 环境，简单理解：一套生产环境，一套测试环境。测试环境还好，和本地开发环境类似，是互通的，也即是说可以直接通过 SSMS/Visual Studio/其他 app 或者程序连接上去。问题就出现在生产环境上。一般来说，生产环境有专人负责运维的，一般开发是不会接触的到。但是有的时候，开发真的需要生产环境的一些数据（比如日志），或者开发有几个 hotfix 数据包需要发布到生产环境，同时情况又很紧急，不想走审批流程，有没有简单又快速的办法？</p>
+<p>不同的程序员估计会有不同的解决方案。我的解决方案，超级简单粗暴，但是亲测有效，就是把一个环境（源）下的数据先导出成 excel/csv 文件，然后人肉复制粘贴到另一个环境（目标）下，然后再导入数据库。</p>
+<p>我用 dotnet 写成了一个小程序，可以直接运行。欢迎大家参考并提出宝贵意见。<a href="https://github.com/ZXS66/SQLServerSync" target="_blank" rel="noopener"><i class="fa fa-github" aria-hidden="true"></i></a></p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><a href="https://github.com/ZXS66/SQLServerSync" target="_blank" rel="noopener"><i class="fa fa-github" aria-hidden="true"></i> ZXS66/SQLServerSync</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2022/10/07/data-synchronise-between-SQL-Server-instances/" data-id="clbrssbbm0025e28c1xqq71pf" data-title="SQL Server 实例间的数据同步" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bulk-insert/" rel="tag">bulk insert</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql-server/" rel="tag">sql server</a></li></ul>
 
 </footer>
 </div>
@@ -196,58 +236,10 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2022/07/14/csv-to-excel-file/" data-id="clbrr63g0002bm08c3l7056xe" data-title="CSV转Excel" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2022/07/14/csv-to-excel-file/" data-id="clbrssbbm0027e28c077hftxi" data-title="CSV转Excel" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/asp-net-core/" rel="tag">asp.net core</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/encoding/" rel="tag">encoding</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/excel/" rel="tag">excel</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gb2312/" rel="tag">gb2312</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/unicode/" rel="tag">unicode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/utf-8/" rel="tag">utf-8</a></li></ul>
-
-</footer>
-</div>
-
-</article>
-
-
-
-<article id="post-MySQL-regex-for-multi-bytes-character" class="article article-type-post" itemscope itemprop="blogPost">
-<div class="article-meta">
-<a href="/2022/06/25/MySQL-regex-for-multi-bytes-character/" class="article-date">
-  <time datetime="2022-06-25T09:30:04.000Z" itemprop="datePublished">2022-06-25</time>
-</a>
-
-</div>
-<div class="article-inner">
-
-
-<header class="article-header">
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/06/25/MySQL-regex-for-multi-bytes-character/">MySQL 正则表达式支持多字节字符</a>
-    </h1>
-  
-</header>
-
-<div class="article-entry" itemprop="articleBody">
-<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>最近在工作中遇到一个小问题，就是需要一些简单的字符串匹配，自然而然想到使用正则表达式了。简单搜索了一下，<code>MySQL</code> 中如何使用正则，基本上都介绍用 <a href="https://dev.mysql.com/doc/refman/8.0/en/regexp.html" target="_blank" rel="noopener">REGEXP</a> 函数。</p>
-<p>但是，这个函数有个限制，在 MySQL 8.0.4 之前的版本，它是按字节匹配的，而不是字符！换句话说，对于汉字或者 Emoji 这样多字节的字符，它不支持！</p>
-<blockquote>
-<p>The REGEXP and RLIKE operators work in byte-wise fashion, so they are not multibyte safe and may produce unexpected results with multibyte character sets. In addition, these operators compare characters by their byte values and accented characters may not compare as equal even if a given collation treats them as equal. <a href="https://dev.mysql.com/doc/refman/5.6/en/regexp.html" target="_blank" rel="noopener"><a href="https://your-link.here" target="_blank" rel="noopener"><fa-link/></a></a></p>
-</blockquote>
-<p>所以，在 MySQL 8.0.4 之前的版本，我们该如何针对多字节的字符使用正则表达式呢？</p>
-<p>升级 MySQL？好吧，当我没问。🙊</p>
-<p>针对一个线上的 MySQL，如果要必须要实现业务逻辑，又不能变更 MySQL，有什么好的办法？</p>
-<p>不用正则表达式，采用 IF ELSE 语句替代？也不是不可以，但是逻辑稍负责一点，SQL 脚本就开始变得冗长、性能低下且难以维护了。</p>
-<p>以下是我自己的经验总结，仅供参考。</p>
-<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>既然 MySQL 8.0.4 之前的 REGEXP 只能支持单字节，那我把多字节字符都替换成单字节字符再正则匹配不就行了？<a href="https://dev.mysql.com/doc/refman/8.0/en/replace.html" target="_blank" rel="noopener">REPLACE</a> 函数是支持多字节的。</p>
-<h1 id="放码"><a href="#放码" class="headerlink" title="放码"></a>放码</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line"></span><br><span class="line"><span class="keyword">USE</span> <span class="string">`project_otis2019`</span>$$</span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">FUNCTION</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`fx_regexp_over_multi_characters_sample`</span>$$</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> DEFINER=<span class="string">`zxs66`</span>@<span class="string">`%`</span> <span class="keyword">FUNCTION</span> <span class="string">`fx_regexp_over_multi_characters_sample`</span>(<span class="keyword">content</span> <span class="built_in">TEXT</span>) <span class="keyword">RETURNS</span> <span class="built_in">TINYINT</span>(<span class="number">4</span>)</span><br><span class="line">    <span class="keyword">COMMENT</span> <span class="string">'check if given content match specific regular expression'</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">DECLARE</span> normalized_content <span class="built_in">TEXT</span>;</span><br><span class="line">	<span class="keyword">SET</span> normalized_content=<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(</span><br><span class="line">					<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(</span><br><span class="line">						<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">REPLACE</span>(<span class="keyword">content</span>,<span class="string">'水果'</span>,<span class="string">'`'</span>),<span class="string">'蔬菜'</span>,<span class="string">'`'</span>),<span class="string">'牛奶'</span>,<span class="string">'`'</span>),<span class="string">'牛羊肉'</span>,<span class="string">'`'</span>),<span class="string">'杂粮'</span>,<span class="string">'`'</span>),</span><br><span class="line">						<span class="string">'，'</span>,<span class="string">','</span>),<span class="string">'；'</span>,<span class="string">','</span>),<span class="string">'。'</span>,<span class="string">','</span>),</span><br><span class="line">						<span class="string">'种植'</span>,<span class="string">'@'</span>),<span class="string">'运输'</span>,<span class="string">'@'</span>),<span class="string">'储藏'</span>,<span class="string">'@'</span>),<span class="string">'销售'</span>,<span class="string">'@'</span>),<span class="string">'检验'</span>,<span class="string">'@'</span>),<span class="string">'保供'</span>,<span class="string">'@'</span>),<span class="string">'批发'</span>,<span class="string">'@'</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">-- the regular expression below can be revised based on your actual bussiness requirements.</span></span><br><span class="line">	RETURN normalized_content REGEXP '`[^,;\.]*@' OR normalized_content REGEXP '@[^,;\.]*`'; </span><br><span class="line"></span><br><span class="line"><span class="keyword">END</span>$$</span><br><span class="line"></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
-
-<h1 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h1><p>上述脚本仅提供一种思路，肯定不是最优解，还存在诸多弊端，其中一个显而易见的问题就是，替换掉的单字节字符不能与原来的文件内容有冲突。如果有不同意见，还请不吝赐教。</p>
-
-</div>
-<footer class="article-footer">
-<a data-url="https://zxs66.github.io/2022/06/25/MySQL-regex-for-multi-bytes-character/" data-id="clbrr63fm000ym08c6qqda64d" data-title="MySQL 正则表达式支持多字节字符" class="article-share-link">分享</a>
-
-
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/multi-bytes/" rel="tag">multi-bytes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/regex/" rel="tag">regex</a></li></ul>
 
 </footer>
 </div>

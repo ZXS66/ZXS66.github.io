@@ -90,6 +90,57 @@ s.parentNode.insertBefore(hm, s);
 <section id="main">
 
 
+<article id="post-CSharp-debounce-and-throttle" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/04/20/CSharp-debounce-and-throttle/" class="article-date">
+  <time datetime="2021-04-20T03:49:11.000Z" itemprop="datePublished">2021-04-20</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/20/CSharp-debounce-and-throttle/">CSharp 去抖和节流</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>去抖和节流，是前端频繁提及的概念。因为前端容易触及性能问题，比如窗口滑动、鼠标重复点击等等，如果没有去抖/节流/防重复提交这些操作，页面交互极有可能变得肉眼可见的卡顿。</p>
+<p>现在 CSharp 编程中遇到类似情况，需要将同样的原理应用于后台编程。</p>
+<p>一般情况下，我们可以使用第三方库，比如 <a href="https://github.com/Reactive-Extensions/Rx.NET" target="_blank" rel="noopener">Reactive Extension</a> (类似于前端的 <a href="https://rxjs.dev/" target="_blank" rel="noopener">RxJS</a> )。但是，我就只是要一个去抖和节流的功能，没必要引入一个第三方库吧。现实中项目如果要引入第三方库<em>可能</em>会引入各种问题。既然如此，何不重复造个轮子 😂</p>
+<blockquote>
+<p>Talk is cheap, show me the code!</p>
+</blockquote>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;para&gt;</span>Provides Debounce() and Throttle() methods.</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> Use these methods to ensure that events aren't handled too frequently.<span class="doctag">&lt;/para&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> </span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;para&gt;</span>Throttle() ensures that events are throttled by the interval specified.</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> Only the last event in the interval sequence of events fires.<span class="doctag">&lt;/para&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> </span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;para&gt;</span>Debounce() fires an event only after the specified interval has passed</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> in which no other pending event has fired. Only the last event in the</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> sequence is fired.<span class="doctag">&lt;/para&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DebounceDispatcher</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> CancellationTokenSource debouncer;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;para&gt;</span>Debounce an event by resetting the event timeout every time the event is </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> fired. The behavior is that the Action passed is fired only after events</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> stop firing for the given timeout period.<span class="doctag">&lt;/para&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;para&gt;</span>Use Debounce when you want events to fire only after events stop firing</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> after the given interval timeout period.<span class="doctag">&lt;/para&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="interval"&gt;</span>Timeout in Milliseconds<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="action"&gt;</span>Action<span class="doctag">&lt;object&gt;</span> to fire when debounced event fires<span class="doctag">&lt;/object&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="param"&gt;</span>optional parameter<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Debounce</span>(<span class="params"><span class="keyword">int</span> interval, Action&lt;<span class="keyword">object</span>&gt; action, <span class="keyword">object</span> param = <span class="literal">null</span></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">if</span> (debouncer != <span class="literal">null</span> &amp;&amp; !debouncer.IsCancellationRequested)</span><br><span class="line">        &#123;</span><br><span class="line">            debouncer.Cancel();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            debouncer = <span class="keyword">new</span> CancellationTokenSource();</span><br><span class="line">            <span class="keyword">var</span> t = Task.Delay(interval, debouncer.Token);</span><br><span class="line">            t.ContinueWith((p) =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (p.Status == TaskStatus.RanToCompletion)</span><br><span class="line">                    action.Invoke(param);</span><br><span class="line">            &#125;);</span><br><span class="line">            t.Start();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// duplicated invokes, the previous one was cancelled</span></span><br><span class="line">            System.Console.WriteLine(<span class="string">$"[<span class="subst">&#123;DateTime.Now&#125;</span>]: task was cancelled"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> throttler = <span class="number">0</span>;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;para&gt;</span>This method throttles events by allowing only 1 event to fire for the given</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> timeout period. Only the last event fired is handled - all others are ignored.</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> Throttle will fire events every timeout ms even if additional events are pending.<span class="doctag">&lt;/para&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;para&gt;</span>Use Throttle where you need to ensure that events fire at given intervals.<span class="doctag">&lt;/para&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="interval"&gt;</span>Timeout in Milliseconds<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="action"&gt;</span>Action<span class="doctag">&lt;object&gt;</span> to fire when debounced event fires<span class="doctag">&lt;/object&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="param"&gt;</span>optional parameter<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Throttle</span>(<span class="params"><span class="keyword">int</span> interval, Action&lt;<span class="keyword">object</span>&gt; action, <span class="keyword">object</span> param = <span class="literal">null</span></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">if</span> (throttler == <span class="number">0</span> || (DateTime.Now.Ticks - throttler) / <span class="number">10000</span> &gt;= interval)</span><br><span class="line">        &#123;</span><br><span class="line">            action.Invoke(param);</span><br><span class="line">            throttler = DateTime.Now.Ticks;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>节流很简单，就不过多解释了；</li>
+<li>去抖，此处用到了三个关键函数： <a href="https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.delay?view=net-5.0" target="_blank" rel="noopener">Task.Delay</a> （类似于 js 中 setTimeout ）、<a href="https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.continuewith?view=net-5.0" target="_blank" rel="noopener">Task.ContinueWith</a> （类似于 js 中的 Promise.then，不同的是后者接受两个参数，分别是成功回调和错误回调，而前者仅有一个回调，成功和错误都在一个里面）、<a href="https://docs.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource.cancel?view=net-5.0" target="_blank" rel="noopener">CancellationTokenSource.Cancel</a>。</li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.delay?view=net-5.0" target="_blank" rel="noopener">Task.Delay Method</a></li>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.continuewith?view=net-5.0" target="_blank" rel="noopener">Task.ContinueWith Method</a></li>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource.cancel?view=net-5.0" target="_blank" rel="noopener">CancellationTokenSource.Cancel Method</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/04/20/CSharp-debounce-and-throttle/" data-id="clbrssbbc0016e28c0zk3e873" data-title="CSharp 去抖和节流" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/csharp/" rel="tag">csharp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/debounce/" rel="tag">debounce</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/throttle/" rel="tag">throttle</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
 <article id="post-CSharp-Regular-Experssion-taste" class="article article-type-post" itemscope itemprop="blogPost">
 <div class="article-meta">
 <a href="/2021/04/15/CSharp-Regular-Experssion-taste/" class="article-date">
@@ -114,7 +165,7 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2021/04/15/CSharp-Regular-Experssion-taste/" data-id="clbrr63fe000em08c63hqgoqh" data-title="CSharp 正则表达式初尝" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2021/04/15/CSharp-Regular-Experssion-taste/" data-id="clbrssbb5000se28cgm939pvr" data-title="CSharp 正则表达式初尝" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/csharp/" rel="tag">csharp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/regular-expression/" rel="tag">regular expression</a></li></ul>
@@ -174,87 +225,10 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2021/04/11/CORS-review/" data-id="clbrr63fd000dm08cceby5kjk" data-title="CORS 复习" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2021/04/11/CORS-review/" data-id="clbrssbb5000te28ca0532vrf" data-title="CORS 复习" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cors/" rel="tag">cors</a></li></ul>
-
-</footer>
-</div>
-
-</article>
-
-
-
-<article id="post-MySQL-variables" class="article article-type-post" itemscope itemprop="blogPost">
-<div class="article-meta">
-<a href="/2021/03/25/MySQL-variables/" class="article-date">
-  <time datetime="2021-03-25T14:42:51.000Z" itemprop="datePublished">2021-03-25</time>
-</a>
-
-</div>
-<div class="article-inner">
-
-
-<header class="article-header">
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/25/MySQL-variables/">MySQL 变量</a>
-    </h1>
-  
-</header>
-
-<div class="article-entry" itemprop="articleBody">
-<p>本文仅记录 MySQL 中本地变量和用户变量的相同和不同。</p>
-<h3 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR;"></a>TL;DR;</h3><p>感觉英文还行的看官，请直接移步 <a href="#参考链接">参考链接</a> 查看 MySQL 官方文档。</p>
-<h5 id="相同点："><a href="#相同点：" class="headerlink" title="相同点："></a>相同点：</h5><p>都可以使用 SET 语句赋值。</p>
-<h5 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h5><table>
-<thead>
-<tr>
-<th></th>
-<th>本地变量</th>
-<th>用户变量</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>变量名称格式</td>
-<td>不以@开头</td>
-<td>必须以@开头</td>
-</tr>
-<tr>
-<td>是否需要DECLARE</td>
-<td>✔️</td>
-<td>❌</td>
-</tr>
-<tr>
-<td>常见使用场景</td>
-<td>存储过程</td>
-<td>即时查询窗口</td>
-</tr>
-<tr>
-<td>存在作用域</td>
-<td>当前存储过程</td>
-<td>当前会话</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>The scope of a local variable is the BEGIN … END block within which it is declared. The variable can be referred to in blocks nested within the declaring block, except those blocks that declare a variable with the same name. Because local variables are in scope only during stored program execution, references to them are not permitted in prepared statements created within a stored program. Prepared statement scope is the current session, not the stored program, so the statement could be executed after the program ends, at which point the variables would no longer be in scope. For example, SELECT … INTO local_var cannot be used as a prepared statement. </p>
-</blockquote>
-<blockquote>
-<p>User-defined variables are session specific. A user variable defined by one client cannot be seen or used by other clients. (Exception: A user with access to the Performance Schema user_variables_by_thread table can see all user variables for all sessions.) All variables for a given client session are automatically freed when that client exits.</p>
-</blockquote>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/user-variables.html" target="_blank" rel="noopener">MySQL::User-Defined Variables</a></li>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/local-variable-scope.html" target="_blank" rel="noopener">MySQL::Local Variable Scope and Resolution</a></li>
-<li><a href="https://www.delftstack.com/howto/mysql/mysql-declare-variable/" target="_blank" rel="noopener">Declare and Use Variables in MySQL</a></li>
-</ul>
-
-</div>
-<footer class="article-footer">
-<a data-url="https://zxs66.github.io/2021/03/25/MySQL-variables/" data-id="clbrr63fm0010m08ch27wg9t9" data-title="MySQL 变量" class="article-share-link">分享</a>
-
-
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/variable/" rel="tag">variable</a></li></ul>
 
 </footer>
 </div>

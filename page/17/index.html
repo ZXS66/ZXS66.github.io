@@ -90,6 +90,175 @@ s.parentNode.insertBefore(hm, s);
 <section id="main">
 
 
+<article id="post-SQL-Server-Pivot-Tables" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/10/20/SQL-Server-Pivot-Tables/" class="article-date">
+  <time datetime="2020-10-20T08:46:37.000Z" itemprop="datePublished">2020-10-20</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/20/SQL-Server-Pivot-Tables/">SQL Server 数据透视表</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在搜索 <a href="https://docs.microsoft.com/en-us/sql/t-sql/functions/string-agg-transact-sql?view=sql-server-ver15" target="_blank" rel="noopener">STRING_AGG</a> 方法（同 MySQL 中的 <a href="https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html#function_group-concat" target="_blank" rel="noopener">GROUP_CONCAT</a>）在低版本 SQL Server 中实现的时候，无意中想到，之前好像有用过 pivot table (数据透视表)，用来拼接字符串？？年代久远，记忆模糊了，没办法，又得学习一遍。为加深印象，还是记一下笔记吧。</p>
+<h2 id="TLDR，太长不看版"><a href="#TLDR，太长不看版" class="headerlink" title="TLDR，太长不看版"></a>TLDR，太长不看版</h2><p>数据透视表就是 <strong>把数据表转置，行变列，或者列变行</strong>。</p>
+<h2 id="pivot-范例"><a href="#pivot-范例" class="headerlink" title="pivot 范例"></a>pivot 范例</h2><p>脚本如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> AdventureWorks2014;  </span><br><span class="line">GO  </span><br><span class="line"><span class="keyword">SELECT</span> VendorID, [<span class="number">250</span>] <span class="keyword">AS</span> Emp1, [<span class="number">251</span>] <span class="keyword">AS</span> Emp2, [<span class="number">256</span>] <span class="keyword">AS</span> Emp3, [<span class="number">257</span>] <span class="keyword">AS</span> Emp4, [<span class="number">260</span>] <span class="keyword">AS</span> Emp5  </span><br><span class="line"><span class="keyword">FROM</span>   </span><br><span class="line">(<span class="keyword">SELECT</span> PurchaseOrderID, EmployeeID, VendorID <span class="keyword">FROM</span> Purchasing.PurchaseOrderHeader) p  </span><br><span class="line"><span class="keyword">PIVOT</span>  </span><br><span class="line">(<span class="keyword">COUNT</span> (PurchaseOrderID) <span class="keyword">FOR</span> EmployeeID <span class="keyword">IN</span>  ([<span class="number">250</span>], [<span class="number">251</span>], [<span class="number">256</span>], [<span class="number">257</span>], [<span class="number">260</span>])) <span class="keyword">AS</span> pvt  </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> pvt.VendorID;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果如下：</p>
+<table>
+<thead>
+<tr>
+<th>VendorID</th>
+<th>Emp1</th>
+<th>Emp2</th>
+<th>Emp3</th>
+<th>Emp4</th>
+<th>Emp5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1492</td>
+<td>2</td>
+<td>5</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1494</td>
+<td>2</td>
+<td>5</td>
+<td>4</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1496</td>
+<td>2</td>
+<td>4</td>
+<td>4</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>1498</td>
+<td>2</td>
+<td>5</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1500</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>5</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<h2 id="unpivot-范例"><a href="#unpivot-范例" class="headerlink" title="unpivot 范例"></a>unpivot 范例</h2><p>脚本如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Create the table and insert values as portrayed in the previous example.  </span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> pvt (</span><br><span class="line">    VendorID <span class="built_in">INT</span>, </span><br><span class="line">    Emp1 <span class="built_in">INT</span>, </span><br><span class="line">    Emp2 <span class="built_in">INT</span>,  </span><br><span class="line">    Emp3 <span class="built_in">INT</span>, </span><br><span class="line">    Emp4 <span class="built_in">INT</span>, </span><br><span class="line">    Emp5 <span class="built_in">INT</span></span><br><span class="line">);  </span><br><span class="line">GO  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pvt <span class="keyword">VALUES</span> (<span class="number">1</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">4</span>);  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pvt <span class="keyword">VALUES</span> (<span class="number">2</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">5</span>);  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pvt <span class="keyword">VALUES</span> (<span class="number">3</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">4</span>);  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pvt <span class="keyword">VALUES</span> (<span class="number">4</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">4</span>);  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pvt <span class="keyword">VALUES</span> (<span class="number">5</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">5</span>);  </span><br><span class="line">GO  </span><br><span class="line"><span class="comment">-- Unpivot the table.  </span></span><br><span class="line"><span class="keyword">SELECT</span> VendorID, Employee, Orders  </span><br><span class="line"><span class="keyword">FROM</span>   </span><br><span class="line">(<span class="keyword">SELECT</span> VendorID, Emp1, Emp2, Emp3, Emp4, Emp5  <span class="keyword">FROM</span> pvt) p  </span><br><span class="line"><span class="keyword">UNPIVOT</span>  </span><br><span class="line">(Orders <span class="keyword">FOR</span> Employee <span class="keyword">IN</span> (Emp1, Emp2, Emp3, Emp4, Emp5))<span class="keyword">AS</span> unpvt;  </span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
+
+<p>输出结果如下：</p>
+<table>
+<thead>
+<tr>
+<th>VendorID</th>
+<th>Employee</th>
+<th>Orders</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Emp1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Emp2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Emp3</td>
+<td>5</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Emp4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Emp5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Emp1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Emp2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Emp3</td>
+<td>5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Emp4</td>
+<td>5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Emp5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody></table>
+<h2 id="附录1：STRING-AGG-polyfill"><a href="#附录1：STRING-AGG-polyfill" class="headerlink" title="附录1：STRING_AGG polyfill"></a>附录1：STRING_AGG polyfill</h2><p>虽然 <a href="https://docs.microsoft.com/en-us/sql/t-sql/functions/string-agg-transact-sql?view=sql-server-ver15" target="_blank" rel="noopener">STRING_AGG</a> 方法只在 SQL Server 2017 及之后版本可用，但在此之前的版本，则可以通过运行以下代码创建自定义方法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- coming soon</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="附录2：STRING-SPLIT-polyfill"><a href="#附录2：STRING-SPLIT-polyfill" class="headerlink" title="附录2：STRING_SPLIT polyfill"></a>附录2：STRING_SPLIT polyfill</h2><p><a href="https://docs.microsoft.com/en-us/sql/t-sql/functions/string-split-transact-sql?view=sql-server-ver15" target="_blank" rel="noopener">STRING_SPLIT</a> 方法只在 SQL Server 2016 及之后版本可用，在此之前的版本，则可通过运行以下代码创建自定义方法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> [dbo].[fx_STRING_SPLIT](</span><br><span class="line">	@SourceString <span class="keyword">NVARCHAR</span>(<span class="keyword">MAX</span>)</span><br><span class="line">	,@Seperator <span class="built_in">VARCHAR</span>(<span class="number">25</span>)=<span class="string">','</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">RETURNS</span> @ResultTable <span class="keyword">TABLE</span>(</span><br><span class="line">	[<span class="keyword">Position</span>] <span class="built_in">INT</span> <span class="keyword">IDENTITY</span>(<span class="number">1</span>,<span class="number">1</span>),</span><br><span class="line">	[<span class="keyword">Value</span>] <span class="keyword">NVARCHAR</span>(<span class="keyword">MAX</span>)</span><br><span class="line">)</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="comment">/**************************************************************</span></span><br><span class="line"><span class="comment">* Author: Beaulin @ www.MyTecBits.com</span></span><br><span class="line"><span class="comment">* Description: Function to split the delimited text and</span></span><br><span class="line"><span class="comment">* returns teh result in table format</span></span><br><span class="line"><span class="comment">**************************************************************/</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">DECLARE</span> @w_xml <span class="keyword">xml</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> @w_xml = N<span class="string">'&lt;root&gt;&lt;i&gt;'</span> + <span class="keyword">replace</span>(@SourceString, @Seperator,<span class="string">'&lt;/i&gt;&lt;i&gt;'</span>) + <span class="string">'&lt;/i&gt;&lt;/root&gt;'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> @ResultTable</span><br><span class="line">([<span class="keyword">Value</span>])</span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">	[i].value(<span class="string">'.'</span>, <span class="string">'NVARCHAR(MAX)'</span>) <span class="keyword">AS</span> <span class="keyword">Value</span> </span><br><span class="line"><span class="keyword">FROM</span> </span><br><span class="line">@w_xml.nodes(<span class="string">'//root/i'</span>) <span class="keyword">AS</span> [Items]([i]);</span><br><span class="line">RETURN;</span><br><span class="line"><span class="keyword">END</span>;</span><br><span class="line"></span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://docs.microsoft.com/en-us/sql/t-sql/queries/from-using-pivot-and-unpivot?view=sql-server-ver15" target="_blank" rel="noopener">FROM - Using PIVOT and UNPIVOT</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/10/20/SQL-Server-Pivot-Tables/" data-id="clbrssbbi001te28c9g08hgh1" data-title="SQL Server 数据透视表" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pivot-table/" rel="tag">pivot table</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql-server/" rel="tag">sql server</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
 <article id="post-react-hooks" class="article article-type-post" itemscope itemprop="blogPost">
 <div class="article-meta">
 <a href="/2020/10/10/react-hooks/" class="article-date">
@@ -131,7 +300,7 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2020/10/10/react-hooks/" data-id="clbrr63g5002wm08cedgk66r6" data-title="React Hooks 学习笔记" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2020/10/10/react-hooks/" data-id="clbrssbby003fe28c0b316r9e" data-title="React Hooks 学习笔记" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hooks/" rel="tag">hooks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
@@ -232,62 +401,10 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2020/10/01/translate-POSTING-TO-WORDPRESS-COM-IN-CODE/" data-id="clbrr63ht00cbm08c41o83bae" data-title="译：从代码中发帖至 WordPress.com" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2020/10/01/translate-POSTING-TO-WORDPRESS-COM-IN-CODE/" data-id="clbrssbc2003ve28c1jkgaz3q" data-title="译：从代码中发帖至 WordPress.com" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c#</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/translate/" rel="tag">translate</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wordpress/" rel="tag">wordpress</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
-
-</footer>
-</div>
-
-</article>
-
-
-
-<article id="post-get-started-with-WeChat-mini-program" class="article article-type-post" itemscope itemprop="blogPost">
-<div class="article-meta">
-<a href="/2020/09/11/get-started-with-WeChat-mini-program/" class="article-date">
-  <time datetime="2020-09-11T03:11:11.000Z" itemprop="datePublished">2020-09-11</time>
-</a>
-
-</div>
-<div class="article-inner">
-
-
-<header class="article-header">
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/11/get-started-with-WeChat-mini-program/">微信小程序入门</a>
-    </h1>
-  
-</header>
-
-<div class="article-entry" itemprop="articleBody">
-<p>还记得很多年前，那时候没有微信小程序，只有微信公众号（订阅号/服务号/企业号）。彼时，个人想要注册一个公众号，各种门槛，各种收费。作为一个本不富裕的铮铮男儿，为了省 <strong>￥300/年</strong> 的认证费，毅然决然的去学习其他的技术，并妄下断言：这种对大众开发者不友好的技术，注定走不长久！</p>
-<p>糊涂啊，少年！！后来的现实，疯狂打脸这位少年，并将这位少年的脸按在地上疯狂摩擦。</p>
-<p>唉，往事如风，不堪回首！</p>
-<p>然后，有一天，这位少年突然有一个想法：将现有的网页应用迁移至微信小程序究竟有多难？</p>
-<p>容不得多想，说干就干！</p>
-<p><em>此处省略各种注册、配置环节</em> （网上有很多入门教程，微信官方也有，炒鸡简单）</p>
-<p>如今注册环节简明了很多，注册个人小程序的话，还剩了认证费用。开心。</p>
-<p>从一个 <code>Hello, World</code> 开始：</p>
-<p>打开微信开发者工具，扫码登陆，新建小程序项目。</p>
-<p>工具默认会添加一些示例代码，大家可按需增加/删除代码。此处我只是把简单的踩的坑罗列一下，已提供给各位少侠发现美的眼睛。</p>
-<h3 id="table-组件"><a href="#table-组件" class="headerlink" title="table 组件"></a>table 组件</h3><p>微信小程序默认支持的组件有限，但是 <code>table</code> 在日常 web 开发，特别是办公场景中，使用的超级广泛。网上也有很多的第三方插件，都不太满意。虽说众多前端页面优化文章都推荐说尽量减少 <code>table</code> 的使用，以减少重绘及重排导致的性能开销，但是图表可是办公类应用使用最广泛的控件类型之一。</p>
-<p>考虑到微信小程序的 <code>wxss</code> 其实就是 <code>css</code>（除了多了 <code>rpx</code> 这一个单位），所以，其实可以将小程序中的 <code>view</code> (同 <code>div</code>) 设置成 <code>display:table</code>。</p>
-<h3 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h3><p>微信开发者工具集成发布功能，一键点击即可发布。此处不过多赘述了。</p>
-<h3 id="2020-10-29-更新"><a href="#2020-10-29-更新" class="headerlink" title="2020.10.29 更新"></a>2020.10.29 更新</h3><p>哈哈，阮一峰终于也 <a href="http://www.ruanyifeng.com/blog/2020/10/wechat-miniprogram-tutorial-part-one.html" target="_blank" rel="noopener">染指微信小程序</a> 了，大家快去观摩啊~ 😄</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ol>
-<li><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/" target="_blank" rel="noopener">微信官方文档·小程序</a></li>
-<li><a href="https://developers.weixin.qq.com/ebook?action=get_post_info&docid=0008aeea9a8978ab0086a685851c0a&pass_ticket=X5FAAzGjV66sjEQ5vheOV8ZXQBv0LFA5jBNu9mm48OC3JJsyPNTBhka1%2FWfj%2BZ6Y" target="_blank" rel="noopener">教程|《小程序开发指南》</a></li>
-</ol>
-
-</div>
-<footer class="article-footer">
-<a data-url="https://zxs66.github.io/2020/09/11/get-started-with-WeChat-mini-program/" data-id="clbrr63fw001um08chsac4hxs" data-title="微信小程序入门" class="article-share-link">分享</a>
-
-
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/get-started/" rel="tag">get started</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mini-program/" rel="tag">mini program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wechat/" rel="tag">wechat</a></li></ul>
 
 </footer>
 </div>

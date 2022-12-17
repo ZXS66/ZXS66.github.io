@@ -90,6 +90,55 @@ s.parentNode.insertBefore(hm, s);
 <section id="main">
 
 
+<article id="post-browser-find-multiple-keywords" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2022/05/04/browser-find-multiple-keywords/" class="article-date">
+  <time datetime="2022-05-04T06:17:16.000Z" itemprop="datePublished">2022-05-04</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/05/04/browser-find-multiple-keywords/">浏览器查找多个关键词</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>平时我们使用浏览器浏览页面时，经常使用 <code>Ctrl</code> + <code>F</code> 快捷键快速查找关键字。但，假如我们想查找多个关键字时该怎么办，一个一个便利关键字查找吗？不不不，合格的程序员是不会允许重复自己的。</p>
+<p>我的解决方案：使用油猴脚本同时高亮多个关键字。</p>
+<ol>
+<li>安装油猴<br>不同浏览器安装方法都不一样，<code>Microsoft Edge</code> 的话，直接跳转 <a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd" target="_blank" rel="noopener">这个页面</a> 安装即可</li>
+<li>安装 <a href="https://greasyfork.org/scripts/13007-text-highlight-and-seek" target="_blank" rel="noopener">Text Highlight and Seek</a> 脚本</li>
+<li>配置启用脚本<br><img src="/images/browser-find-multiple-keywords/tampermonkey-menu.jpg" alt="点击油猴图标，进入仪表盘"><br><img src="/images/browser-find-multiple-keywords/tampermonkey-installed-userscripts.jpg" alt="点击已安装的脚本"><br><img src="/images/browser-find-multiple-keywords/tampermonkey-settings.jpg" alt="进入脚本配置页"><br><img src="/images/browser-find-multiple-keywords/tampermonkey-user-includes.jpg" alt="添加 user includes"></li>
+</ol>
+<p><em>备注：更多请查看 <a href="https://www.tampermonkey.net/documentation.php#_include" target="_blank" rel="noopener">油猴文档</a></em></p>
+<p>实际使用效果预览：</p>
+<p><img src="/images/browser-find-multiple-keywords/browser-find-multiple-entries.jpg" alt="浏览器查找多个关键词"></p>
+<ul>
+<li><a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd" target="_blank" rel="noopener">Tampermonkey - Microsoft Edge Addons</a></li>
+<li><a href="https://www.tampermonkey.net/documentation.php" target="_blank" rel="noopener">Tampermonkey · Documentation</a></li>
+<li><a href="https://greasyfork.org/scripts/13007-text-highlight-and-seek" target="_blank" rel="noopener">Text Highlight and Seek</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2022/05/04/browser-find-multiple-keywords/" data-id="clbrssbbr002ie28c5sm3e29o" data-title="浏览器查找多个关键词" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/browser/" rel="tag">browser</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tampermonkey/" rel="tag">tampermonkey</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
 <article id="post-mysql-charset-issue" class="article article-type-post" itemscope itemprop="blogPost">
 <div class="article-meta">
 <a href="/2022/04/07/mysql-charset-issue/" class="article-date">
@@ -132,7 +181,7 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2022/04/07/mysql-charset-issue/" data-id="clbrr63g2002im08cgx5tevj3" data-title="MySQL 编码问题" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2022/04/07/mysql-charset-issue/" data-id="clbrssbbt002ue28c40yhdk1r" data-title="MySQL 编码问题" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/charset/" rel="tag">charset</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/encoding/" rel="tag">encoding</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/utf8/" rel="tag">utf8</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/utf8mb4/" rel="tag">utf8mb4</a></li></ul>
@@ -189,72 +238,10 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2022/03/31/MySQL-quirks/" data-id="clbrr63fo0016m08c58805hw9" data-title="MySQL怪癖" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2022/03/31/MySQL-quirks/" data-id="clbrssbbe001ce28cgqplby6a" data-title="MySQL怪癖" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/if-statement/" rel="tag">if statement</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sleep/" rel="tag">sleep</a></li></ul>
-
-</footer>
-</div>
-
-</article>
-
-
-
-<article id="post-display-non-ASCII-characters-in-Windows-command-and-PowerShell" class="article article-type-post" itemscope itemprop="blogPost">
-<div class="article-meta">
-<a href="/2022/03/04/display-non-ASCII-characters-in-Windows-command-and-PowerShell/" class="article-date">
-  <time datetime="2022-03-04T15:14:48.000Z" itemprop="datePublished">2022-03-04</time>
-</a>
-
-</div>
-<div class="article-inner">
-
-
-<header class="article-header">
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/04/display-non-ASCII-characters-in-Windows-command-and-PowerShell/">在 Windows 命令行和 PowerShell 中显示非 ASCII 字符</a>
-    </h1>
-  
-</header>
-
-<div class="article-entry" itemprop="articleBody">
-<p>在 <code>Windows</code> 环境下，只要使用的足够多，相信大家一定会遇到在命令行 (<code>cmd.exe</code>) 和 <code>PowerShell</code> 中显示非 <code>ASCII</code> 字符（比如中日韩字符，俗称 <code>CJK</code> 编码）的情况。但是有时候，命令行并补能够正常所有字符，取而代之的是方块 <code>□</code> 或者问号 <code>�</code>。</p>
-<p><img src="/images/display-non-ASCII-characters-in-Windows-command-and-PowerShell/ps-default.png" alt="PowerShell 默认显示"></p>
-<p>为什么会出现这种情况？简单来讲：</p>
-<blockquote>
-<p>It does not make sense to have a string without knowing what encoding it uses. <a href="https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/" target="_blank" rel="noopener"><i class="fa fa-chain" aria-hidden="true"></i></a><br>一个字符串如果不知道它用的编码，将毫无意义。<br><cite>Joel Spolsky</cite></p>
-</blockquote>
-<p>换言之，命令行之所以出现乱码，都是因为编码不对。<code>Windows</code> 命令行的编码，默认都是 <code>UCS-2</code>（即 <code>UTF-16</code>，以前是 <code>Java</code> 和 <code>JavaScript</code> 中默认编码），这在二十年前，是相当常见的编码，基本上不会存在什么问题。但随着互联网的流行，<code>UTF-8</code> 编码变得越来越流行，使用 <code>UTF-8</code> 编码存储的文件也越来越普遍，这就有冲突了。<em>如果感兴趣，可以看看本篇的 <a href="#参考链接">参考链接</a>。</em></p>
-<p>那如何解决命令行中显示非 ASCII 字符的问题呢？</p>
-<p>按照网上说法，如果你使用的是默认命令行 (<code>cmd.exe</code>)，那么可以使用 <code>chcp</code> 命令来设置编码，比如：</p>
-<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chcp</span> <span class="number">65001</span></span><br></pre></td></tr></table></figure>
-
-<p>或者你可以在 <code>.bat</code> 文件第一行使用该命令来设置编码。</p>
-<p><img src="/images/display-non-ASCII-characters-in-Windows-command-and-PowerShell/ps-with-chcp-65001.png" alt="PowerShell chcp 65001 也不行啊"></p>
-<p>貌似不行啊… 😕</p>
-<p>如果你使用的是 <code>PowerShell</code>，那需要使用 <code>-Encoding</code> 参数，指定编码格式。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$PSDefaultParameterValues[&#39;*:Encoding&#39;] &#x3D; &#39;utf8&#39;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/display-non-ASCII-characters-in-Windows-command-and-PowerShell/ps-set-encoding.png" alt="PowerShell 设置编码"></p>
-<p>emmm… 还是不行… 😢</p>
-<p>其实，还有另一种方式，那就是换个 <code>Terminal</code>，比如 <a href="https://docs.microsoft.com/en-us/windows/terminal/" target="_blank" rel="noopener">Windows Terminal</a>，他的默认编码就是 <code>UTF-8</code> 🙂。</p>
-<p><img src="/images/display-non-ASCII-characters-in-Windows-command-and-PowerShell/windows-terminal-default.png" alt="Windows Terminal"></p>
-<p><img src="/images/display-non-ASCII-characters-in-Windows-command-and-PowerShell/windows-terminal-with-chcp-65001.png" alt="Windows Terminal chcp 65001 能行？"></p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://devblogs.microsoft.com/commandline/windows-command-line-backgrounder/" target="_blank" rel="noopener"><i class="fa fa-windows" aria-hidden="true"></i> Windows Command-Line: Backgrounder</a></li>
-<li><a href="https://stackoverflow.com/questions/18813495/using-non-ascii-characters-in-a-cmd-batch-file" target="_blank" rel="noopener"><i class="fa fa-stack-overflow" aria-hidden="true"></i> Using non-ASCII characters in a cmd batch file</a></li>
-<li><a href="https://www.tutorialexample.com/set-windows-powershell-to-utf-8-encoding-to-fix-gbk-codec-can-not-encode-character-error-powershell-tutorial" target="_blank" rel="noopener">Set Windows PowerShell to UTF-8 Encoding to Fix GBK Codec Can Not Encode Character Error – PowerShell Tutorial</a></li>
-<li><a href="https://github.com/Microsoft/Terminal/issues/190" target="_blank" rel="noopener"><i class="fa fa-github" aria-hidden="true"></i> Add emoji support to Windows Console</a></li>
-</ul>
-
-</div>
-<footer class="article-footer">
-<a data-url="https://zxs66.github.io/2022/03/04/display-non-ASCII-characters-in-Windows-command-and-PowerShell/" data-id="clbrr63fu001om08c8epm51h4" data-title="在 Windows 命令行和 PowerShell 中显示非 ASCII 字符" class="article-share-link">分享</a>
-
-
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ASCII/" rel="tag">ASCII</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BOM/" rel="tag">BOM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UTF8/" rel="tag">UTF8</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/encoding/" rel="tag">encoding</a></li></ul>
 
 </footer>
 </div>

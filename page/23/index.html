@@ -90,6 +90,56 @@ s.parentNode.insertBefore(hm, s);
 <section id="main">
 
 
+<article id="post-proxy-for-git-and-npm-in-intranet-network" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2020/07/01/proxy-for-git-and-npm-in-intranet-network/" class="article-date">
+  <time datetime="2020-07-01T02:44:19.000Z" itemprop="datePublished">2020-07-01</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/01/proxy-for-git-and-npm-in-intranet-network/">企业网络下设置 git、npm 等代理</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>在某些公司内，应 IT 安全政策要求，可能需要设置代理才能访问互联网。相应地，一些工具/软件也需要设置代理才能正常运行。</p>
+<h2 id="设置当前用户网络代理"><a href="#设置当前用户网络代理" class="headerlink" title="设置当前用户网络代理"></a>设置当前用户网络代理</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set http_proxy=http://[username:password@]proxyserver:port</span><br><span class="line">set https_proxy=https://[username:password@]proxyserver:port</span><br></pre></td></tr></table></figure>
+
+<h2 id="设置-Git-代理："><a href="#设置-Git-代理：" class="headerlink" title="设置 Git 代理："></a>设置 Git 代理：</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy http://xxx.xxx.xxx.xxx:80</span><br></pre></td></tr></table></figure>
+
+<h2 id="移除-Git-代理："><a href="#移除-Git-代理：" class="headerlink" title="移除 Git 代理："></a>移除 Git 代理：</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br></pre></td></tr></table></figure>
+
+<h2 id="设置-npm-代理"><a href="#设置-npm-代理" class="headerlink" title="设置 npm 代理"></a>设置 npm 代理</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config set proxy http://xxx.xxx.xxx.xxx:8080</span><br><span class="line">npm config set https-proxy http://xxx.xxx.xxx.xxx:8080</span><br></pre></td></tr></table></figure>
+
+<h2 id="移除-npm-代理"><a href="#移除-npm-代理" class="headerlink" title="移除 npm 代理"></a>移除 npm 代理</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config rm proxy</span><br><span class="line">npm config rm https-proxy</span><br></pre></td></tr></table></figure>
+
+<p>更多常用代理命令，请移步各搜索引擎或 <a href="https://stackoverflow.com" target="_blank" rel="noopener">Stackoverflow</a>。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="http://leifengblog.net/blog/how-to-use-pip-behind-a-proxy/" target="_blank" rel="noopener">How to Use pip behind a Proxy</a></li>
+<li><a href="https://dannyda.com/2019/12/13/how-to-change-windows-proxy-settings-using-cmd-command-prompt-registry-cmd-bat" target="_blank" rel="noopener">How to change Windows proxy settings using cmd/command prompt/registry/.cmd/.bat (and apply the settings instantly/immediately without reboot)</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2020/07/01/proxy-for-git-and-npm-in-intranet-network/" data-id="clbrssbby003de28c7b0869ts" data-title="企业网络下设置 git、npm 等代理" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/corpnet/" rel="tag">corpnet</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/intranet/" rel="tag">intranet</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/proxy/" rel="tag">proxy</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
 <article id="post-improve-Angular-application-performance" class="article article-type-post" itemscope itemprop="blogPost">
 <div class="article-meta">
 <a href="/2020/06/22/improve-Angular-application-performance/" class="article-date">
@@ -131,7 +181,7 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2020/06/22/improve-Angular-application-performance/" data-id="clbrr63fx0021m08c2miy0bq8" data-title="提升 Angular 应用性能技巧" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2020/06/22/improve-Angular-application-performance/" data-id="clbrssbbs002pe28c9ukybndo" data-title="提升 Angular 应用性能技巧" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/angular/" rel="tag">angular</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/performance/" rel="tag">performance</a></li></ul>
@@ -166,7 +216,7 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2020/06/17/opening/" data-id="clbrr63g4002sm08ca6lkat8y" data-title="时代残党个人博客，开张啦！" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2020/06/17/opening/" data-id="clbrssbbx003be28c8zlhbqpy" data-title="时代残党个人博客，开张啦！" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>

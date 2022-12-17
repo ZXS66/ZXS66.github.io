@@ -90,6 +90,83 @@ s.parentNode.insertBefore(hm, s);
 <section id="main">
 
 
+<article id="post-MySQL-variables" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/03/25/MySQL-variables/" class="article-date">
+  <time datetime="2021-03-25T14:42:51.000Z" itemprop="datePublished">2021-03-25</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/25/MySQL-variables/">MySQL 变量</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>本文仅记录 MySQL 中本地变量和用户变量的相同和不同。</p>
+<h3 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR;"></a>TL;DR;</h3><p>感觉英文还行的看官，请直接移步 <a href="#参考链接">参考链接</a> 查看 MySQL 官方文档。</p>
+<h5 id="相同点："><a href="#相同点：" class="headerlink" title="相同点："></a>相同点：</h5><p>都可以使用 SET 语句赋值。</p>
+<h5 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h5><table>
+<thead>
+<tr>
+<th></th>
+<th>本地变量</th>
+<th>用户变量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>变量名称格式</td>
+<td>不以@开头</td>
+<td>必须以@开头</td>
+</tr>
+<tr>
+<td>是否需要DECLARE</td>
+<td>✔️</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>常见使用场景</td>
+<td>存储过程</td>
+<td>即时查询窗口</td>
+</tr>
+<tr>
+<td>存在作用域</td>
+<td>当前存储过程</td>
+<td>当前会话</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>The scope of a local variable is the BEGIN … END block within which it is declared. The variable can be referred to in blocks nested within the declaring block, except those blocks that declare a variable with the same name. Because local variables are in scope only during stored program execution, references to them are not permitted in prepared statements created within a stored program. Prepared statement scope is the current session, not the stored program, so the statement could be executed after the program ends, at which point the variables would no longer be in scope. For example, SELECT … INTO local_var cannot be used as a prepared statement. </p>
+</blockquote>
+<blockquote>
+<p>User-defined variables are session specific. A user variable defined by one client cannot be seen or used by other clients. (Exception: A user with access to the Performance Schema user_variables_by_thread table can see all user variables for all sessions.) All variables for a given client session are automatically freed when that client exits.</p>
+</blockquote>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/user-variables.html" target="_blank" rel="noopener">MySQL::User-Defined Variables</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/local-variable-scope.html" target="_blank" rel="noopener">MySQL::Local Variable Scope and Resolution</a></li>
+<li><a href="https://www.delftstack.com/howto/mysql/mysql-declare-variable/" target="_blank" rel="noopener">Declare and Use Variables in MySQL</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/03/25/MySQL-variables/" data-id="clbrssbbg001le28c1cnq6pfw" data-title="MySQL 变量" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/variable/" rel="tag">variable</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
 <article id="post-ASP-NET-MVC-Forms-Authentication" class="article article-type-post" itemscope itemprop="blogPost">
 <div class="article-meta">
 <a href="/2021/03/14/ASP-NET-MVC-Forms-Authentication/" class="article-date">
@@ -134,7 +211,7 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2021/03/14/ASP-NET-MVC-Forms-Authentication/" data-id="clbrr63fc000bm08cdk1b9qzg" data-title="ASP.NET MVC 表单认证" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2021/03/14/ASP-NET-MVC-Forms-Authentication/" data-id="clbrssbaf0006e28cb8y3ewsq" data-title="ASP.NET MVC 表单认证" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/asp-net/" rel="tag">asp.net</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/forms-authentication/" rel="tag">forms authentication</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mvc/" rel="tag">mvc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows-authentication/" rel="tag">windows authentication</a></li></ul>
@@ -176,8 +253,8 @@ s.parentNode.insertBefore(hm, s);
 <p>使用方法如下：</p>
 <p>第〇步：启用 SQL CLR（默认禁用）</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sp_configure 'clr enabled', 1  </span><br><span class="line">GO  </span><br><span class="line">RECONFIGURE  </span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
-<p>第一步：编写 GROUP_CONCAT 程序，参考的是微软官网的 <a href="https://learn.microsoft.com/en-us/sql/relational-databases/clr-integration-database-objects-user-defined-functions/clr-user-defined-aggregate-invoking-functions" target="_blank" rel="noopener">Example</a>。<br>第二步：部署至 SQL Server。可选择编译好后，把 dll 文件扔到目标机器上后用 SSMS 完成发布；也可以直接使用 VS 连接到 SQL Server 直接发布，看实际情况和个人喜好。<br>第三步：使用。同其他内置函数一样，只不过要写清楚命名空间(namespace)。</p>
-<p>更多请参考：<a href="https://github.com/ZXS66/mssql_clr_util" target="_blank" rel="noopener">ZXS66/mssql_clr_util</a></p>
+<p>第一步：编写 GROUP_CONCAT 程序，参考的是微软官网的 <a href="https://learn.microsoft.com/en-us/sql/relational-databases/clr-integration-database-objects-user-defined-functions/clr-user-defined-aggregate-invoking-functions" target="_blank" rel="noopener">范例</a>。<br>第二步：部署至 SQL Server。可选择编译好后，把 dll 文件扔到目标机器上后用 SSMS 完成发布；也可以直接使用 VS 连接到 SQL Server 直接发布，看实际情况和个人喜好。<br>第三步：使用。同其他内置函数一样，只不过要写清楚命名空间(namespace)。</p>
+<p>更多请参考：<a href="https://github.com/ZXS66/mssql_clr_util" target="_blank" rel="noopener"><i class="fa fa-github" aria-hidden="true"></i> ZXS66/mssql_clr_util</a></p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
 <li><a href="https://stackoverflow.com/questions/17591490/how-to-make-a-query-with-group-concat-in-sql-server" target="_blank" rel="noopener">How to make a query with group_concat in sql server</a></li>
 <li><a href="https://codemegeek.com/2018/11/17/use-stuff-and-for-xml-path-in-sql-server-to-concatenate-string/" target="_blank" rel="noopener">USE STUFF AND ‘FOR XML PATH’ IN SQL SERVER TO CONCATENATE STRING</a></li>
@@ -188,55 +265,10 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2021/02/28/GROUP-CONCAT-in-SQL-Server/" data-id="clbrr63ff000im08cec143235" data-title="SQL Server 中的 GROUP_CONCAT" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2021/02/28/GROUP-CONCAT-in-SQL-Server/" data-id="clbrssbb8000ye28caaw3dhwa" data-title="SQL Server 中的 GROUP_CONCAT" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/group-concat/" rel="tag">group_concat</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql-server/" rel="tag">sql server</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/string-agg/" rel="tag">string_agg</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stuff-for-xml-path/" rel="tag">stuff for xml path</a></li></ul>
-
-</footer>
-</div>
-
-</article>
-
-
-
-<article id="post-zhaocaijinbao" class="article article-type-post" itemscope itemprop="blogPost">
-<div class="article-meta">
-<a href="/2021/02/06/zhaocaijinbao/" class="article-date">
-  <time datetime="2021-02-06T15:11:02.000Z" itemprop="datePublished">2021-02-06</time>
-</a>
-
-</div>
-<div class="article-inner">
-
-
-<header class="article-header">
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/06/zhaocaijinbao/">如何网页显示臆造汉字</a>
-    </h1>
-  
-</header>
-
-<div class="article-entry" itemprop="articleBody">
-<p>接上一篇文章，本次主要探讨臆造汉字如何书写。使用的技术就是 SVG。</p>
-<p>废话少说，直接进入正题：</p>
-<h3 id="拆字"><a href="#拆字" class="headerlink" title="拆字"></a>拆字</h3><p>招财进宝合体字，一般在过新年的时候，大家贴春联的时候会用，寓意嘛，简单明了！</p>
-<p>诺，就像下面图片这样：</p>
-<p><img src="/images/zhaocaijinbao/zcjb.jpg" alt="zhāocáijìnbăo"></p>
-<p>要拆的话，首先要明白，一般大家写这个字的时候，都是用的繁体字。</p>
-<p>第一步：招、進、寶<br>第二步：宀(mián)、𤣩(拼音未知)、缶(gāng)、隹(zhuī)、貝、招、辶(chuò)</p>
-<h3 id="编写-SVG-text"><a href="#编写-SVG-text" class="headerlink" title="编写 SVG.text"></a>编写 SVG.text</h3><p>修改 SVG 文件其实就是修改 HTML 文件。同样的 XML 语法，同样的 CSS 样式。仅部分细节不同。此处省略介绍 SVG 的一万字 😄</p>
-<h3 id="修改-SVG-样式"><a href="#修改-SVG-样式" class="headerlink" title="修改 SVG 样式"></a>修改 SVG 样式</h3><p>这就非常考验 CSS 功底了，也是个没底的工作。做的好看的，可以非常好看，阴影啊、艺术字体啊、背景图片啊、边框啊等等，我这里就偷个懒，非常简陋的版本，如下：</p>
-<p><img src="/images/zhaocaijinbao/zcjb.svg" alt="zhāocáijìnbăo"></p>
-<p>希望可以抛砖引玉，各位可以在此基础之上尽情发挥。</p>
-
-</div>
-<footer class="article-footer">
-<a data-url="https://zxs66.github.io/2021/02/06/zhaocaijinbao/" data-id="clbrr63hx00com08c9rjgbgu8" data-title="如何网页显示臆造汉字" class="article-share-link">分享</a>
-
-
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svg/" rel="tag">svg</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/unicode/" rel="tag">unicode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%87%86%E9%80%A0%E6%B1%89%E5%AD%97/" rel="tag">臆造汉字</a></li></ul>
 
 </footer>
 </div>

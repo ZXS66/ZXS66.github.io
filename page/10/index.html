@@ -90,6 +90,104 @@ s.parentNode.insertBefore(hm, s);
 <section id="main">
 
 
+<article id="post-migrate-data-from-MySQL-to-SQL-Server" class="article article-type-post" itemscope itemprop="blogPost">
+<div class="article-meta">
+<a href="/2021/06/06/migrate-data-from-MySQL-to-SQL-Server/" class="article-date">
+  <time datetime="2021-06-06T02:24:00.000Z" itemprop="datePublished">2021-06-06</time>
+</a>
+
+</div>
+<div class="article-inner">
+
+
+<header class="article-header">
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/06/06/migrate-data-from-MySQL-to-SQL-Server/">从 MySQL 迁移数据至 SQL Server</a>
+    </h1>
+  
+</header>
+
+<div class="article-entry" itemprop="articleBody">
+<p>数据库之间数据同步，是很常见的场景。可能发生在相同服务器不同数据库名之间，也可能发生在不同服务器实例相同数据库之间，还可能发生在不同服务器不同数据库软件之间等等。本片文章只覆盖：如何从 MySQL 迁移数据至 SQL Server 中。</p>
+<p>我目前使用了两种方法：</p>
+<h3 id="使用-Microsoft-SQL-Server-Migration-Assistant-for-MySQL-工具"><a href="#使用-Microsoft-SQL-Server-Migration-Assistant-for-MySQL-工具" class="headerlink" title="使用 Microsoft SQL Server Migration Assistant for MySQL 工具"></a>使用 Microsoft SQL Server Migration Assistant for MySQL 工具</h3><p>这是微软官方出品的迁移工具。对于项目前期业务人员进行原型快速验证非常有帮助。</p>
+<h5 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h5><ol>
+<li>下载 <a href="https://www.microsoft.com/en-us/download/details.aspx?id=54257" target="_blank" rel="noopener">Microsoft SQL Server Migration Assistant for MySQL</a> ；</li>
+<li>双击 exe 文件安装；</li>
+<li>运行 SSMA：<ol>
+<li>连接 MySQL</li>
+<li>勾选需要迁移的表、视图、存储过程、函数等</li>
+<li>连接 SQL Server</li>
+<li>勾选需要迁移的目标 SQL Server 数据库</li>
+<li>回到左边 MySQL Metadata Explorer 窗口，点击按钮 “Convert Schema”</li>
+<li>待完成后，右键 SQL Server 数据库节点，“Synchronize with Database”</li>
+<li>待完成后，点击“Migrate Data”</li>
+<li>完成。</li>
+</ol>
+</li>
+</ol>
+<p>SSMA 网上有很多图文/视频教程，各位可以自行搜索。期间可能会遇到以下问题：</p>
+<ul>
+<li>MySQL ODBC Driver 缺失问题，可以自行去 <a href="https://www.mysql.com/products/connector/" target="_blank" rel="noopener">MySQL 官网下载</a>；如果还是有问题，可以去 SSMA 下载页找它的 System Requirements，里面会提到具体的 MySQL ODBC Driver 版本号，下载这一特定版本号就对了。</li>
+<li>Visual Studio 2019 x64 Redistributable 组件缺失问题，去 <a href="https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0" target="_blank" rel="noopener">微软官方下载</a> 安装即可。</li>
+</ul>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ol>
+<li>非 IT 人士也可以上手，不用编写任何代码；</li>
+</ol>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ol>
+<li>前期环境安装和配置步骤繁琐，容易出错；</li>
+<li>无法自动化。</li>
+</ol>
+<h3 id="创建-SSIS"><a href="#创建-SSIS" class="headerlink" title="创建 SSIS"></a>创建 SSIS</h3><h5 id="使用步骤-1"><a href="#使用步骤-1" class="headerlink" title="使用步骤"></a>使用步骤</h5><p><a href="https://docs.microsoft.com/en-us/sql/integration-services/lesson-1-create-a-project-and-basic-package-with-ssis?view=sql-server-ver15" target="_blank" rel="noopener">官方参考文档</a></p>
+<ol>
+<li>安装 MySQL ODBC Connector <a href="https://dev.mysql.com/downloads/connector/odbc/" target="_blank" rel="noopener">点此下载</a>；</li>
+<li>打开 Visual Studio，新建 Integration Services Project； </li>
+<li>分别为 MySQL 和 SQL Server 添加 Connection（在 Solution Explorer 中，右键 Connection Managers，New Connection Manager），范例如下：<br><img src="/images/migrate-data-from-MySQL-to-SQL-Server/MySQL-connection-manager.jpg" alt="MySQL Connection Manager"><br><img src="/images/migrate-data-from-MySQL-to-SQL-Server/SQL-Server-connection-manager.jpg" alt="SQL Server Connection Manager"></li>
+<li>从 SSIS Toolbox 中拖入 Execute SQL Task 或者 Data Flow Task，前者可用于执行 SQL 脚本或者存储过程，后者则可以更加灵活配置；</li>
+<li>双击 Data Flow Task 切换至 Data Flow 视图，添加一个 <code>ADO NET Source</code>，双击编辑，ADO.NET Connection Manager选择刚才第3步所创建 MySQL Connection Manager，Data access mode 选择 SQL command，SQL command text 填入 SELECT 查询语句：<br><img src="/images/migrate-data-from-MySQL-to-SQL-Server/MySQL-ADO.NET-Source.jpg" alt="MySQL Source"></li>
+<li>再添加一个 <code>ADO NET Destination</code>，双击编辑，ADO.NET Connection Manager选择刚才第3步所创建 SQL Server Connection Manager，Use a table or view 选择需要插入的目标表：<br><img src="/images/migrate-data-from-MySQL-to-SQL-Server/SQL-Server-ADO.NET-Source.jpg" alt="SQL Server Destination"></li>
+<li>点击 ADO NET Source 蓝色箭头，连接至 SQL Server Destination（当然这中间可以加一些变换，可选）；</li>
+<li>切换回 Control Flow，也用蓝色箭头连接各 Execute SQL Task 或者 Data Flow Task；</li>
+<li>编译、本地调试一遍；</li>
+<li>邮件点击 Project Name，Deploy，Server Name 输入目标 SQL Server 地址，Path 设置完毕，Next，Deploy，数秒后完成；</li>
+<li>打开 SSMS (SQL Server Management Studio)，找到对应的 Package，右键 Execute：<br><img src="/images/migrate-data-from-MySQL-to-SQL-Server/execute-SSIS.jpg" alt="Execute SSIS"></li>
+<li>稍等片刻，即可查看运行结果报告。</li>
+</ol>
+<p>说一个我开发时遇到的坑吧：从 MySQL 到 SQL Server 类型转换时请参考 <a href="https://docs.microsoft.com/en-us/sql/integration-services/data-flow/integration-services-data-types?view=sql-server-ver15" target="_blank" rel="noopener">文档</a>，一般 <code>VARCHAR</code> 或者 <code>TEXT</code> 这些类型没有问题，但是 <code>DateTime</code> 需要注意精度问题、空值问题。精度不一致可能会导致精度丢失甚至运行报错。MySQL 中空时间为 <code>0000-00-00</code>，而 SQL Server 中空时间为 <code>1970-01-01</code>。</p>
+<p>网上说的解决方案很多，但不一定适用，或者不适用于所有场景。我的解决方案很简单，就是在第5步时，填写 MySQL Source 的 SQL command text 时，稍加调整脚本，把 DATETIME 这些类型的数据做个变换：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- approach 1: IF(`fromTime` IS NULL OR `fromTime`='0000-00-00', NULL, DATE_FORMAT(`fromTime`, '%Y-%m-%d')) AS `fromTime`,  -- for nullable date type</span></span><br><span class="line"><span class="comment">-- approach 2: CAST(`list_date` AS CHAR) AS `EY_List_date`,  -- for datetime type</span></span><br><span class="line"><span class="comment">-- approach 3: CAST(`list_date` AS DATE) AS `EY_List_date`,  -- for date type</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="优势："><a href="#优势：" class="headerlink" title="优势："></a>优势：</h5><ol>
+<li>性能快；</li>
+<li>人工介入少，不易出错；</li>
+<li>可自动化，SQL Server 中可以直接查看每次运行的报告。</li>
+</ol>
+<h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5><ol>
+<li>SSIS 任务<strong>只能使用 Windows 认证</strong>。前期环境配置需要花费一定时间；</li>
+<li>开发 SSIS 时，部分提示信息不够准确清晰；</li>
+<li>第一次需要手动同步 Schema，以后每次 Schema 有变动，SSIS package 也需要跟着变动。</li>
+</ol>
+<h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><ul>
+<li><i class="fa fa-windows" aria-hidden="true"></i> <a href="https://www.microsoft.com/en-us/download/details.aspx?id=54257" target="_blank" rel="noopener">Download Microsoft SQL Server Migration Assistant for MySQL</a></li>
+<li><a href="https://dev.mysql.com/downloads/connector/odbc/" target="_blank" rel="noopener">MySQL :: Download Connector/ODBC</a></li>
+<li><i class="fa fa-windows" aria-hidden="true"></i> <a href="https://docs.microsoft.com/en-us/sql/integration-services/data-flow/integration-services-data-types?view=sql-server-ver15" target="_blank" rel="noopener">Integration Services Data Types</a></li>
+</ul>
+
+</div>
+<footer class="article-footer">
+<a data-url="https://zxs66.github.io/2021/06/06/migrate-data-from-MySQL-to-SQL-Server/" data-id="clbrssbbw0031e28cassgh4mj" data-title="从 MySQL 迁移数据至 SQL Server" class="article-share-link">分享</a>
+
+
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/etl/" rel="tag">etl</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/microsoft-sql-server-migration-assistant-for-mysql/" rel="tag">microsoft sql server migration assistant for mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/migration/" rel="tag">migration</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql-server/" rel="tag">sql server</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql-server-integration-service/" rel="tag">sql server integration service</a></li></ul>
+
+</footer>
+</div>
+
+</article>
+
+
+
 <article id="post-message-digest-in-database" class="article article-type-post" itemscope itemprop="blogPost">
 <div class="article-meta">
 <a href="/2021/05/23/message-digest-in-database/" class="article-date">
@@ -121,7 +219,7 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2021/05/23/message-digest-in-database/" data-id="clbrr63g00029m08ca1xofu0f" data-title="数据库信息摘要" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2021/05/23/message-digest-in-database/" data-id="clbrssbbs002ne28c2foj2fhf" data-title="数据库信息摘要" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/md5/" rel="tag">md5</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/message-digest/" rel="tag">message digest</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sha256/" rel="tag">sha256</a></li></ul>
@@ -171,65 +269,10 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2021/05/16/self-serve-QRCode-in-hexo/" data-id="clbrr63hm00c4m08chiay4oj7" data-title="Hexo博客使用二维码生成器" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2021/05/16/self-serve-QRCode-in-hexo/" data-id="clbrssbc0003ke28c0brbdlfg" data-title="Hexo博客使用二维码生成器" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/qr-code/" rel="tag">qr code</a></li></ul>
-
-</footer>
-</div>
-
-</article>
-
-
-
-<article id="post-get-started-with-PWA" class="article article-type-post" itemscope itemprop="blogPost">
-<div class="article-meta">
-<a href="/2021/05/06/get-started-with-PWA/" class="article-date">
-  <time datetime="2021-05-06T04:54:15.000Z" itemprop="datePublished">2021-05-06</time>
-</a>
-
-</div>
-<div class="article-inner">
-
-
-<header class="article-header">
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/06/get-started-with-PWA/">渐进式网页应用(PWA)入门</a>
-    </h1>
-  
-</header>
-
-<div class="article-entry" itemprop="articleBody">
-<p><code>PWA</code> 现在越来越流行了。虽然国内见得不多，但国外已经非常常见了。闲来无事，那就把本博客改造成 <code>PWA</code> 好了。</p>
-<h3 id="PWA-介绍"><a href="#PWA-介绍" class="headerlink" title="PWA 介绍"></a>PWA 介绍</h3><p>此处省略一万字。<a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps" target="_blank" rel="noopener"><fa-link/></a></p>
-<h3 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h3><p>参考的是 <a href="https://docs.microsoft.com/en-us/microsoft-edge/progressive-web-apps-chromium/get-started" target="_blank" rel="noopener"><i class="fa fa-microsoft" aria-hidden="true"></i> 这篇文档</a>。<del>此处又省略了一万字。</del></p>
-<h3 id="一个小-bug"><a href="#一个小-bug" class="headerlink" title="一个小 bug"></a>一个小 bug</h3><p><code>@pwabuilder/pwaupdate</code> 组件 <a href="https://github.com/pwa-builder/pwa-update#api" target="_blank" rel="noopener">默认</a> 加载的 <code>service worker</code> 是<strong>当前路径</strong>下的 “pwabuilder-sw.js” 文件。可是，当路径变了，比如跳到了更深一层目录，<code>service worker</code> 就不能正常加载了。解决办法是在注册 <code>service worker</code> 时（执行 <code>pwabuilder-sw-register.js</code> 文件），指定 <code>swpath</code> 为 “<code>/pwabuilder-sw.js</code>“。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate"</span>;</span><br><span class="line"><span class="keyword">const</span> el = <span class="built_in">document</span>.createElement(<span class="string">"pwa-update"</span>);</span><br><span class="line"><span class="comment">// default is "pwabuilder-sw.js", but it doesn't work in subpaths</span></span><br><span class="line">el.setAttribute(<span class="string">"swpath"</span>, <span class="string">"/pwabuilder-sw.js"</span>);</span><br><span class="line"><span class="built_in">document</span>.body.appendChild(el);</span><br></pre></td></tr></table></figure>
-
-<h3 id="强制更新"><a href="#强制更新" class="headerlink" title="强制更新"></a>强制更新</h3><p>上线后一段时间发现，<code>PWA</code> 是可以正常工作了，也能离线使用，但是因为使用的是 <code>Cache-First</code> 策略，所以会发生服务器端其实已经更新了，但是本地一直看不到最新版本。PC 端还好，可以使用强制刷新 (<code>Ctrl</code>+<code>Shift</code>+<code>R</code>或者<code>Ctrl</code>+<code>Shift</code>+<code>F5</code>组合键或者长按刷新按钮)来查看最新版本，手机端怎么办。手机浏览器又没有强制刷新功能。</p>
-<p>上网搜寻解决方案，发现我并不是一个人，很多人有这个痛点！！使用 <code>Cache-First</code> 策略的人，其实大部分人都是希望优先打开本地缓存版本（以提升速度），在设备联网的时候，有更新即更新版本，这次/下次刷新直接用，没更新就接着用本地缓存版。</p>
-<p><img src="https://cdn.sanity.io/images/uf1om34c/production/5c7f0c54f4c05c14d0bbbfe4a76753c51faf9154-1014x492.png?w=1200&fm=webp&max-h=600&q=80&auto=format" alt="The stale-while-revalidate strategy"></p>
-<p>其实，Google 在设计 <code>workbox</code> 的时候，已经考虑到这个场景，解决办法非常简单，把策略改成 <code>Stale-While-Revalidate</code> 即可。<br><code>pwabuilder-sw.js</code> 内容修改如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This is the "Offline copy of assets" service worker</span></span><br><span class="line"><span class="keyword">const</span> CACHE = <span class="string">"pwabuilder-offline"</span>;</span><br><span class="line"><span class="keyword">const</span> QUEUE_NAME = <span class="string">"bgSyncQueue"</span>;</span><br><span class="line">importScripts(</span><br><span class="line">  <span class="string">"https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js"</span></span><br><span class="line">);</span><br><span class="line">self.addEventListener(<span class="string">"message"</span>, event =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (event.data &amp;&amp; event.data.type === <span class="string">"SKIP_WAITING"</span>) &#123;</span><br><span class="line">    self.skipWaiting();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">const</span> bgSyncPlugin = <span class="keyword">new</span> workbox.backgroundSync.BackgroundSyncPlugin(</span><br><span class="line">  QUEUE_NAME,</span><br><span class="line">  <span class="comment">// &#123; maxRetentionTime: 7 * 24 * 60 &#125; // Retry for max of 1 week (specified in minutes)</span></span><br><span class="line">);</span><br><span class="line">workbox.routing.registerRoute(</span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"/*"</span>),</span><br><span class="line">  <span class="keyword">new</span> workbox.strategies.StaleWhileRevalidate(&#123;</span><br><span class="line">    cacheName: CACHE,</span><br><span class="line">    plugins: [bgSyncPlugin]</span><br><span class="line">  &#125;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<p>更多策略，请参考 <a href="https://developers.google.com/web/tools/workbox/modules/workbox-strategies" target="_blank" rel="noopener"><i class="fa fa-google" aria-hidden="true"></i> Workbox 官方文档</a> 或 <a href="https://www.charistheo.io/blog/2021/03/workbox-strategies-with-examples-and-use-cases/" target="_blank" rel="noopener">Workbox Strategies with examples and use-cases</a>。</p>
-<p>发布上线，测试，完美解决问题！😄</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://docs.microsoft.com/en-us/microsoft-edge/progressive-web-apps-chromium/get-started" target="_blank" rel="noopener"><i class="fa fa-microsoft" aria-hidden="true"></i> Get started with Progressive Web Apps (Chromium)</a></li>
-<li><a href="https://stackoverflow.com/questions/49739438/when-and-how-does-a-pwa-update-itself" target="_blank" rel="noopener"><i class="fa fa-stack-overflow" aria-hidden="true"></i> When and how does a PWA update itself?</a></li>
-<li><a href="https://www.pwabuilder.com/" target="_blank" rel="noopener">PWA Builder</a></li>
-<li><a href="https://developers.google.com/web/tools/workbox/modules/workbox-strategies" target="_blank" rel="noopener"><i class="fa fa-google" aria-hidden="true"></i> Workbox 官方文档</a></li>
-<li><a href="https://www.charistheo.io/blog/2021/03/workbox-strategies-with-examples-and-use-cases/" target="_blank" rel="noopener">Workbox Strategies with examples and use-cases</a></li>
-</ul>
-
-</div>
-<footer class="article-footer">
-<a data-url="https://zxs66.github.io/2021/05/06/get-started-with-PWA/" data-id="clbrr63fw001wm08ccx7k1s0x" data-title="渐进式网页应用(PWA)入门" class="article-share-link">分享</a>
-
-
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/get-started/" rel="tag">get started</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/progressive-web-app/" rel="tag">progressive web app</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwa/" rel="tag">pwa</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/workbox/" rel="tag">workbox</a></li></ul>
 
 </footer>
 </div>
