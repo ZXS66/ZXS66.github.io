@@ -125,14 +125,25 @@ s.parentNode.insertBefore(hm, s);
 <p>第一次打开会提示设置用户名密码（超级用户权限）。</p>
 <h5 id="Windows-环境必要软件安装"><a href="#Windows-环境必要软件安装" class="headerlink" title="Windows 环境必要软件安装"></a>Windows 环境必要软件安装</h5><p>根据各开发者技术栈不同，需要安装的软件会有所不同。包括但不限于：<a href="https://www.docker.com/products/docker-desktop/" target="_blank" rel="noopener">Docker Desktop</a>、<a href="https://code.visualstudio.com" target="_blank" rel="noopener">Visual Studio Code</a>、<a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack" target="_blank" rel="noopener">Remote Development Extension Pack</a></p>
 <h5 id="WSL-环境必要软件安装"><a href="#WSL-环境必要软件安装" class="headerlink" title="WSL 环境必要软件安装"></a>WSL 环境必要软件安装</h5><p>根据各开发者技术栈不同，需要安装的软件会有所不同。包括但不限于：<a href="https://git-scm.com/download/linux" target="_blank" rel="noopener">git</a>、<a href="https://nodejs.org" target="_blank" rel="noopener">node.js</a>、<a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python</a></p>
-<h5 id="GitHub-加速"><a href="#GitHub-加速" class="headerlink" title="GitHub 加速"></a>GitHub 加速</h5><p>其实，现在好多办法都可以加速访问 <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>，我这里介绍一种特别原始的办法，就是修改 hosts 文件。</p>
+<h5 id="GitHub-访问加速"><a href="#GitHub-访问加速" class="headerlink" title="GitHub 访问加速"></a>GitHub 访问加速</h5><p>其实，现在好多办法都可以加速访问 <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>，我这里介绍一种特别原始的办法，就是修改 hosts 文件。</p>
 <ol>
 <li>以管理员权限，打开记事本</li>
 <li>记事本中打开 <code>C:\Windows\System32\drivers\etc\hosts</code> 文件</li>
 <li>添加以下 IP 映射：<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 需要定期更新如下代码</span></span><br><span class="line"><span class="comment"># New！欢迎使用基于DNS的新方案</span></span><br><span class="line"><span class="comment"># https://gitlab.com/ineo6/hosts/-/raw/master/next-hosts</span></span><br><span class="line"><span class="comment"># 地址可能会变动，请务必关注GitHub、Gitlab获取最新消息</span></span><br><span class="line"><span class="comment"># 也可以关注公众号：湖中剑，保证不迷路</span></span><br><span class="line"><span class="comment"># GitHub Host Start</span></span><br><span class="line"></span><br><span class="line">140.82.114.3                 central.github.com</span><br><span class="line">140.82.114.3                 assets-cdn.github.com</span><br><span class="line">151.101.1.6                  github.map.fastly.net</span><br><span class="line">151.101.1.6                  github.global.ssl.fastly.net</span><br><span class="line">140.82.114.3                 gist.github.com</span><br><span class="line">185.199.108.153              github.io</span><br><span class="line">140.82.114.3                 github.com</span><br><span class="line">140.82.114.3                 api.github.com</span><br><span class="line">140.82.114.3                 codeload.github.com</span><br><span class="line">72.21.206.80                 github-cloud.s3.amazonaws.com</span><br><span class="line">72.21.206.80                 github-com.s3.amazonaws.com</span><br><span class="line">72.21.206.80                 github-production-release-asset-2e65be.s3.amazonaws.com</span><br><span class="line">72.21.206.80                 github-production-user-asset-6210df.s3.amazonaws.com</span><br><span class="line">72.21.206.80                 github-production-repository-file-5c1aeb.s3.amazonaws.com</span><br><span class="line">185.199.108.153              githubstatus.com</span><br><span class="line">140.82.113.18                github.community</span><br><span class="line">140.82.114.3                 raw.github.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># Please Star : https://github.com/ineo6/hosts</span></span><br><span class="line"><span class="comment"># Mirror Repo : https://gitlab.com/ineo6/hosts</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Update at: 2022-11-10 16:20:33</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># GitHub Host End</span></span><br></pre></td></tr></table></figure></li>
 <li>运行命令 <code>ipconfig /flushdns</code> 刷新 DNS。</li>
 </ol>
-<p>当然，也有其他的提供最新 hosts（比如 <a href="https://raw.hellogithub.com/hosts" target="_blank" rel="noopener">https://raw.hellogithub.com/hosts</a> ) 或者自动 switchhosts（比如 <a href="https://github.com/oldj/SwitchHosts" target="_blank" rel="noopener">https://github.com/oldj/SwitchHosts</a> ），或者其他科学上网方式，感兴趣的请自行搜索。</p>
+<p>当然，也有其他的提供最新 hosts（比如 <a href="https://raw.hellogithub.com/hosts" target="_blank" rel="noopener">https://raw.hellogithub.com/hosts</a> ) 或者自动 switchhosts（比如 <a href="https://github.com/oldj/SwitchHosts" target="_blank" rel="noopener">https://github.com/oldj/SwitchHosts</a> ），或者镜像 github 网站，或者其他科学上网方式，感兴趣的请自行搜索。</p>
+<h5 id="Github-SSH-配置"><a href="#Github-SSH-配置" class="headerlink" title="Github SSH 配置"></a>Github SSH 配置</h5><ol>
+<li>生成 ssh 公钥和私钥（如果没有的话） <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent" target="_blank" rel="noopener">Generating a new SSH key and adding it to the ssh-agent</a></li>
+<li>添加公钥至 Github 账户 <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account?platform=linux&tool=webui" target="_blank" rel="noopener">Adding a new SSH key to your GitHub account</a></li>
+<li>更改 Repository 至 SSH 协议。<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/deployment.html</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">'git'</span></span><br><span class="line">  <span class="comment"># repo: https://github.com/ZXS66/ZXS66.github.io.git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">git@github.com:ZXS66/ZXS66.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br><span class="line">  <span class="attr">message:</span> <span class="string">"Blog committed on <span class="template-variable">&#123;&#123; now('YYYY/MM/DD HH:mm') &#125;&#125;</span>"</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+</li>
+</ol>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
 <li><a href="https://learn.microsoft.com/en-us/windows/wsl/install" target="_blank" rel="noopener"><i class="fa fa-windows" aria-hidden="true"></i>Install Linux on Windows with WSL</a></li>
 <li><a href="https://mirrors.sjtug.sjtu.edu.cn/docs/ubuntu" target="_blank" rel="noopener">上海交通大学 Linux 用户组 软件源镜像服务</a></li>
@@ -142,7 +153,7 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2022/11/10/setup-wsl-development-environment/" data-id="clbz824ot0037ju8c4sl53jwt" data-title="配置 WSL 开发环境" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2022/11/10/setup-wsl-development-environment/" data-id="clbz8lkmg003lrf8ce5qqfx4u" data-title="配置 WSL 开发环境" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wsl/" rel="tag">wsl</a></li></ul>
@@ -182,7 +193,7 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2022/10/07/data-synchronise-between-SQL-Server-instances/" data-id="clbz824oe001oju8cbgr6g2n9" data-title="SQL Server 实例间的数据同步" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2022/10/07/data-synchronise-between-SQL-Server-instances/" data-id="clbz8lkm10024rf8c716l5wqw" data-title="SQL Server 实例间的数据同步" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bulk-insert/" rel="tag">bulk insert</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql-server/" rel="tag">sql server</a></li></ul>
@@ -235,7 +246,7 @@ s.parentNode.insertBefore(hm, s);
 
 </div>
 <footer class="article-footer">
-<a data-url="https://zxs66.github.io/2022/07/14/csv-to-excel-file/" data-id="clbz824oi0020ju8c86pegykj" data-title="CSV转Excel" class="article-share-link">分享</a>
+<a data-url="https://zxs66.github.io/2022/07/14/csv-to-excel-file/" data-id="clbz8lkm0001zrf8c2s2pgffl" data-title="CSV转Excel" class="article-share-link">分享</a>
 
 
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/asp-net-core/" rel="tag">asp.net core</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/encoding/" rel="tag">encoding</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/excel/" rel="tag">excel</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gb2312/" rel="tag">gb2312</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/unicode/" rel="tag">unicode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/utf-8/" rel="tag">utf-8</a></li></ul>
