@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://zxs66.github.io/images/reliable-cdn/firefox%20cert%20invalid%202.jpg">
 <meta property="og:image" content="https://zxs66.github.io/images/reliable-cdn/firefox%20cert%20invalid%203.jpg">
 <meta property="article:published_time" content="2020-07-19T07:40:45.000Z">
-<meta property="article:modified_time" content="2022-11-08T14:11:27.203Z">
+<meta property="article:modified_time" content="2023-02-19T01:46:53.733Z">
 <meta property="article:author" content="时代残党">
 <meta property="article:tag" content="cdn">
 <meta property="article:tag" content="cloudflare">
@@ -54,11 +54,10 @@
     <link rel="canonical" href="https://zxs66.github.io/2020/07/19/reliable-CDN/">
   
 
+   <!--
   
   
-
-  
-  
+   -->
   
 
   
@@ -194,7 +193,7 @@
   <style>#main article .mdui-card-content .text-center{text-align:center!important}</style>
   <article class="mdui-card mdui-m-b-5">
     <header class="mdui-card-media">
-      <img src="/images/random/material-10.png" style="max-height: 240px;">
+      <img src="/images/random/material-2.png" style="max-height: 240px;">
       <div class="mdui-card-media-covered">
         <div class="mdui-card-primary">
           <div class="mdui-card-primary-title">可靠 CDN</div>
@@ -238,10 +237,10 @@
 <p>今天在家，闲来没事，打开自己的博客，发现 font-awesome 加载不了。起初，我以为是浏览器问题，因为我用 Firefox 有时候能正常渲染 icon font，过一会儿刷新一下又不能了，但是我用 Chrome 一直都可以正常工作。</p>
 <p>去网上搜索一圈，发现 MDN 说：</p>
 <blockquote>
-<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS" target="_blank" rel="noopener"><i class="fa fa-link" aria-hidden="true"></i></a> Web Fonts (for cross-domain font usage in @font-face within CSS), so that servers can deploy TrueType fonts that can only be cross-site loaded and used by web sites that are permitted to do so. </p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS" target="_blank" rel="noopener"><i class="mdui-icon material-icons">link</i></a> Web Fonts (for cross-domain font usage in @font-face within CSS), so that servers can deploy TrueType fonts that can only be cross-site loaded and used by web sites that are permitted to do so. </p>
 </blockquote>
 <blockquote>
-<p><a href="https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy" target="_blank" rel="noopener"><i class="fa fa-link" aria-hidden="true"></i></a> Fonts applied with @font-face. Some browsers allow cross-origin fonts, others require same-origin. </p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy" target="_blank" rel="noopener"><i class="mdui-icon material-icons">link</i></a> Fonts applied with @font-face. Some browsers allow cross-origin fonts, others require same-origin. </p>
 </blockquote>
 <p>发生跨域了？废话，用 CDN 肯定要跨域啊。但这些应该都是正常操作，Chrome 都行。emmm，Firefox 你在作妖吗。MDN 说的 others，该不会说的就是它自己吧。。。</p>
 <p>查证一下 <a href="https://caniuse.com/#feat=fontface" target="_blank" rel="noopener">Can I use</a>：</p>

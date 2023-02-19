@@ -20,7 +20,7 @@
 <meta property="og:description" content="本文仅记录 MySQL 中本地变量和用户变量的相同和不同。 TL;DR;感觉英文还行的看官，请直接移步 参考链接 查看 MySQL 官方文档。 相同点：都可以使用 SET 语句赋值。 不同点    本地变量 用户变量    变量名称格式 不以@开头 必须以@开头   是否需要DECLARE ✔️ ❌   常见使用场景 存储过程 即时查询窗口   存在作用域 当前存储过程 当前会话    The s">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-25T14:42:51.000Z">
-<meta property="article:modified_time" content="2022-11-08T14:11:27.193Z">
+<meta property="article:modified_time" content="2023-02-18T15:11:49.368Z">
 <meta property="article:author" content="时代残党">
 <meta property="article:tag" content="mysql">
 <meta property="article:tag" content="variable">
@@ -43,11 +43,10 @@
     <link rel="canonical" href="https://zxs66.github.io/2021/03/25/MySQL-variables/">
   
 
+   <!--
   
   
-
-  
-  
+   -->
   
 
   
@@ -183,7 +182,7 @@
   <style>#main article .mdui-card-content .text-center{text-align:center!important}</style>
   <article class="mdui-card mdui-m-b-5">
     <header class="mdui-card-media">
-      <img src="/images/random/material-2.png" style="max-height: 240px;">
+      <img src="/images/random/material-8.png" style="max-height: 240px;">
       <div class="mdui-card-media-covered">
         <div class="mdui-card-primary">
           <div class="mdui-card-primary-title">MySQL 变量</div>

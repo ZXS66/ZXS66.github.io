@@ -20,7 +20,7 @@
 <meta property="og:description" content="数据库中，经常遇见需要去重的场景。可能是整行记录（除了 ID）去重，也可能是整行记录的部分字段去重（仅看核心字段）。一般都是采用 SELECT DISTINCT 或者 GROUP BY 方式拿到唯一值，但是这个方法有一个缺陷，SELECT DISTINCT 或者 GROUP BY 多个字段的时候，每次都要书写把所有参与去重逻辑的字段写全了，稍微更改字段或调整次序都需要在所有 SELECT DIST">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-05-23T08:17:58.000Z">
-<meta property="article:modified_time" content="2022-11-08T14:11:27.203Z">
+<meta property="article:modified_time" content="2023-02-18T15:11:49.368Z">
 <meta property="article:author" content="时代残党">
 <meta property="article:tag" content="database">
 <meta property="article:tag" content="message digest">
@@ -45,11 +45,10 @@
     <link rel="canonical" href="https://zxs66.github.io/2021/05/23/message-digest-in-database/">
   
 
+   <!--
   
   
-
-  
-  
+   -->
   
 
   
@@ -185,7 +184,7 @@
   <style>#main article .mdui-card-content .text-center{text-align:center!important}</style>
   <article class="mdui-card mdui-m-b-5">
     <header class="mdui-card-media">
-      <img src="/images/random/material-13.png" style="max-height: 240px;">
+      <img src="/images/random/material-7.png" style="max-height: 240px;">
       <div class="mdui-card-media-covered">
         <div class="mdui-card-primary">
           <div class="mdui-card-primary-title">数据库信息摘要</div>

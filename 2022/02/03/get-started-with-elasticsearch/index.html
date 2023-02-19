@@ -21,7 +21,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zxs66.github.io/images/get-started-with-elasticsearch/install-successfully.jpg">
 <meta property="article:published_time" content="2022-02-03T15:28:57.000Z">
-<meta property="article:modified_time" content="2022-11-08T14:11:27.203Z">
+<meta property="article:modified_time" content="2023-02-19T01:46:53.733Z">
 <meta property="article:author" content="时代残党">
 <meta property="article:tag" content="elasticsearch">
 <meta property="article:tag" content="kibana">
@@ -47,11 +47,10 @@
     <link rel="canonical" href="https://zxs66.github.io/2022/02/03/get-started-with-elasticsearch/">
   
 
+   <!--
   
   
-
-  
-  
+   -->
   
 
   
@@ -236,13 +235,13 @@
 <li>解压下载好的两个 zip 包</li>
 <li>更改 <code>elasticsearch-7.16.3/config/elasticsearch.yml</code> 配置如下(可根据实际情况做调整)：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cluster.name: my-es</span><br><span class="line">node.name: $&#123;HOSTNAME&#125;</span><br><span class="line">network.host: 192.168.0.8</span><br><span class="line">http.port: 9200</span><br><span class="line">path.data: C:\my-es\elasticsearch-data</span><br><span class="line">path.logs: C:\my-es\elasticsearch-logs</span><br><span class="line">xpack.security.enabled : true</span><br><span class="line">discovery.type: single-node</span><br></pre></td></tr></table></figure></li>
 <li>配置 <code>elasticsearch</code> 环境变量：因为 <code>elasticsearch</code> 是基于 <code>Apache Lucene</code> 构建的，所以 <code>Java</code> 虚拟机是必须的。为了减少小白用户的困扰，目前，<code>elasticsearch</code> 在下载好的 zip 包中已包含了 <code>jdk</code> (Open Java 版本) 的子文件夹。配置很简单，只需要设置 <code>ES_HOME</code>(<code>elasticsearch</code> zip 包解压文件夹) 和 <code>ES_JAVA_HOME</code>(<code>%ES_HOME%\jdk</code>) 两个环境变量即可。当然，如果你电脑已经安装了 <code>JDK</code>，那 <code>JAVA_HOME</code> 肯定已经配置好了，这个时候如果没有配置 <code>ES_JAVA_HOME</code>，<code>elasticsearch</code> 就会回滚读取 <code>JAVA_HOME</code> 里的 <code>jdk</code> 了</li>
-<li>设置 <code>elasticsearch</code> 密码 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.16/security-minimal-setup.html" target="_blank" rel="noopener"><i class="fa fa-chain" aria-hidden="true"></i></a>：<ol>
+<li>设置 <code>elasticsearch</code> 密码 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.16/security-minimal-setup.html" target="_blank" rel="noopener"><i class="mdui-icon material-icons">link</i></a>：<ol>
 <li>进入 <code>ES_HOME</code> 目录，运行 <code>./bin/elasticsearch.bat</code> 命令;</li>
 <li>进入 <code>ES_HOME</code> 目录，运行 <code>./bin/elasticsearch-setup-passwords.bat interactive</code> 命令，会提示给默认的几个账户(<code>apm_system</code>、<code>kibana_system</code>、<code>kibana</code>、<code>logstash_system</code>、<code>beats_system</code>、<code>remote_monitoring_user</code>、<code>elastic</code>)设置密码;</li>
 <li>打开浏览器，输入网址 <a href="http://192.168.0.8:9200" target="_blank" rel="noopener">http://192.168.0.8:9200</a> 检查一下 ES 是否正常运行（需要提供上一步设置的用户名密码）。</li>
 </ol>
 </li>
-<li>注册 <code>elasticsearch</code> 成为 <code>Windows</code> 服务（可选）<a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.16/zip-windows.html" target="_blank" rel="noopener"><i class="fa fa-chain" aria-hidden="true"></i></a>：进入 <code>ES_HOME</code> 目录，运行 <code>./bin/elasticsearch-service.bat install</code> 命令</li>
+<li>注册 <code>elasticsearch</code> 成为 <code>Windows</code> 服务（可选）<a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.16/zip-windows.html" target="_blank" rel="noopener"><i class="mdui-icon material-icons">link</i></a>：进入 <code>ES_HOME</code> 目录，运行 <code>./bin/elasticsearch-service.bat install</code> 命令</li>
 <li>更改 <code>kibana-7.16.3-windows-x86_64/config/kibana.yml</code> 配置如下(可根据实际情况做调整)：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server.host: &quot;192.168.0.8&quot;</span><br><span class="line">elasticsearch.hosts: [&quot;http:&#x2F;&#x2F;192.168.0.8:9200&quot;]</span><br><span class="line">elasticsearch.username: &quot;kibana_system&quot;</span><br><span class="line">elasticsearch.password: &quot;your_password_here&quot;</span><br></pre></td></tr></table></figure></li>
 <li>打开浏览器，输入网址 <a href="http://192.168.0.8:5601" target="_blank" rel="noopener">http://192.168.0.8:5601</a> 检查一下 Kibana 是否正常运行。（需要提供上上一步设置的用户名密码）<br><img src="/images/get-started-with-elasticsearch/install-successfully.jpg" alt="install successfully"></li>
 </ol>

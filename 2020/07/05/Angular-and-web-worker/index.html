@@ -21,7 +21,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://vignette.wikia.nocookie.net/naruto/images/c/cf/Guy_Opening_7th_Gate.png/revision/latest/scale-to-width-down/1000?cb=20150709214439">
 <meta property="article:published_time" content="2020-07-05T15:19:38.000Z">
-<meta property="article:modified_time" content="2022-11-08T14:11:27.193Z">
+<meta property="article:modified_time" content="2023-02-19T01:11:46.333Z">
 <meta property="article:author" content="时代残党">
 <meta property="article:tag" content="Angular">
 <meta property="article:tag" content="Web Worker">
@@ -46,11 +46,10 @@
     <link rel="canonical" href="https://zxs66.github.io/2020/07/05/Angular-and-web-worker/">
   
 
+   <!--
   
   
-
-  
-  
+   -->
   
 
   
@@ -186,7 +185,7 @@
   <style>#main article .mdui-card-content .text-center{text-align:center!important}</style>
   <article class="mdui-card mdui-m-b-5">
     <header class="mdui-card-media">
-      <img src="/images/random/material-5.png" style="max-height: 240px;">
+      <img src="/images/random/material-14.png" style="max-height: 240px;">
       <div class="mdui-card-media-covered">
         <div class="mdui-card-primary">
           <div class="mdui-card-primary-title">Angular × web worker</div>
@@ -258,7 +257,7 @@
 <h2 id="编写-component-ts-文件"><a href="#编写-component-ts-文件" class="headerlink" title="编写 *.component.ts 文件"></a>编写 <code>*.component.ts</code> 文件</h2><p>同样，简单示例一下，<code>xxxx.component.ts</code> 文件：</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ngOnInit(): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="comment">// register web worker</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> Worker !== <span class="string">'undefined'</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.webWorker = <span class="keyword">new</span> Worker(<span class="string">'../xxxx.worker'</span>, &#123; <span class="keyword">type</span>: <span class="string">'module'</span> &#125;);</span><br><span class="line">    <span class="keyword">this</span>.webWorker.addEventListener(<span class="string">'message'</span>, <span class="function">(<span class="params">&#123; data &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> theMessage = data <span class="keyword">as</span> WorkerMessage;</span><br><span class="line">      <span class="keyword">const</span> theAction = theMessage.action;</span><br><span class="line">      <span class="keyword">if</span> (theAction === WorkerAction.FetchCheckpoints) &#123;</span><br><span class="line">        <span class="keyword">this</span>.qwCheckPoints.response.Data = theMessage.data || [];</span><br><span class="line">        <span class="keyword">this</span>.qwCheckPoints.status = Utility.isNotEmptyArray(<span class="keyword">this</span>.qwCheckPoints.response.Data) ?</span><br><span class="line">          QueryStatus.SUCCESS : QueryStatus.EMPTY;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">this</span>.webWorker.postMessage(<span class="keyword">new</span> WorkerMessage(<span class="literal">null</span>, WorkerAction.FetchCheckpoints));</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// Web workers are not supported in this environment.</span></span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> You should add a fallback so that your program still executes correctly.</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'The browser doesn\'t support Web Worker.'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">someAction(tce) &#123;</span><br><span class="line">  <span class="keyword">const</span> tagID = tce.index === <span class="number">0</span> ? <span class="number">0</span> : (<span class="keyword">this</span>.qwCheckPointTags.response.Data[tce.index - <span class="number">1</span>] || &#123;&#125;).ID;</span><br><span class="line">  <span class="comment">// this.qwCheckPoints.query(tagID);</span></span><br><span class="line">  <span class="keyword">this</span>.webWorker.postMessage(<span class="keyword">new</span> WorkerMessage(tagID, WorkerAction.FetchCheckpoints));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="拉出来遛一遛"><a href="#拉出来遛一遛" class="headerlink" title="拉出来遛一遛"></a>拉出来遛一遛</h2><p><a href="/app/#/lab/emoji"><i class="fa fa-search" aria-hidden="true"></i> Emoji 搜索工具</a></p>
+<h2 id="拉出来遛一遛"><a href="#拉出来遛一遛" class="headerlink" title="拉出来遛一遛"></a>拉出来遛一遛</h2><p><a href="/app/#/lab/emoji"><i class="mdui-icon material-icons">search</i> Emoji 搜索工具</a></p>
 <p>emmmm，一切都按照预期走了，没什么问题。除了：Google Chrome 调试 Web Worker 真的是鸡肋！！！以后真的在项目中大量使用了再说吧。。。。。。</p>
 <h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers" target="_blank" rel="noopener">Using Web Workers</a></li>

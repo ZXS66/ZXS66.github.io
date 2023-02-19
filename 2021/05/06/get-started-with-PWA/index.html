@@ -12,16 +12,16 @@
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="alternate" href="/atom.xml" title="时代残党">
-  <meta name="description" content="PWA 现在越来越流行了。虽然国内见得不多，但国外已经非常常见了。闲来无事，那就把本博客改造成 PWA 好了。 PWA 介绍此处省略一万字。 起步参考的是  这篇文档。此处又省略了一万字。 一个小 bug@pwabuilder&#x2F;pwaupdate 组件 默认 加载的 service worker 是当前路径下的 “pwabuilder-sw.js” 文件。可是，当路径变了，比如跳到了更深一层目录，">
+  <meta name="description" content="PWA 现在越来越流行了。虽然国内见得不多，但国外已经非常常见了。闲来无事，那就把本博客改造成 PWA 好了。 PWA 介绍此处省略一万字。 起步参考的是 link 这篇文档。此处又省略了一万字。 一个小 bug@pwabuilder&#x2F;pwaupdate 组件 默认 加载的 service worker 是当前路径下的 “pwabuilder-sw.js” 文件。可是，当路径变了，比如跳到了更深一">
 <meta property="og:type" content="article">
 <meta property="og:title" content="渐进式网页应用(PWA)入门">
 <meta property="og:url" content="https://zxs66.github.io/2021/05/06/get-started-with-PWA/">
 <meta property="og:site_name" content="时代残党">
-<meta property="og:description" content="PWA 现在越来越流行了。虽然国内见得不多，但国外已经非常常见了。闲来无事，那就把本博客改造成 PWA 好了。 PWA 介绍此处省略一万字。 起步参考的是  这篇文档。此处又省略了一万字。 一个小 bug@pwabuilder&#x2F;pwaupdate 组件 默认 加载的 service worker 是当前路径下的 “pwabuilder-sw.js” 文件。可是，当路径变了，比如跳到了更深一层目录，">
+<meta property="og:description" content="PWA 现在越来越流行了。虽然国内见得不多，但国外已经非常常见了。闲来无事，那就把本博客改造成 PWA 好了。 PWA 介绍此处省略一万字。 起步参考的是 link 这篇文档。此处又省略了一万字。 一个小 bug@pwabuilder&#x2F;pwaupdate 组件 默认 加载的 service worker 是当前路径下的 “pwabuilder-sw.js” 文件。可是，当路径变了，比如跳到了更深一">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.sanity.io/images/uf1om34c/production/5c7f0c54f4c05c14d0bbbfe4a76753c51faf9154-1014x492.png?w=1200&fm=webp&max-h=600&q=80&auto=format">
 <meta property="article:published_time" content="2021-05-06T04:54:15.000Z">
-<meta property="article:modified_time" content="2022-11-08T14:11:27.203Z">
+<meta property="article:modified_time" content="2023-02-19T01:46:53.733Z">
 <meta property="article:author" content="时代残党">
 <meta property="article:tag" content="get started">
 <meta property="article:tag" content="pwa">
@@ -47,11 +47,10 @@
     <link rel="canonical" href="https://zxs66.github.io/2021/05/06/get-started-with-PWA/">
   
 
+   <!--
   
   
-
-  
-  
+   -->
   
 
   
@@ -187,7 +186,7 @@
   <style>#main article .mdui-card-content .text-center{text-align:center!important}</style>
   <article class="mdui-card mdui-m-b-5">
     <header class="mdui-card-media">
-      <img src="/images/random/material-3.png" style="max-height: 240px;">
+      <img src="/images/random/material-1.png" style="max-height: 240px;">
       <div class="mdui-card-media-covered">
         <div class="mdui-card-primary">
           <div class="mdui-card-primary-title">渐进式网页应用(PWA)入门</div>
@@ -229,7 +228,7 @@
     <div class="mdui-card-content mdui-typo">
       <p><code>PWA</code> 现在越来越流行了。虽然国内见得不多，但国外已经非常常见了。闲来无事，那就把本博客改造成 <code>PWA</code> 好了。</p>
 <h3 id="PWA-介绍"><a href="#PWA-介绍" class="headerlink" title="PWA 介绍"></a>PWA 介绍</h3><p>此处省略一万字。<a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps" target="_blank" rel="noopener"><fa-link/></a></p>
-<h3 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h3><p>参考的是 <a href="https://docs.microsoft.com/en-us/microsoft-edge/progressive-web-apps-chromium/get-started" target="_blank" rel="noopener"><i class="fa fa-microsoft" aria-hidden="true"></i> 这篇文档</a>。<del>此处又省略了一万字。</del></p>
+<h3 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h3><p>参考的是 <a href="https://docs.microsoft.com/en-us/microsoft-edge/progressive-web-apps-chromium/get-started" target="_blank" rel="noopener"><i class="mdui-icon material-icons">link</i> 这篇文档</a>。<del>此处又省略了一万字。</del></p>
 <h3 id="一个小-bug"><a href="#一个小-bug" class="headerlink" title="一个小 bug"></a>一个小 bug</h3><p><code>@pwabuilder/pwaupdate</code> 组件 <a href="https://github.com/pwa-builder/pwa-update#api" target="_blank" rel="noopener">默认</a> 加载的 <code>service worker</code> 是<strong>当前路径</strong>下的 “pwabuilder-sw.js” 文件。可是，当路径变了，比如跳到了更深一层目录，<code>service worker</code> 就不能正常加载了。解决办法是在注册 <code>service worker</code> 时（执行 <code>pwabuilder-sw-register.js</code> 文件），指定 <code>swpath</code> 为 “<code>/pwabuilder-sw.js</code>“。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate"</span>;</span><br><span class="line"><span class="keyword">const</span> el = <span class="built_in">document</span>.createElement(<span class="string">"pwa-update"</span>);</span><br><span class="line"><span class="comment">// default is "pwabuilder-sw.js", but it doesn't work in subpaths</span></span><br><span class="line">el.setAttribute(<span class="string">"swpath"</span>, <span class="string">"/pwabuilder-sw.js"</span>);</span><br><span class="line"><span class="built_in">document</span>.body.appendChild(el);</span><br></pre></td></tr></table></figure>
 
@@ -239,13 +238,13 @@
 <p>其实，Google 在设计 <code>workbox</code> 的时候，已经考虑到这个场景，解决办法非常简单，把策略改成 <code>Stale-While-Revalidate</code> 即可。<br><code>pwabuilder-sw.js</code> 内容修改如下：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This is the "Offline copy of assets" service worker</span></span><br><span class="line"><span class="keyword">const</span> CACHE = <span class="string">"pwabuilder-offline"</span>;</span><br><span class="line"><span class="keyword">const</span> QUEUE_NAME = <span class="string">"bgSyncQueue"</span>;</span><br><span class="line">importScripts(</span><br><span class="line">  <span class="string">"https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js"</span></span><br><span class="line">);</span><br><span class="line">self.addEventListener(<span class="string">"message"</span>, event =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (event.data &amp;&amp; event.data.type === <span class="string">"SKIP_WAITING"</span>) &#123;</span><br><span class="line">    self.skipWaiting();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">const</span> bgSyncPlugin = <span class="keyword">new</span> workbox.backgroundSync.BackgroundSyncPlugin(</span><br><span class="line">  QUEUE_NAME,</span><br><span class="line">  <span class="comment">// &#123; maxRetentionTime: 7 * 24 * 60 &#125; // Retry for max of 1 week (specified in minutes)</span></span><br><span class="line">);</span><br><span class="line">workbox.routing.registerRoute(</span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"/*"</span>),</span><br><span class="line">  <span class="keyword">new</span> workbox.strategies.StaleWhileRevalidate(&#123;</span><br><span class="line">    cacheName: CACHE,</span><br><span class="line">    plugins: [bgSyncPlugin]</span><br><span class="line">  &#125;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 
-<p>更多策略，请参考 <a href="https://developers.google.com/web/tools/workbox/modules/workbox-strategies" target="_blank" rel="noopener"><i class="fa fa-google" aria-hidden="true"></i> Workbox 官方文档</a> 或 <a href="https://www.charistheo.io/blog/2021/03/workbox-strategies-with-examples-and-use-cases/" target="_blank" rel="noopener">Workbox Strategies with examples and use-cases</a>。</p>
+<p>更多策略，请参考 <a href="https://developers.google.com/web/tools/workbox/modules/workbox-strategies" target="_blank" rel="noopener">Workbox 官方文档</a> 或 <a href="https://www.charistheo.io/blog/2021/03/workbox-strategies-with-examples-and-use-cases/" target="_blank" rel="noopener">Workbox Strategies with examples and use-cases</a>。</p>
 <p>发布上线，测试，完美解决问题！😄</p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://docs.microsoft.com/en-us/microsoft-edge/progressive-web-apps-chromium/get-started" target="_blank" rel="noopener"><i class="fa fa-microsoft" aria-hidden="true"></i> Get started with Progressive Web Apps (Chromium)</a></li>
-<li><a href="https://stackoverflow.com/questions/49739438/when-and-how-does-a-pwa-update-itself" target="_blank" rel="noopener"><i class="fa fa-stack-overflow" aria-hidden="true"></i> When and how does a PWA update itself?</a></li>
+<li><a href="https://docs.microsoft.com/en-us/microsoft-edge/progressive-web-apps-chromium/get-started" target="_blank" rel="noopener">Get started with Progressive Web Apps (Chromium)</a></li>
+<li><a href="https://stackoverflow.com/questions/49739438/when-and-how-does-a-pwa-update-itself" target="_blank" rel="noopener">When and how does a PWA update itself?</a></li>
 <li><a href="https://www.pwabuilder.com/" target="_blank" rel="noopener">PWA Builder</a></li>
-<li><a href="https://developers.google.com/web/tools/workbox/modules/workbox-strategies" target="_blank" rel="noopener"><i class="fa fa-google" aria-hidden="true"></i> Workbox 官方文档</a></li>
+<li><a href="https://developers.google.com/web/tools/workbox/modules/workbox-strategies" target="_blank" rel="noopener">Workbox 官方文档</a></li>
 <li><a href="https://www.charistheo.io/blog/2021/03/workbox-strategies-with-examples-and-use-cases/" target="_blank" rel="noopener">Workbox Strategies with examples and use-cases</a></li>
 </ul>
 

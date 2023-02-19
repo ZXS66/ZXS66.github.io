@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://zxs66.github.io/images/mysql-case/show-advanced-and-logging-options.png">
 <meta property="og:image" content="https://zxs66.github.io/images/mysql-case/preserve-given-case.png">
 <meta property="article:published_time" content="2022-02-10T14:25:28.000Z">
-<meta property="article:modified_time" content="2022-11-08T14:11:27.193Z">
+<meta property="article:modified_time" content="2023-02-19T01:46:53.733Z">
 <meta property="article:author" content="时代残党">
 <meta property="article:tag" content="mysql">
 <meta property="article:tag" content="case sensitivity">
@@ -46,11 +46,10 @@
     <link rel="canonical" href="https://zxs66.github.io/2022/02/10/MySQL-case-sensitivity-issue/">
   
 
+   <!--
   
   
-
-  
-  
+   -->
   
 
   
@@ -186,7 +185,7 @@
   <style>#main article .mdui-card-content .text-center{text-align:center!important}</style>
   <article class="mdui-card mdui-m-b-5">
     <header class="mdui-card-media">
-      <img src="/images/random/material-5.png" style="max-height: 240px;">
+      <img src="/images/random/material-12.png" style="max-height: 240px;">
       <div class="mdui-card-media-covered">
         <div class="mdui-card-primary">
           <div class="mdui-card-primary-title">MySQL 大小写问题</div>
@@ -307,8 +306,8 @@
 <p><img src="/images/mysql-case/show-advanced-and-logging-options.png" alt="show advanced and logging options"></p>
 <p><img src="/images/mysql-case/preserve-given-case.png" alt="preserve given case"></p>
 <p>什么鬼，推荐了两个不能用的办法???</p>
-<p>那还有没有其他办法？我先去倒杯咖啡，冷静一下！<i class="fa fa-coffee" aria-hidden="true"></i></p>
-<p><i class="fa fa-lightbulb-o" aria-hidden="true"></i> 有了！既然服务器配置无法更改，那我试试改数据库配置？我记得，<code>MySQL</code> 数据库中有一个编码问题（<code>utf8</code>、<code>latin</code> 等等），还有一个 <code>collation</code> 问题。</p>
+<p>那还有没有其他办法？我先去倒杯咖啡，冷静一下！<i class="mdui-icon material-icons">free_breakfast</i></p>
+<p><i class="mdui-icon material-icons">lightbulb_outline</i> 有了！既然服务器配置无法更改，那我试试改数据库配置？我记得，<code>MySQL</code> 数据库中有一个编码问题（<code>utf8</code>、<code>latin</code> 等等），还有一个 <code>collation</code> 问题。</p>
 <p>OK，先调研，再备份，再动手。</p>
 <p>根据这篇文档，</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> <span class="string">`your_database`</span> <span class="keyword">DEFAULT</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_0900_as_cs;</span><br></pre></td></tr></table></figure>
@@ -323,7 +322,7 @@
 <li><a href="https://dev.mysql.com/doc/refman/8.0/en/identifier-case-sensitivity.html" target="_blank" rel="noopener">MySQL::Identifier Case Sensitivity</a></li>
 <li><a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_lower_case_table_names" target="_blank" rel="noopener">MySQL::Server System Variables</a></li>
 <li><a href="https://dev.mysql.com/doc/refman/8.0/en/charset-mysql.html" target="_blank" rel="noopener">MySQL::Character Sets and Collations in MySQL</a></li>
-<li><a href="https://stackoverflow.com/questions/3242504/how-can-i-transfer-data-between-2-mysql-databases" target="_blank" rel="noopener"><i class="fa fa-stackoverflow" aria-hidden="true"></i> How can I transfer data between 2 MySQL databases?</a></li>
+<li><a href="https://stackoverflow.com/questions/3242504/how-can-i-transfer-data-between-2-mysql-databases" target="_blank" rel="noopener">How can I transfer data between 2 MySQL databases?</a></li>
 </ul>
 
       
