@@ -103,7 +103,7 @@
 - [x] feat: append my contact info to the source code
 - [ ] ~~bug: specify source code pro font version, otherwise the checksum will be changed in future~~ 
 - [x] bug: remove static file integrity of font "source code pro" due to unsupport versioning by google fonts
-- [x] feat: copy source code (in progress) or current url (done)
+- [x] feat: copy source code or current url (done)
 
 ### 2020.7.24
 

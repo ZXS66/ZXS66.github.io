@@ -364,7 +364,7 @@ $$(function () {
   };
 
   Evented = (function () {
-    function Evented() {}
+    function Evented() { }
 
     Evented.prototype.on = function (event, handler, ctx, once) {
       var _base;
@@ -663,7 +663,7 @@ $$(function () {
       };
       try {
         extendNative(window.XMLHttpRequest, _XMLHttpRequest);
-      } catch (_error) {}
+      } catch (_error) { }
       if (_XDomainRequest != null) {
         window.XDomainRequest = function () {
           var req;
@@ -673,7 +673,7 @@ $$(function () {
         };
         try {
           extendNative(window.XDomainRequest, _XDomainRequest);
-        } catch (_error) {}
+        } catch (_error) { }
       }
       if ((_WebSocket != null) && options.ajax.trackWebSockets) {
         window.WebSocket = function (url, protocols) {
@@ -695,7 +695,7 @@ $$(function () {
         };
         try {
           extendNative(window.WebSocket, _WebSocket);
-        } catch (_error) {}
+        } catch (_error) { }
       }
     }
 
@@ -1154,3 +1154,99 @@ $$(function () {
   }
 
 }).call(this);
+
+
+/** enable clipboard for copy */
+$$(function () {
+  if (navigator.clipboard) {
+    const className_shining = "shining";
+    const animationDuration = 4096; // animation-duration: 4.096s;
+    const iconfont_check = 'check';
+    const iconfont_copy = 'content_copy';
+    // process for .btn-copy
+    const $btns = document.querySelectorAll('.btn-copy');
+    if ($btns && $btns.length) {
+      Array.from($btns).forEach(function ($btn) {
+        $btn.addEventListener('click', function () {
+          const content = $btn.dataset.content;
+          if (content && content.length) {
+            navigator.clipboard.writeText(content).then(function () {
+              // add the class to trigger the animation
+              $btn.classList.add(className_shining);
+              // switch icon if success copy
+              setTimeout(function () {
+                $btn.innerHTML = iconfont_check;
+              }, animationDuration / 10);
+              setTimeout(function () {
+                $btn.innerHTML = iconfont_copy;
+              }, animationDuration / 10 * 9);
+              // revert class
+              setTimeout(function () {
+                $btn.classList.remove(className_shining);
+              }, animationDuration);
+            });
+          } else {
+            console.info('NOTHING copied!');
+          }
+        });
+      });
+    }
+    // process for source code blocks
+    const copySourceCode = function () {
+      const $elem = window.event.currentTarget;
+      const sourceCode = $elem.parentElement.querySelector(".code").innerText;
+      navigator.clipboard.writeText(sourceCode).then(function () {
+        const $msg = $elem.querySelector("span");
+        // add the class to trigger the animation
+        $msg.classList.add(className_shining);
+        void $msg.offsetWidth; // trigger reflow!!!
+        // swap the innerText during the animation
+        setTimeout(function () {
+          $msg.innerText = $msg.dataset.afterMsg;
+        }, animationDuration / 10);
+        setTimeout(function () {
+          $msg.innerText = $msg.dataset.beforeMsg;
+        }, animationDuration / 10 * 9);
+        // revert class
+        setTimeout(function () {
+          $msg.classList.remove(className_shining);
+        }, animationDuration);
+        // https://css-tricks.com/restart-css-animation/
+        // setTimeout(function() {
+        //   $elem.classList.remove(className_shining);
+        //   void $elem.offsetWidth; // trigger reflow
+        //   $elem.classList.add(className_shining);
+        //   setTimeout(function() {
+        //     $msg.innerText = $msg.dataset.beforeMsg;
+        //   }, animationDuration / 2);
+        //   setTimeout(function() {
+        //     $elem.classList.remove(className_shining);
+        //   }, animationDuration);
+        // }, animationDuration * 4);
+      });
+    };
+    Array.from(
+      document.querySelectorAll("#main article figure.highlight")
+    ).forEach($fig => {
+      const $fa = document.createElement("i");
+      $fa.classList.add("mdui-icon");
+      $fa.classList.add("material-icons");
+      $fa.classList.add("btn-copy");
+      $fa.innerText = 'content_copy';
+      const beforeMsg = `👈 tap to copy the code snippet`;
+      const afterMsg = `✅`; // '✔️';
+      const $msg = document.createElement("span");
+      $msg.classList.add("msg");
+      $msg.innerText = beforeMsg;
+      $msg.dataset.beforeMsg = beforeMsg;
+      $msg.dataset.afterMsg = afterMsg;
+      const $row = document.createElement("div");
+      $row.classList.add("source-clipboard");
+      $row.appendChild($fa);
+      $row.appendChild($msg);
+      $row.addEventListener("click", copySourceCode);
+      $fig.appendChild($row);
+    });
+
+  }
+});

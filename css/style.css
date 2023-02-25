@@ -1297,3 +1297,54 @@ img.avatar-animation:hover {
     transition: none !important;
   }
 }
+
+
+/** custom style */
+/** copy btn style*/
+.btn-copy {
+  cursor: copy;
+  font-size: small;
+}
+
+.btn-copy.shining,
+.source-clipboard .msg.shining {
+  animation-name: shining;
+  animation-duration: 4.096s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  animation-direction: alternative;
+}
+
+.source-clipboard {
+  border-top: 1px solid gray;
+  padding: 0 1em;
+}
+
+@keyframes shining {
+  0% {
+    opacity: 1;
+  }
+
+  10% {
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+    color: green;
+  }
+
+  80% {
+    opacity: 1;
+    color: green;
+  }
+
+  90% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
