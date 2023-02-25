@@ -69,13 +69,16 @@
     <a href="/" class="mdui-typo-headline">时代残党</a>
     <div class="mdui-toolbar-spacer"></div>
     <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-dialog="{target: '#search'}" mdui-tooltip="{content: '搜索'}"><i class="mdui-icon material-icons">search</i></a>
+    <input type="hidden" id="search-index-file" value="/search.json" />
     <a href="/atom.xml" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: 'RSS'}"><i class="mdui-icon material-icons">rss_feed</i></a>
   </div>
 </header>
 <div class="mdui-dialog" id="search">
   
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="请输入关键字"><input type="hidden" name="sitesearch" value="https://zxs66.github.io"></form>
-    <div class="search-result"></div>
+    <div class="search-form">
+      <input type="search" class="search-form-input" placeholder="请输入关键字">
+    </div>
+    <div class="search-result" data-resource="/search.json"></div>
   
 </div>
 
@@ -169,7 +172,7 @@
         
           <a href="https://github.com/ZXS66" target="_blank" class="mdui-list-item mdui-p-l-2 mdui-text-color-theme-accent mdui-ripple" style="justify-content: center;">My Github</a>
         
-          <a href="https://niemingzhao.github.io/" target="_blank" class="mdui-list-item mdui-p-l-2 mdui-text-color-theme-accent mdui-ripple" style="justify-content: center;">Hexo Theme</a>
+          <a href="https://niemingzhao.github.io/" target="_blank" class="mdui-list-item mdui-p-l-2 mdui-text-color-theme-accent mdui-ripple" style="justify-content: center;">This Theme</a>
         
         
       </div>
@@ -190,11 +193,11 @@
   <article class="mdui-card mdui-m-b-5 mdui-hoverable">
     <a href="/2021/06/06/migrate-data-from-MySQL-to-SQL-Server/">
       <header class="mdui-card-media mdui-ripple">
-        <img src="/images/random/material-9.png" style="max-height: 240px;">
+        <img src="/images/random/material-7.png" style="max-height: 240px;">
         <div class="mdui-card-media-covered">
           <div class="mdui-card-primary">
             <div class="mdui-card-primary-title">从 MySQL 迁移数据至 SQL Server</div>
-            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2021-06-06 / <i class="iconfont">&#xe601;</i> 时代残党</div>
+            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2021-06-06</div>
           </div>
         </div>
         

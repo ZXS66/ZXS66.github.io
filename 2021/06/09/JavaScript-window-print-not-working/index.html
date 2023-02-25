@@ -68,13 +68,16 @@
     <a href="/" class="mdui-typo-headline">时代残党</a>
     <div class="mdui-toolbar-spacer"></div>
     <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-dialog="{target: '#search'}" mdui-tooltip="{content: '搜索'}"><i class="mdui-icon material-icons">search</i></a>
+    <input type="hidden" id="search-index-file" value="/search.json" />
     <a href="/atom.xml" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: 'RSS'}"><i class="mdui-icon material-icons">rss_feed</i></a>
   </div>
 </header>
 <div class="mdui-dialog" id="search">
   
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="请输入关键字"><input type="hidden" name="sitesearch" value="https://zxs66.github.io"></form>
-    <div class="search-result"></div>
+    <div class="search-form">
+      <input type="search" class="search-form-input" placeholder="请输入关键字">
+    </div>
+    <div class="search-result" data-resource="/search.json"></div>
   
 </div>
 
@@ -168,7 +171,7 @@
         
           <a href="https://github.com/ZXS66" target="_blank" class="mdui-list-item mdui-p-l-2 mdui-text-color-theme-accent mdui-ripple" style="justify-content: center;">My Github</a>
         
-          <a href="https://niemingzhao.github.io/" target="_blank" class="mdui-list-item mdui-p-l-2 mdui-text-color-theme-accent mdui-ripple" style="justify-content: center;">Hexo Theme</a>
+          <a href="https://niemingzhao.github.io/" target="_blank" class="mdui-list-item mdui-p-l-2 mdui-text-color-theme-accent mdui-ripple" style="justify-content: center;">This Theme</a>
         
         
       </div>

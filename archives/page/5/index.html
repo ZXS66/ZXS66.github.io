@@ -69,13 +69,16 @@
     <a href="/" class="mdui-typo-headline">时代残党</a>
     <div class="mdui-toolbar-spacer"></div>
     <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-dialog="{target: '#search'}" mdui-tooltip="{content: '搜索'}"><i class="mdui-icon material-icons">search</i></a>
+    <input type="hidden" id="search-index-file" value="/search.json" />
     <a href="/atom.xml" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: 'RSS'}"><i class="mdui-icon material-icons">rss_feed</i></a>
   </div>
 </header>
 <div class="mdui-dialog" id="search">
   
-    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="请输入关键字"><input type="hidden" name="sitesearch" value="https://zxs66.github.io"></form>
-    <div class="search-result"></div>
+    <div class="search-form">
+      <input type="search" class="search-form-input" placeholder="请输入关键字">
+    </div>
+    <div class="search-result" data-resource="/search.json"></div>
   
 </div>
 
@@ -169,7 +172,7 @@
         
           <a href="https://github.com/ZXS66" target="_blank" class="mdui-list-item mdui-p-l-2 mdui-text-color-theme-accent mdui-ripple" style="justify-content: center;">My Github</a>
         
-          <a href="https://niemingzhao.github.io/" target="_blank" class="mdui-list-item mdui-p-l-2 mdui-text-color-theme-accent mdui-ripple" style="justify-content: center;">Hexo Theme</a>
+          <a href="https://niemingzhao.github.io/" target="_blank" class="mdui-list-item mdui-p-l-2 mdui-text-color-theme-accent mdui-ripple" style="justify-content: center;">This Theme</a>
         
         
       </div>
@@ -190,11 +193,11 @@
   <article class="mdui-card mdui-m-b-5 mdui-hoverable">
     <a href="/2020/10/20/SQL-Server-Pivot-Tables/">
       <header class="mdui-card-media mdui-ripple">
-        <img src="/images/random/material-8.png" style="max-height: 240px;">
+        <img src="/images/random/material-6.png" style="max-height: 240px;">
         <div class="mdui-card-media-covered">
           <div class="mdui-card-primary">
             <div class="mdui-card-primary-title">SQL Server 数据透视表</div>
-            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-10-20 / <i class="iconfont">&#xe601;</i> 时代残党</div>
+            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-10-20</div>
           </div>
         </div>
         
@@ -219,11 +222,11 @@
   <article class="mdui-card mdui-m-b-5 mdui-hoverable">
     <a href="/2020/10/10/react-hooks/">
       <header class="mdui-card-media mdui-ripple">
-        <img src="/images/random/material-10.png" style="max-height: 240px;">
+        <img src="/images/random/material-16.png" style="max-height: 240px;">
         <div class="mdui-card-media-covered">
           <div class="mdui-card-primary">
             <div class="mdui-card-primary-title">React Hooks 学习笔记</div>
-            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-10-10 / <i class="iconfont">&#xe601;</i> 时代残党</div>
+            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-10-10</div>
           </div>
         </div>
         
@@ -248,11 +251,11 @@
   <article class="mdui-card mdui-m-b-5 mdui-hoverable">
     <a href="/2020/10/01/translate-POSTING-TO-WORDPRESS-COM-IN-CODE/">
       <header class="mdui-card-media mdui-ripple">
-        <img src="/images/random/material-16.png" style="max-height: 240px;">
+        <img src="/images/random/material-8.png" style="max-height: 240px;">
         <div class="mdui-card-media-covered">
           <div class="mdui-card-primary">
             <div class="mdui-card-primary-title">译：从代码中发帖至 WordPress.com</div>
-            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-10-01 / <i class="iconfont">&#xe601;</i> 时代残党</div>
+            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-10-01</div>
           </div>
         </div>
         
@@ -278,11 +281,11 @@
   <article class="mdui-card mdui-m-b-5 mdui-hoverable">
     <a href="/2020/09/11/get-started-with-WeChat-mini-program/">
       <header class="mdui-card-media mdui-ripple">
-        <img src="/images/random/material-4.png" style="max-height: 240px;">
+        <img src="/images/random/material-6.png" style="max-height: 240px;">
         <div class="mdui-card-media-covered">
           <div class="mdui-card-primary">
             <div class="mdui-card-primary-title">微信小程序入门</div>
-            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-09-11 / <i class="iconfont">&#xe601;</i> 时代残党</div>
+            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-09-11</div>
           </div>
         </div>
         
@@ -307,11 +310,11 @@
   <article class="mdui-card mdui-m-b-5 mdui-hoverable">
     <a href="/2020/09/07/javascript-clipboard-API/">
       <header class="mdui-card-media mdui-ripple">
-        <img src="/images/random/material-6.png" style="max-height: 240px;">
+        <img src="/images/random/material-18.png" style="max-height: 240px;">
         <div class="mdui-card-media-covered">
           <div class="mdui-card-primary">
             <div class="mdui-card-primary-title">javascript 剪切板</div>
-            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-09-07 / <i class="iconfont">&#xe601;</i> 时代残党</div>
+            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-09-07</div>
           </div>
         </div>
         
@@ -339,11 +342,11 @@
   <article class="mdui-card mdui-m-b-5 mdui-hoverable">
     <a href="/2020/09/06/tiny-caching-and-logging-in-ASP-NET/">
       <header class="mdui-card-media mdui-ripple">
-        <img src="/images/random/material-4.png" style="max-height: 240px;">
+        <img src="/images/random/material-7.png" style="max-height: 240px;">
         <div class="mdui-card-media-covered">
           <div class="mdui-card-primary">
             <div class="mdui-card-primary-title">ASP.NET 极简缓存及日志</div>
-            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-09-06 / <i class="iconfont">&#xe601;</i> 时代残党</div>
+            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-09-06</div>
           </div>
         </div>
         
@@ -369,11 +372,11 @@
   <article class="mdui-card mdui-m-b-5 mdui-hoverable">
     <a href="/2020/08/31/shrink-ASP-NET-WebAPI-build-package-file-size/">
       <header class="mdui-card-media mdui-ripple">
-        <img src="/images/random/material-6.png" style="max-height: 240px;">
+        <img src="/images/random/material-5.png" style="max-height: 240px;">
         <div class="mdui-card-media-covered">
           <div class="mdui-card-primary">
             <div class="mdui-card-primary-title">ASP.NET WebAPI 编译包瘦身</div>
-            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-08-31 / <i class="iconfont">&#xe601;</i> 时代残党</div>
+            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-08-31</div>
           </div>
         </div>
         
@@ -402,11 +405,11 @@
   <article class="mdui-card mdui-m-b-5 mdui-hoverable">
     <a href="/2020/08/20/node-package-version/">
       <header class="mdui-card-media mdui-ripple">
-        <img src="/images/random/material-2.png" style="max-height: 240px;">
+        <img src="/images/random/material-16.png" style="max-height: 240px;">
         <div class="mdui-card-media-covered">
           <div class="mdui-card-primary">
             <div class="mdui-card-primary-title">node 包的版本号</div>
-            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-08-20 / <i class="iconfont">&#xe601;</i> 时代残党</div>
+            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-08-20</div>
           </div>
         </div>
         
@@ -431,11 +434,11 @@
   <article class="mdui-card mdui-m-b-5 mdui-hoverable">
     <a href="/2020/08/07/windows-shortcut-key-for-file-explorer/">
       <header class="mdui-card-media mdui-ripple">
-        <img src="/images/random/material-3.png" style="max-height: 240px;">
+        <img src="/images/random/material-13.png" style="max-height: 240px;">
         <div class="mdui-card-media-covered">
           <div class="mdui-card-primary">
             <div class="mdui-card-primary-title">Windows 文件管理器快捷键</div>
-            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-08-07 / <i class="iconfont">&#xe601;</i> 时代残党</div>
+            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-08-07</div>
           </div>
         </div>
         
@@ -461,11 +464,11 @@
   <article class="mdui-card mdui-m-b-5 mdui-hoverable">
     <a href="/2020/07/23/CDN-failover/">
       <header class="mdui-card-media mdui-ripple">
-        <img src="/images/random/material-7.png" style="max-height: 240px;">
+        <img src="/images/random/material-13.png" style="max-height: 240px;">
         <div class="mdui-card-media-covered">
           <div class="mdui-card-primary">
             <div class="mdui-card-primary-title">CDN 故障转移</div>
-            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-07-23 / <i class="iconfont">&#xe601;</i> 时代残党</div>
+            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-07-23</div>
           </div>
         </div>
         
@@ -490,11 +493,11 @@
   <article class="mdui-card mdui-m-b-5 mdui-hoverable">
     <a href="/2020/07/19/reliable-CDN/">
       <header class="mdui-card-media mdui-ripple">
-        <img src="/images/random/material-15.png" style="max-height: 240px;">
+        <img src="/images/random/material-13.png" style="max-height: 240px;">
         <div class="mdui-card-media-covered">
           <div class="mdui-card-primary">
             <div class="mdui-card-primary-title">可靠 CDN</div>
-            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-07-19 / <i class="iconfont">&#xe601;</i> 时代残党</div>
+            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-07-19</div>
           </div>
         </div>
         
@@ -523,7 +526,7 @@
         <div class="mdui-card-media-covered">
           <div class="mdui-card-primary">
             <div class="mdui-card-primary-title">Flutter 入门</div>
-            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-07-18 / <i class="iconfont">&#xe601;</i> 时代残党</div>
+            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2020-07-18</div>
           </div>
         </div>
         
