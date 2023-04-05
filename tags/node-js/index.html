@@ -8,34 +8,32 @@
   <meta name="renderer" content="webkit">
 
   
-  <title>Entity Framework 最佳实践 | 时代残党</title>
+  <title>标签: node.js | 时代残党</title>
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="alternate" href="/atom.xml" title="时代残党">
-  <meta name="description" content="平时如果需要搭建原型，选择 Entity Framework（后简称 EF）将会帮助您更快地交付和迭代。 但是，EF 虽好，可不要贪杯哦。原型阶段使用 EF 完全莫得问题，但是到后期项目变的越来越大，需要真正交付产品时，建议还是切换到其他的 ORM 框架或者 ADO.NET，因为，这里面真的有很多莫名坑，新手，甚至是有一定经验的程序员都会不知不觉地踩进去。 EF 访问数据的架构EF 其实就是负责">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Entity Framework 最佳实践">
-<meta property="og:url" content="https://zxs66.github.io/2020/07/08/best-practices-for-Entity-Framework/">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="时代残党">
+<meta property="og:url" content="https://zxs66.github.io/tags/node-js/">
 <meta property="og:site_name" content="时代残党">
-<meta property="og:description" content="平时如果需要搭建原型，选择 Entity Framework（后简称 EF）将会帮助您更快地交付和迭代。 但是，EF 虽好，可不要贪杯哦。原型阶段使用 EF 完全莫得问题，但是到后期项目变的越来越大，需要真正交付产品时，建议还是切换到其他的 ORM 框架或者 ADO.NET，因为，这里面真的有很多莫名坑，新手，甚至是有一定经验的程序员都会不知不觉地踩进去。 EF 访问数据的架构EF 其实就是负责">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/ef/media/wd-efarchdiagram.gif">
-<meta property="article:published_time" content="2020-07-08T10:39:49.000Z">
-<meta property="article:modified_time" content="2023-02-18T15:11:49.368Z">
 <meta property="article:author" content="时代残党">
-<meta property="article:tag" content="entity framework">
-<meta property="article:tag" content="c#">
-<meta property="article:tag" content="best practices">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="Angular">
+<meta property="article:tag" content="NodeJS">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="ASP.NET">
+<meta property="article:tag" content="Full Stack">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/ef/media/wd-efarchdiagram.gif">
 
-  <meta name="keywords" content=",entity framework,c#,best practices">
+  <meta name="keywords" content="C#,Angular,NodeJS,SQL,Python,ASP.NET,Full Stack">
   <meta name="format-detection" content="telephone=no,email=no">
   <meta name="theme-color" content="#9C27B0">
 
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="application-name" content="时代残党">
-  <meta name="msapplication-starturl" content="https://zxs66.github.io/2020/07/08/best-practices-for-Entity-Framework/">
+  <meta name="msapplication-starturl" content="https://zxs66.github.io/tags/node-js/">
   <meta name="msapplication-navbutton-color" content="#9C27B0">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="时代残党">
@@ -43,7 +41,7 @@
   <link rel="apple-touch-icon" href="/images/favicon.ico">
 
   
-    <link rel="canonical" href="https://zxs66.github.io/2020/07/08/best-practices-for-Entity-Framework/">
+    <link rel="canonical" href="https://zxs66.github.io/tags/node-js/">
   
 
    <!--
@@ -183,119 +181,43 @@
 </aside>
 
   <main id="main" class="mdui-m-t-5 fadeIn animated">
-  
-<link rel="stylesheet" href="//cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
 
-  <style>#main article .mdui-card-content .center-block{display:block!important;margin-right:auto!important;margin-left:auto!important}</style>
-  <style>#main article .mdui-card-content .text-center{text-align:center!important}</style>
-  <article class="mdui-card mdui-m-b-5">
-    <header class="mdui-card-media">
-      <img src="/images/random/material-2.png" style="max-height: 240px;">
-      <div class="mdui-card-media-covered">
-        <div class="mdui-card-primary">
-          <div class="mdui-card-primary-title">Entity Framework 最佳实践</div>
-          <div class="mdui-card-primary-subtitle">
-            <i class="iconfont">&#xe697;</i> 2020-07-08
+
+
+  <div class="mdui-chip mdui-m-b-3">
+    <span class="mdui-chip-icon mdui-color-theme-accent"><i class="mdui-icon material-icons">place</i></span>
+    <span class="mdui-chip-title">标签：node.js</span>
+  </div>
+
+
+  <article class="mdui-card mdui-m-b-5 mdui-hoverable">
+    <a href="/2021/12/30/Node-js-child-processes/">
+      <header class="mdui-card-media mdui-ripple">
+        <img src="/images/random/material-11.png" style="max-height: 240px;">
+        <div class="mdui-card-media-covered">
+          <div class="mdui-card-primary">
+            <div class="mdui-card-primary-title">Node.js 子进程</div>
+            <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2021-12-30</div>
           </div>
         </div>
-      </div>
-      <div class="mdui-card-menu">
         
-          <button class="mdui-btn mdui-btn-icon mdui-text-color-white" mdui-menu="{target: '#share_menu', align: 'right'}"><i class="mdui-icon material-icons">share</i></button>
-          <ul class="mdui-menu" id="share_menu">
-            <li class="mdui-menu-item">
-              <a href="https://service.weibo.com/share/share.php?appkey=&title=Entity Framework 最佳实践&url=https://zxs66.github.io/2020/07/08/best-practices-for-Entity-Framework/&pic=https://zxs66.github.io/images/favicon.ico&searchPic=false&style=simple" target="_blank" class="mdui-ripple">分享到微博</a>
-            </li>
-            <li class="mdui-menu-item">
-              <a href="https://twitter.com/intent/tweet?text=Entity Framework 最佳实践&url=https://zxs66.github.io/2020/07/08/best-practices-for-Entity-Framework/&via=时代残党" target="_blank" class="mdui-ripple">分享到 Twitter</a>
-            </li>
-            <li class="mdui-menu-item">
-              <a href="https://www.facebook.com/sharer/sharer.php?u=https://zxs66.github.io/2020/07/08/best-practices-for-Entity-Framework/" target="_blank" class="mdui-ripple">分享到 Facebook</a>
-            </li>
-            <li class="mdui-menu-item">
-              <a href="https://plus.google.com/share?url=https://zxs66.github.io/2020/07/08/best-practices-for-Entity-Framework/" target="_blank" class="mdui-ripple">分享到 Google+</a>
-            </li>
-            <li class="mdui-menu-item">
-              <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://zxs66.github.io/2020/07/08/best-practices-for-Entity-Framework/&title=Entity Framework 最佳实践" target="_blank" class="mdui-ripple">分享到 LinkedIn</a>
-            </li>
-            <li class="mdui-menu-item">
-              <a href="https://connect.qq.com/widget/shareqq/index.html?site=时代残党&title=Entity Framework 最佳实践&pics=https://zxs66.github.io/images/favicon.ico&url=https://zxs66.github.io/2020/07/08/best-practices-for-Entity-Framework/" target="_blank" class="mdui-ripple">分享到 QQ</a>
-            </li>
-            <li class="mdui-menu-item">
-              <a href="https://telegram.me/share/url?url=https://zxs66.github.io/2020/07/08/best-practices-for-Entity-Framework/&text=Entity Framework 最佳实践" target="_blank" class="mdui-ripple">分享到 Telegram</a>
-            </li>
-            <li class="mdui-menu-item">
-              <a href="/static/qrcode.html?data=https://zxs66.github.io/2020/07/08/best-practices-for-Entity-Framework/" target="_blank" class="mdui-ripple">二维码</a>
-            </li>
-          </ul>
-        
-      </div>
-    </header>
+      </header>
+    </a>
     <div class="mdui-card-content mdui-typo">
-      <p>平时如果需要搭建原型，选择 <a href="https://docs.microsoft.com/en-us/ef/" target="_blank" rel="noopener">Entity Framework</a>（后简称 EF）将会帮助您<strong>更快地交付和迭代</strong>。</p>
-<p>但是，EF 虽好，可不要贪杯哦。原型阶段使用 EF 完全莫得问题，但是到后期项目变的越来越大，需要真正交付产品时，建议还是切换到其他的 ORM 框架或者 ADO.NET，因为，这里面真的有很多莫名坑，新手，甚至是有一定经验的程序员都会不知不觉地踩进去。</p>
-<h2 id="EF-访问数据的架构"><a href="#EF-访问数据的架构" class="headerlink" title="EF 访问数据的架构"></a>EF 访问数据的架构</h2><p>EF 其实就是负责 C# Object 和数据库数据之间的映射，让 .Net 开发人员操作 Object 就像操作数据库一样丝滑，背后 EF 会自动转换 sql 代码。</p>
-<p>祭一张 EF 数据访问架构图</p>
-<p><img src="https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/ef/media/wd-efarchdiagram.gif" alt="Entity Framework architecture for accessing data"></p>
-<p><em>来自 <a href="https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/ef/overview" target="_blank" rel="noopener">Microsoft Docs</a></em></p>
-<p>下面就是我这个踩坑小能手用泪水和汗水总结的笔记，希望下次再用 EF 的时候，能够减少入坑次数。</p>
-<h2 id="及时调用-ToList-方法-！！！"><a href="#及时调用-ToList-方法-！！！" class="headerlink" title="及时调用 .ToList() 方法 ！！！"></a>及时调用 <code>.ToList()</code> 方法 ！！！</h2><p>这第一条，自然是有它的道理的。只怪自己当初没有好好理解透彻 EF 深层原理。</p>
-<p>EF 默认会做很多操作，优化我们的查询，比如延迟发送请求，再比如合并查询请求。这就引进了一个常见的错误，</p>
-<p><code>.ToList()</code> 方法就是告诉立即执行查询，</p>
-<h2 id="序列化配置"><a href="#序列化配置" class="headerlink" title="序列化配置"></a>序列化配置</h2><p>把 Controller 返回结果序列化成 JSON 字符串时，在 <code>Global.asax.cs</code> 文件 <code>Application_Start</code> 方法中添加以下代码：</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> append below code to the end of Application_Start</span></span><br><span class="line"><span class="keyword">var</span> serializerSettings = GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings;</span><br><span class="line"><span class="comment"><span class="doctag">///</span> no returned loop reference objects</span></span><br><span class="line">serializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;</span><br><span class="line"><span class="comment"><span class="doctag">///</span> decrease json string length by removing null value</span></span><br><span class="line">serializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;</span><br></pre></td></tr></table></figure>
-
-<h2 id="API-仅返回页面需要的字段"><a href="#API-仅返回页面需要的字段" class="headerlink" title="API 仅返回页面需要的字段"></a>API 仅返回页面需要的字段</h2><p>好习惯！虽然累了点，但是优秀的程序员始终将高性能和可扩展性放在心里 🙂</p>
-<h2 id="查询表时，删除关联表结果"><a href="#查询表时，删除关联表结果" class="headerlink" title="查询表时，删除关联表结果"></a>查询表时，删除关联表结果</h2><p>同上一点相关，当数据库的表有外键时，如果直接查询该表，它相关联表的记录也会跟着返回，不仅拖慢查询，序列化返回页面时也会徒增流量。解决办法是返回结果集前，把相应的属性置空。</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> the EF will return referencing tables along with current table value,</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> this method will prevent this default behavior</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;typeparam name="T"&gt;</span><span class="doctag">&lt;/typeparam&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="data"&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">public static IEnumerable&lt;T&gt; ReturnEFResult&lt;T&gt;(IEnumerable&lt;T&gt; data) where T : class, new()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (IsNullOrEmptyList(data)) <span class="keyword">return</span> data;</span><br><span class="line">    <span class="comment">// remove all ICollection type fields</span></span><br><span class="line">    List&lt;T&gt; ls = <span class="keyword">new</span> List&lt;T&gt;();</span><br><span class="line">    <span class="comment">//Type icollectionType = typeof(ICollection&lt;&gt;);</span></span><br><span class="line">    <span class="comment">//var props = typeof(T).GetProperties().Where(_ =&gt; !_.PropertyType.IsAssignableFrom(icollectionType));</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> props = <span class="keyword">typeof</span>(T).GetProperties().Where(_ =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//return !ImplementsInterface(_.PropertyType, icollectionType);</span></span><br><span class="line">        <span class="keyword">var</span> pt = _.PropertyType;</span><br><span class="line">        <span class="keyword">return</span> pt.Name != <span class="string">"ICollection`1"</span> &amp;&amp; !pt.Namespace.StartsWith(<span class="string">"your.namespace.here"</span>);</span><br><span class="line">    &#125;).ToList();</span><br><span class="line">    <span class="keyword">foreach</span> (T d <span class="keyword">in</span> data)</span><br><span class="line">    &#123;</span><br><span class="line">        T tmp = <span class="keyword">new</span> T();</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> p <span class="keyword">in</span> props)</span><br><span class="line">        &#123;</span><br><span class="line">            p.SetValue(tmp, p.GetValue(d));</span><br><span class="line">        &#125;</span><br><span class="line">        ls.Add(tmp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ls;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="新增、更新或删除记录，记得调用-SaveChanges-方法提交改动"><a href="#新增、更新或删除记录，记得调用-SaveChanges-方法提交改动" class="headerlink" title="新增、更新或删除记录，记得调用 SaveChanges() 方法提交改动"></a>新增、更新或删除记录，记得调用 <code>SaveChanges()</code> 方法提交改动</h2><p>多撸几次自然就记住了，不浪费各自精力了。</p>
-<h2 id="待续"><a href="#待续" class="headerlink" title="(待续)"></a>(待续)</h2><p>是的，因为懒，就到这里了，鸽了。。。</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="https://docs.microsoft.com/en-us/ef/ef6/fundamentals/performance/perf-whitepaper" target="_blank" rel="noopener">Performance considerations for EF 4, 5, and 6</a></li>
-<li><a href="https://www.dotnettricks.com/learn/entityframework/tips-to-improve-entity-framework-performance" target="_blank" rel="noopener">Tips to improve Entity Framework Performance</a></li>
-<li><a href="https://www.thereformedprogrammer.net/six-ways-to-build-better-entity-framework-core-and-ef6-applications/" target="_blank" rel="noopener">Six ways to build better Entity Framework (Core and EF6) applications</a></li>
-</ul>
-
       
-      <blockquote>
-        
-        <strong>本文链接：</strong><br/>
-        <i class="mdui-icon material-icons btn-copy" data-content="https://zxs66.github.io/2020/07/08/best-practices-for-Entity-Framework/" title="点击复制">content_copy</i>
-        <a href="https://zxs66.github.io/2020/07/08/best-practices-for-Entity-Framework/">https://zxs66.github.io/2020/07/08/best-practices-for-Entity-Framework/</a>
-      </blockquote>
+        很久之前，我写过几个爬虫程序（个人...……
+      
+    </div>
+    <div class="mdui-text-center">
+      <a href="/2021/12/30/Node-js-child-processes/" class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-theme-accent mdui-ripple">阅读全文</a>
     </div>
     <footer class="mdui-card-actions">
       
       
-        <a class="mdui-ripple article_tags-link" href="/tags/best-practices/" rel="tag">best practices</a><a class="mdui-ripple article_tags-link" href="/tags/c/" rel="tag">c#</a><a class="mdui-ripple article_tags-link" href="/tags/entity-framework/" rel="tag">entity framework</a>
+        <a class="mdui-ripple article_tags-link" href="/tags/multitasking/" rel="tag">multitasking</a><a class="mdui-ripple article_tags-link" href="/tags/node-js/" rel="tag">node.js</a>
       
     </footer>
-    
   </article>
-  
-<script src="//cdn.bootcdn.net/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="//cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-
-  <script>$("#main article .mdui-card-content img.fancybox").on("click",function(e){$.fancybox.open({src:$(this).attr("src")});});</script>
-
-
-  <nav id="paginator">
-    
-      <a rel="prev" class="extend prev" href="/2020/07/12/JavaScript-Web-Speech-API/">
-        <button aria-label="prev" class="mdui-btn mdui-btn-raised mdui-btn-icon mdui-color-theme-accent mdui-ripple"><i class="mdui-icon material-icons">arrow_back</i></button>
-        <span class="mdui-p-x-3" mdui-tooltip="{content: 'JavaScript Web Speech API'}">上一篇</span>
-      </a>
-    
-    <div class="spacer"></div>
-    
-      <a rel="next" class="extend next" href="/2020/07/05/Angular-and-web-worker/">
-        <span class="mdui-p-x-3" mdui-tooltip="{content: 'Angular × web worker'}">下一篇</span>
-        <button aria-label="next" class="mdui-btn mdui-btn-raised mdui-btn-icon mdui-color-theme-accent mdui-ripple"><i class="mdui-icon material-icons">arrow_forward</i></button>
-      </a>
-    
-  </nav>
-
-
 
 
 

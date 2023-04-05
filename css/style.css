@@ -1022,7 +1022,6 @@ img.avatar-animation:hover {
   -webkit-overflow-scrolling: touch;
   border: 1px solid rgba(0, 0, 0, .12);
   border-radius: 2px;
-  position: relative;
 }
 
 .mdui-theme-layout-dark .mdui-typo pre,
@@ -1302,9 +1301,21 @@ img.avatar-animation:hover {
 
 /** custom style */
 /** copy btn style*/
+.highlight .caption {
+  display: flex;
+}
+
+.highlight .caption .language {
+  flex: 1 0 auto;
+  text-align: center;
+}
+
+.highlight .caption .language .btn-copy {
+  margin: 0 0.5em
+}
+
 .btn-copy {
   cursor: pointer;
-  /** cursor: copy; */
 }
 
 .btn-copy.shining {
@@ -1314,12 +1325,6 @@ img.avatar-animation:hover {
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
   animation-direction: alternative;
-}
-
-.highlight .btn-copy {
-  position: absolute;
-  top: 0.5em;
-  right: 0.5em;
 }
 
 blockquote .btn-copy {

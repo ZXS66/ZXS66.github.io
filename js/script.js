@@ -1199,7 +1199,7 @@ $$(function () {
     // append the copy icon to source code blocks
     const copySourceCode = function () {
       const $elem = window.event.currentTarget;
-      const sourceCode = $elem.parentElement.querySelector(".code").innerText;
+      const sourceCode = $elem.parentElement.parentElement.querySelector(".code").innerText;
       navigator.clipboard.writeText(sourceCode).then(function () {
         // add the class to trigger the animation
         $elem.classList.add(className_shining);
@@ -1221,13 +1221,20 @@ $$(function () {
     Array.from(
       document.querySelectorAll("#main article figure.highlight")
     ).forEach(function ($fig) {
+      const $div = document.createElement('div');
+      $div.classList.add('caption');
+      const $language = document.createElement('span');
+      $language.classList.add('language');
+      $language.innerText = $fig.className.replace('highlight', '').trim();
+      $div.appendChild($language);
       const $fa = document.createElement("i");
       $fa.classList.add("mdui-icon");
       $fa.classList.add("material-icons");
       $fa.classList.add("btn-copy");
       $fa.innerText = iconfont_copy;
       $fa.addEventListener("click", copySourceCode);
-      $fig.appendChild($fa);
+      $div.appendChild($fa);
+      $fig.prepend($div);
     });
 
     // process for .btn-copy with data-content property (e.g.: reference of current article)
@@ -1253,7 +1260,8 @@ $$(function () {
               }, animationDuration);
             });
           } else {
-            console.info('NOTHING copied!');
+            // data-content is not specified.
+            // console.info('NOTHING copied!');
           }
         });
       });
