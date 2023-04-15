@@ -1301,21 +1301,25 @@ img.avatar-animation:hover {
 
 /** custom style */
 /** copy btn style*/
-.highlight .caption {
-  display: flex;
+.highlight-caption{
+  height: inherit;
+  line-height: initial;
 }
-
-.highlight .caption .language {
-  flex: 1 0 auto;
+.highlight-caption .language {
   text-align: center;
+  line-height: initial;
 }
 
-.highlight .caption .language .btn-copy {
-  margin: 0 0.5em
+.highlight-caption .mdui-btn-icon {
+  width: 1em;
+  height: 1em;
+  min-width: auto;
+  min-height: auto;
 }
 
 .btn-copy {
   cursor: pointer;
+  font-size: small;
 }
 
 .btn-copy.shining {
@@ -1325,10 +1329,6 @@ img.avatar-animation:hover {
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
   animation-direction: alternative;
-}
-
-blockquote .btn-copy {
-  font-size: small;
 }
 
 @keyframes shining {
